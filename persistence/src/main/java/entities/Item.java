@@ -7,13 +7,14 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
 
+
 /**
  * Created by Edu on 11/02/2016.
  */
 
 @Entity
 @Table(name = "ITEM")
-public class Item implements Serializable {
+public class Item extends AbstractEntity implements Serializable {
 
     @Id
     @SequenceGenerator(name="item_sequence", initialValue=1, allocationSize=9999999)
@@ -21,41 +22,25 @@ public class Item implements Serializable {
     @Column(name = "ITEM_ID")
     private Long itemId;
 
-    //ToDo check that all the relations has the JoinColumns right
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Tag.class)
     @JoinColumn(name = "tagId")
-    private Long tagId;
+    private Tag tag;
 
-    //ToDo check that all the relations has the JoinColumns right
-    @OneToMany(mappedBy = "productId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Product> products;
-
-    @Column(name = "NAME")
-    @Size(max = 30)
-    private String name;
-
-    @Column(name = "DESCRIPTION")
-    @Size(max = 500)
-    private String description;
-
-    @Column(name = "IMAGE_URL")
-    @Size(max = 55)
-    private String imageUrl;
 
     @Column(name = "IMAGE_THUMB_ULR")
     @Size(max = 55)
     private String imageThumbUrl;
 
     @Column(name = "PRICE")
-    @Digits(integer = 14, fraction = 2)
+    @Digits(integer = 12, fraction = 2)
     private BigDecimal price;
 
-    //ToDo check that all the relations has the JoinColumns right
-    @OneToMany(mappedBy = "addressId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Address> addresses;
 
-    //ToDo check how works ManyToMany relationships
-    @ManyToMany(mappedBy = "addressId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<SellerContactInfo> sellerContactInfos;
 
     @Column(name = "TOTAL_SCORE")
@@ -64,9 +49,89 @@ public class Item implements Serializable {
     @Column(name = "NUMBER_OF_VOTES")
     private int numberOfVotes;
 
-    //Annotation: default value true, this could be done in the constructor too
+    //@Doubt: default value true, this could be done in the constructor too?
     @Column(name = "DISABLED", columnDefinition = "boolean default true")
     private boolean disabled = true;
+
+    public Long getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
+    }
+
+    public Tag getTag() {
+        return tag;
+    }
+
+    public void setTag(Tag tag) {
+        this.tag = tag;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
+
+    public String getImageThumbUrl() {
+        return imageThumbUrl;
+    }
+
+    public void setImageThumbUrl(String imageThumbUrl) {
+        this.imageThumbUrl = imageThumbUrl;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public Set<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public Set<SellerContactInfo> getSellerContactInfos() {
+        return sellerContactInfos;
+    }
+
+    public void setSellerContactInfos(Set<SellerContactInfo> sellerContactInfos) {
+        this.sellerContactInfos = sellerContactInfos;
+    }
+
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    public int getNumberOfVotes() {
+        return numberOfVotes;
+    }
+
+    public void setNumberOfVotes(int numberOfVotes) {
+        this.numberOfVotes = numberOfVotes;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
 
     Item() {
     }
