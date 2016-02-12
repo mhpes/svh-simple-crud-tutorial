@@ -13,15 +13,15 @@ public abstract class AbstractEntity {
 
     @Column(name = "NAME")
     @Size(max = 30)
-    private String name;
+    protected String name;
 
     @Column(name = "DESCRIPTION")
     @Size(max = 500)
-    private String description;
+    protected String description;
 
     @Column(name = "IMAGE_URL")
     @Size(max = 55)
-    private String imageUrl;
+    protected String imageUrl;
 
     public String getName() {
         return name;
