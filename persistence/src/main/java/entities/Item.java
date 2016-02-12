@@ -5,6 +5,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -41,7 +42,8 @@ public class Item extends AbstractEntity implements Serializable {
     private Set<Address> addresses;
 
     @ManyToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<SellerContactInfo> sellerContactInfos;
+    @JoinTable(name="ITEM_SELLER", joinColumns={@JoinColumn(name="itemId")}, inverseJoinColumns={@JoinColumn(name="sellerId")})
+    private Set<SellerContactInfo> sellerContactInfos = new HashSet();
 
     @Column(name = "TOTAL_SCORE")
     private int totalScore;
@@ -52,6 +54,8 @@ public class Item extends AbstractEntity implements Serializable {
     //@Doubt: default value true, this could be done in the constructor too?
     @Column(name = "DISABLED", columnDefinition = "boolean default true")
     private boolean disabled = true;
+
+    Item() {}
 
     public Long getItemId() {
         return itemId;
@@ -131,8 +135,5 @@ public class Item extends AbstractEntity implements Serializable {
 
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
-    }
-
-    Item() {
     }
 }

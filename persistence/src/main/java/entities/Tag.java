@@ -21,9 +21,9 @@ public class Tag implements Serializable {
 
     @Column(name = "TAG")
     @Size(max = 30)
-    private String tag;
+    private String tagDescription;
 
-    /*ToDo: this field is needed? because I think this field could be obtained as:
+    /*@Doubt: this field is needed? because I think this field could be obtained as:
      select count(*) from ITEM i, TAG t where i.TAG_ID = t.TAG_ID and i.TAG_ID = :TAG_ID
      if the meaning of the field is the number of occurrences for each TAG*/
     @Column(name = "REF_COUNT")
@@ -31,6 +31,8 @@ public class Tag implements Serializable {
 
     @OneToMany(mappedBy = "tag", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Item> items;
+
+    Tag() {}
 
     public Long getTagId() {
         return tagId;
@@ -41,11 +43,11 @@ public class Tag implements Serializable {
     }
 
     public String getTag() {
-        return tag;
+        return tagDescription;
     }
 
     public void setTag(String tag) {
-        this.tag = tag;
+        this.tagDescription = tag;
     }
 
     public int getRefCount() {
@@ -62,8 +64,5 @@ public class Tag implements Serializable {
 
     public void setItems(Set<Item> items) {
         this.items = items;
-    }
-
-    Tag() {
     }
 }

@@ -43,6 +43,9 @@ public class Address implements Serializable{
     @Digits(integer = 4, fraction = 10)
     private BigDecimal longitude;
 
+
+    Address(){}
+
     public BigDecimal getLongitude() {
         return longitude;
     }
@@ -91,9 +94,11 @@ public class Address implements Serializable{
         this.addressId = addressId;
     }
 
-    Address(){
+    public Ziplocation getZiplocation() {
+        return ziplocation;
+    }
 
+    public void setZiplocation(Ziplocation ziplocation) {
+        this.ziplocation = ziplocation;
     }
 }
-
-//ToDo mirar cómo es el tema de la clave ajena, tipo address_addressId

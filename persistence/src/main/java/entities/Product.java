@@ -1,7 +1,6 @@
 package entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -26,6 +25,8 @@ public class Product extends AbstractEntity implements Serializable{
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Category> categories;
 
+    Product(){}
+
     public Set<Category> getCategories() {
         return categories;
     }
@@ -49,8 +50,4 @@ public class Product extends AbstractEntity implements Serializable{
     public void setProductId(Long productId) {
         this.productId = productId;
     }
-
-    Product(){
-    }
-
 }

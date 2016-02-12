@@ -1,7 +1,6 @@
 package entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -22,6 +21,8 @@ public class Category extends AbstractEntity implements Serializable{
     @JoinColumn(name = "productId")
     private Product product;
 
+    Category(){}
+
     public Product getProduct() {
         return product;
     }
@@ -37,11 +38,4 @@ public class Category extends AbstractEntity implements Serializable{
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
-
-    Category(){
-
-    }
 }
-
-
-//ToDo --> Sacar clase genérica con name, description e imageURL, que se repite mucho y heredamos de ahí y tan felices.
