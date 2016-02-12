@@ -1,7 +1,6 @@
 package entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -10,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "PRODUCT")
-public class Product extends AbstractEntity implements Serializable{
+public class Product extends AbstractDetails {
 
     @Id
     @SequenceGenerator(name="product_sequence", initialValue=1, allocationSize=9999999)

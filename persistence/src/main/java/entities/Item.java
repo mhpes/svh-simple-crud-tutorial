@@ -3,7 +3,6 @@ package entities;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +14,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "ITEM")
-public class Item extends AbstractEntity implements Serializable {
+public class Item extends AbstractDetails {
 
     @Id
     @SequenceGenerator(name="item_sequence", initialValue=1, allocationSize=9999999)

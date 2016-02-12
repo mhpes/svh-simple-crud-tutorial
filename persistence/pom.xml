@@ -28,6 +28,11 @@
             <artifactId>validation-api</artifactId>
             <version>1.1.0.Final</version>
         </dependency>
+        <dependency>
+            <groupId>net.sf.minuteproject</groupId>
+            <artifactId>mp-bsla-jpa</artifactId>
+            <version>0.8.11</version>
+        </dependency>
 
     </dependencies>
 

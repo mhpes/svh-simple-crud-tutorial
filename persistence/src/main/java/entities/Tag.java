@@ -2,7 +2,6 @@ package entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -11,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "TAG")
-public class Tag implements Serializable {
+public class Tag extends AbstractEntity {
 
     @Id
     @SequenceGenerator(name="tag_sequence", initialValue=1, allocationSize=9999999)

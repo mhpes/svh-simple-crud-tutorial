@@ -3,7 +3,6 @@ package entities;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -11,7 +10,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "SELLER_CONTACT_INFO")
-public class SellerContactInfo implements Serializable{
+public class SellerContactInfo extends AbstractEntity{
 
     @Id
     @SequenceGenerator(name="seller_sequence", initialValue=1, allocationSize=9999999)

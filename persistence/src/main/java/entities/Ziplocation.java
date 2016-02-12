@@ -2,7 +2,6 @@ package entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -10,7 +9,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "ITEM")
-public class Ziplocation implements Serializable {
+public class Ziplocation extends AbstractEntity {
 
     @Id
     @SequenceGenerator(name="ziplocation_sequence", initialValue=1, allocationSize=9999999)

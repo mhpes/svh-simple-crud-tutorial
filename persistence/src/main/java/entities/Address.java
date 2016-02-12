@@ -3,7 +3,6 @@ package entities;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -12,7 +11,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "ADDRESS")
-public class Address implements Serializable{
+public class Address extends AbstractEntity{
 
     @Id
     @SequenceGenerator(name="address_sequence", initialValue=1, allocationSize=9999999)
@@ -32,7 +31,7 @@ public class Address implements Serializable{
     @Size(max = 55)
     private String secondaryStreet;
 
-    //ToAsk
+    //@Doubt
     private Ziplocation ziplocation;
 
     @Column(name = "LATITUDE")

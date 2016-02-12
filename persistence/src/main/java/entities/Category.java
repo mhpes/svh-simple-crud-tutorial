@@ -1,7 +1,6 @@
 package entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -9,7 +8,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "CATEGORY")
-public class Category extends AbstractEntity implements Serializable{
+public class Category extends AbstractDetails{
 
     @Id
     @SequenceGenerator(name="category_sequence", initialValue=1, allocationSize=9999999)
