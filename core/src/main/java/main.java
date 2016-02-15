@@ -1,6 +1,6 @@
 import entities.Address;
-import services.implementations.ServicePetshopImpl;
-import services.interfaces.IServicePetshop;
+import services.impl.ServicePetshopImpl;
+import services.IServicePetshop;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

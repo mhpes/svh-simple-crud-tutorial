@@ -17,43 +17,41 @@ import java.util.List;
  */
 
 public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implements IAddressDao {
-
-    public List<Address> findAll() {
+    public List findAll() {
         Query query = entityManager.createQuery("SELECT a FROM ADDRESS a");
-        return (List<Address>) query.getResultList();
+        return query.getResultList();
     }
 
-    public Address findById(int id) {
+    public Object findById(int id) {
         return entityManager.find(Address.class, id);
     }
 
-    //ToDo to change when we understand the differences
-    public void create(Address address) {
-        if (address != null){
-            entityManager.persist(address);
+    public void create(Object entity) {
+        if (entity != null){
+            entityManager.persist(entity);
         }
     }
 
-    public Address update(Address address) {
-        entityManager.merge(address);
-        return address;
+    public Object update(Object entity) {
+        entityManager.merge(entity);
+        return entity;
     }
 
-    public void delete(Address address) {
-        entityManager.remove(address);
+    public void delete(Object entity) {
+        entityManager.remove(entity);
     }
 
-    public void save(Address address) {
-        if (address != null){
-            entityManager.persist(address);
+    public void save(Object entity) {
+        if (entity != null){
+            entityManager.persist(entity);
         }
     }
 
-    public List<Address> findAll(Address address) {
+    public List findAll(Address address) {
         return findAll(address, true);
     }
 
-    public List<Address> findAny(Address address) {
+    public List findAny(Address address) {
         return findAll(address, false);
     }
 
@@ -90,7 +88,7 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
 
             return (List<Address>) query.getResultList();
         }
-        return Collections.<Address>emptyList();
+        return Collections.emptyList();
     }
 
     private String replaceLast(String string, String substring, String replacement)
@@ -101,7 +99,6 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
         return string.substring(0, index) + replacement
                 + string.substring(index+substring.length());
     }
-
 
     @Override
     protected String getQuerySelectFromEntity() {

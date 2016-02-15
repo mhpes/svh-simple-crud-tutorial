@@ -1,9 +1,9 @@
-package services.implementations;
+package services.impl;
 
-import daos.IAdressDao;
 import entities.Address;
+import es.mhp.dao.IAddressDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import services.interfaces.IServicePetshop;
+import services.IServicePetshop;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
 public class ServicePetshopImpl implements IServicePetshop {
 
     @Autowired
-    private IAdressDao addressDao;
+    private IAddressDao addressDao;
 
     public List<Address> findAllAddress() {
         return addressDao.findAll();

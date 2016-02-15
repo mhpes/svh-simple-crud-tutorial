@@ -14,10 +14,12 @@ public abstract class AbstractPetshopGenericDao <T extends AbstractDomainObject>
     @PersistenceContext(unitName = "petshop")
     protected EntityManager entityManager;
 
+    @Override
     public EntityManager getEntityManager() {
         return entityManager;
     }
 
+    @Override
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
