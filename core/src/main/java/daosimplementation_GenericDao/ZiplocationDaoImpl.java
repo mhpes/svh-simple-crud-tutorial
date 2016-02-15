@@ -1,6 +1,6 @@
-package daosimplementation;
+package daosimplementation_GenericDao;
 
-import daos.IZiplocationDao;
+import daos_GenericDao.IZiplocationDao;
 import net.sf.minuteProject.architecture.bsla.domain.AbstractDomainObject;
 import net.sf.minuteProject.model.data.criteria.QueryData;
 import net.sf.minuteProject.model.data.criteria.constant.QuerySortOrder;

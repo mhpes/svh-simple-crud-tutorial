@@ -1,6 +1,6 @@
-package daosimplementation;
+package daosimplementation_GenericDao;
 
-import daos.ISellerDao;
+import daos_GenericDao.IItemDao;
 import net.sf.minuteProject.architecture.bsla.domain.AbstractDomainObject;
 import net.sf.minuteProject.model.data.criteria.QueryData;
 import net.sf.minuteProject.model.data.criteria.constant.QuerySortOrder;
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Edu on 12/02/2016.
  */
-public class SellerDaoImpl implements ISellerDao {
+public class ItemDaoImpl implements IItemDao {
     public void save(AbstractDomainObject abstractDomainObject) {
 
     }
