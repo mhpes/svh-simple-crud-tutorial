@@ -4,6 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -19,20 +21,28 @@ public class Address extends AbstractEntity{
     @Column(name = "ADDRESS_ID")
     private Long addressId;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Item.class)
-    @JoinColumn(name = "itemId")
-    private Item item;
+    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Item> items;
 
-    @Column(name = "MAIN_STREET")
+    @Column(name = "STREET1")
     @Size(max = 55)
     private String mainStreet;
 
-    @Column(name = "SECONDARY_STREET")
+    @Column(name = "STREET2")
     @Size(max = 55)
     private String secondaryStreet;
 
-    //@Doubt
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Ziplocation.class)
+    @JoinColumn(name = "zipCodeId")
     private Ziplocation ziplocation;
+
+    @Column(name = "CITY")
+    @Size(max = 55)
+    private String city;
+
+    @Column(name = "STATE")
+    @Size(max = 25)
+    private String state;
 
     @Column(name = "LATITUDE")
     @Digits(integer = 4, fraction = 10)
@@ -41,7 +51,6 @@ public class Address extends AbstractEntity{
     @Column(name = "LONGITUDE")
     @Digits(integer = 4, fraction = 10)
     private BigDecimal longitude;
-
 
     Address(){}
 
@@ -61,6 +70,30 @@ public class Address extends AbstractEntity{
         this.latitude = latitude;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Ziplocation getZiplocation() {
+        return ziplocation;
+    }
+
+    public void setZiplocation(Ziplocation ziplocation) {
+        this.ziplocation = ziplocation;
+    }
+
     public String getSecondaryStreet() {
         return secondaryStreet;
     }
@@ -77,12 +110,12 @@ public class Address extends AbstractEntity{
         this.mainStreet = mainStreet;
     }
 
-    public Item getItem() {
-        return item;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     public Long getAddressId() {
@@ -91,13 +124,5 @@ public class Address extends AbstractEntity{
 
     public void setAddressId(Long addressId) {
         this.addressId = addressId;
-    }
-
-    public Ziplocation getZiplocation() {
-        return ziplocation;
-    }
-
-    public void setZiplocation(Ziplocation ziplocation) {
-        this.ziplocation = ziplocation;
     }
 }

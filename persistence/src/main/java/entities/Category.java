@@ -1,6 +1,9 @@
 package entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -8,7 +11,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "CATEGORY")
-public class Category extends AbstractDetails{
+public class Category extends AbstractEntity{
 
     @Id
     @SequenceGenerator(name="category_sequence", initialValue=1, allocationSize=9999999)
@@ -16,18 +19,53 @@ public class Category extends AbstractDetails{
     @Column(name = "CATEGORY_ID")
     private Long categoryId;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Product.class)
-    @JoinColumn(name = "productId")
-    private Product product;
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Product> products;
+
+    @Column(name = "NAME")
+    @Size(max = 25)
+    private String name;
+
+    @Column(name = "DESCRIPTION")
+    @Size(max = 255)
+    private String description;
+
+    @Column(name = "IMAGE_URL")
+    @Size(max = 55)
+    private String imageUrl;
 
     Category(){}
 
-    public Product getProduct() {
-        return product;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public Long getCategoryId() {

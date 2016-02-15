@@ -5,6 +5,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -14,7 +15,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "ITEM")
-public class Item extends AbstractDetails {
+public class Item extends AbstractEntity {
 
     @Id
     @SequenceGenerator(name="item_sequence", initialValue=1, allocationSize=9999999)
@@ -22,12 +23,12 @@ public class Item extends AbstractDetails {
     @Column(name = "ITEM_ID")
     private Long itemId;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Tag.class)
-    @JoinColumn(name = "tagId")
-    private Tag tag;
+    @ManyToMany(cascade = {CascadeType.ALL},mappedBy="items")
+    private List<Tag> tags;
 
-    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Product> products;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Product.class)
+    @JoinColumn(name = "productId")
+    private Product product;
 
     @Column(name = "IMAGE_THUMB_ULR")
     @Size(max = 55)
@@ -37,12 +38,13 @@ public class Item extends AbstractDetails {
     @Digits(integer = 12, fraction = 2)
     private BigDecimal price;
 
-    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Address> addresses;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Address.class)
+    @JoinColumn(name = "addressId")
+    private Address address;
 
-    @ManyToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name="ITEM_SELLER", joinColumns={@JoinColumn(name="itemId")}, inverseJoinColumns={@JoinColumn(name="sellerId")})
-    private Set<SellerContactInfo> sellerContactInfos = new HashSet();
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = SellerContactInfo.class)
+    @JoinColumn(name = "sellerId")
+    private SellerContactInfo seller;
 
     @Column(name = "TOTAL_SCORE")
     private int totalScore;
@@ -54,70 +56,50 @@ public class Item extends AbstractDetails {
     @Column(name = "DISABLED", columnDefinition = "boolean default true")
     private boolean disabled = true;
 
+    @Column(name = "NAME")
+    @Size(max = 30)
+    private String name;
+
+    @Column(name = "DESCRIPTION")
+    @Size(max = 500)
+    private String description;
+
+    @Column(name = "IMAGE_URL")
+    @Size(max = 55)
+    private String imageUrl;
+
     Item() {}
 
-    public Long getItemId() {
-        return itemId;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public Tag getTag() {
-        return tag;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTag(Tag tag) {
-        this.tag = tag;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Set<Product> getProducts() {
-        return products;
+    public String getName() {
+        return name;
     }
 
-    public void setProducts(Set<Product> products) {
-        this.products = products;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getImageThumbUrl() {
-        return imageThumbUrl;
+    public boolean isDisabled() {
+        return disabled;
     }
 
-    public void setImageThumbUrl(String imageThumbUrl) {
-        this.imageThumbUrl = imageThumbUrl;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public Set<Address> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(Set<Address> addresses) {
-        this.addresses = addresses;
-    }
-
-    public Set<SellerContactInfo> getSellerContactInfos() {
-        return sellerContactInfos;
-    }
-
-    public void setSellerContactInfos(Set<SellerContactInfo> sellerContactInfos) {
-        this.sellerContactInfos = sellerContactInfos;
-    }
-
-    public int getTotalScore() {
-        return totalScore;
-    }
-
-    public void setTotalScore(int totalScore) {
-        this.totalScore = totalScore;
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
     }
 
     public int getNumberOfVotes() {
@@ -128,11 +110,67 @@ public class Item extends AbstractDetails {
         this.numberOfVotes = numberOfVotes;
     }
 
-    public boolean isDisabled() {
-        return disabled;
+    public int getTotalScore() {
+        return totalScore;
     }
 
-    public void setDisabled(boolean disabled) {
-        this.disabled = disabled;
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    public SellerContactInfo getSeller() {
+        return seller;
+    }
+
+    public void setSeller(SellerContactInfo seller) {
+        this.seller = seller;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public String getImageThumbUrl() {
+        return imageThumbUrl;
+    }
+
+    public void setImageThumbUrl(String imageThumbUrl) {
+        this.imageThumbUrl = imageThumbUrl;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public Long getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
     }
 }

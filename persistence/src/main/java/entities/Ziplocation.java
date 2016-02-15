@@ -2,6 +2,8 @@ package entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -17,6 +19,12 @@ public class Ziplocation extends AbstractEntity {
     @Column(name = "ZIPCODE_ID")
     private Long zipCodeId;
 
+    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Address> addresses;
+
+    @Column(name = "ZIPCODE", unique = true)
+    private Long zipCode;
+
     @Column(name = "CITY")
     @Size(max = 30)
     private String city;
@@ -25,6 +33,37 @@ public class Ziplocation extends AbstractEntity {
     @Size(max = 2)
     private String state;
 
-    Ziplocation() {
+    public Long getZipCodeId() {
+        return zipCodeId;
     }
+
+    public void setZipCodeId(Long zipCodeId) {
+        this.zipCodeId = zipCodeId;
+    }
+
+    public Long getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(Long zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    Ziplocation() {}
 }

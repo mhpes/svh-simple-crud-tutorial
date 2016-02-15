@@ -2,7 +2,7 @@ package entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by Edu on 11/02/2016.
@@ -28,25 +28,18 @@ public class Tag extends AbstractEntity {
     @Column(name = "REF_COUNT")
     private int refCount;
 
-    @OneToMany(mappedBy = "tag", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Item> items;
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name="TAG_ITEM", joinColumns = {@JoinColumn(name="tagId")}, inverseJoinColumns={@JoinColumn(name="itemId")})
+    private List<Item> items;
 
     Tag() {}
 
-    public Long getTagId() {
-        return tagId;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setTagId(Long tagId) {
-        this.tagId = tagId;
-    }
-
-    public String getTag() {
-        return tagDescription;
-    }
-
-    public void setTag(String tag) {
-        this.tagDescription = tag;
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     public int getRefCount() {
@@ -57,11 +50,19 @@ public class Tag extends AbstractEntity {
         this.refCount = refCount;
     }
 
-    public Set<Item> getItems() {
-        return items;
+    public String getTagDescription() {
+        return tagDescription;
     }
 
-    public void setItems(Set<Item> items) {
-        this.items = items;
+    public void setTagDescription(String tagDescription) {
+        this.tagDescription = tagDescription;
+    }
+
+    public Long getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(Long tagId) {
+        this.tagId = tagId;
     }
 }
