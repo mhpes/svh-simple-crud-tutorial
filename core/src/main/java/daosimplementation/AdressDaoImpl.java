@@ -4,12 +4,10 @@ import daos.IAdressDao;
 import entities.Address;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.util.comparator.BooleanComparator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -54,23 +52,34 @@ public class AdressDaoImpl implements IAdressDao{
     }
 
     public List<Address> findAll(Address address) {
+        return findAll(address, true);
+    }
+
+    public List<Address> findAny(Address address) {
+        return findAll(address, false);
+    }
+
+    public List<Address> findAll(Address address, boolean type) {
+
+        String contatenator = type ? " AND ": " OR ";
+
         if (address != null) {
             String queryParameters = "SELECT a FROM ADDRESS a WHERE ";
 
             if (!StringUtils.isEmpty(address.getMainStreet())) {
-                queryParameters = "STREET1 = " + address.getMainStreet() + " AND ";
+                queryParameters = "STREET1 = " + address.getMainStreet() + contatenator;
             }
 
             if (!StringUtils.isEmpty(address.getSecondaryStreet())) {
-                queryParameters = "STREET2 = " + address.getSecondaryStreet() + " AND ";
+                queryParameters = "STREET2 = " + address.getSecondaryStreet() + contatenator;
             }
 
             if (!StringUtils.isEmpty(address.getCity())) {
-                queryParameters = "CITY = " + address.getCity() + " AND ";
+                queryParameters = "CITY = " + address.getCity() + contatenator;
             }
 
             if (!StringUtils.isEmpty(address.getState())) {
-                queryParameters = "STATE = " + address.getState() + " AND ";
+                queryParameters = "STATE = " + address.getState() + contatenator;
             }
 
             if (!StringUtils.isEmpty(address.getLatitude()) && !StringUtils.isEmpty(address.getLongitude())) {
@@ -78,21 +87,12 @@ public class AdressDaoImpl implements IAdressDao{
                         "AND LONGITUDE = " + address.getLongitude() + " AND ";
             }
 
-            if (!StringUtils.isEmpty(address.getLatitude()) && !StringUtils.isEmpty(address.getLongitude())) {
-                queryParameters = "LATITUDE = " + address.getLatitude() +
-                        "AND LONGITUDE = " + address.getLongitude() + " AND ";
-            }
-
-            queryParameters = "SELECT a FROM ADDRESS a WHERE " + replaceLast(queryParameters, " AND ", "");
+            queryParameters = replaceLast(queryParameters, contatenator, "");
             Query query = entityManager.createQuery(queryParameters);
 
             return (List<Address>) query.getResultList();
         }
         return Collections.<Address>emptyList();
-    }
-
-    public List<Address> findAny(Address address) {
-        return null;
     }
 
     private String replaceLast(String string, String substring, String replacement)
