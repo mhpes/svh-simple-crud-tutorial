@@ -1,8 +1,7 @@
-package daos;
+package es.mhp.dao;
 
 import entities.Address;
 
-import javax.validation.constraints.Size;
 import java.util.List;
 
 /**

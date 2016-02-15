@@ -1,6 +1,6 @@
-package daosimplementation_GenericDao;
+package es.mhp.dao.impl;
 
-import daos_GenericDao.ICategoryDao;
+import es.mhp.dao.ICategoryDao;
 
 /**
  * Created by Edu on 12/02/2016.
