@@ -3,14 +3,13 @@ package entities;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Edu on 12/02/2016.
  */
 
 @Entity
-@Table(name = "ITEM")
+@Table(name = "ZIPLOCATION")
 public class Ziplocation extends AbstractEntity {
 
     @Id
