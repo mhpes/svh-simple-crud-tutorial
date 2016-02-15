@@ -1,6 +1,6 @@
-package daosimplementation_GenericDao;
+package es.mhp.dao.impl;
 
-import daos_GenericDao.IZiplocationDao;
+import es.mhp.dao.ITagDao;
 import net.sf.minuteProject.architecture.bsla.domain.AbstractDomainObject;
 import net.sf.minuteProject.model.data.criteria.QueryData;
 import net.sf.minuteProject.model.data.criteria.constant.QuerySortOrder;
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Edu on 12/02/2016.
  */
-public class ZiplocationDaoImpl implements IZiplocationDao {
+public class TagDaoImpl implements ITagDao {
     public void save(AbstractDomainObject abstractDomainObject) {
 
     }

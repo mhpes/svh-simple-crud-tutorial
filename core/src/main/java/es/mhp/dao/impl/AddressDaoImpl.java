@@ -1,25 +1,22 @@
-package daosimplementation;
+package es.mhp.dao.impl;
 
-import daos.IAdressDao;
+
 import entities.Address;
-import org.springframework.transaction.annotation.Transactional;
+import es.mhp.dao.IAddressDao;
+import net.sf.minuteProject.model.data.criteria.constant.EntityMatchType;
+import net.sf.minuteProject.model.data.criteria.constant.OperandType;
+import net.sf.minuteProject.model.data.criteria.constant.QuerySortOrder;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by Edu on 15/02/2016.
+ * Created by Edu on 12/02/2016.
  */
 
-@Transactional
-public class AdressDaoImpl implements IAdressDao{
-
-    @PersistenceContext
-    private EntityManager entityManager;
+public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implements IAddressDao {
 
     public List<Address> findAll() {
         Query query = entityManager.createQuery("SELECT a FROM ADDRESS a");
@@ -37,8 +34,9 @@ public class AdressDaoImpl implements IAdressDao{
         }
     }
 
-    public void update(Address address) {
+    public Address update(Address address) {
         entityManager.merge(address);
+        return address;
     }
 
     public void delete(Address address) {
@@ -102,5 +100,55 @@ public class AdressDaoImpl implements IAdressDao{
             return string;
         return string.substring(0, index) + replacement
                 + string.substring(index+substring.length());
+    }
+
+
+    @Override
+    protected String getQuerySelectFromEntity() {
+        return null;
+    }
+
+    @Override
+    protected Long count(Address address, Address t1, EntityMatchType entityMatchType, OperandType operandType, Boolean aBoolean) {
+        return null;
+    }
+
+    @Override
+    protected List<Address> find(Address address, Address t1, Address t2, EntityMatchType entityMatchType, OperandType operandType, Boolean aBoolean, QuerySortOrder querySortOrder, Integer integer, Integer integer1) {
+        return null;
+    }
+
+    @Override
+    protected String getSelectFrom() {
+        return null;
+    }
+
+    @Override
+    protected boolean isAllNull(Address address) {
+        return false;
+    }
+
+    @Override
+    protected String getSearchEqualWhereQueryChunk(Address address, boolean b, boolean b1) {
+        return null;
+    }
+
+    @Override
+    protected String findWhere(Address address, boolean b, boolean b1, OperandType operandType, Boolean aBoolean) {
+        return null;
+    }
+
+    @Override
+    protected String findOrder(Address address, QuerySortOrder querySortOrder) {
+        return null;
+    }
+
+    @Override
+    protected Address assignBlankToNull(Address address) {
+        return null;
+    }
+
+    public List<Address> list(Address address, Address t1, QuerySortOrder querySortOrder) {
+        return null;
     }
 }
