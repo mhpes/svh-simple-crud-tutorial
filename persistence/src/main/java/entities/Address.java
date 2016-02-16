@@ -5,7 +5,6 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Edu on 12/02/2016.

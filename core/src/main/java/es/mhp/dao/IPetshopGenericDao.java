@@ -1,7 +1,6 @@
 package es.mhp.dao;
 
 import entities.AbstractEntity;
-import entities.Address;
 
 import java.util.List;
 

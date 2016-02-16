@@ -32,6 +32,8 @@ public class Ziplocation extends AbstractEntity {
     @Size(max = 2)
     private String state;
 
+    Ziplocation() {}
+
     public Long getZipCodeId() {
         return zipCodeId;
     }
@@ -63,6 +65,4 @@ public class Ziplocation extends AbstractEntity {
     public void setState(String state) {
         this.state = state;
     }
-
-    Ziplocation() {}
 }
