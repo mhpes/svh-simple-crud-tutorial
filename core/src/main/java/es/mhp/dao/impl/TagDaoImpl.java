@@ -1,45 +1,48 @@
 package es.mhp.dao.impl;
 
+import entities.Tag;
 import es.mhp.dao.ITagDao;
-import net.sf.minuteProject.architecture.bsla.domain.AbstractDomainObject;
-import net.sf.minuteProject.model.data.criteria.QueryData;
-import net.sf.minuteProject.model.data.criteria.constant.QuerySortOrder;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.Query;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Edu on 12/02/2016.
  */
-public class TagDaoImpl implements ITagDao {
-    public void save(AbstractDomainObject abstractDomainObject) {
-
+public class TagDaoImpl extends AbstractPetshopGenericDao<Tag> implements ITagDao {
+    public Tag findById(long id) {
+        return entityManager.find(Tag.class, id);
     }
 
-    public void delete(AbstractDomainObject abstractDomainObject) {
-
+    public List<Tag> findAny(Tag entity) {
+        return findAll(entity, false);
     }
 
-    public void insert(AbstractDomainObject abstractDomainObject) {
-
+    public List<Tag> findAll(Tag entity) {
+        return findAll(entity, true);
     }
 
-    public void insert(List list) {
-
+    public List<Tag> findAll() {
+        Query query = entityManager.createQuery("SELECT a FROM TAG a");
+        return query.getResultList();
     }
 
-    public AbstractDomainObject update(AbstractDomainObject abstractDomainObject) {
-        return null;
-    }
+    @Override
+    protected List<Tag> findAll(Tag entity, boolean type) {
 
-    public void find(QueryData queryData) {
+        if (entity != null) {
+            String queryParameters = "SELECT a FROM TAG a WHERE ";
 
-    }
+            if (!StringUtils.isEmpty(entity.getTagId())) {
+                queryParameters += "TAG = " + entity.getTagId();
+            }
 
-    public void findWithoutCount(QueryData queryData) {
+            Query query = entityManager.createQuery(queryParameters);
 
-    }
-
-    public List list(AbstractDomainObject abstractDomainObject, AbstractDomainObject t1, QuerySortOrder querySortOrder) {
-        return null;
+            return (List<Tag>) query.getResultList();
+        }
+        return Collections.emptyList();
     }
 }

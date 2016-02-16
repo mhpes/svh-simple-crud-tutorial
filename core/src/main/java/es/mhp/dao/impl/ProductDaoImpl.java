@@ -1,45 +1,59 @@
 package es.mhp.dao.impl;
 
+import entities.Product;
 import es.mhp.dao.IProductDao;
-import net.sf.minuteProject.architecture.bsla.domain.AbstractDomainObject;
-import net.sf.minuteProject.model.data.criteria.QueryData;
-import net.sf.minuteProject.model.data.criteria.constant.QuerySortOrder;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.Query;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Edu on 12/02/2016.
  */
-public class ProductDaoImpl implements IProductDao {
-    public void save(AbstractDomainObject abstractDomainObject) {
+public class ProductDaoImpl extends AbstractPetshopGenericDao<Product> implements IProductDao {
 
+    public Product findById(long id) {
+        return entityManager.find(Product.class, id);
     }
 
-    public void delete(AbstractDomainObject abstractDomainObject) {
-
+    public List<Product> findAny(Product entity) {
+        return findAll(entity, false);
     }
 
-    public void insert(AbstractDomainObject abstractDomainObject) {
-
+    public List<Product> findAll(Product entity) {
+        return findAll(entity, true);
     }
 
-    public void insert(List list) {
-
+    public List<Product> findAll() {
+        Query query = entityManager.createQuery("SELECT a FROM PRODUCT a");
+        return query.getResultList();
     }
 
-    public AbstractDomainObject update(AbstractDomainObject abstractDomainObject) {
-        return null;
-    }
+    @Override
+    protected List<Product> findAll(Product entity, boolean type) {
+        String contatenator = type ? " AND ": " OR ";
 
-    public void find(QueryData queryData) {
+        if (entity != null) {
+            String queryParameters = "SELECT a FROM PRODUCT a WHERE ";
 
-    }
+            if (!StringUtils.isEmpty(entity.getName())) {
+                queryParameters += "NAME = " + entity.getName() + contatenator;
+            }
 
-    public void findWithoutCount(QueryData queryData) {
+            if (!StringUtils.isEmpty(entity.getDescription())) {
+                queryParameters += "DESCRIPTION = " + entity.getDescription() + contatenator;
+            }
 
-    }
+            if (!StringUtils.isEmpty(entity.getImageUrl())) {
+                queryParameters += "IMAGE_URL = " + entity.getImageUrl() + contatenator;
+            }
 
-    public List list(AbstractDomainObject abstractDomainObject, AbstractDomainObject t1, QuerySortOrder querySortOrder) {
-        return null;
+            queryParameters = replaceLast(queryParameters, contatenator, "");
+            Query query = entityManager.createQuery(queryParameters);
+
+            return (List<Product>) query.getResultList();
+        }
+        return Collections.emptyList();
     }
 }

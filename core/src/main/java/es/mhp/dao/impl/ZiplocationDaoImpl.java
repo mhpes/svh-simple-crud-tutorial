@@ -13,40 +13,36 @@ import java.util.List;
  */
 public class ZiplocationDaoImpl extends AbstractPetshopGenericDao<Ziplocation> implements IZiplocationDao {
 
+    public Ziplocation findById(long id) {
+        return entityManager.find(Ziplocation.class, id);
+    }
+
+    public List<Ziplocation> findAny(Ziplocation entity) {
+        return findAll(entity, false);
+    }
+
+    public List<Ziplocation> findAll(Ziplocation entity) {
+        return findAll(entity, true);
+    }
+
     public List<Ziplocation> findAll() {
         Query query = entityManager.createQuery("SELECT a FROM ZIPLOCATION a");
         return query.getResultList();
     }
 
     @Override
-    protected Ziplocation findById(long id) {
-        return null;
-    }
-
-    public List<Ziplocation> findAll(Ziplocation ziplocation) {
-        return findAll(ziplocation, true);
-    }
-
-    public List<Ziplocation> findAny(Ziplocation ziplocation) {
-        return findAll(ziplocation, false);
-    }
-
-    protected List<Ziplocation> findAll(Ziplocation ziplocation, boolean type) {
+    protected List<Ziplocation> findAll(Ziplocation entity, boolean type) {
         String contatenator = type ? " AND ": " OR ";
 
-        if (ziplocation != null) {
+        if (entity != null) {
             String queryParameters = "SELECT a FROM ZIPLOCATION a WHERE ";
 
-            if (!StringUtils.isEmpty(ziplocation.getZipCode())) {
-                queryParameters = "ZIPCODE = " + ziplocation.getZipCode() + contatenator;
+            if (!StringUtils.isEmpty(entity.getCity())) {
+                queryParameters += "CITY = " + entity.getCity() + contatenator;
             }
 
-            if (!StringUtils.isEmpty(ziplocation.getCity())) {
-                queryParameters = "CITY = " + ziplocation.getCity() + contatenator;
-            }
-
-            if (!StringUtils.isEmpty(ziplocation.getState())) {
-                queryParameters = "STATE = " + ziplocation.getState() + contatenator;
+            if (!StringUtils.isEmpty(entity.getState())) {
+                queryParameters += "STATE = " + entity.getState() + contatenator;
             }
 
             queryParameters = replaceLast(queryParameters, contatenator, "");
@@ -55,15 +51,6 @@ public class ZiplocationDaoImpl extends AbstractPetshopGenericDao<Ziplocation> i
             return (List<Ziplocation>) query.getResultList();
         }
         return Collections.emptyList();
-    }
-
-    private String replaceLast(String string, String substring, String replacement)
-    {
-        int index = string.lastIndexOf(substring);
-        if (index == -1)
-            return string;
-        return string.substring(0, index) + replacement
-                + string.substring(index+substring.length());
     }
 }
 

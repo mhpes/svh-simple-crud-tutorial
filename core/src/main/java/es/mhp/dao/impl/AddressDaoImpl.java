@@ -19,12 +19,12 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
         return entityManager.find(Address.class, id);
     }
 
-    public List<Address> findAny(Address address) {
-        return findAll(address, false);
+    public List<Address> findAny(Address entity) {
+        return findAll(entity, false);
     }
 
-    public List<Address> findAll(Address address) {
-        return findAll(address, true);
+    public List<Address> findAll(Address entity) {
+        return findAll(entity, true);
     }
 
     public List<Address> findAll() {
@@ -33,31 +33,31 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
     }
 
     @Override
-    protected List<Address> findAll(Address address, boolean type) {
+    protected List<Address> findAll(Address entity, boolean type) {
         String contatenator = type ? " AND ": " OR ";
 
-        if (address != null) {
+        if (entity != null) {
             String queryParameters = "SELECT a FROM ADDRESS a WHERE ";
 
-            if (!StringUtils.isEmpty(address.getMainStreet())) {
-                queryParameters = "STREET1 = " + address.getMainStreet() + contatenator;
+            if (!StringUtils.isEmpty(entity.getMainStreet())) {
+                queryParameters += "STREET1 = " + entity.getMainStreet() + contatenator;
             }
 
-            if (!StringUtils.isEmpty(address.getSecondaryStreet())) {
-                queryParameters = "STREET2 = " + address.getSecondaryStreet() + contatenator;
+            if (!StringUtils.isEmpty(entity.getSecondaryStreet())) {
+                queryParameters += "STREET2 = " + entity.getSecondaryStreet() + contatenator;
             }
 
-            if (!StringUtils.isEmpty(address.getCity())) {
-                queryParameters = "CITY = " + address.getCity() + contatenator;
+            if (!StringUtils.isEmpty(entity.getCity())) {
+                queryParameters += "CITY = " + entity.getCity() + contatenator;
             }
 
-            if (!StringUtils.isEmpty(address.getState())) {
-                queryParameters = "STATE = " + address.getState() + contatenator;
+            if (!StringUtils.isEmpty(entity.getState())) {
+                queryParameters += "STATE = " + entity.getState() + contatenator;
             }
 
-            if (!StringUtils.isEmpty(address.getLatitude()) && !StringUtils.isEmpty(address.getLongitude())) {
-                queryParameters = "LATITUDE = " + address.getLatitude() +
-                        "AND LONGITUDE = " + address.getLongitude() + " AND ";
+            if (!StringUtils.isEmpty(entity.getLatitude()) && !StringUtils.isEmpty(entity.getLongitude())) {
+                queryParameters += "LATITUDE = " + entity.getLatitude() +
+                                  "AND LONGITUDE = " + entity.getLongitude() + contatenator;
             }
 
             queryParameters = replaceLast(queryParameters, contatenator, "");
@@ -66,14 +66,5 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
             return (List<Address>) query.getResultList();
         }
         return Collections.emptyList();
-    }
-
-    private String replaceLast(String string, String substring, String replacement)
-    {
-        int index = string.lastIndexOf(substring);
-        if (index == -1)
-            return string;
-        return string.substring(0, index) + replacement
-                + string.substring(index+substring.length());
     }
 }

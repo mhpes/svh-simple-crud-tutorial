@@ -78,5 +78,14 @@ public abstract class AbstractPetshopGenericDao<T extends AbstractEntity> extend
         return null;
     }
 
-    protected abstract List<T> findAll(T address, boolean type);
+    protected abstract List<T> findAll(T entity, boolean type);
+
+    protected String replaceLast(String string, String substring, String replacement)
+    {
+        int index = string.lastIndexOf(substring);
+        if (index == -1)
+            return string;
+        return string.substring(0, index) + replacement
+                + string.substring(index+substring.length());
+    }
 }

@@ -14,6 +14,6 @@ public interface IPetshopGenericDao<T extends AbstractEntity> {
     void save(T entity);
     T findById(long id);
     List<T> findAll();
-    List<T> findAny(Address address);
-    List<T> findAll(Address address);
+    List<T> findAny(T entity);
+    List<T> findAll(T entity);
 }

@@ -1,6 +1,6 @@
 import entities.Address;
-import services.impl.ServicePetshopImpl;
-import services.IServicePetshop;
+import es.mhp.services.impl.ServicePetshopImpl;
+import es.mhp.services.IServicePetshop;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,7 +16,7 @@ public class main {
 
         EntityManagerFactory factory = null;
         EntityManager entityManager = null;
-        try {
+        /*try {
             factory = Persistence.createEntityManagerFactory("PersistenceUnit");
             entityManager = factory.createEntityManager();
 
@@ -35,7 +35,7 @@ public class main {
             if (factory != null) {
                 factory.close();
             }
-        }
+        }*/
     }
 
 }

@@ -1,45 +1,56 @@
 package es.mhp.dao.impl;
 
+import entities.SellerContactInfo;
 import es.mhp.dao.ISellerDao;
-import net.sf.minuteProject.architecture.bsla.domain.AbstractDomainObject;
-import net.sf.minuteProject.model.data.criteria.QueryData;
-import net.sf.minuteProject.model.data.criteria.constant.QuerySortOrder;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.Query;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Edu on 12/02/2016.
  */
-public class SellerDaoImpl implements ISellerDao {
-    public void save(AbstractDomainObject abstractDomainObject) {
+public class SellerDaoImpl extends AbstractPetshopGenericDao<SellerContactInfo> implements ISellerDao {
 
+    public SellerContactInfo findById(long id) {
+        return entityManager.find(SellerContactInfo.class, id);
     }
 
-    public void delete(AbstractDomainObject abstractDomainObject) {
-
+    public List<SellerContactInfo> findAny(SellerContactInfo entity) {
+        return findAll(entity, false);
     }
 
-    public void insert(AbstractDomainObject abstractDomainObject) {
-
+    public List<SellerContactInfo> findAll(SellerContactInfo entity) {
+        return findAll(entity, true);
     }
 
-    public void insert(List list) {
-
+    public List<SellerContactInfo> findAll() {
+        Query query = entityManager.createQuery("SELECT a FROM SELLER_CONTACT_INFO a");
+        return query.getResultList();
     }
 
-    public AbstractDomainObject update(AbstractDomainObject abstractDomainObject) {
-        return null;
-    }
+    @Override
+    protected List<SellerContactInfo> findAll(SellerContactInfo entity, boolean type) {
+        String contatenator = type ? " AND ": " OR ";
 
-    public void find(QueryData queryData) {
+        if (entity != null) {
+            String queryParameters = "SELECT a FROM SELLER_CONTACT_INFO a WHERE ";
 
-    }
+            if (!StringUtils.isEmpty(entity.getFirstName()) && (!StringUtils.isEmpty(entity.getLastName()))){
+                queryParameters += "(FIRST_NAME = " + entity.getFirstName() + " AND " +
+                                   "LAST_NAME = "  + entity.getLastName() + ") " + contatenator;
+            }
 
-    public void findWithoutCount(QueryData queryData) {
+            if (!StringUtils.isEmpty(entity.getEmail())) {
+                queryParameters += "EMAIL = " + entity.getEmail() + contatenator;
+            }
 
-    }
+            queryParameters = replaceLast(queryParameters, contatenator, "");
+            Query query = entityManager.createQuery(queryParameters);
 
-    public List list(AbstractDomainObject abstractDomainObject, AbstractDomainObject t1, QuerySortOrder querySortOrder) {
-        return null;
+            return (List<SellerContactInfo>) query.getResultList();
+        }
+        return Collections.emptyList();
     }
 }

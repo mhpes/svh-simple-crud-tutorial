@@ -1,45 +1,77 @@
 package es.mhp.dao.impl;
 
+import entities.Item;
 import es.mhp.dao.IItemDao;
-import net.sf.minuteProject.architecture.bsla.domain.AbstractDomainObject;
-import net.sf.minuteProject.model.data.criteria.QueryData;
-import net.sf.minuteProject.model.data.criteria.constant.QuerySortOrder;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.Query;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Edu on 12/02/2016.
  */
-public class ItemDaoImpl implements IItemDao {
-    public void save(AbstractDomainObject abstractDomainObject) {
+public class ItemDaoImpl extends AbstractPetshopGenericDao<Item> implements IItemDao {
 
+    public Item findById(long id) {
+        return entityManager.find(Item.class, id);
     }
 
-    public void delete(AbstractDomainObject abstractDomainObject) {
-
+    public List<Item> findAny(Item entity) {
+        return findAll(entity, false);
     }
 
-    public void insert(AbstractDomainObject abstractDomainObject) {
-
+    public List<Item> findAll(Item entity) {
+        return findAll(entity, true);
     }
 
-    public void insert(List list) {
-
+    public List<Item> findAll() {
+        Query query = entityManager.createQuery("SELECT a FROM ITEM a");
+        return query.getResultList();
     }
 
-    public AbstractDomainObject update(AbstractDomainObject abstractDomainObject) {
-        return null;
-    }
+    @Override
+    protected List<Item> findAll(Item entity, boolean type) {
+        String contatenator = type ? " AND ": " OR ";
 
-    public void find(QueryData queryData) {
+        if (entity != null) {
+            String queryParameters = "SELECT a FROM ITEM a WHERE ";
 
-    }
+            if (!StringUtils.isEmpty(entity.getName())) {
+                queryParameters += "NAME = " + entity.getName() + contatenator;
+            }
 
-    public void findWithoutCount(QueryData queryData) {
+            if (!StringUtils.isEmpty(entity.getDescription())) {
+                queryParameters += "DESCRIPTION = " + entity.getDescription() + contatenator;
+            }
 
-    }
+            if (!StringUtils.isEmpty(entity.getImageUrl())) {
+                queryParameters += "IMAGE_URL = " + entity.getImageUrl() + contatenator;
+            }
 
-    public List list(AbstractDomainObject abstractDomainObject, AbstractDomainObject t1, QuerySortOrder querySortOrder) {
-        return null;
+            if (!StringUtils.isEmpty(entity.getImageThumbUrl())) {
+                queryParameters += "IMAGE_THUMB_ULR = " + entity.getImageThumbUrl() + contatenator;
+            }
+
+            if (!StringUtils.isEmpty(entity.getPrice())) {
+                queryParameters += "PRICE = " + entity.getPrice() + contatenator;
+            }
+
+            if (!StringUtils.isEmpty(entity.getTotalScore())) {
+                queryParameters += "TOTAL_SCORE = " + entity.getTotalScore() + contatenator;
+            }
+
+            if (!StringUtils.isEmpty(entity.getImageUrl())) {
+                queryParameters += "NUMBER_OF_VOTES = " + entity.getNumberOfVotes() + contatenator;
+            }
+
+            //queryParameters += "DISABLED = " + entity.isDisabled() + contatenator;
+
+            queryParameters = replaceLast(queryParameters, contatenator, "");
+            Query query = entityManager.createQuery(queryParameters);
+
+            return (List<Item>) query.getResultList();
+        }
+        return Collections.emptyList();
     }
 }

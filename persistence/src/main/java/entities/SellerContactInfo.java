@@ -31,10 +31,6 @@ public class SellerContactInfo extends AbstractEntity{
     private String firstName;
 
     @Column(name = "EMAIL")
-    @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
-            +"[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
-            +"(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
-            message="{invalid.email}")
     @Size(max = 24)
     private String email;
 
