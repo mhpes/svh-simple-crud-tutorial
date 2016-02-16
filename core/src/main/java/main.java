@@ -1,11 +1,5 @@
-import entities.Address;
-import es.mhp.services.impl.ServicePetshopImpl;
-import es.mhp.services.IServicePetshop;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import java.util.List;
 
 /**
  * Created by Edu on 15/02/2016.
