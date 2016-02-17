@@ -15,8 +15,9 @@ public class Product extends AbstractEntity {
     @Id
     @SequenceGenerator(name="product_sequence", initialValue=1, allocationSize=9999999)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="product_sequence")
+    @Size(max = 10)
     @Column(name = "PRODUCT_ID")
-    private Long productId;
+    private String productId;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Item> items;
@@ -79,11 +80,11 @@ public class Product extends AbstractEntity {
         this.items = items;
     }
 
-    public Long getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 }

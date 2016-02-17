@@ -16,13 +16,13 @@ public class Ziplocation extends AbstractEntity {
     @SequenceGenerator(name="ziplocation_sequence", initialValue=1, allocationSize=9999999)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ziplocation_sequence")
     @Column(name = "ZIPCODE_ID")
-    private Long zipCodeId;
+    private Integer zipCodeId;
 
     @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Address> addresses;
 
     @Column(name = "ZIPCODE", unique = true)
-    private Long zipCode;
+    private Integer zipCode;
 
     @Column(name = "CITY")
     @Size(max = 30)
@@ -34,19 +34,19 @@ public class Ziplocation extends AbstractEntity {
 
     Ziplocation() {}
 
-    public Long getZipCodeId() {
+    public Integer getZipCodeId() {
         return zipCodeId;
     }
 
-    public void setZipCodeId(Long zipCodeId) {
+    public void setZipCodeId(Integer zipCodeId) {
         this.zipCodeId = zipCodeId;
     }
 
-    public Long getZipCode() {
+    public Integer getZipCode() {
         return zipCode;
     }
 
-    public void setZipCode(Long zipCode) {
+    public void setZipCode(Integer zipCode) {
         this.zipCode = zipCode;
     }
 

@@ -18,7 +18,7 @@ public class Address extends AbstractEntity{
     @SequenceGenerator(name="address_sequence", initialValue=1, allocationSize=9999999)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="address_sequence")
     @Column(name = "ADDRESS_ID")
-    private Long addressId;
+    private Integer addressId;
 
     @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Item> items;
@@ -117,11 +117,11 @@ public class Address extends AbstractEntity{
         this.items = items;
     }
 
-    public Long getAddressId() {
+    public Integer getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(Long addressId) {
+    public void setAddressId(Integer addressId) {
         this.addressId = addressId;
     }
 }

@@ -16,7 +16,7 @@ public class Tag extends AbstractEntity {
     @SequenceGenerator(name="tag_sequence", initialValue=1, allocationSize=9999999)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="tag_sequence")
     @Column(name = "TAG_ID")
-    private Long tagId;
+    private Integer tagId;
 
     @Column(name = "TAG")
     @Size(max = 30)
@@ -26,7 +26,7 @@ public class Tag extends AbstractEntity {
      select count(*) from ITEM i, TAG t where i.TAG_ID = t.TAG_ID and i.TAG_ID = :TAG_ID
      if the meaning of the field is the number of occurrences for each TAG*/
     @Column(name = "REF_COUNT")
-    private int refCount;
+    private Integer refCount;
 
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name="TAG_ITEM", joinColumns = {@JoinColumn(name="tagId")}, inverseJoinColumns={@JoinColumn(name="itemId")})
@@ -58,11 +58,11 @@ public class Tag extends AbstractEntity {
         this.tagDescription = tagDescription;
     }
 
-    public Long getTagId() {
+    public Integer getTagId() {
         return tagId;
     }
 
-    public void setTagId(Long tagId) {
+    public void setTagId(Integer tagId) {
         this.tagId = tagId;
     }
 }

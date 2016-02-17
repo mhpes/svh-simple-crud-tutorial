@@ -1,7 +1,6 @@
 package entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -16,7 +15,7 @@ public class SellerContactInfo extends AbstractEntity{
     @SequenceGenerator(name="seller_sequence", initialValue=1, allocationSize=9999999)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seller_sequence")
     @Column(name = "SELLER_ID")
-    private Long sellerId;
+    private Integer sellerId;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Item.class)
     @JoinColumn(name = "itemId")
@@ -68,11 +67,11 @@ public class SellerContactInfo extends AbstractEntity{
         this.item = item;
     }
 
-    public Long getSellerId() {
+    public Integer getSellerId() {
         return sellerId;
     }
 
-    public void setSellerId(Long sellerId) {
+    public void setSellerId(Integer sellerId) {
         this.sellerId = sellerId;
     }
 }

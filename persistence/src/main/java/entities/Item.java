@@ -19,7 +19,7 @@ public class Item extends AbstractEntity {
     @SequenceGenerator(name="item_sequence", initialValue=1, allocationSize=9999999)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="item_sequence")
     @Column(name = "ITEM_ID")
-    private Long itemId;
+    private Integer itemId;
 
     @ManyToMany(cascade = {CascadeType.ALL},mappedBy="items")
     private List<Tag> tags;
@@ -45,10 +45,10 @@ public class Item extends AbstractEntity {
     private SellerContactInfo seller;
 
     @Column(name = "TOTAL_SCORE")
-    private int totalScore;
+    private Integer totalScore;
 
     @Column(name = "NUMBER_OF_VOTES")
-    private int numberOfVotes;
+    private Integer numberOfVotes;
 
     //@Doubt: default value true, this could be done in the constructor too?
     @Column(name = "DISABLED", columnDefinition = "boolean default true")
@@ -164,11 +164,11 @@ public class Item extends AbstractEntity {
         this.tags = tags;
     }
 
-    public Long getItemId() {
+    public Integer getItemId() {
         return itemId;
     }
 
-    public void setItemId(Long itemId) {
+    public void setItemId(Integer itemId) {
         this.itemId = itemId;
     }
 }
