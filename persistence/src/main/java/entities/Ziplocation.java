@@ -18,7 +18,7 @@ public class Ziplocation extends AbstractEntity {
     @Column(name = "ZIPCODE_ID")
     private Integer zipCodeId;
 
-    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ziplocation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Address> addresses;
 
     @Column(name = "ZIPCODE", unique = true)

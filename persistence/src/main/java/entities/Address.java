@@ -53,6 +53,8 @@ public class Address extends AbstractEntity{
 
     Address(){}
 
+    public Address(String secondaryStreet){this.setSecondaryStreet(secondaryStreet);}
+
     public BigDecimal getLongitude() {
         return longitude;
     }

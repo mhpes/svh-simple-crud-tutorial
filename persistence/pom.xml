@@ -34,6 +34,19 @@
             <version>0.8.11</version>
         </dependency>
 
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>1.8.0.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-ehcache</artifactId>
+            <version>4.0.1.Final</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>
