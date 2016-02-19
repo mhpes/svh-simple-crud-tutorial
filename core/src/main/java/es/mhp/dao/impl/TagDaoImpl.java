@@ -2,6 +2,7 @@ package es.mhp.dao.impl;
 
 import entities.Tag;
 import es.mhp.dao.ITagDao;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * Created by Edu on 12/02/2016.
  */
+@Component
 public class TagDaoImpl extends AbstractPetshopGenericDao<Tag> implements ITagDao {
     public Tag findById(long id) {
         return entityManager.find(Tag.class, id);
@@ -44,5 +46,10 @@ public class TagDaoImpl extends AbstractPetshopGenericDao<Tag> implements ITagDa
             return (List<Tag>) query.getResultList();
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public String test() {
+        return "Edumola";
     }
 }

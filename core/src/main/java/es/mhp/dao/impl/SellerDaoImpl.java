@@ -2,6 +2,7 @@ package es.mhp.dao.impl;
 
 import entities.SellerContactInfo;
 import es.mhp.dao.ISellerDao;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * Created by Edu on 12/02/2016.
  */
+@Component
 public class SellerDaoImpl extends AbstractPetshopGenericDao<SellerContactInfo> implements ISellerDao {
 
     public SellerContactInfo findById(long id) {

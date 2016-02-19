@@ -3,6 +3,7 @@ package es.mhp.dao.impl;
 
 import entities.Address;
 import es.mhp.dao.IAddressDao;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
@@ -13,6 +14,7 @@ import java.util.List;
  * Created by Edu on 12/02/2016.
  */
 
+@Component
 public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implements IAddressDao {
 
     public Address findById(long id) {
@@ -66,5 +68,9 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
             return (List<Address>) query.getResultList();
         }
         return Collections.emptyList();
+    }
+
+    public String test() {
+        return "Edumola";
     }
 }

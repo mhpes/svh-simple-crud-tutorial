@@ -11,9 +11,7 @@
 		http://www.springframework.org/schema/tx
 		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
-    <!--<context:component-scan base-package="net.sf.mp.demo.petshop.form"/>
-    <context:component-scan base-package="net.sf.mp.demo.petshop.service.impl"/>
-
-    <import resource="classpath:net/sf/mp/demo/petshop/factory/spring/spring-config-Petshop-BE-main.xml"/>-->
-
+    <context:component-scan base-package="application"/>
+    <context:component-scan base-package="services"/>
+    <context:component-scan base-package="dao"/>
 </beans>

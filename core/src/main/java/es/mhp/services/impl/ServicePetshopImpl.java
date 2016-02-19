@@ -4,12 +4,15 @@ import entities.*;
 import es.mhp.dao.*;
 import es.mhp.services.IServicePetshop;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by Edu on 15/02/2016.
  */
+
+@Service
 public class ServicePetshopImpl implements IServicePetshop {
 
     @Autowired
@@ -33,9 +36,11 @@ public class ServicePetshopImpl implements IServicePetshop {
     @Autowired
     private IZiplocationDao iZiplocationDao;
 
-    public List<Tag> findAllTags() {
-        return iTagDao.findAll();
-    }
+    public String tagExamlple (){ return iTagDao.test(); }
+
+    public String test() { return iAddressDao.test(); }
+
+    public List<Tag> findAllTags() { return iTagDao.findAll(); }
 
     public List<Item> findAllItems() {
         return iItemDao.findAll();
@@ -45,9 +50,7 @@ public class ServicePetshopImpl implements IServicePetshop {
         return iProductDao.findAll();
     }
 
-    public List<Address> findAllAddresses() {
-        return iAddressDao.findAll();
-    }
+    public List<Address> findAllAddresses() { return iAddressDao.findAll(); }
 
     public List<Category> findAllCategories() {
         return iCategoryDao.findAll();

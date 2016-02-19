@@ -16,7 +16,7 @@ import java.util.List;
  */
 public abstract class AbstractPetshopGenericDao<T extends AbstractEntity> extends GenericDaoJpaImpl<T> implements IPetshopGenericDao<T> {
 
-    @PersistenceContext(unitName = "petshop")
+    @PersistenceContext(unitName = "PetshopUnit")
     protected EntityManager entityManager;
 
     @Override

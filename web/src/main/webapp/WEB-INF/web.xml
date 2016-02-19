@@ -3,6 +3,40 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 
+    <context-param>
+        <param-name>productionMode</param-name>
+        <param-value>false</param-value>
+        <description>Vaadin production mode</description>
+    </context-param>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/applicationContext.xml</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
+
+     <servlet>
+        <servlet-name>holamundoui</servlet-name>
+        <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+        <init-param>
+            <param-name>UI</param-name>
+            <param-value>es.mhp.ui.holamundoui</param-value>
+        </init-param>
+    </servlet>
+
+
+<servlet-mapping>
+    <servlet-name>holamundoui</servlet-name>
+    <url-pattern>/*</url-pattern>
+</servlet-mapping>
+
+
+
 </web-app>
 
 

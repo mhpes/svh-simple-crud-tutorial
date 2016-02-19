@@ -2,6 +2,7 @@ package es.mhp.dao.impl;
 
 import entities.Ziplocation;
 import es.mhp.dao.IZiplocationDao;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * Created by Edu on 12/02/2016.
  */
+@Component
 public class ZiplocationDaoImpl extends AbstractPetshopGenericDao<Ziplocation> implements IZiplocationDao {
 
     public Ziplocation findById(long id) {

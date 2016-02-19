@@ -2,6 +2,7 @@ package es.mhp.dao.impl;
 
 import entities.Item;
 import es.mhp.dao.IItemDao;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * Created by Edu on 12/02/2016.
  */
+@Component
 public class ItemDaoImpl extends AbstractPetshopGenericDao<Item> implements IItemDao {
 
     public Item findById(long id) {
