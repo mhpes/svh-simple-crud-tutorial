@@ -22,6 +22,6 @@
         <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
     </bean>
 
-<context:component-scan base-package="es.mhp"/>
+    <context:component-scan base-package="es.mhp"/>
 
 </beans>

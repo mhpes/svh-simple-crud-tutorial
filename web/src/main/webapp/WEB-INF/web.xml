@@ -24,23 +24,18 @@
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
 
-     <servlet>
+    <servlet>
         <servlet-name>holamundoui</servlet-name>
         <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
         <init-param>
             <param-name>UI</param-name>
-            <param-value>es.mhp.ui.holamundoui</param-value>
+            <param-value>es.mhp.ui.HolaMundoUI</param-value>
         </init-param>
     </servlet>
-
-
-<servlet-mapping>
-    <servlet-name>holamundoui</servlet-name>
-    <url-pattern>/*</url-pattern>
-</servlet-mapping>
-
-
-
+    <servlet-mapping>
+        <servlet-name>holamundoui</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
 </web-app>
 
 
