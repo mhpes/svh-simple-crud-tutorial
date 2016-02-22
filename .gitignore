@@ -5,6 +5,7 @@
 .idea/
 *.iml
 /database/
+*.bat
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids

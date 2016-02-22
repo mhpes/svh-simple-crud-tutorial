@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "ZIPLOCATION")
-public class Ziplocation extends AbstractEntity {
+public class ZipLocation extends AbstractEntity {
 
     @Id
     @SequenceGenerator(name="ziplocation_sequence", initialValue=1, allocationSize=9999999)
@@ -18,7 +18,7 @@ public class Ziplocation extends AbstractEntity {
     @Column(name = "ZIPCODE_ID")
     private Integer zipCodeId;
 
-    @OneToMany(mappedBy = "ziplocation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "zipLocation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Address> addresses;
 
     @Column(name = "ZIPCODE", unique = true)
@@ -32,7 +32,7 @@ public class Ziplocation extends AbstractEntity {
     @Size(max = 2)
     private String state;
 
-    Ziplocation() {}
+    ZipLocation() {}
 
     public Integer getZipCodeId() {
         return zipCodeId;

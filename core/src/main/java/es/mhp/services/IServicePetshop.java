@@ -16,7 +16,7 @@ public interface IServicePetshop {
     List<Product> findAllProducts();
     List<Address> findAllAddresses();
     List<Category> findAllCategories();
-    List<Ziplocation> findAllZipLocations();
+    List<ZipLocation> findAllZipLocations();
     List<SellerContactInfo> findAllSellers();
 
     List<Tag> findAllTags(Tag tag);
@@ -24,7 +24,7 @@ public interface IServicePetshop {
     List<Product> findAllProducts(Product product);
     List<Address> findAllAddresses(Address address);
     List<Category> findAllCategories(Category category);
-    List<Ziplocation> findAllZipLocations(Ziplocation ziplocation);
+    List<ZipLocation> findAllZipLocations(ZipLocation zipLocation);
     List<SellerContactInfo> findAllSellers(SellerContactInfo sellerContactInfo);
 
     List<Tag> findAnyTag(Tag tag);
@@ -32,7 +32,7 @@ public interface IServicePetshop {
     List<Product> findAnyProduct(Product product);
     List<Address> findAnyAddresse(Address address);
     List<Category> findAnyCategorie(Category category);
-    List<Ziplocation> findAnyZipLocation(Ziplocation ziplocation);
+    List<ZipLocation> findAnyZipLocation(ZipLocation zipLocation);
     List<SellerContactInfo> findAnySeller(SellerContactInfo sellerContactInfo);
 
     Tag update(Tag tag);
@@ -40,7 +40,7 @@ public interface IServicePetshop {
     Product update(Product product);
     Address update(Address address);
     Category update(Category category);
-    Ziplocation update(Ziplocation ziplocation);
+    ZipLocation update(ZipLocation zipLocation);
     SellerContactInfo update(SellerContactInfo sellerContactInfo);
 
     void delete(Tag tag);
@@ -48,7 +48,7 @@ public interface IServicePetshop {
     void delete(Product product);
     void delete(Address address);
     void delete(Category category);
-    void delete(Ziplocation ziplocation);
+    void delete(ZipLocation zipLocation);
     void delete(SellerContactInfo sellerContactInfo);
 
     Tag findTagById(long id);
@@ -56,6 +56,6 @@ public interface IServicePetshop {
     Product findProductById(long id);
     Address findAddressById(long id);
     Category findCategoryById(long id);
-    Ziplocation findZipById(long id);
+    ZipLocation findZipById(long id);
     SellerContactInfo findSellerById(long id);
 }

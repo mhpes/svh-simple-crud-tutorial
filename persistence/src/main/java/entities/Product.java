@@ -38,7 +38,7 @@ public class Product extends AbstractEntity {
     @Size(max = 55)
     private String imageUrl;
 
-    Product(){}
+    public Product(){}
 
     public String getImageUrl() {
         return imageUrl;

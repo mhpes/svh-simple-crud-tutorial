@@ -55,7 +55,7 @@ public class ServicePetshopImpl implements IServicePetshop {
         return iCategoryDao.findAll();
     }
 
-    public List<Ziplocation> findAllZipLocations() {
+    public List<ZipLocation> findAllZipLocations() {
         return iZiplocationDao.findAll();
     }
 
@@ -83,8 +83,8 @@ public class ServicePetshopImpl implements IServicePetshop {
         return iCategoryDao.findAll(category);
     }
 
-    public List<Ziplocation> findAllZipLocations(Ziplocation ziplocation) {
-        return iZiplocationDao.findAll(ziplocation);
+    public List<ZipLocation> findAllZipLocations(ZipLocation zipLocation) {
+        return iZiplocationDao.findAll(zipLocation);
     }
 
     public List<SellerContactInfo> findAllSellers(SellerContactInfo sellerContactInfo) {
@@ -111,8 +111,8 @@ public class ServicePetshopImpl implements IServicePetshop {
         return iCategoryDao.findAny(category);
     }
 
-    public List<Ziplocation> findAnyZipLocation(Ziplocation ziplocation) {
-        return iZiplocationDao.findAny(ziplocation);
+    public List<ZipLocation> findAnyZipLocation(ZipLocation zipLocation) {
+        return iZiplocationDao.findAny(zipLocation);
     }
 
     public List<SellerContactInfo> findAnySeller(SellerContactInfo sellerContactInfo) {
@@ -139,8 +139,8 @@ public class ServicePetshopImpl implements IServicePetshop {
         return iCategoryDao.update(category);
     }
 
-    public Ziplocation update(Ziplocation ziplocation) {
-        return iZiplocationDao.update(ziplocation);
+    public ZipLocation update(ZipLocation zipLocation) {
+        return iZiplocationDao.update(zipLocation);
     }
 
     public SellerContactInfo update(SellerContactInfo sellerContactInfo) {
@@ -167,8 +167,8 @@ public class ServicePetshopImpl implements IServicePetshop {
         iCategoryDao.delete(category);
     }
 
-    public void delete(Ziplocation ziplocation) {
-        iZiplocationDao.delete(ziplocation);
+    public void delete(ZipLocation zipLocation) {
+        iZiplocationDao.delete(zipLocation);
     }
 
     public void delete(SellerContactInfo sellerContactInfo) {
@@ -195,7 +195,7 @@ public class ServicePetshopImpl implements IServicePetshop {
         return iCategoryDao.findById(id);
     }
 
-    public Ziplocation findZipById(long id) {
+    public ZipLocation findZipById(long id) {
         return iZiplocationDao.findById(id);
     }
 

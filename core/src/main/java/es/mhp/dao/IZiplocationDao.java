@@ -1,9 +1,9 @@
 package es.mhp.dao;
 
-import entities.Ziplocation;
+import entities.ZipLocation;
 
 /**
  * Created by Edu on 12/02/2016.
  */
-public interface IZiplocationDao extends IPetshopGenericDao<Ziplocation>{
+public interface IZiplocationDao extends IPetshopGenericDao<ZipLocation>{
 }

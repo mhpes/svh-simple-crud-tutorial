@@ -31,9 +31,9 @@ public class Address extends AbstractEntity{
     @Size(max = 55)
     private String secondaryStreet;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Ziplocation.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = ZipLocation.class)
     @JoinColumn(name = "zipCodeId")
-    private Ziplocation ziplocation;
+    private ZipLocation zipLocation;
 
     @Column(name = "CITY")
     @Size(max = 55)
@@ -51,7 +51,7 @@ public class Address extends AbstractEntity{
     @Digits(integer = 4, fraction = 10)
     private BigDecimal longitude;
 
-    Address(){}
+    public Address(){}
 
     public Address(String secondaryStreet){this.setSecondaryStreet(secondaryStreet);}
 
@@ -87,12 +87,12 @@ public class Address extends AbstractEntity{
         this.city = city;
     }
 
-    public Ziplocation getZiplocation() {
-        return ziplocation;
+    public ZipLocation getZipLocation() {
+        return zipLocation;
     }
 
-    public void setZiplocation(Ziplocation ziplocation) {
-        this.ziplocation = ziplocation;
+    public void setZipLocation(ZipLocation zipLocation) {
+        this.zipLocation = zipLocation;
     }
 
     public String getSecondaryStreet() {
@@ -125,5 +125,15 @@ public class Address extends AbstractEntity{
 
     public void setAddressId(Integer addressId) {
         this.addressId = addressId;
+    }
+
+    public Address(int addressId, String mainStreet, String secondaryStreet, String city, String state, BigDecimal longitude, BigDecimal latitude){
+        setAddressId(addressId);
+        setMainStreet(mainStreet);
+        setSecondaryStreet(secondaryStreet);
+        setCity(city);
+        setState(state);
+        setLongitude(longitude);
+        setLatitude(latitude);
     }
 }

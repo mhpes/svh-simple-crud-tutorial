@@ -14,7 +14,7 @@
         <class>entities.Product</class>
         <class>entities.SellerContactInfo</class>
         <class>entities.Tag</class>
-        <class>entities.Ziplocation</class>
+        <class>entities.ZipLocation</class>
         <properties>
             <property name="hibernate.connection.url"
                       value="jdbc:hsqldb:hsql://localhost:9001/petshop"/>
