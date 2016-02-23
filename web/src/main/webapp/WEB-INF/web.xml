@@ -29,7 +29,7 @@
         <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
         <init-param>
             <param-name>UI</param-name>
-            <param-value>es.mhp.ui.HolaMundoUI</param-value>
+            <param-value>es.mhp.ui.MainUI</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
