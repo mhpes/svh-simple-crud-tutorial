@@ -2,11 +2,14 @@ package es.mhp.dao.impl;
 
 
 import entities.Address;
+import entities.ZipLocation;
 import es.mhp.dao.IAddressDao;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -72,5 +75,16 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
 
     public String test() {
         return "Edumola";
+    }
+
+    @Override
+    public List<Address> findAllAddressMocked() {
+        List<Address> addresses = new ArrayList<>();
+
+        addresses.add(new Address(1, "MainStreet", "SecondaryStreet", "Tenerife", "Canarias", BigDecimal.ONE, BigDecimal.TEN, new ZipLocation(1, 8822, "S/C de Tenerife", "Canary Islands")));
+        addresses.add(new Address(2, "MainStreet_1", "SecondaryStreet_1", "Las Palmas", "Canarias", BigDecimal.ONE, BigDecimal.TEN, new ZipLocation(1, 32108, "Arico powah", "Canary Islands")));
+        addresses.add(new Address(3, "MainStreet_2", "SecondaryStreet_2", "El Hierro", "Canarias", BigDecimal.ONE, BigDecimal.TEN, new ZipLocation(1, 38108, "Añaza", "Canary Islands")));
+
+        return addresses;
     }
 }

@@ -1,10 +1,9 @@
 package es.mhp.ui;
 
+
 import com.vaadin.annotations.Theme;
-import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.navigator.Navigator;
@@ -13,14 +12,11 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
 import entities.Address;
-import entities.AddressNew;
 import es.mhp.services.IServicePetshop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -46,10 +42,10 @@ public class HolaMundoUI extends UI {
         HorizontalLayout generalLayout = new HorizontalLayout();
 
         //LAYOUT MENU
-        Layout menuLayout = CreateMenu();
+        Layout menuLayout = createMenu();
 
         //LAYOUT VIEW
-        Layout viewLayout = CreateView();
+        Layout viewLayout = createView();
 
         generalLayout.addComponent(menuLayout);
         generalLayout.addComponent(viewLayout);
@@ -57,7 +53,7 @@ public class HolaMundoUI extends UI {
         setContent(generalLayout);
     }
 
-    private Layout CreateMenu() {
+    private Layout createMenu() {
         VerticalLayout verticalLayout = new VerticalLayout();
 
         verticalLayout.addComponent(new Button("Address"));
@@ -71,51 +67,47 @@ public class HolaMundoUI extends UI {
         return verticalLayout;
     }
 
-    private Layout CreateView() {
+    private Layout createView() {
 
         //LAYOUT GENERAL
         VerticalLayout generalLayout = new VerticalLayout();
 
         //VISTA PARA MOSTRAR
-        Layout view = CreateViewTable();
+        Layout view = createViewTable();
         generalLayout.addComponent(view);
 
         //FORM PARA EDITAR
-        FormLayout form = CreateForm();
+        FormLayout form = createForm();
         generalLayout.addComponent(form);
         
         return generalLayout;
     }
 
-    private Layout CreateViewTable() {
-        final VerticalLayout menu = new VerticalLayout();
-        menu.setSizeFull();
-        menu.setMargin(true);
+    private Layout createViewTable() {
+        final VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.setSizeFull();
+        verticalLayout.setMargin(true);
 
-        setContent(menu);
+        List<Address> addresses = servicePetshop.findAllAddressesMocked();
 
-        List<AddressNew> addresses = new ArrayList<AddressNew>();
-
-        /*addresses.add(new AddressNew(1, "MainStreet", "SecondaryStreet", "Tenerife", "Canarias", BigDecimal.ONE, BigDecimal.TEN));
-        addresses.add(new AddressNew(2, "MainStreet_1", "SecondaryStreet_1", "Las Palmas", "Canarias", BigDecimal.ONE, BigDecimal.TEN));
-        addresses.add(new AddressNew(3, "MainStreet_2", "SecondaryStreet_2", "El Hierro", "Canarias", BigDecimal.ONE, BigDecimal.TEN));*/
-
-        BeanItemContainer<AddressNew> ds = new BeanItemContainer<AddressNew>(AddressNew.class, addresses);
-        Grid grid = new Grid(ds);
+        BeanItemContainer<Address> addressBeanItemContainer = new BeanItemContainer<Address>(Address.class, addresses);
+        Grid grid = new Grid(addressBeanItemContainer);
         grid.setSizeFull();
 
-        menu.addComponent(grid);
-        menu.setExpandRatio(grid, 1);
+        addressBeanItemContainer.addNestedContainerBean("zipLocation");
 
-        return menu;
+        verticalLayout.addComponent(grid);
+        verticalLayout.setExpandRatio(grid, 1);
+
+        return verticalLayout;
     }
 
-    private FormLayout CreateForm() {
+    private FormLayout createForm() {
         FormLayout form = new FormLayout();
 
         PropertysetItem item = new PropertysetItem();
-        item.addItemProperty("name", new ObjectProperty<String>("Eduardo mola"));
-        item.addItemProperty("age", new ObjectProperty<Integer>(26));
+        item.addItemProperty("name", new ObjectProperty<>(""));
+        item.addItemProperty("age", new ObjectProperty<Integer>(2));
 
         FieldGroup binder = new FieldGroup(item);
         form.addComponent(binder.buildAndBind("Name", "name"));

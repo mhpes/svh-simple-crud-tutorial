@@ -58,4 +58,6 @@ public interface IServicePetshop {
     Category findCategoryById(long id);
     ZipLocation findZipById(long id);
     SellerContactInfo findSellerById(long id);
+
+    List<Address> findAllAddressesMocked();
 }

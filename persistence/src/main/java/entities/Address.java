@@ -128,7 +128,7 @@ public class Address extends AbstractEntity implements Serializable{
         this.addressId = addressId;
     }
 
-    public Address(int addressId, String mainStreet, String secondaryStreet, String city, String state, BigDecimal longitude, BigDecimal latitude){
+    public Address(int addressId, String mainStreet, String secondaryStreet, String city, String state, BigDecimal longitude, BigDecimal latitude, ZipLocation zipLocation){
         setAddressId(addressId);
         setMainStreet(mainStreet);
         setSecondaryStreet(secondaryStreet);
@@ -136,5 +136,6 @@ public class Address extends AbstractEntity implements Serializable{
         setState(state);
         setLongitude(longitude);
         setLatitude(latitude);
+        setZipLocation(zipLocation);
     }
 }

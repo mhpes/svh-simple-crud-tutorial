@@ -202,4 +202,9 @@ public class ServicePetshopImpl implements IServicePetshop {
     public SellerContactInfo findSellerById(long id) {
         return iSellerDao.findById(id);
     }
+
+    @Override
+    public List<Address> findAllAddressesMocked() {
+        return iAddressDao.findAllAddressMocked();
+    }
 }

@@ -65,4 +65,11 @@ public class ZipLocation extends AbstractEntity {
     public void setState(String state) {
         this.state = state;
     }
+
+    public ZipLocation (Integer zipCodeId, Integer zipCode, String city, String state){
+        this.zipCodeId = zipCodeId;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.state = state;
+    }
 }
