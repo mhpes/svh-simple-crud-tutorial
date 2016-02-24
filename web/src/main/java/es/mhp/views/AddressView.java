@@ -1,6 +1,5 @@
 package es.mhp.views;
 
-import com.vaadin.annotations.DesignRoot;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
@@ -8,33 +7,38 @@ import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import entities.Address;
-import entities.ZipLocation;
+import es.mhp.services.IAdressService;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Edu on 23/02/2016.
  */
 
-@DesignRoot
-public class AddressView extends AbtractView {
+@SpringView(name = AddressView.VIEW_NAME)
+public class AddressView extends AbtractView<Address> {
+    public static final String VIEW_NAME = "Addresses";
+
+    @Autowired
+    private IAdressService adressService;
 
     public AddressView() {
         setSizeFull();
-        Notification.show("En AddressView");
-        createViewTable();
+        this.addStyleName("address-view");
     }
 
-    private Layout createViewTable() {
+    @Override
+    Layout createTable() {
         final VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setSizeFull();
+        verticalLayout.addStyleName("address-view-table-container");
         verticalLayout.setMargin(true);
 
-        List<Address> addresses = findAllAddressesMocked();
+        List<Address> addresses = adressService.findAllAddresses();
 
         BeanItemContainer<Address> addressBeanItemContainer = new BeanItemContainer<>(Address.class, addresses);
         Grid grid = new Grid(addressBeanItemContainer);
@@ -58,19 +62,10 @@ public class AddressView extends AbtractView {
         return verticalLayout;
     }
 
-    private List<Address> findAllAddressesMocked() {
-        List<Address> addresses = new ArrayList<>();
-
-        addresses.add(new Address(1, "MainStreet", "SecondaryStreet", "Tenerife", "Canarias", BigDecimal.ONE, BigDecimal.TEN, new ZipLocation(1, 8822, "S/C de Tenerife", "Canary Islands")));
-        addresses.add(new Address(2, "MainStreet_1", "SecondaryStreet_1", "Las Palmas", "Canarias", BigDecimal.ONE, BigDecimal.TEN, new ZipLocation(1, 32108, "Arico powah", "Canary Islands")));
-        addresses.add(new Address(3, "MainStreet_2", "SecondaryStreet_2", "El Hierro", "Canarias", BigDecimal.ONE, BigDecimal.TEN, new ZipLocation(1, 38108, "Añaza", "Canary Islands")));
-
-        return addresses;
-    }
-
-    public FormLayout createForm(Address address) {
+    @Override
+    Layout createForm(Address address) {
         FormLayout form = new FormLayout();
-
+        form.addStyleName("address-view-form-container");
         PropertysetItem item = new PropertysetItem();
 
         item.addItemProperty("Address Id", new ObjectProperty(address.getAddressId()));
@@ -97,6 +92,7 @@ public class AddressView extends AbtractView {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-
+        this.removeAllComponents();
+        this.addComponent(createTable());
     }
 }

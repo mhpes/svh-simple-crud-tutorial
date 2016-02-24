@@ -13,7 +13,7 @@
 
     Subdirectories can be specified below the property e.g. java.io.tmpdir/one
     -->
-<!--MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ehcache-main-config-@-->
+
     <diskStore path="java.io.tmpdir"/>
 
  <!--

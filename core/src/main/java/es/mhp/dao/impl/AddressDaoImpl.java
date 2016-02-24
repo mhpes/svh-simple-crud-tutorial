@@ -33,11 +33,12 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
     }
 
     public List<Address> findAll() {
-        Query query = entityManager.createQuery("SELECT a FROM ADDRESS a");
-        return query.getResultList();
+
+        /*Query query = entityManager.createQuery("SELECT a FROM ADDRESS a");
+        return query.getResultList();*/
+        return findAllAddressMocked();
     }
 
-    @Override
     protected List<Address> findAll(Address entity, boolean type) {
         String contatenator = type ? " AND ": " OR ";
 
@@ -73,15 +74,10 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
         return Collections.emptyList();
     }
 
-    public String test() {
-        return "Edumola";
-    }
-
-    @Override
-    public List<Address> findAllAddressMocked() {
+    private List<Address> findAllAddressMocked() {
         List<Address> addresses = new ArrayList<>();
 
-        addresses.add(new Address(1, "MainStreet", "SecondaryStreet", "Tenerife", "Canarias", BigDecimal.ONE, BigDecimal.TEN, new ZipLocation(1, 8822, "S/C de Tenerife", "Canary Islands")));
+        addresses.add(new Address(1, "Calle Volcan Vesubio", "SecondaryStreet", "Tenerife", "Canarias", BigDecimal.ONE, BigDecimal.TEN, new ZipLocation(1, 8822, "S/C de Tenerife", "Canary Islands")));
         addresses.add(new Address(2, "MainStreet_1", "SecondaryStreet_1", "Las Palmas", "Canarias", BigDecimal.ONE, BigDecimal.TEN, new ZipLocation(1, 32108, "Arico powah", "Canary Islands")));
         addresses.add(new Address(3, "MainStreet_2", "SecondaryStreet_2", "El Hierro", "Canarias", BigDecimal.ONE, BigDecimal.TEN, new ZipLocation(1, 38108, "Añaza", "Canary Islands")));
 

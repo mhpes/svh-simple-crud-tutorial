@@ -37,8 +37,6 @@ public class ServicePetshopImpl implements IServicePetshop {
 
     public String tagExamlple (){ return iTagDao.test(); }
 
-    public String test() { return iAddressDao.test(); }
-
     public List<Tag> findAllTags() { return iTagDao.findAll(); }
 
     public List<Item> findAllItems() {
@@ -201,10 +199,5 @@ public class ServicePetshopImpl implements IServicePetshop {
 
     public SellerContactInfo findSellerById(long id) {
         return iSellerDao.findById(id);
-    }
-
-    @Override
-    public List<Address> findAllAddressesMocked() {
-        return iAddressDao.findAllAddressMocked();
     }
 }

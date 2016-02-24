@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,8 +29,9 @@ public class CategoryDaoImpl extends AbstractPetshopGenericDao<Category> impleme
     }
 
     public List<Category> findAll() {
-        Query query = entityManager.createQuery("SELECT a FROM CATEGORY a");
-        return query.getResultList();
+        /*Query query = entityManager.createQuery("SELECT a FROM CATEGORY a");
+        return query.getResultList();*/
+        return findAllMocked();
     }
 
     @Override
@@ -57,5 +59,14 @@ public class CategoryDaoImpl extends AbstractPetshopGenericDao<Category> impleme
             return (List<Category>) query.getResultList();
         }
         return Collections.emptyList();
+    }
+
+    private List<Category> findAllMocked() {
+        List<Category> addresses = new ArrayList<>();
+
+        addresses.add(new Category("http://www.dogsaffaire.com/blog/wp-content/uploads/2016/02/perro-listo.jpg", "Perro Listo", "Paco", "1"));
+        addresses.add(new Category("http://img.desmotivaciones.es/201110/perrofeo1.jpg", "Perro Feo", "Haineto", "1"));
+
+        return addresses;
     }
 }

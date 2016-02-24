@@ -9,8 +9,6 @@ import java.util.List;
  */
 public interface IServicePetshop {
 
-    String test();
-
     List<Tag> findAllTags();
     List<Item> findAllItems();
     List<Product> findAllProducts();
@@ -58,6 +56,4 @@ public interface IServicePetshop {
     Category findCategoryById(long id);
     ZipLocation findZipById(long id);
     SellerContactInfo findSellerById(long id);
-
-    List<Address> findAllAddressesMocked();
 }

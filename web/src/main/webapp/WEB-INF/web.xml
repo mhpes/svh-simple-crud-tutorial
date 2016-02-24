@@ -14,26 +14,26 @@
         <param-value>/WEB-INF/applicationContext.xml</param-value>
     </context-param>
 
-    <listener>
+    <!--<listener>
         <listener-class>
             org.springframework.web.context.ContextLoaderListener
         </listener-class>
-    </listener>
+    </listener>-->
 
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
 
     <servlet>
-        <servlet-name>holamundoui</servlet-name>
-        <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+        <servlet-name>simple-crud-tutorial</servlet-name>
+        <servlet-class>com.vaadin.spring.server.SpringVaadinServlet</servlet-class>
         <init-param>
             <param-name>UI</param-name>
             <param-value>es.mhp.ui.MainUI</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
-        <servlet-name>holamundoui</servlet-name>
+        <servlet-name>simple-crud-tutorial</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 </web-app>
