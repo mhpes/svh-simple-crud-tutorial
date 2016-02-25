@@ -1,6 +1,6 @@
 package es.mhp.services;
 
-import entities.Tag;
+import es.mhp.entities.Tag;
 
 import java.util.List;
 

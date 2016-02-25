@@ -1,6 +1,6 @@
 package es.mhp.dao;
 
-import entities.Item;
+import es.mhp.entities.Item;
 
 /**
  * Created by Edu on 12/02/2016.

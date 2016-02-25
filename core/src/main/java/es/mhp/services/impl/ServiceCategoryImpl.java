@@ -1,6 +1,6 @@
 package es.mhp.services.impl;
 
-import entities.Category;
+import es.mhp.entities.Category;
 import es.mhp.dao.ICategoryDao;
 import es.mhp.services.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;

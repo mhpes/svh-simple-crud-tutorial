@@ -1,6 +1,6 @@
 package es.mhp.services;
 
-import entities.Address;
+import es.mhp.entities.Address;
 
 import java.util.List;
 

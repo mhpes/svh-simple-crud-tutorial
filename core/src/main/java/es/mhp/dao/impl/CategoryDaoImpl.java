@@ -1,6 +1,6 @@
 package es.mhp.dao.impl;
 
-import entities.Category;
+import es.mhp.entities.Category;
 import es.mhp.dao.ICategoryDao;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -33,9 +33,7 @@ public class CategoryDaoImpl extends AbstractPetshopGenericDao<Category> impleme
 
     @Override
     public List<Category> findAll() {
-        /*Query query = entityManager.createQuery("SELECT a FROM CATEGORY a");
-        return query.getResultList();*/
-        return findAllMocked();
+        return entityManager.createQuery("SELECT a FROM Category a").getResultList();
     }
 
     @Override
@@ -43,7 +41,7 @@ public class CategoryDaoImpl extends AbstractPetshopGenericDao<Category> impleme
         String contatenator = type ? " AND ": " OR ";
 
         if (entity != null) {
-            String queryParameters = "SELECT a FROM CATEGORY a WHERE ";
+            String queryParameters = "SELECT a FROM Category a WHERE ";
 
             if (!StringUtils.isEmpty(entity.getName())) {
                 queryParameters += "NAME = " + entity.getName() + contatenator;
@@ -54,7 +52,7 @@ public class CategoryDaoImpl extends AbstractPetshopGenericDao<Category> impleme
             }
 
             if (!StringUtils.isEmpty(entity.getImageUrl())) {
-                queryParameters += "IMAGE_URL = " + entity.getImageUrl() + contatenator;
+                queryParameters += "IMAGEURL = " + entity.getImageUrl() + contatenator;
             }
 
             queryParameters = replaceLast(queryParameters, contatenator, "");

@@ -1,6 +1,6 @@
 package es.mhp.services;
 
-import entities.Product;
+import es.mhp.entities.Product;
 
 import java.util.List;
 

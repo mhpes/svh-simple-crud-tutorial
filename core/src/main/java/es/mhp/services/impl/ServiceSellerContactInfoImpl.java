@@ -1,6 +1,6 @@
 package es.mhp.services.impl;
 
-import entities.SellerContactInfo;
+import es.mhp.entities.SellerContactInfo;
 import es.mhp.dao.ISellerDao;
 import es.mhp.services.ISellerContactInfoService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -16,9 +16,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
-import entities.Item;
-import entities.Product;
-import es.mhp.services.IItemService;
+import es.mhp.entities.Product;
 import es.mhp.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -56,7 +54,12 @@ public class ProductView extends AbtractView<Product> {
         List<Product> products = productService.findAllProducts();
 
         BeanItemContainer<Product> itemBeanItemContainer = new BeanItemContainer<>(Product.class, products);
+
+        itemBeanItemContainer.removeContainerProperty("es.mhp.entities.Category");
+        itemBeanItemContainer.removeItem("es.mhp.entities.Item");
+
         Grid grid = new Grid(itemBeanItemContainer);
+
         grid.setSizeFull();
         VerticalLayout formContainer = new VerticalLayout();
 

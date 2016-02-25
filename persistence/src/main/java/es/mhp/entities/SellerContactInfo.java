@@ -1,4 +1,4 @@
-package entities;
+package es.mhp.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -9,24 +9,24 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "SELLER_CONTACT_INFO")
+@Table(name = "SELLERCONTACTINFO")
 public class SellerContactInfo extends AbstractEntity{
 
     @Id
     @SequenceGenerator(name="seller_sequence", initialValue=1, allocationSize=9999999)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seller_sequence")
-    @Column(name = "SELLER_ID")
+    @Column(name = "CONTACTINFOID")
     private Integer sellerId;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Item.class)
     @JoinColumn(name = "itemId")
     private List<Item> item;
 
-    @Column(name = "LAST_NAME")
+    @Column(name = "LASTNAME")
     @Size(max = 24)
     private String lastName;
 
-    @Column(name = "FIRST_NAME")
+    @Column(name = "FIRSTNAME")
     @Size(max = 24)
     private String firstName;
 

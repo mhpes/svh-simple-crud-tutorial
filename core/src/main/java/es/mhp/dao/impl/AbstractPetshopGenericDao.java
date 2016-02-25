@@ -1,6 +1,6 @@
 package es.mhp.dao.impl;
 
-import entities.AbstractEntity;
+import es.mhp.entities.AbstractEntity;
 import es.mhp.dao.IPetshopGenericDao;
 import net.sf.minuteProject.model.dao.jpa.GenericDaoJpaImpl;
 import net.sf.minuteProject.model.data.criteria.constant.EntityMatchType;

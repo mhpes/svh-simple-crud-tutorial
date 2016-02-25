@@ -1,7 +1,7 @@
 package es.mhp.services.impl;
 
-import entities.*;
 import es.mhp.dao.*;
+import es.mhp.entities.*;
 import es.mhp.services.IServicePetshop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

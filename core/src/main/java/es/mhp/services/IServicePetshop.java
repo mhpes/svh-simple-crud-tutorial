@@ -1,6 +1,6 @@
 package es.mhp.services;
 
-import entities.*;
+import es.mhp.entities.*;
 
 import java.util.List;
 

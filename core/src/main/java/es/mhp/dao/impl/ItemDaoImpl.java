@@ -1,6 +1,6 @@
 package es.mhp.dao.impl;
 
-import entities.Item;
+import es.mhp.entities.Item;
 import es.mhp.dao.IItemDao;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -32,7 +32,7 @@ public class ItemDaoImpl extends AbstractPetshopGenericDao<Item> implements IIte
 
     @Override
     public List<Item> findAll() {
-        Query query = entityManager.createQuery("SELECT a FROM ITEM a");
+        Query query = entityManager.createQuery("SELECT a FROM Item a");
         return query.getResultList();
     }
 
@@ -41,7 +41,7 @@ public class ItemDaoImpl extends AbstractPetshopGenericDao<Item> implements IIte
         String contatenator = type ? " AND ": " OR ";
 
         if (entity != null) {
-            String queryParameters = "SELECT a FROM ITEM a WHERE ";
+            String queryParameters = "SELECT a FROM Item a WHERE ";
 
             if (!StringUtils.isEmpty(entity.getName())) {
                 queryParameters += "NAME = " + entity.getName() + contatenator;
@@ -52,11 +52,11 @@ public class ItemDaoImpl extends AbstractPetshopGenericDao<Item> implements IIte
             }
 
             if (!StringUtils.isEmpty(entity.getImageUrl())) {
-                queryParameters += "IMAGE_URL = " + entity.getImageUrl() + contatenator;
+                queryParameters += "IMAGEURL = " + entity.getImageUrl() + contatenator;
             }
 
             if (!StringUtils.isEmpty(entity.getImageThumbUrl())) {
-                queryParameters += "IMAGE_THUMB_ULR = " + entity.getImageThumbUrl() + contatenator;
+                queryParameters += "IMAGETHUMBURL = " + entity.getImageThumbUrl() + contatenator;
             }
 
             if (!StringUtils.isEmpty(entity.getPrice())) {
@@ -64,11 +64,11 @@ public class ItemDaoImpl extends AbstractPetshopGenericDao<Item> implements IIte
             }
 
             if (!StringUtils.isEmpty(entity.getTotalScore())) {
-                queryParameters += "TOTAL_SCORE = " + entity.getTotalScore() + contatenator;
+                queryParameters += "TOTALSCORE = " + entity.getTotalScore() + contatenator;
             }
 
             if (!StringUtils.isEmpty(entity.getImageUrl())) {
-                queryParameters += "NUMBER_OF_VOTES = " + entity.getNumberOfVotes() + contatenator;
+                queryParameters += "NUMBEROFVOTES = " + entity.getNumberOfVotes() + contatenator;
             }
 
             //queryParameters += "DISABLED = " + entity.isDisabled() + contatenator;

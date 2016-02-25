@@ -1,6 +1,6 @@
 package es.mhp.services;
 
-import entities.ZipLocation;
+import es.mhp.entities.ZipLocation;
 
 import java.util.List;
 

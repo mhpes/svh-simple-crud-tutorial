@@ -16,7 +16,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
-import entities.Item;
+import es.mhp.entities.Item;
 import es.mhp.services.IItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 

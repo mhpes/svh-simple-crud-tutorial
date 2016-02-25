@@ -1,6 +1,6 @@
 package es.mhp.dao;
 
-import entities.Tag;
+import es.mhp.entities.Tag;
 
 /**
  * Created by Edu on 12/02/2016.

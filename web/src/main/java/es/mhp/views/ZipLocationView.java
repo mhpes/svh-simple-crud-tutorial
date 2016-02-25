@@ -16,9 +16,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
-import entities.Item;
-import entities.ZipLocation;
-import es.mhp.services.IItemService;
+import es.mhp.entities.ZipLocation;
 import es.mhp.services.IZipLocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -81,7 +79,7 @@ public class ZipLocationView extends AbtractView<ZipLocation> {
         form.addStyleName("zip-view-form-container");
         PropertysetItem propertysetItemtem = new PropertysetItem();
 
-        propertysetItemtem.addItemProperty("ZipCode Id", new ObjectProperty(zipLocation.getZipCodeId()));
+        //propertysetItemtem.addItemProperty("ZipCode Id", new ObjectProperty(zipLocation.getZipCodeId()));
         propertysetItemtem.addItemProperty("Zip Code", new ObjectProperty(zipLocation.getZipCode()));
         propertysetItemtem.addItemProperty("City", new ObjectProperty(zipLocation.getCity()));
         propertysetItemtem.addItemProperty("State", new ObjectProperty(zipLocation.getState()));

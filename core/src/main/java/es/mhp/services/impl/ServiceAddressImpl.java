@@ -1,6 +1,6 @@
 package es.mhp.services.impl;
 
-import entities.Address;
+import es.mhp.entities.Address;
 import es.mhp.dao.IAddressDao;
 import es.mhp.services.IAdressService;
 import org.springframework.beans.factory.annotation.Autowired;

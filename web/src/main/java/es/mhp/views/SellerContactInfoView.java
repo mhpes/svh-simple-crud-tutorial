@@ -16,9 +16,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
-import entities.Item;
-import entities.SellerContactInfo;
-import es.mhp.services.IItemService;
+import es.mhp.entities.SellerContactInfo;
 import es.mhp.services.ISellerContactInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,6 +1,6 @@
 package es.mhp.services;
 
-import entities.Category;
+import es.mhp.entities.Category;
 
 import java.util.List;
 

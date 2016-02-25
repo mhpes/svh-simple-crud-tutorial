@@ -1,7 +1,8 @@
-package entities;
+package es.mhp.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,11 +17,11 @@ public class Category extends AbstractEntity{
     @SequenceGenerator(name="category_sequence", initialValue=1, allocationSize=9999999)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="category_sequence")
     @Size(max = 10)
-    @Column(name = "CATEGORY_ID")
+    @Column(name = "CATEGORYID")
     private String categoryId;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Product> products;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Product> products = new ArrayList<>();
 
     @Column(name = "NAME")
     @Size(max = 25)
@@ -30,7 +31,7 @@ public class Category extends AbstractEntity{
     @Size(max = 255)
     private String description;
 
-    @Column(name = "IMAGE_URL")
+    @Column(name = "IMAGEURL")
     @Size(max = 55)
     private String imageUrl;
 

@@ -1,4 +1,4 @@
-package entities;
+package es.mhp.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -15,7 +15,7 @@ public class Tag extends AbstractEntity {
     @Id
     @SequenceGenerator(name="tag_sequence", initialValue=1, allocationSize=9999999)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="tag_sequence")
-    @Column(name = "TAG_ID")
+    @Column(name = "TAGID")
     private Integer tagId;
 
     @Column(name = "TAG")
@@ -25,7 +25,7 @@ public class Tag extends AbstractEntity {
     /*@Doubt: this field is needed? because I think this field could be obtained as:
      select count(*) from ITEM i, TAG t where i.TAG_ID = t.TAG_ID and i.TAG_ID = :TAG_ID
      if the meaning of the field is the number of occurrences for each TAG*/
-    @Column(name = "REF_COUNT")
+    @Column(name = "REFCOUNT")
     private Integer refCount;
 
     @ManyToMany(cascade = {CascadeType.ALL})

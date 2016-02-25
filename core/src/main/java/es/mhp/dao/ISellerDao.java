@@ -1,6 +1,6 @@
 package es.mhp.dao;
 
-import entities.SellerContactInfo;
+import es.mhp.entities.SellerContactInfo;
 
 /**
  * Created by Edu on 12/02/2016.

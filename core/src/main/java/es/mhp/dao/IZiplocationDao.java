@@ -1,6 +1,6 @@
 package es.mhp.dao;
 
-import entities.ZipLocation;
+import es.mhp.entities.ZipLocation;
 
 /**
  * Created by Edu on 12/02/2016.

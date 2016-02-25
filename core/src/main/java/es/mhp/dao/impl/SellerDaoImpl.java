@@ -1,6 +1,6 @@
 package es.mhp.dao.impl;
 
-import entities.SellerContactInfo;
+import es.mhp.entities.SellerContactInfo;
 import es.mhp.dao.ISellerDao;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -32,7 +32,7 @@ public class SellerDaoImpl extends AbstractPetshopGenericDao<SellerContactInfo> 
 
     @Override
     public List<SellerContactInfo> findAll() {
-        Query query = entityManager.createQuery("SELECT a FROM SELLER_CONTACT_INFO a");
+        Query query = entityManager.createQuery("SELECT a FROM SellerContactInfo a");
         return query.getResultList();
     }
 
@@ -41,11 +41,11 @@ public class SellerDaoImpl extends AbstractPetshopGenericDao<SellerContactInfo> 
         String contatenator = type ? " AND ": " OR ";
 
         if (entity != null) {
-            String queryParameters = "SELECT a FROM SELLER_CONTACT_INFO a WHERE ";
+            String queryParameters = "SELECT a FROM SellerContactInfo a WHERE ";
 
             if (!StringUtils.isEmpty(entity.getFirstName()) && (!StringUtils.isEmpty(entity.getLastName()))){
-                queryParameters += "(FIRST_NAME = " + entity.getFirstName() + " AND " +
-                                   "LAST_NAME = "  + entity.getLastName() + ") " + contatenator;
+                queryParameters += "(FIRSTNAME = " + entity.getFirstName() + " AND " +
+                                   "LASTNAME = "  + entity.getLastName() + ") " + contatenator;
             }
 
             if (!StringUtils.isEmpty(entity.getEmail())) {

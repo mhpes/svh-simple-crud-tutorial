@@ -1,4 +1,4 @@
-package entities;
+package es.mhp.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -13,14 +13,6 @@ import java.util.List;
 public class ZipLocation extends AbstractEntity {
 
     @Id
-    @SequenceGenerator(name="ziplocation_sequence", initialValue=1, allocationSize=9999999)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ziplocation_sequence")
-    @Column(name = "ZIPCODE_ID")
-    private Integer zipCodeId;
-
-    @OneToMany(mappedBy = "zipLocation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Address> addresses;
-
     @Column(name = "ZIPCODE", unique = true)
     private Integer zipCode;
 
@@ -32,22 +24,25 @@ public class ZipLocation extends AbstractEntity {
     @Size(max = 2)
     private String state;
 
+    @OneToMany(mappedBy = "zipLocation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Address> addresses;
+
     public ZipLocation() {}
 
     public ZipLocation (Integer zipCodeId, Integer zipCode, String city, String state){
-        this.zipCodeId = zipCodeId;
+        //this.zipCodeId = zipCodeId;
         this.zipCode = zipCode;
         this.city = city;
         this.state = state;
     }
 
-    public Integer getZipCodeId() {
+    /*public Integer getZipCodeId() {
         return zipCodeId;
     }
 
     public void setZipCodeId(Integer zipCodeId) {
         this.zipCodeId = zipCodeId;
-    }
+    }*/
 
     public Integer getZipCode() {
         return zipCode;

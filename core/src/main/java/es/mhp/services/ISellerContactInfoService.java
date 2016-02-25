@@ -1,6 +1,6 @@
 package es.mhp.services;
 
-import entities.SellerContactInfo;
+import es.mhp.entities.SellerContactInfo;
 
 import java.util.List;
 

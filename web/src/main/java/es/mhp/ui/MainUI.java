@@ -10,8 +10,6 @@ import es.mhp.views.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.ContextLoaderListener;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.servlet.annotation.WebListener;
 
 @SuppressWarnings("serial")
@@ -31,7 +29,7 @@ public class MainUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PetshopUnit");
+        //EntityManagerFactory emf = Persistence.createEntityManagerFactory("PetshopUnit");
 
         getPage().setTitle("PetShop example");
 

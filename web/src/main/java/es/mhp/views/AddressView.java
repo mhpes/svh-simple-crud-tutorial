@@ -9,7 +9,7 @@ import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
-import entities.Address;
+import es.mhp.entities.Address;
 import es.mhp.services.IAdressService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -53,7 +53,7 @@ public class AddressView extends AbtractView<Address> {
             }
         });
 
-        addressBeanItemContainer.addNestedContainerBean("zipLocation");
+        //addressBeanItemContainer.addNestedContainerBean("zipLocation");
 
         verticalLayout.addComponent(grid);
         verticalLayout.addComponent(formContainer);
@@ -71,7 +71,7 @@ public class AddressView extends AbtractView<Address> {
         item.addItemProperty("Address Id", new ObjectProperty(address.getAddressId()));
         item.addItemProperty("Main Street", new ObjectProperty(address.getMainStreet()));
         item.addItemProperty("Secondary Street", new ObjectProperty(address.getSecondaryStreet()));
-        item.addItemProperty("Zip Code Id", new ObjectProperty(address.getZipLocation().getZipCodeId()));
+        //item.addItemProperty("Zip Code Id", new ObjectProperty(address.getZipLocation().getZipCodeId()));
         item.addItemProperty("City", new ObjectProperty(address.getCity()));
         item.addItemProperty("State", new ObjectProperty(address.getState()));
         item.addItemProperty("Latitude", new ObjectProperty(address.getLatitude()));
@@ -81,7 +81,7 @@ public class AddressView extends AbtractView<Address> {
         form.addComponent(binder.buildAndBind("Address Id"));
         form.addComponent(binder.buildAndBind("Main Street"));
         form.addComponent(binder.buildAndBind("Secondary Street"));
-        form.addComponent(binder.buildAndBind("Zip Code Id"));
+        //form.addComponent(binder.buildAndBind("Zip Code Id"));
         form.addComponent(binder.buildAndBind("City"));
         form.addComponent(binder.buildAndBind("State"));
         form.addComponent(binder.buildAndBind("Latitude"));

@@ -1,6 +1,6 @@
 package es.mhp.services.impl;
 
-import entities.ZipLocation;
+import es.mhp.entities.ZipLocation;
 import es.mhp.dao.IZiplocationDao;
 import es.mhp.services.IZipLocationService;
 import org.springframework.beans.factory.annotation.Autowired;

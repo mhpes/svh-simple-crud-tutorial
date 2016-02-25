@@ -1,8 +1,6 @@
-package entities;
+package es.mhp.entities;
 
 import net.sf.minuteProject.architecture.bsla.domain.AbstractDomainObject;
-
-import java.io.Serializable;
 
 /**
  * Created by Edu on 12/02/2016.

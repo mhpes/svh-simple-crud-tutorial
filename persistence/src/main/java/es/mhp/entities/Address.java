@@ -1,4 +1,7 @@
-package entities;
+package es.mhp.entities;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -18,7 +21,7 @@ public class Address extends AbstractEntity implements Serializable{
     @Id
     @SequenceGenerator(name="address_sequence", initialValue=1, allocationSize=9999999)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="address_sequence")
-    @Column(name = "ADDRESS_ID")
+    @Column(name = "ADDRESSID")
     private Integer addressId;
 
     @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -33,7 +36,8 @@ public class Address extends AbstractEntity implements Serializable{
     private String secondaryStreet;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = ZipLocation.class)
-    @JoinColumn(name = "zipCodeId")
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "zip", nullable = true)
     private ZipLocation zipLocation;
 
     @Column(name = "CITY")

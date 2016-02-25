@@ -1,6 +1,6 @@
 package es.mhp.dao.impl;
 
-import entities.ZipLocation;
+import es.mhp.entities.ZipLocation;
 import es.mhp.dao.IZiplocationDao;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -32,7 +32,7 @@ public class ZiplocationDaoImpl extends AbstractPetshopGenericDao<ZipLocation> i
 
     @Override
     public List<ZipLocation> findAll() {
-        Query query = entityManager.createQuery("SELECT a FROM ZIPLOCATION a");
+        Query query = entityManager.createQuery("SELECT a FROM ZipLocation a");
         return query.getResultList();
     }
 
@@ -41,7 +41,7 @@ public class ZiplocationDaoImpl extends AbstractPetshopGenericDao<ZipLocation> i
         String contatenator = type ? " AND ": " OR ";
 
         if (entity != null) {
-            String queryParameters = "SELECT a FROM ZIPLOCATION a WHERE ";
+            String queryParameters = "SELECT a FROM ZipLocation a WHERE ";
 
             if (!StringUtils.isEmpty(entity.getCity())) {
                 queryParameters += "CITY = " + entity.getCity() + contatenator;

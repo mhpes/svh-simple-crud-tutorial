@@ -12,7 +12,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
-import entities.Category;
+import es.mhp.entities.Category;
 import es.mhp.services.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 

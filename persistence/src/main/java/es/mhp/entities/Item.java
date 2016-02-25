@@ -1,4 +1,4 @@
-package entities;
+package es.mhp.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -18,7 +18,7 @@ public class Item extends AbstractEntity {
     @Id
     @SequenceGenerator(name="item_sequence", initialValue=1, allocationSize=9999999)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="item_sequence")
-    @Column(name = "ITEM_ID")
+    @Column(name = "ITEMID")
     private Integer itemId;
 
     @ManyToMany(cascade = {CascadeType.ALL},mappedBy="items")
@@ -28,7 +28,7 @@ public class Item extends AbstractEntity {
     @JoinColumn(name = "productId")
     private Product product;
 
-    @Column(name = "IMAGE_THUMB_ULR")
+    @Column(name = "IMAGETHUMBURL")
     @Size(max = 55)
     private String imageThumbUrl;
 
@@ -37,17 +37,17 @@ public class Item extends AbstractEntity {
     private BigDecimal price;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Address.class)
-    @JoinColumn(name = "addressId")
+    @JoinColumn(name = "ADDRESS_ADDRESSID")
     private Address address;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = SellerContactInfo.class)
-    @JoinColumn(name = "sellerId")
+    @JoinColumn(name = "CONTACTINFO_CONTACTINFOID")
     private SellerContactInfo seller;
 
-    @Column(name = "TOTAL_SCORE")
+    @Column(name = "TOTALSCORE")
     private Integer totalScore;
 
-    @Column(name = "NUMBER_OF_VOTES")
+    @Column(name = "NUMBEROFVOTES")
     private Integer numberOfVotes;
 
     //@Doubt: default value true, this could be done in the constructor too?
@@ -62,7 +62,7 @@ public class Item extends AbstractEntity {
     @Size(max = 500)
     private String description;
 
-    @Column(name = "IMAGE_URL")
+    @Column(name = "IMAGEURL")
     @Size(max = 55)
     private String imageUrl;
 

@@ -1,6 +1,6 @@
 package es.mhp.dao;
 
-import entities.Address;
+import es.mhp.entities.Address;
 
 /**
  * Created by Edu on 12/02/2016.

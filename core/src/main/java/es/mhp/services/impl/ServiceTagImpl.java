@@ -1,6 +1,6 @@
 package es.mhp.services.impl;
 
-import entities.Tag;
+import es.mhp.entities.Tag;
 import es.mhp.dao.ITagDao;
 import es.mhp.services.ITagService;
 import org.springframework.beans.factory.annotation.Autowired;

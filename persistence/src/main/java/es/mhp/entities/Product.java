@@ -1,4 +1,4 @@
-package entities;
+package es.mhp.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -16,7 +16,7 @@ public class Product extends AbstractEntity {
     @SequenceGenerator(name="product_sequence", initialValue=1, allocationSize=9999999)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="product_sequence")
     @Size(max = 10)
-    @Column(name = "PRODUCT_ID")
+    @Column(name = "PRODUCTID")
     private String productId;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -34,7 +34,7 @@ public class Product extends AbstractEntity {
     @Size(max = 255)
     private String description;
 
-    @Column(name = "IMAGE_URL")
+    @Column(name = "IMAGEURL")
     @Size(max = 55)
     private String imageUrl;
 

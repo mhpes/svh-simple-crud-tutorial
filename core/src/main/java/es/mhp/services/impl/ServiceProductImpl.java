@@ -1,6 +1,6 @@
 package es.mhp.services.impl;
 
-import entities.Product;
+import es.mhp.entities.Product;
 import es.mhp.dao.IProductDao;
 import es.mhp.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;

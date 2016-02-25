@@ -1,6 +1,6 @@
 package es.mhp.dao;
 
-import entities.Category;
+import es.mhp.entities.Category;
 
 /**
  * Created by Edu on 12/02/2016.

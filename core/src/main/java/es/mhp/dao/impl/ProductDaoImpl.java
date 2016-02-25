@@ -1,6 +1,6 @@
 package es.mhp.dao.impl;
 
-import entities.Product;
+import es.mhp.entities.Product;
 import es.mhp.dao.IProductDao;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -32,7 +32,7 @@ public class ProductDaoImpl extends AbstractPetshopGenericDao<Product> implement
 
     @Override
     public List<Product> findAll() {
-        Query query = entityManager.createQuery("SELECT a FROM PRODUCT a");
+        Query query = entityManager.createQuery("SELECT a FROM Product a");
         return query.getResultList();
     }
 
@@ -41,7 +41,7 @@ public class ProductDaoImpl extends AbstractPetshopGenericDao<Product> implement
         String contatenator = type ? " AND ": " OR ";
 
         if (entity != null) {
-            String queryParameters = "SELECT a FROM PRODUCT a WHERE ";
+            String queryParameters = "SELECT a FROM Product a WHERE ";
 
             if (!StringUtils.isEmpty(entity.getName())) {
                 queryParameters += "NAME = " + entity.getName() + contatenator;
@@ -52,7 +52,7 @@ public class ProductDaoImpl extends AbstractPetshopGenericDao<Product> implement
             }
 
             if (!StringUtils.isEmpty(entity.getImageUrl())) {
-                queryParameters += "IMAGE_URL = " + entity.getImageUrl() + contatenator;
+                queryParameters += "IMAGEURL = " + entity.getImageUrl() + contatenator;
             }
 
             queryParameters = replaceLast(queryParameters, contatenator, "");
