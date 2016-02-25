@@ -20,18 +20,22 @@ import java.util.List;
 @Component
 public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implements IAddressDao {
 
+    @Override
     public Address findById(long id) {
         return entityManager.find(Address.class, id);
     }
 
+    @Override
     public List<Address> findAny(Address entity) {
         return findAll(entity, false);
     }
 
+    @Override
     public List<Address> findAll(Address entity) {
         return findAll(entity, true);
     }
 
+    @Override
     public List<Address> findAll() {
 
         /*Query query = entityManager.createQuery("SELECT a FROM ADDRESS a");
@@ -39,6 +43,7 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
         return findAllAddressMocked();
     }
 
+    @Override
     protected List<Address> findAll(Address entity, boolean type) {
         String contatenator = type ? " AND ": " OR ";
 

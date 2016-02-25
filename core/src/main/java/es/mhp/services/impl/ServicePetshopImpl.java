@@ -35,8 +35,6 @@ public class ServicePetshopImpl implements IServicePetshop {
     @Autowired
     private IZiplocationDao iZiplocationDao;
 
-    public String tagExamlple (){ return iTagDao.test(); }
-
     public List<Tag> findAllTags() { return iTagDao.findAll(); }
 
     public List<Item> findAllItems() {

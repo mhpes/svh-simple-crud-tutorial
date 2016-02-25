@@ -14,18 +14,23 @@ import java.util.List;
  */
 @Component
 public class TagDaoImpl extends AbstractPetshopGenericDao<Tag> implements ITagDao {
+
+    @Override
     public Tag findById(long id) {
         return entityManager.find(Tag.class, id);
     }
 
+    @Override
     public List<Tag> findAny(Tag entity) {
         return findAll(entity, false);
     }
 
+    @Override
     public List<Tag> findAll(Tag entity) {
         return findAll(entity, true);
     }
 
+    @Override
     public List<Tag> findAll() {
         Query query = entityManager.createQuery("SELECT a FROM TAG a");
         return query.getResultList();
@@ -46,10 +51,5 @@ public class TagDaoImpl extends AbstractPetshopGenericDao<Tag> implements ITagDa
             return (List<Tag>) query.getResultList();
         }
         return Collections.emptyList();
-    }
-
-    @Override
-    public String test() {
-        return "Edumola";
     }
 }

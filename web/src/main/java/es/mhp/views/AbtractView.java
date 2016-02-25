@@ -9,6 +9,6 @@ import entities.AbstractEntity;
  * Created by Edu on 23/02/2016.
  */
 public abstract class AbtractView<T extends AbstractEntity> extends VerticalLayout implements View {
-    abstract Layout createTable();
-    abstract Layout createForm(T entity);
+    protected abstract Layout createTable();
+    protected abstract Layout createForm(T entity);
 }

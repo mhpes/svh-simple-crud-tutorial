@@ -15,18 +15,22 @@ import java.util.List;
 @Component
 public class SellerDaoImpl extends AbstractPetshopGenericDao<SellerContactInfo> implements ISellerDao {
 
+    @Override
     public SellerContactInfo findById(long id) {
         return entityManager.find(SellerContactInfo.class, id);
     }
 
+    @Override
     public List<SellerContactInfo> findAny(SellerContactInfo entity) {
         return findAll(entity, false);
     }
 
+    @Override
     public List<SellerContactInfo> findAll(SellerContactInfo entity) {
         return findAll(entity, true);
     }
 
+    @Override
     public List<SellerContactInfo> findAll() {
         Query query = entityManager.createQuery("SELECT a FROM SELLER_CONTACT_INFO a");
         return query.getResultList();

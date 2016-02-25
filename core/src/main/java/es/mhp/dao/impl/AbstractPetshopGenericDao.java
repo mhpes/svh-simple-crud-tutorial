@@ -9,6 +9,7 @@ import net.sf.minuteProject.model.data.criteria.constant.QuerySortOrder;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,7 +42,7 @@ public abstract class AbstractPetshopGenericDao<T extends AbstractEntity> extend
 
     @Override
     protected List<T> find(T t, T t1, T t2, EntityMatchType entityMatchType, OperandType operandType, Boolean aBoolean, QuerySortOrder querySortOrder, Integer integer, Integer integer1) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
@@ -75,7 +76,7 @@ public abstract class AbstractPetshopGenericDao<T extends AbstractEntity> extend
     }
 
     public List<T> list(T t, T t1, QuerySortOrder querySortOrder) {
-        return null;
+        return Collections.emptyList();
     }
 
     protected abstract List<T> findAll(T entity, boolean type);

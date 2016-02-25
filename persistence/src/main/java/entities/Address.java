@@ -52,6 +52,17 @@ public class Address extends AbstractEntity implements Serializable{
     @Digits(integer = 4, fraction = 10)
     private BigDecimal longitude;
 
+    public Address(int addressId, String mainStreet, String secondaryStreet, String city, String state, BigDecimal longitude, BigDecimal latitude, ZipLocation zipLocation){
+        setAddressId(addressId);
+        setMainStreet(mainStreet);
+        setSecondaryStreet(secondaryStreet);
+        setCity(city);
+        setState(state);
+        setLongitude(longitude);
+        setLatitude(latitude);
+        setZipLocation(zipLocation);
+    }
+
     public Address(){}
 
     public Address(String secondaryStreet){this.setSecondaryStreet(secondaryStreet);}
@@ -126,16 +137,5 @@ public class Address extends AbstractEntity implements Serializable{
 
     public void setAddressId(Integer addressId) {
         this.addressId = addressId;
-    }
-
-    public Address(int addressId, String mainStreet, String secondaryStreet, String city, String state, BigDecimal longitude, BigDecimal latitude, ZipLocation zipLocation){
-        setAddressId(addressId);
-        setMainStreet(mainStreet);
-        setSecondaryStreet(secondaryStreet);
-        setCity(city);
-        setState(state);
-        setLongitude(longitude);
-        setLatitude(latitude);
-        setZipLocation(zipLocation);
     }
 }

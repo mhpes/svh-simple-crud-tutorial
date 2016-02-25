@@ -15,18 +15,22 @@ import java.util.List;
 @Component
 public class ItemDaoImpl extends AbstractPetshopGenericDao<Item> implements IItemDao {
 
+    @Override
     public Item findById(long id) {
         return entityManager.find(Item.class, id);
     }
 
+    @Override
     public List<Item> findAny(Item entity) {
         return findAll(entity, false);
     }
 
+    @Override
     public List<Item> findAll(Item entity) {
         return findAll(entity, true);
     }
 
+    @Override
     public List<Item> findAll() {
         Query query = entityManager.createQuery("SELECT a FROM ITEM a");
         return query.getResultList();

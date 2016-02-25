@@ -32,7 +32,7 @@ public class AddressView extends AbtractView<Address> {
     }
 
     @Override
-    Layout createTable() {
+    protected Layout createTable() {
         final VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setSizeFull();
         verticalLayout.addStyleName("address-view-table-container");
@@ -63,7 +63,7 @@ public class AddressView extends AbtractView<Address> {
     }
 
     @Override
-    Layout createForm(Address address) {
+    protected Layout createForm(Address address) {
         FormLayout form = new FormLayout();
         form.addStyleName("address-view-form-container");
         PropertysetItem item = new PropertysetItem();

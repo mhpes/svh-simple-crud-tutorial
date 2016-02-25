@@ -34,7 +34,14 @@ public class Category extends AbstractEntity{
     @Size(max = 55)
     private String imageUrl;
 
-    Category(){}
+    public Category(String imageUrl, String description, String name, String categoryId){
+        setImageUrl(imageUrl);
+        setDescription(description);
+        setName(name);
+        setCategoryId(categoryId);
+    }
+
+    public Category(){}
 
     public String getImageUrl() {
         return imageUrl;
@@ -74,12 +81,5 @@ public class Category extends AbstractEntity{
 
     public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
-    }
-
-    public Category(String imageUrl, String description, String name, String categoryId){
-        setImageUrl(imageUrl);
-        setDescription(description);
-        setName(name);
-        setCategoryId(categoryId);
     }
 }

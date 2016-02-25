@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by Edu on 12/02/2016.
  */
-public class AbstractEntity extends AbstractDomainObject implements Serializable{
+public class AbstractEntity extends AbstractDomainObject{
     @Override
     public boolean equalsMask(Object o) {
         return false;

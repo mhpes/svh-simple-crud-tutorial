@@ -15,18 +15,22 @@ import java.util.List;
 @Component
 public class ZiplocationDaoImpl extends AbstractPetshopGenericDao<ZipLocation> implements IZiplocationDao {
 
+    @Override
     public ZipLocation findById(long id) {
         return entityManager.find(ZipLocation.class, id);
     }
 
+    @Override
     public List<ZipLocation> findAny(ZipLocation entity) {
         return findAll(entity, false);
     }
 
+    @Override
     public List<ZipLocation> findAll(ZipLocation entity) {
         return findAll(entity, true);
     }
 
+    @Override
     public List<ZipLocation> findAll() {
         Query query = entityManager.createQuery("SELECT a FROM ZIPLOCATION a");
         return query.getResultList();

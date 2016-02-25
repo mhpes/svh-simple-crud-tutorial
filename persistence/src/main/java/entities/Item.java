@@ -66,7 +66,7 @@ public class Item extends AbstractEntity {
     @Size(max = 55)
     private String imageUrl;
 
-    Item() {}
+    public Item() {}
 
     public String getImageUrl() {
         return imageUrl;

@@ -18,12 +18,12 @@ public class MainView extends AbtractView{
     }
 
     @Override
-    Layout createTable() {
+    protected Layout createTable() {
         return null;
     }
 
     @Override
-    Layout createForm(AbstractEntity entity) {
+    protected Layout createForm(AbstractEntity entity) {
         return null;
     }
 }

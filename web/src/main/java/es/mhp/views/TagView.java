@@ -1,5 +1,9 @@
 package es.mhp.views;
 
+/**
+ * Created by Edu on 24/02/2016.
+ */
+
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
@@ -12,8 +16,10 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
-import entities.Category;
-import es.mhp.services.ICategoryService;
+import entities.Item;
+import entities.Tag;
+import es.mhp.services.IItemService;
+import es.mhp.services.ITagService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -22,16 +28,16 @@ import java.util.List;
  * Created by Edu on 23/02/2016.
  */
 
-@SpringView(name = CategoryView.VIEW_NAME)
-public class CategoryView extends AbtractView<Category> {
-    public static final String VIEW_NAME = "Categories";
+@SpringView(name = TagView.VIEW_NAME)
+public class TagView extends AbtractView<Tag> {
+    public static final String VIEW_NAME = "Tags";
 
     @Autowired
-    private ICategoryService categoryService;
+    private ITagService tagService;
 
-    public CategoryView(){
+    public TagView(){
         setSizeFull();
-        this.addStyleName("category-view");
+        this.addStyleName("tag-view");
     }
 
     @Override
@@ -44,21 +50,21 @@ public class CategoryView extends AbtractView<Category> {
     protected Layout createTable() {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setSizeFull();
-        verticalLayout.addStyleName("category-view-table-container");
+        verticalLayout.addStyleName("tag-view-table-container");
         verticalLayout.setMargin(true);
 
-        List<Category> categories = categoryService.findAllCategories();
+        List<Tag> tags = tagService.findAllTags();
 
-        BeanItemContainer<Category> categoryBeanItemContainer = new BeanItemContainer<>(Category.class, categories);
-        Grid grid = new Grid(categoryBeanItemContainer);
+        BeanItemContainer<Tag> itemBeanItemContainer = new BeanItemContainer<>(Tag.class, tags);
+        Grid grid = new Grid(itemBeanItemContainer);
         grid.setSizeFull();
         VerticalLayout formContainer = new VerticalLayout();
 
         grid.addSelectionListener((SelectionEvent.SelectionListener) event -> {
             if (grid.getSelectedRow() != null){
                 formContainer.removeAllComponents();
-                BeanItem<Category> categoryBeanItem = categoryBeanItemContainer.getItem(grid.getSelectedRow());
-                formContainer.addComponent(createForm(categoryBeanItem.getBean()));
+                BeanItem<Tag> tagBeanItem = itemBeanItemContainer.getItem(grid.getSelectedRow());
+                formContainer.addComponent(createForm(tagBeanItem.getBean()));
             }
         });
 
@@ -70,22 +76,21 @@ public class CategoryView extends AbtractView<Category> {
     }
 
     @Override
-    protected Layout createForm(Category category) {
+    protected Layout createForm(Tag tag) {
         FormLayout form = new FormLayout();
-        form.addStyleName("category-view-form-container");
-        PropertysetItem item = new PropertysetItem();
+        form.addStyleName("tag-view-form-container");
+        PropertysetItem propertysetItemtem = new PropertysetItem();
 
-        item.addItemProperty("Category Id", new ObjectProperty(category.getCategoryId()));
-        item.addItemProperty("Description", new ObjectProperty(category.getDescription()));
-        item.addItemProperty("Image", new ObjectProperty(category.getImageUrl()));
-        item.addItemProperty("Name", new ObjectProperty(category.getName()));
+        propertysetItemtem.addItemProperty("Tag Id", new ObjectProperty(tag.getTagId()));
+        propertysetItemtem.addItemProperty("Description", new ObjectProperty(tag.getTagDescription()));
+        propertysetItemtem.addItemProperty("Reference Count", new ObjectProperty(tag.getRefCount()));
 
-        FieldGroup binder = new FieldGroup(item);
-        form.addComponent(binder.buildAndBind("Category Id"));
+        FieldGroup binder = new FieldGroup(propertysetItemtem);
+        form.addComponent(binder.buildAndBind("Tag Id"));
         form.addComponent(binder.buildAndBind("Description"));
-        form.addComponent(binder.buildAndBind("Image"));
-        form.addComponent(binder.buildAndBind("Name"));
+        form.addComponent(binder.buildAndBind("Reference Count"));
 
         return form;
     }
 }
+

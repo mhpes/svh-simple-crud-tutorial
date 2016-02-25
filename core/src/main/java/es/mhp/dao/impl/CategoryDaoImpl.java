@@ -16,18 +16,22 @@ import java.util.List;
 @Component
 public class CategoryDaoImpl extends AbstractPetshopGenericDao<Category> implements ICategoryDao{
 
+    @Override
     public Category findById(long id) {
         return entityManager.find(Category.class, id);
     }
 
+    @Override
     public List<Category> findAny(Category entity) {
         return findAll(entity, false);
     }
 
+    @Override
     public List<Category> findAll(Category entity) {
         return findAll(entity, true);
     }
 
+    @Override
     public List<Category> findAll() {
         /*Query query = entityManager.createQuery("SELECT a FROM CATEGORY a");
         return query.getResultList();*/
