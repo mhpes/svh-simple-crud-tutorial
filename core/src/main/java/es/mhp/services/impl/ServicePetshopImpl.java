@@ -6,7 +6,7 @@ import es.mhp.services.IServicePetshop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 15/02/2016.
@@ -35,83 +35,83 @@ public class ServicePetshopImpl implements IServicePetshop {
     @Autowired
     private IZiplocationDao iZiplocationDao;
 
-    public List<Tag> findAllTags() { return iTagDao.findAll(); }
+    public Set<Tag> findAllTags() { return iTagDao.findAll(); }
 
-    public List<Item> findAllItems() {
+    public Set<Item> findAllItems() {
         return iItemDao.findAll();
     }
 
-    public List<Product> findAllProducts() {
+    public Set<Product> findAllProducts() {
         return iProductDao.findAll();
     }
 
-    public List<Address> findAllAddresses() { return iAddressDao.findAll(); }
+    public Set<Address> findAllAddresses() { return iAddressDao.findAll(); }
 
-    public List<Category> findAllCategories() {
+    public Set<Category> findAllCategories() {
         return iCategoryDao.findAll();
     }
 
-    public List<ZipLocation> findAllZipLocations() {
+    public Set<ZipLocation> findAllZipLocations() {
         return iZiplocationDao.findAll();
     }
 
-    public List<SellerContactInfo> findAllSellers() {
+    public Set<SellerContactInfo> findAllSellers() {
         return iSellerDao.findAll();
     }
 
-    public List<Tag> findAllTags(Tag tag) {
+    public Set<Tag> findAllTags(Tag tag) {
         return iTagDao.findAll(tag);
     }
 
-    public List<Item> findAllItems(Item item) {
+    public Set<Item> findAllItems(Item item) {
         return iItemDao.findAll(item);
     }
 
-    public List<Product> findAllProducts(Product product) {
+    public Set<Product> findAllProducts(Product product) {
         return iProductDao.findAll(product);
     }
 
-    public List<Address> findAllAddresses(Address address) {
+    public Set<Address> findAllAddresses(Address address) {
         return iAddressDao.findAll(address);
     }
 
-    public List<Category> findAllCategories(Category category) {
+    public Set<Category> findAllCategories(Category category) {
         return iCategoryDao.findAll(category);
     }
 
-    public List<ZipLocation> findAllZipLocations(ZipLocation zipLocation) {
+    public Set<ZipLocation> findAllZipLocations(ZipLocation zipLocation) {
         return iZiplocationDao.findAll(zipLocation);
     }
 
-    public List<SellerContactInfo> findAllSellers(SellerContactInfo sellerContactInfo) {
+    public Set<SellerContactInfo> findAllSellers(SellerContactInfo sellerContactInfo) {
         return iSellerDao.findAll(sellerContactInfo);
     }
 
-    public List<Tag> findAnyTag(Tag tag) {
+    public Set<Tag> findAnyTag(Tag tag) {
         return iTagDao.findAny(tag);
     }
 
-    public List<Item> findAnyItem(Item item) {
+    public Set<Item> findAnyItem(Item item) {
         return iItemDao.findAny(item);
     }
 
-    public List<Product> findAnyProduct(Product product) {
+    public Set<Product> findAnyProduct(Product product) {
         return iProductDao.findAny(product);
     }
 
-    public List<Address> findAnyAddresse(Address address) {
+    public Set<Address> findAnyAddresse(Address address) {
         return iAddressDao.findAny(address);
     }
 
-    public List<Category> findAnyCategorie(Category category) {
+    public Set<Category> findAnyCategorie(Category category) {
         return iCategoryDao.findAny(category);
     }
 
-    public List<ZipLocation> findAnyZipLocation(ZipLocation zipLocation) {
+    public Set<ZipLocation> findAnyZipLocation(ZipLocation zipLocation) {
         return iZiplocationDao.findAny(zipLocation);
     }
 
-    public List<SellerContactInfo> findAnySeller(SellerContactInfo sellerContactInfo) {
+    public Set<SellerContactInfo> findAnySeller(SellerContactInfo sellerContactInfo) {
         return iSellerDao.findAny(sellerContactInfo);
     }
 

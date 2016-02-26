@@ -1,12 +1,12 @@
 package es.mhp.services.impl;
 
-import es.mhp.entities.SellerContactInfo;
 import es.mhp.dao.ISellerDao;
+import es.mhp.entities.SellerContactInfo;
 import es.mhp.services.ISellerContactInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 24/02/2016.
@@ -18,15 +18,15 @@ public class ServiceSellerContactInfoImpl implements ISellerContactInfoService {
     private ISellerDao iSellerDao;
 
 
-    public List<SellerContactInfo> findAllSellers() {
+    public Set<SellerContactInfo> findAllSellers() {
         return iSellerDao.findAll();
     }
 
-    public List<SellerContactInfo> findAllSellers(SellerContactInfo sellerContactInfo) {
+    public Set<SellerContactInfo> findAllSellers(SellerContactInfo sellerContactInfo) {
         return iSellerDao.findAll(sellerContactInfo);
     }
 
-    public List<SellerContactInfo> findAnySeller(SellerContactInfo sellerContactInfo) {
+    public Set<SellerContactInfo> findAnySeller(SellerContactInfo sellerContactInfo) {
         return iSellerDao.findAny(sellerContactInfo);
     }
 

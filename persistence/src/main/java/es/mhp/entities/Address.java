@@ -8,7 +8,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -25,7 +25,7 @@ public class Address extends AbstractEntity implements Serializable{
     private Integer addressId;
 
     @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Item> items;
+    private Set<Item> items;
 
     @Column(name = "STREET1")
     @Size(max = 55)
@@ -127,11 +127,15 @@ public class Address extends AbstractEntity implements Serializable{
         this.mainStreet = mainStreet;
     }
 
-    public List<Item> getItems() {
+    public Set<Item> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public int getItemsCount() {
+        return items.size();
+    }
+
+    public void setItems(Set<Item> items) {
         this.items = items;
     }
 
@@ -141,5 +145,9 @@ public class Address extends AbstractEntity implements Serializable{
 
     public void setAddressId(Integer addressId) {
         this.addressId = addressId;
+    }
+
+    public String toString() {
+        return this.getCity() + ". " + this.getState();
     }
 }

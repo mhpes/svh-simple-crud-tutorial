@@ -2,8 +2,7 @@ package es.mhp.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -21,7 +20,7 @@ public class Category extends AbstractEntity{
     private String categoryId;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Product> products = new ArrayList<>();
+    private Set<Product> products;
 
     @Column(name = "NAME")
     @Size(max = 25)
@@ -68,11 +67,11 @@ public class Category extends AbstractEntity{
         this.name = name;
     }
 
-    public List<Product> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(Set<Product> products) {
         this.products = products;
     }
 
@@ -82,5 +81,9 @@ public class Category extends AbstractEntity{
 
     public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public String toString() {
+        return this.getName() + ". " + this.getDescription();
     }
 }

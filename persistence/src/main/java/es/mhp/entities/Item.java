@@ -4,7 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -22,7 +22,7 @@ public class Item extends AbstractEntity {
     private Integer itemId;
 
     @ManyToMany(cascade = {CascadeType.ALL},mappedBy="items")
-    private List<Tag> tags;
+    private Set<Tag> tags;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Product.class)
     @JoinColumn(name = "productId")
@@ -156,11 +156,11 @@ public class Item extends AbstractEntity {
         this.product = product;
     }
 
-    public List<Tag> getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tag> tags) {
+    public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
 
@@ -170,5 +170,9 @@ public class Item extends AbstractEntity {
 
     public void setItemId(Integer itemId) {
         this.itemId = itemId;
+    }
+
+    public String toString() {
+        return this.getName() + ". " + this.getDescription();
     }
 }

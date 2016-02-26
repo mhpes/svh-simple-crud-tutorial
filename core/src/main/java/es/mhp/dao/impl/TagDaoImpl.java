@@ -1,13 +1,13 @@
 package es.mhp.dao.impl;
 
-import es.mhp.entities.Tag;
 import es.mhp.dao.ITagDao;
+import es.mhp.entities.Tag;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -21,23 +21,22 @@ public class TagDaoImpl extends AbstractPetshopGenericDao<Tag> implements ITagDa
     }
 
     @Override
-    public List<Tag> findAny(Tag entity) {
+    public Set<Tag> findAny(Tag entity) {
         return findAll(entity, false);
     }
 
     @Override
-    public List<Tag> findAll(Tag entity) {
+    public Set<Tag> findAll(Tag entity) {
         return findAll(entity, true);
     }
 
     @Override
-    public List<Tag> findAll() {
-        Query query = entityManager.createQuery("SELECT a FROM Tag a");
-        return query.getResultList();
+    public Set<Tag> findAll() {
+        return (Set<Tag>) entityManager.createQuery("SELECT a FROM Tag a").getResultList();
     }
 
     @Override
-    protected List<Tag> findAll(Tag entity, boolean type) {
+    protected Set<Tag> findAll(Tag entity, boolean type) {
 
         if (entity != null) {
             String queryParameters = "SELECT a FROM Tag a WHERE ";
@@ -48,8 +47,8 @@ public class TagDaoImpl extends AbstractPetshopGenericDao<Tag> implements ITagDa
 
             Query query = entityManager.createQuery(queryParameters);
 
-            return (List<Tag>) query.getResultList();
+            return (Set<Tag>) query.getResultList();
         }
-        return Collections.emptyList();
+        return Collections.emptySet();
     }
 }

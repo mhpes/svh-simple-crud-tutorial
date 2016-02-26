@@ -1,13 +1,13 @@
 package es.mhp.dao.impl;
 
-import es.mhp.entities.Product;
 import es.mhp.dao.IProductDao;
+import es.mhp.entities.Product;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -21,23 +21,22 @@ public class ProductDaoImpl extends AbstractPetshopGenericDao<Product> implement
     }
 
     @Override
-    public List<Product> findAny(Product entity) {
+    public Set<Product> findAny(Product entity) {
         return findAll(entity, false);
     }
 
     @Override
-    public List<Product> findAll(Product entity) {
+    public Set<Product> findAll(Product entity) {
         return findAll(entity, true);
     }
 
     @Override
-    public List<Product> findAll() {
-        Query query = entityManager.createQuery("SELECT a FROM Product a");
-        return query.getResultList();
+    public Set<Product> findAll() {
+        return (Set<Product>) entityManager.createQuery("SELECT a FROM Product a").getResultList();
     }
 
     @Override
-    protected List<Product> findAll(Product entity, boolean type) {
+    protected Set<Product> findAll(Product entity, boolean type) {
         String contatenator = type ? " AND ": " OR ";
 
         if (entity != null) {
@@ -58,8 +57,8 @@ public class ProductDaoImpl extends AbstractPetshopGenericDao<Product> implement
             queryParameters = replaceLast(queryParameters, contatenator, "");
             Query query = entityManager.createQuery(queryParameters);
 
-            return (List<Product>) query.getResultList();
+            return (Set<Product>) query.getResultList();
         }
-        return Collections.emptyList();
+        return Collections.emptySet();
     }
 }

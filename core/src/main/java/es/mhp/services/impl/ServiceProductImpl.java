@@ -1,12 +1,12 @@
 package es.mhp.services.impl;
 
-import es.mhp.entities.Product;
 import es.mhp.dao.IProductDao;
+import es.mhp.entities.Product;
 import es.mhp.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 24/02/2016.
@@ -18,15 +18,15 @@ public class ServiceProductImpl implements IProductService {
     private IProductDao iProductDao;
 
 
-    public List<Product> findAllProducts() {
+    public Set<Product> findAllProducts() {
         return iProductDao.findAll();
     }
 
-    public List<Product> findAllProducts(Product product) {
+    public Set<Product> findAllProducts(Product product) {
         return iProductDao.findAll(product);
     }
 
-    public List<Product> findAnyProduct(Product product) {
+    public Set<Product> findAnyProduct(Product product) {
         return iProductDao.findAny(product);
     }
 

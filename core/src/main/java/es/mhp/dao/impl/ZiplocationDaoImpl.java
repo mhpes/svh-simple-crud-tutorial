@@ -1,13 +1,13 @@
 package es.mhp.dao.impl;
 
-import es.mhp.entities.ZipLocation;
 import es.mhp.dao.IZiplocationDao;
+import es.mhp.entities.ZipLocation;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -21,23 +21,22 @@ public class ZiplocationDaoImpl extends AbstractPetshopGenericDao<ZipLocation> i
     }
 
     @Override
-    public List<ZipLocation> findAny(ZipLocation entity) {
+    public Set<ZipLocation> findAny(ZipLocation entity) {
         return findAll(entity, false);
     }
 
     @Override
-    public List<ZipLocation> findAll(ZipLocation entity) {
+    public Set<ZipLocation> findAll(ZipLocation entity) {
         return findAll(entity, true);
     }
 
     @Override
-    public List<ZipLocation> findAll() {
-        Query query = entityManager.createQuery("SELECT a FROM ZipLocation a");
-        return query.getResultList();
+    public Set<ZipLocation> findAll() {
+        return (Set<ZipLocation>) entityManager.createQuery("SELECT a FROM ZipLocation a");
     }
 
     @Override
-    protected List<ZipLocation> findAll(ZipLocation entity, boolean type) {
+    protected Set<ZipLocation> findAll(ZipLocation entity, boolean type) {
         String contatenator = type ? " AND ": " OR ";
 
         if (entity != null) {
@@ -54,9 +53,9 @@ public class ZiplocationDaoImpl extends AbstractPetshopGenericDao<ZipLocation> i
             queryParameters = replaceLast(queryParameters, contatenator, "");
             Query query = entityManager.createQuery(queryParameters);
 
-            return (List<ZipLocation>) query.getResultList();
+            return (Set<ZipLocation>) query.getResultList();
         }
-        return Collections.emptyList();
+        return Collections.emptySet();
     }
 }
 

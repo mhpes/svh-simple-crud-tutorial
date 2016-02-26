@@ -1,12 +1,12 @@
 package es.mhp.services.impl;
 
-import es.mhp.entities.Item;
 import es.mhp.dao.IItemDao;
+import es.mhp.entities.Item;
 import es.mhp.services.IItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 24/02/2016.
@@ -17,15 +17,15 @@ public class ServiceItemImpl implements IItemService {
     @Autowired
     private IItemDao iItemDao;
 
-    public List<Item> findAllItems() {
+    public Set<Item> findAllItems() {
         return iItemDao.findAll();
     }
 
-    public List<Item> findAllItems(Item item) {
+    public Set<Item> findAllItems(Item item) {
         return iItemDao.findAll(item);
     }
 
-    public List<Item> findAnyItem(Item item) {
+    public Set<Item> findAnyItem(Item item) {
         return iItemDao.findAny(item);
     }
 

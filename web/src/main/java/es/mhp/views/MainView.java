@@ -3,7 +3,6 @@ package es.mhp.views;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Layout;
-import es.mhp.entities.AbstractEntity;
 
 /**
  * Created by Edu on 23/02/2016.
@@ -23,7 +22,7 @@ public class MainView extends AbtractView{
     }
 
     @Override
-    protected Layout createForm(AbstractEntity entity) {
+    protected Layout createForm(Object entity) {
         return null;
     }
 }

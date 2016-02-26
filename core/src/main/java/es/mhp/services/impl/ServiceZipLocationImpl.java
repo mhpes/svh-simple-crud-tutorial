@@ -1,12 +1,12 @@
 package es.mhp.services.impl;
 
-import es.mhp.entities.ZipLocation;
 import es.mhp.dao.IZiplocationDao;
+import es.mhp.entities.ZipLocation;
 import es.mhp.services.IZipLocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 24/02/2016.
@@ -17,15 +17,15 @@ public class ServiceZipLocationImpl implements IZipLocationService{
     @Autowired
     private IZiplocationDao iZiplocationDao;
 
-    public List<ZipLocation> findAllZipLocations() {
+    public Set<ZipLocation> findAllZipLocations() {
         return iZiplocationDao.findAll();
     }
 
-    public List<ZipLocation> findAllZipLocations(ZipLocation zipLocation) {
+    public Set<ZipLocation> findAllZipLocations(ZipLocation zipLocation) {
         return iZiplocationDao.findAll(zipLocation);
     }
 
-    public List<ZipLocation> findAnyZipLocation(ZipLocation zipLocation) {
+    public Set<ZipLocation> findAnyZipLocation(ZipLocation zipLocation) {
         return iZiplocationDao.findAny(zipLocation);
     }
 

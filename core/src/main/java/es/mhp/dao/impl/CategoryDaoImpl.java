@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -22,22 +23,22 @@ public class CategoryDaoImpl extends AbstractPetshopGenericDao<Category> impleme
     }
 
     @Override
-    public List<Category> findAny(Category entity) {
+    public Set<Category> findAny(Category entity) {
         return findAll(entity, false);
     }
 
     @Override
-    public List<Category> findAll(Category entity) {
+    public Set<Category> findAll(Category entity) {
         return findAll(entity, true);
     }
 
     @Override
-    public List<Category> findAll() {
-        return entityManager.createQuery("SELECT a FROM Category a").getResultList();
+    public Set<Category> findAll() {
+        return (Set<Category>) entityManager.createQuery("SELECT a FROM Category a").getResultList();
     }
 
     @Override
-    protected List<Category> findAll(Category entity, boolean type) {
+    protected Set<Category> findAll(Category entity, boolean type) {
         String contatenator = type ? " AND ": " OR ";
 
         if (entity != null) {
@@ -58,9 +59,9 @@ public class CategoryDaoImpl extends AbstractPetshopGenericDao<Category> impleme
             queryParameters = replaceLast(queryParameters, contatenator, "");
             Query query = entityManager.createQuery(queryParameters);
 
-            return (List<Category>) query.getResultList();
+            return (Set<Category>) query.getResultList();
         }
-        return Collections.emptyList();
+        return Collections.emptySet();
     }
 
     private List<Category> findAllMocked() {

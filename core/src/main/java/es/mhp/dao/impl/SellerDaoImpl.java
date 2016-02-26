@@ -1,13 +1,13 @@
 package es.mhp.dao.impl;
 
-import es.mhp.entities.SellerContactInfo;
 import es.mhp.dao.ISellerDao;
+import es.mhp.entities.SellerContactInfo;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -21,23 +21,22 @@ public class SellerDaoImpl extends AbstractPetshopGenericDao<SellerContactInfo> 
     }
 
     @Override
-    public List<SellerContactInfo> findAny(SellerContactInfo entity) {
+    public Set<SellerContactInfo> findAny(SellerContactInfo entity) {
         return findAll(entity, false);
     }
 
     @Override
-    public List<SellerContactInfo> findAll(SellerContactInfo entity) {
+    public Set<SellerContactInfo> findAll(SellerContactInfo entity) {
         return findAll(entity, true);
     }
 
     @Override
-    public List<SellerContactInfo> findAll() {
-        Query query = entityManager.createQuery("SELECT a FROM SellerContactInfo a");
-        return query.getResultList();
+    public Set<SellerContactInfo> findAll() {
+        return (Set<SellerContactInfo>) entityManager.createQuery("SELECT a FROM SellerContactInfo a").getResultList();
     }
 
     @Override
-    protected List<SellerContactInfo> findAll(SellerContactInfo entity, boolean type) {
+    protected Set<SellerContactInfo> findAll(SellerContactInfo entity, boolean type) {
         String contatenator = type ? " AND ": " OR ";
 
         if (entity != null) {
@@ -55,8 +54,8 @@ public class SellerDaoImpl extends AbstractPetshopGenericDao<SellerContactInfo> 
             queryParameters = replaceLast(queryParameters, contatenator, "");
             Query query = entityManager.createQuery(queryParameters);
 
-            return (List<SellerContactInfo>) query.getResultList();
+            return (Set<SellerContactInfo>) query.getResultList();
         }
-        return Collections.emptyList();
+        return Collections.emptySet();
     }
 }

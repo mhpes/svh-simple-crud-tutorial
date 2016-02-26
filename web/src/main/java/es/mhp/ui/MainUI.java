@@ -46,12 +46,13 @@ public class MainUI extends UI {
 
     private HorizontalLayout createUILayout() {
         HorizontalLayout generalLayout = new HorizontalLayout();
-
+        generalLayout.setSizeFull();
         //LAYOUT MENU
         Layout menuLayout = createMenu();
 
         //LAYOUT VIEW
         Layout viewLayout = createView();
+        viewLayout.setSizeFull();
 
         generalLayout.addComponent(menuLayout);
         generalLayout.addComponent(viewLayout);
@@ -64,12 +65,12 @@ public class MainUI extends UI {
         verticalLayout.setMargin(true);
 
         verticalLayout.addComponent(createCustomButton(AddressView.VIEW_NAME));
-        verticalLayout.addComponent(createCustomButton(CategoryView.VIEW_NAME));
+        /*verticalLayout.addComponent(createCustomButton(CategoryView.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(ItemView.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(ProductView.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(SellerContactInfoView.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(TagView.VIEW_NAME));
-        verticalLayout.addComponent(createCustomButton(ZipLocationView.VIEW_NAME));
+        verticalLayout.addComponent(createCustomButton(ZipLocationView.VIEW_NAME));*/
 
         return verticalLayout;
     }
@@ -83,6 +84,7 @@ public class MainUI extends UI {
 
         //LAYOUT GENERAL
         viewContainer = new VerticalLayout();
+        viewContainer.setSizeFull();
         viewContainer.addStyleName("view-container");
         return viewContainer;
     }

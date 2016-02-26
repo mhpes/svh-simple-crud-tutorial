@@ -2,7 +2,7 @@ package es.mhp.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 11/02/2016.
@@ -30,15 +30,15 @@ public class Tag extends AbstractEntity {
 
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name="TAG_ITEM", joinColumns = {@JoinColumn(name="tagId")}, inverseJoinColumns={@JoinColumn(name="itemId")})
-    private List<Item> items;
+    private Set<Item> items;
 
     Tag() {}
 
-    public List<Item> getItems() {
+    public Set<Item> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(Set<Item> items) {
         this.items = items;
     }
 
@@ -64,5 +64,9 @@ public class Tag extends AbstractEntity {
 
     public void setTagId(Integer tagId) {
         this.tagId = tagId;
+    }
+
+    public String toString() {
+        return this.getTagDescription();
     }
 }

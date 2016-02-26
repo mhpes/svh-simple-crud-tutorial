@@ -1,12 +1,12 @@
 package es.mhp.services.impl;
 
-import es.mhp.entities.Category;
 import es.mhp.dao.ICategoryDao;
+import es.mhp.entities.Category;
 import es.mhp.services.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 24/02/2016.
@@ -17,15 +17,15 @@ public class ServiceCategoryImpl implements ICategoryService {
     @Autowired
     private ICategoryDao iCategoryDao;
 
-    public List<Category> findAllCategories() {
+    public Set<Category> findAllCategories() {
         return iCategoryDao.findAll();
     }
 
-    public List<Category> findAllCategories(Category category) {
+    public Set<Category> findAllCategories(Category category) {
         return iCategoryDao.findAll(category);
     }
 
-    public List<Category> findAnyCategorie(Category category) {
+    public Set<Category> findAnyCategorie(Category category) {
         return iCategoryDao.findAny(category);
     }
 

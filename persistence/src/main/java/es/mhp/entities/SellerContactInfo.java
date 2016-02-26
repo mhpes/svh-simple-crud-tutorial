@@ -2,7 +2,7 @@ package es.mhp.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -20,7 +20,7 @@ public class SellerContactInfo extends AbstractEntity{
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Item.class)
     @JoinColumn(name = "itemId")
-    private List<Item> item;
+    private Set<Item> item;
 
     @Column(name = "LASTNAME")
     @Size(max = 24)
@@ -68,11 +68,15 @@ public class SellerContactInfo extends AbstractEntity{
         this.sellerId = sellerId;
     }
 
-    public List<Item> getItem() {
+    public Set<Item> getItem() {
         return item;
     }
 
-    public void setItem(List<Item> item) {
+    public void setItem(Set<Item> item) {
         this.item = item;
+    }
+
+    public String toString() {
+        return this.getFirstName() + " " + this.getLastName();
     }
 }

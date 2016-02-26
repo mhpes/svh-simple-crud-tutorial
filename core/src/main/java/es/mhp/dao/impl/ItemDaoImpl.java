@@ -1,13 +1,13 @@
 package es.mhp.dao.impl;
 
-import es.mhp.entities.Item;
 import es.mhp.dao.IItemDao;
+import es.mhp.entities.Item;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -21,23 +21,22 @@ public class ItemDaoImpl extends AbstractPetshopGenericDao<Item> implements IIte
     }
 
     @Override
-    public List<Item> findAny(Item entity) {
+    public Set<Item> findAny(Item entity) {
         return findAll(entity, false);
     }
 
     @Override
-    public List<Item> findAll(Item entity) {
+    public Set<Item> findAll(Item entity) {
         return findAll(entity, true);
     }
 
     @Override
-    public List<Item> findAll() {
-        Query query = entityManager.createQuery("SELECT a FROM Item a");
-        return query.getResultList();
+    public Set<Item> findAll() {
+        return (Set<Item>) entityManager.createQuery("SELECT a FROM Item a").getResultList();
     }
 
     @Override
-    protected List<Item> findAll(Item entity, boolean type) {
+    protected Set<Item> findAll(Item entity, boolean type) {
         String contatenator = type ? " AND ": " OR ";
 
         if (entity != null) {
@@ -76,8 +75,8 @@ public class ItemDaoImpl extends AbstractPetshopGenericDao<Item> implements IIte
             queryParameters = replaceLast(queryParameters, contatenator, "");
             Query query = entityManager.createQuery(queryParameters);
 
-            return (List<Item>) query.getResultList();
+            return (Set<Item>) query.getResultList();
         }
-        return Collections.emptyList();
+        return Collections.emptySet();
     }
 }

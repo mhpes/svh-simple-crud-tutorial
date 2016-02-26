@@ -2,7 +2,7 @@ package es.mhp.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -25,24 +25,15 @@ public class ZipLocation extends AbstractEntity {
     private String state;
 
     @OneToMany(mappedBy = "zipLocation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Address> addresses;
+    private Set<Address> addresses;
 
     public ZipLocation() {}
 
     public ZipLocation (Integer zipCodeId, Integer zipCode, String city, String state){
-        //this.zipCodeId = zipCodeId;
         this.zipCode = zipCode;
         this.city = city;
         this.state = state;
     }
-
-    /*public Integer getZipCodeId() {
-        return zipCodeId;
-    }
-
-    public void setZipCodeId(Integer zipCodeId) {
-        this.zipCodeId = zipCodeId;
-    }*/
 
     public Integer getZipCode() {
         return zipCode;
@@ -66,5 +57,10 @@ public class ZipLocation extends AbstractEntity {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return this.getCity() + ". " + this.getState() + " " + this.getZipCode();
     }
 }

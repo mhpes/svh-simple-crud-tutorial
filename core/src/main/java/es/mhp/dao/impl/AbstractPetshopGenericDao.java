@@ -1,7 +1,7 @@
 package es.mhp.dao.impl;
 
-import es.mhp.entities.AbstractEntity;
 import es.mhp.dao.IPetshopGenericDao;
+import es.mhp.entities.AbstractEntity;
 import net.sf.minuteProject.model.dao.jpa.GenericDaoJpaImpl;
 import net.sf.minuteProject.model.data.criteria.constant.EntityMatchType;
 import net.sf.minuteProject.model.data.criteria.constant.OperandType;
@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by isa on 15/02/2016.
@@ -79,7 +80,7 @@ public abstract class AbstractPetshopGenericDao<T extends AbstractEntity> extend
         return Collections.emptyList();
     }
 
-    protected abstract List<T> findAll(T entity, boolean type);
+    protected abstract Set<T> findAll(T entity, boolean type);
 
     protected String replaceLast(String string, String substring, String replacement)
     {

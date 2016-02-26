@@ -1,8 +1,11 @@
+/*
 package es.mhp.views;
 
+*/
 /**
  * Created by Edu on 24/02/2016.
- */
+ *//*
+
 
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
@@ -22,9 +25,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+*/
 /**
  * Created by Edu on 23/02/2016.
- */
+ *//*
+
 
 @SpringView(name = ProductView.VIEW_NAME)
 public class ProductView extends AbtractView<Product> {
@@ -34,7 +39,6 @@ public class ProductView extends AbtractView<Product> {
     private IProductService productService;
 
     public ProductView(){
-        setSizeFull();
         this.addStyleName("product-view");
     }
 
@@ -42,6 +46,7 @@ public class ProductView extends AbtractView<Product> {
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         this.removeAllComponents();
         this.addComponent(createTable());
+        this.setSizeFull();
     }
 
     @Override
@@ -99,3 +104,4 @@ public class ProductView extends AbtractView<Product> {
     }
 }
 
+*/

@@ -8,23 +8,26 @@ import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.*;
-import es.mhp.entities.Address;
-import es.mhp.services.IAdressService;
+import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.Layout;
+import com.vaadin.ui.VerticalLayout;
+import es.mhp.services.dto.AddressDTO;
+import es.mhp.services.IAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 23/02/2016.
  */
 
 @SpringView(name = AddressView.VIEW_NAME)
-public class AddressView extends AbtractView<Address> {
+public class AddressView extends AbtractView<AddressDTO> {
     public static final String VIEW_NAME = "Addresses";
 
     @Autowired
-    private IAdressService adressService;
+    private IAddressService adressService;
 
     public AddressView() {
         setSizeFull();
@@ -33,14 +36,14 @@ public class AddressView extends AbtractView<Address> {
 
     @Override
     protected Layout createTable() {
-        final VerticalLayout verticalLayout = new VerticalLayout();
+        VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setSizeFull();
         verticalLayout.addStyleName("address-view-table-container");
         verticalLayout.setMargin(true);
 
-        List<Address> addresses = adressService.findAllAddresses();
+        Set<AddressDTO> addressDTOs = adressService.findAllAddresses();
 
-        BeanItemContainer<Address> addressBeanItemContainer = new BeanItemContainer<>(Address.class, addresses);
+        BeanItemContainer<AddressDTO> addressBeanItemContainer = new BeanItemContainer<>(AddressDTO.class, addressDTOs);
         Grid grid = new Grid(addressBeanItemContainer);
         grid.setSizeFull();
         VerticalLayout formContainer = new VerticalLayout();
@@ -48,12 +51,10 @@ public class AddressView extends AbtractView<Address> {
         grid.addSelectionListener((SelectionEvent.SelectionListener) event -> {
             if (grid.getSelectedRow() != null){
                 formContainer.removeAllComponents();
-                BeanItem<Address> addressBeanItem = addressBeanItemContainer.getItem(grid.getSelectedRow());
+                BeanItem<AddressDTO> addressBeanItem = addressBeanItemContainer.getItem(grid.getSelectedRow());
                 formContainer.addComponent(createForm(addressBeanItem.getBean()));
             }
         });
-
-        //addressBeanItemContainer.addNestedContainerBean("zipLocation");
 
         verticalLayout.addComponent(grid);
         verticalLayout.addComponent(formContainer);
@@ -63,19 +64,19 @@ public class AddressView extends AbtractView<Address> {
     }
 
     @Override
-    protected Layout createForm(Address address) {
+    protected Layout createForm(AddressDTO addressDTO) {
         FormLayout form = new FormLayout();
         form.addStyleName("address-view-form-container");
         PropertysetItem item = new PropertysetItem();
 
-        item.addItemProperty("Address Id", new ObjectProperty(address.getAddressId()));
-        item.addItemProperty("Main Street", new ObjectProperty(address.getMainStreet()));
-        item.addItemProperty("Secondary Street", new ObjectProperty(address.getSecondaryStreet()));
+        item.addItemProperty("Address Id", new ObjectProperty(addressDTO.getAddressId()));
+        item.addItemProperty("Main Street", new ObjectProperty(addressDTO.getMainStreet()));
+        item.addItemProperty("Secondary Street", new ObjectProperty(addressDTO.getSecondaryStreet()));
         //item.addItemProperty("Zip Code Id", new ObjectProperty(address.getZipLocation().getZipCodeId()));
-        item.addItemProperty("City", new ObjectProperty(address.getCity()));
-        item.addItemProperty("State", new ObjectProperty(address.getState()));
-        item.addItemProperty("Latitude", new ObjectProperty(address.getLatitude()));
-        item.addItemProperty("Longitude", new ObjectProperty(address.getLongitude()));
+        item.addItemProperty("City", new ObjectProperty(addressDTO.getCity()));
+        item.addItemProperty("State", new ObjectProperty(addressDTO.getState()));
+        item.addItemProperty("Latitude", new ObjectProperty(addressDTO.getLatitude()));
+        item.addItemProperty("Longitude", new ObjectProperty(addressDTO.getLongitude()));
 
         FieldGroup binder = new FieldGroup(item);
         form.addComponent(binder.buildAndBind("Address Id"));

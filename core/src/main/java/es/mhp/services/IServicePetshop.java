@@ -2,36 +2,36 @@ package es.mhp.services;
 
 import es.mhp.entities.*;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 15/02/2016.
  */
 public interface IServicePetshop {
 
-    List<Tag> findAllTags();
-    List<Item> findAllItems();
-    List<Product> findAllProducts();
-    List<Address> findAllAddresses();
-    List<Category> findAllCategories();
-    List<ZipLocation> findAllZipLocations();
-    List<SellerContactInfo> findAllSellers();
+    Set<Tag> findAllTags();
+    Set<Item> findAllItems();
+    Set<Product> findAllProducts();
+    Set<Address> findAllAddresses();
+    Set<Category> findAllCategories();
+    Set<ZipLocation> findAllZipLocations();
+    Set<SellerContactInfo> findAllSellers();
 
-    List<Tag> findAllTags(Tag tag);
-    List<Item> findAllItems(Item item);
-    List<Product> findAllProducts(Product product);
-    List<Address> findAllAddresses(Address address);
-    List<Category> findAllCategories(Category category);
-    List<ZipLocation> findAllZipLocations(ZipLocation zipLocation);
-    List<SellerContactInfo> findAllSellers(SellerContactInfo sellerContactInfo);
+    Set<Tag> findAllTags(Tag tag);
+    Set<Item> findAllItems(Item item);
+    Set<Product> findAllProducts(Product product);
+    Set<Address> findAllAddresses(Address address);
+    Set<Category> findAllCategories(Category category);
+    Set<ZipLocation> findAllZipLocations(ZipLocation zipLocation);
+    Set<SellerContactInfo> findAllSellers(SellerContactInfo sellerContactInfo);
 
-    List<Tag> findAnyTag(Tag tag);
-    List<Item> findAnyItem(Item item);
-    List<Product> findAnyProduct(Product product);
-    List<Address> findAnyAddresse(Address address);
-    List<Category> findAnyCategorie(Category category);
-    List<ZipLocation> findAnyZipLocation(ZipLocation zipLocation);
-    List<SellerContactInfo> findAnySeller(SellerContactInfo sellerContactInfo);
+    Set<Tag> findAnyTag(Tag tag);
+    Set<Item> findAnyItem(Item item);
+    Set<Product> findAnyProduct(Product product);
+    Set<Address> findAnyAddresse(Address address);
+    Set<Category> findAnyCategorie(Category category);
+    Set<ZipLocation> findAnyZipLocation(ZipLocation zipLocation);
+    Set<SellerContactInfo> findAnySeller(SellerContactInfo sellerContactInfo);
 
     Tag update(Tag tag);
     Item update(Item item);

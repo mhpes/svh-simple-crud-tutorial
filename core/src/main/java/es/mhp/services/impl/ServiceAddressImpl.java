@@ -1,32 +1,80 @@
 package es.mhp.services.impl;
 
-import es.mhp.entities.Address;
 import es.mhp.dao.IAddressDao;
-import es.mhp.services.IAdressService;
+import es.mhp.entities.Address;
+import es.mhp.services.dto.AddressDTO;
+import es.mhp.services.IAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Edu on 24/02/2016.
  */
 
 @Service
-public class ServiceAddressImpl implements IAdressService {
+public class ServiceAddressImpl implements IAddressService {
 
     @Autowired
     private IAddressDao iAddressDao;
 
-    public List<Address> findAllAddresses() { return iAddressDao.findAll(); }
+    @Override
+    public Set<AddressDTO> findAllAddresses() {
+        Set<Address> addressSet = iAddressDao.findAll();
 
-    public List<Address> findAllAddresses(Address address) { return iAddressDao.findAll(address); }
+        Set<AddressDTO> addressDTOs = new HashSet<>();
 
-    public List<Address> findAnyAddresses(Address address) { return iAddressDao.findAny(address); }
+        for (Address address : addressSet){
+            addressDTOs.add(new AddressDTO(address));
+        }
 
-    public Address update(Address address) { return iAddressDao.update(address); }
+        return addressDTOs;
+    }
 
-    public void delete(Address address) { iAddressDao.delete(address); }
+    @Override
+    public Set<AddressDTO> findAllAddresses(Address address) {
+        Set<Address> addressSet = iAddressDao.findAll(address);
 
-    public Address findAddressById(long id) { return iAddressDao.findById(id); }
+        Set<AddressDTO> addressDTOs = new HashSet<>();
+
+        for (Address currentAddress : addressSet) {
+            addressDTOs.add(new AddressDTO(currentAddress));
+        }
+
+        return addressDTOs;
+    }
+
+    @Override
+    public Set<AddressDTO> findAnyAddresses(Address address) {
+        Set<Address> addressSet = iAddressDao.findAny(address);
+
+        if (!addressSet.isEmpty()){
+            Set<AddressDTO> addressDTOs = new HashSet<>();
+
+            for (Address currentAddress : addressSet) {
+                addressDTOs.add(new AddressDTO(currentAddress));
+            }
+
+            return addressDTOs;
+        }
+        return Collections.emptySet();
+    }
+
+    @Override
+    public AddressDTO update(Address address) {
+        return new AddressDTO(iAddressDao.update(address));
+    }
+
+    @Override
+    public void delete(Address address) {
+        iAddressDao.delete(address);
+    }
+
+    @Override
+    public AddressDTO findAddressById(long id) {
+        return new AddressDTO(iAddressDao.findById(id));
+    }
 }

@@ -1,8 +1,12 @@
+/*
 package es.mhp.views;
 
+*/
 /**
  * Created by Edu on 24/02/2016.
- */
+*//*
+
+
 
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
@@ -20,11 +24,7 @@ import es.mhp.entities.Item;
 import es.mhp.services.IItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
-/**
- * Created by Edu on 23/02/2016.
- */
+import java.util.Set;
 
 @SpringView(name = ItemView.VIEW_NAME)
 public class ItemView extends AbtractView<Item> {
@@ -51,7 +51,7 @@ public class ItemView extends AbtractView<Item> {
         verticalLayout.addStyleName("item-view-table-container");
         verticalLayout.setMargin(true);
 
-        List<Item> items = itemService.findAllItems();
+        Set<ItemDTO> items = itemService.findAllItems();
 
         BeanItemContainer<Item> itemBeanItemContainer = new BeanItemContainer<>(Item.class, items);
         Grid grid = new Grid(itemBeanItemContainer);
@@ -102,3 +102,4 @@ public class ItemView extends AbtractView<Item> {
     }
 }
 
+*/

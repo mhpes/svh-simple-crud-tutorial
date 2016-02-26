@@ -8,7 +8,9 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -23,22 +25,23 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
     }
 
     @Override
-    public List<Address> findAny(Address entity) {
+    public Set<Address> findAny(Address entity) {
         return findAll(entity, false);
     }
 
     @Override
-    public List<Address> findAll(Address entity) {
+    public Set<Address> findAll(Address entity) {
         return findAll(entity, true);
     }
 
     @Override
-    public List<Address> findAll() {
-        return entityManager.createQuery("SELECT a FROM Address a").getResultList();
+    public Set<Address> findAll() {
+        List<Address> addressList = entityManager.createQuery("SELECT a FROM Address a").getResultList();
+        return new HashSet<Address>(addressList);
     }
 
     @Override
-    protected List<Address> findAll(Address entity, boolean type) {
+    protected Set<Address> findAll(Address entity, boolean type) {
         String contatenator = type ? " AND ": " OR ";
 
         if (entity != null) {
@@ -68,8 +71,8 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
             queryParameters = replaceLast(queryParameters, contatenator, "");
             Query query = entityManager.createQuery(queryParameters);
 
-            return (List<Address>) query.getResultList();
+            return (Set<Address>) query.getResultList();
         }
-        return Collections.emptyList();
+        return Collections.emptySet();
     }
 }
