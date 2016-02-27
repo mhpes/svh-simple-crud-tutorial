@@ -1,16 +1,20 @@
+/*
 package es.mhp.services.impl;
 
 import es.mhp.dao.ISellerDao;
 import es.mhp.entities.SellerContactInfo;
 import es.mhp.services.ISellerContactInfoService;
+import es.mhp.services.dto.SellerContactInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+*/
 /**
  * Created by Edu on 24/02/2016.
- */
+ *//*
+
 @Service
 public class ServiceSellerContactInfoImpl implements ISellerContactInfoService {
 
@@ -18,19 +22,19 @@ public class ServiceSellerContactInfoImpl implements ISellerContactInfoService {
     private ISellerDao iSellerDao;
 
 
-    public Set<SellerContactInfo> findAllSellers() {
+    public Set<SellerContactInfoDTO> findAllSellers() {
         return iSellerDao.findAll();
     }
 
-    public Set<SellerContactInfo> findAllSellers(SellerContactInfo sellerContactInfo) {
+    public Set<SellerContactInfoDTO> findAllSellers(SellerContactInfo sellerContactInfo) {
         return iSellerDao.findAll(sellerContactInfo);
     }
 
-    public Set<SellerContactInfo> findAnySeller(SellerContactInfo sellerContactInfo) {
+    public Set<SellerContactInfoDTO> findAnySeller(SellerContactInfo sellerContactInfo) {
         return iSellerDao.findAny(sellerContactInfo);
     }
 
-    public SellerContactInfo update(SellerContactInfo sellerContactInfo) {
+    public SellerContactInfoDTO update(SellerContactInfo sellerContactInfo) {
         return iSellerDao.update(sellerContactInfo);
     }
 
@@ -38,7 +42,8 @@ public class ServiceSellerContactInfoImpl implements ISellerContactInfoService {
         iSellerDao.delete(sellerContactInfo);
     }
 
-    public SellerContactInfo findSellerById(long id) {
+    public SellerContactInfoDTO findSellerById(long id) {
         return iSellerDao.findById(id);
     }
 }
+*/

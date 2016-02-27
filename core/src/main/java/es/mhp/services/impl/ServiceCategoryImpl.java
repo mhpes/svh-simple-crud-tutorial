@@ -3,9 +3,11 @@ package es.mhp.services.impl;
 import es.mhp.dao.ICategoryDao;
 import es.mhp.entities.Category;
 import es.mhp.services.ICategoryService;
+import es.mhp.services.dto.CategoryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -17,27 +19,51 @@ public class ServiceCategoryImpl implements ICategoryService {
     @Autowired
     private ICategoryDao iCategoryDao;
 
-    public Set<Category> findAllCategories() {
-        return iCategoryDao.findAll();
+    public Set<CategoryDTO> findAllCategories() {
+        Set<Category> categorySet = iCategoryDao.findAll();
+
+        Set<CategoryDTO> categoryDTOs = new HashSet<>();
+
+        for (Category category : categorySet){
+            categoryDTOs.add(new CategoryDTO(category));
+        }
+
+        return categoryDTOs;
     }
 
-    public Set<Category> findAllCategories(Category category) {
-        return iCategoryDao.findAll(category);
+    public Set<CategoryDTO> findAllCategories(Category category) {
+        Set<Category> categorySet = iCategoryDao.findAll(category);
+
+        Set<CategoryDTO> categoryDTOs = new HashSet<>();
+
+        for (Category currentCategory : categorySet){
+            categoryDTOs.add(new CategoryDTO(currentCategory));
+        }
+
+        return categoryDTOs;
     }
 
-    public Set<Category> findAnyCategorie(Category category) {
-        return iCategoryDao.findAny(category);
+    public Set<CategoryDTO> findAnyCategories(Category category) {
+        Set<Category> categorySet = iCategoryDao.findAny(category);
+
+        Set<CategoryDTO> categoryDTOs = new HashSet<>();
+
+        for (Category currentCategory : categorySet){
+            categoryDTOs.add(new CategoryDTO(currentCategory));
+        }
+
+        return categoryDTOs;
     }
 
-    public Category update(Category category) {
-        return iCategoryDao.update(category);
+    public CategoryDTO update(Category category) {
+        return new CategoryDTO(iCategoryDao.update(category));
     }
 
     public void delete(Category category) {
         iCategoryDao.delete(category);
     }
 
-    public Category findCategoryById(long id) {
-        return iCategoryDao.findById(id);
+    public CategoryDTO findCategoryById(long id) {
+        return new CategoryDTO(iCategoryDao.findById(id));
     }
 }

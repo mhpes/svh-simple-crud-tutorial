@@ -9,7 +9,6 @@ import org.springframework.util.StringUtils;
 import javax.persistence.Query;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,8 +35,7 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
 
     @Override
     public Set<Address> findAll() {
-        List<Address> addressList = entityManager.createQuery("SELECT a FROM Address a").getResultList();
-        return new HashSet<Address>(addressList);
+        return new HashSet<> (entityManager.createQuery("SELECT a FROM Address a ORDER BY addressid").getResultList());
     }
 
     @Override

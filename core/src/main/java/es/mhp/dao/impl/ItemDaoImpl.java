@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -32,7 +33,7 @@ public class ItemDaoImpl extends AbstractPetshopGenericDao<Item> implements IIte
 
     @Override
     public Set<Item> findAll() {
-        return (Set<Item>) entityManager.createQuery("SELECT a FROM Item a").getResultList();
+        return new HashSet<> (entityManager.createQuery("SELECT a FROM Item a").getResultList());
     }
 
     @Override

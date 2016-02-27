@@ -1,6 +1,7 @@
 package es.mhp.services;
 
 import es.mhp.entities.Category;
+import es.mhp.services.dto.CategoryDTO;
 
 import java.util.Set;
 
@@ -10,10 +11,10 @@ import java.util.Set;
 
 
 public interface ICategoryService {
-    Set<Category> findAllCategories();
-    Set<Category> findAllCategories(Category category);
-    Set<Category> findAnyCategorie(Category category);
-    Category update(Category category);
+    Set<CategoryDTO> findAllCategories();
+    Set<CategoryDTO> findAllCategories(Category category);
+    Set<CategoryDTO> findAnyCategories(Category category);
+    CategoryDTO update(Category category);
     void delete(Category category);
-    Category findCategoryById(long id);
+    CategoryDTO findCategoryById(long id);
 }

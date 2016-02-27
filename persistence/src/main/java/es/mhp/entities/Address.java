@@ -132,7 +132,7 @@ public class Address extends AbstractEntity implements Serializable{
     }
 
     public int getItemsCount() {
-        return items.size();
+        return this.items.size();
     }
 
     public void setItems(Set<Item> items) {

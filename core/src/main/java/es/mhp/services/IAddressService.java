@@ -9,11 +9,11 @@ import java.util.Set;
  * Created by Edu on 24/02/2016.
  */
 
-public interface IAddressService {
+public interface IAddressService extends AbstractService{
     Set<AddressDTO> findAllAddresses();
     Set<AddressDTO> findAllAddresses(Address address);
     Set<AddressDTO> findAnyAddresses(Address address);
-    AddressDTO update(Address address);
-    void delete(Address address);
+    AddressDTO update(AddressDTO addressDTO);
+    void delete(AddressDTO address);
     AddressDTO findAddressById(long id);
 }

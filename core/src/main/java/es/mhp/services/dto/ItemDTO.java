@@ -1,127 +1,149 @@
 package es.mhp.services.dto;
 
-import es.mhp.entities.Address;
 import es.mhp.entities.Item;
-import es.mhp.entities.ZipLocation;
 
 import java.math.BigDecimal;
-import java.util.Set;
 
 /**
  * Created by Edu on 26/02/2016.
  */
 public class ItemDTO extends AbstractDTO{
-    private Integer addressId;
-    private Set<Item> items;
-    private String mainStreet;
-    private String secondaryStreet;
-    private ZipLocation zipLocation;
-    private String city;
-    private String state;
-    private BigDecimal latitude;
-    private BigDecimal longitude;
 
-    public ItemDTO(Address address){
-        if (address != null){
-            if (address.getAddressId() != null){
-                this.addressId = address.getAddressId();
-            }
-            if (address.getItemsCount() > 0 ){
-                this.items = address.getItems();
-            }
-            if (address.getMainStreet() != null){
-                this.mainStreet = address.getMainStreet();
-            }
-            if (address.getSecondaryStreet() != null){
-                this.secondaryStreet = address.getSecondaryStreet();
-            }
-            if (address.getZipLocation() != null){
-                this.zipLocation = address.getZipLocation();
-            }
-            if (address.getCity() != null){
-                this.city = address.getCity();
-            }
-            if (address.getState() != null){
-                this.state = address.getState();
-            }
-            if (address.getLatitude() != null){
-                this.latitude = address.getLatitude();
-            }
-            if (address.getLongitude() != null){
-                this.longitude = address.getLongitude();
-            }
+    private Integer itemId;
+    private int associatedTagsCount;
+    private String productSummary;
+    private String imageThumbUrl;
+    private BigDecimal price;
+    private String addressSummary;
+    private String sellerContactSummary;
+    private Integer totalScore;
+    private Integer numberOfVotes;
+    private String name;
+    private String description;
+    private String imageUrl;
+
+    public ItemDTO(Item item){
+        if (item != null){
+            this.itemId = item.getItemId();
+            this.associatedTagsCount = item.getTagsCount();
+            this.productSummary = calculateProductSummary(item);
+            this.imageThumbUrl = item.getImageThumbUrl();
+            this.price = item.getPrice();
+            this.addressSummary = calculateAddressSummary(item);
+            this.sellerContactSummary = calculateSellerContactSummary(item);
+            this.totalScore = item.getTotalScore();
+            this.numberOfVotes = item.getNumberOfVotes();
+            this.name = item.getName();
+            this.description = item.getDescription();
+            this.imageUrl = item.getImageUrl();
         }
     }
 
-    public Integer getAddressId() {
-        return addressId;
+    private String calculateSellerContactSummary(Item item) {
+        return item.getSeller() == null ? "" : (item.getSeller().getFirstName() + " " + item.getSeller().getLastName() + " - " + item.getSeller().getEmail());
     }
 
-    public void setAddressId(Integer addressId) {
-        this.addressId = addressId;
+    private String calculateAddressSummary(Item item) {
+        return item.getAddress() == null ? "" : (item.getAddress().getCity() + ". " + item.getAddress().getState() + ". " + item.getAddress().getMainStreet());
     }
 
-    public Set<Item> getItems() {
-        return items;
+    private String calculateProductSummary(Item item) {
+        return item.getProduct() == null ? "" : (item.getProduct().getName() +". " + item.getProduct().getDescription());
     }
 
-    public void setItems(Set<Item> items) {
-        this.items = items;
+    public Integer getItemId() {
+        return itemId;
     }
 
-    public String getMainStreet() {
-        return mainStreet;
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
     }
 
-    public void setMainStreet(String mainStreet) {
-        this.mainStreet = mainStreet;
+    public int getAssociatedTagsCount() {
+        return associatedTagsCount;
     }
 
-    public String getSecondaryStreet() {
-        return secondaryStreet;
+    public void setAssociatedTagsCount(int associatedTagsCount) {
+        this.associatedTagsCount = associatedTagsCount;
     }
 
-    public void setSecondaryStreet(String secondaryStreet) {
-        this.secondaryStreet = secondaryStreet;
+    public String getProductSummary() {
+        return productSummary;
     }
 
-    public ZipLocation getZipLocation() {
-        return zipLocation;
+    public void setProductSummary(String productSummary) {
+        this.productSummary = productSummary;
     }
 
-    public void setZipLocation(ZipLocation zipLocation) {
-        this.zipLocation = zipLocation;
+    public String getImageThumbUrl() {
+        return imageThumbUrl;
     }
 
-    public String getCity() {
-        return city;
+    public void setImageThumbUrl(String imageThumbUrl) {
+        this.imageThumbUrl = imageThumbUrl;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public String getState() {
-        return state;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public String getAddressSummary() {
+        return addressSummary;
     }
 
-    public BigDecimal getLatitude() {
-        return latitude;
+    public void setAddressSummary(String addressSummary) {
+        this.addressSummary = addressSummary;
     }
 
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
+    public String getSellerContactSummary() {
+        return sellerContactSummary;
     }
 
-    public BigDecimal getLongitude() {
-        return longitude;
+    public void setSellerContactSummary(String sellerContactSummary) {
+        this.sellerContactSummary = sellerContactSummary;
     }
 
-    public void setLongitude(BigDecimal longitude) {
-        this.longitude = longitude;
+    public Integer getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(Integer totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    public Integer getNumberOfVotes() {
+        return numberOfVotes;
+    }
+
+    public void setNumberOfVotes(Integer numberOfVotes) {
+        this.numberOfVotes = numberOfVotes;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

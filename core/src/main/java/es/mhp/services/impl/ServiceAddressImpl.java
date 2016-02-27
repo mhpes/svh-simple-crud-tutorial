@@ -64,13 +64,13 @@ public class ServiceAddressImpl implements IAddressService {
     }
 
     @Override
-    public AddressDTO update(Address address) {
-        return new AddressDTO(iAddressDao.update(address));
+    public AddressDTO update(AddressDTO addressDto) {
+        return new AddressDTO();
     }
 
     @Override
-    public void delete(Address address) {
-        iAddressDao.delete(address);
+    public void delete(AddressDTO addressDto) {
+        iAddressDao.delete(addressDto.ToEntity());
     }
 
     @Override

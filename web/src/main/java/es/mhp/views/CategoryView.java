@@ -1,4 +1,3 @@
-/*
 package es.mhp.views;
 
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -20,10 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
 
-*/
-/**
+/*
  * Created by Edu on 23/02/2016.
- *//*
+*/
 
 
 
@@ -94,4 +92,3 @@ public class CategoryView extends AbtractView<CategoryDTO> {
         return form;
     }
 }
-*/

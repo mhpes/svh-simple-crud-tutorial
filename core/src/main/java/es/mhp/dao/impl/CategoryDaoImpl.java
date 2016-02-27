@@ -1,15 +1,12 @@
 package es.mhp.dao.impl;
 
-import es.mhp.entities.Category;
 import es.mhp.dao.ICategoryDao;
+import es.mhp.entities.Category;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Edu on 12/02/2016.
@@ -34,7 +31,7 @@ public class CategoryDaoImpl extends AbstractPetshopGenericDao<Category> impleme
 
     @Override
     public Set<Category> findAll() {
-        return (Set<Category>) entityManager.createQuery("SELECT a FROM Category a").getResultList();
+        return new HashSet<>(entityManager.createQuery("SELECT a FROM Category a").getResultList());
     }
 
     @Override

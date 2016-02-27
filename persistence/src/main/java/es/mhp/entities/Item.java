@@ -28,14 +28,6 @@ public class Item extends AbstractEntity {
     @JoinColumn(name = "productId")
     private Product product;
 
-    @Column(name = "IMAGETHUMBURL")
-    @Size(max = 55)
-    private String imageThumbUrl;
-
-    @Column(name = "PRICE")
-    @Digits(integer = 12, fraction = 2)
-    private BigDecimal price;
-
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Address.class)
     @JoinColumn(name = "ADDRESS_ADDRESSID")
     private Address address;
@@ -65,6 +57,14 @@ public class Item extends AbstractEntity {
     @Column(name = "IMAGEURL")
     @Size(max = 55)
     private String imageUrl;
+
+    @Column(name = "IMAGETHUMBURL")
+    @Size(max = 55)
+    private String imageThumbUrl;
+
+    @Column(name = "PRICE")
+    @Digits(integer = 12, fraction = 2)
+    private BigDecimal price;
 
     public Item() {}
 
@@ -174,5 +174,9 @@ public class Item extends AbstractEntity {
 
     public String toString() {
         return this.getName() + ". " + this.getDescription();
+    }
+
+    public int getTagsCount() {
+        return this.tags.size();
     }
 }

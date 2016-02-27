@@ -1,56 +1,55 @@
 package es.mhp.services.dto;
 
 import es.mhp.entities.Address;
-import es.mhp.entities.Item;
-import es.mhp.entities.ZipLocation;
 
 import java.math.BigDecimal;
-import java.util.Set;
 
 /**
  * Created by Edu on 26/02/2016.
  */
 public class AddressDTO extends AbstractDTO{
+
     private Integer addressId;
-    private Set<Item> items;
+    private int associatedItemsCount;
     private String mainStreet;
     private String secondaryStreet;
-    private ZipLocation zipLocation;
+    private String zipLocationSummary;
     private String city;
     private String state;
     private BigDecimal latitude;
     private BigDecimal longitude;
 
-    public AddressDTO(Address address){
-        if (address != null){
-            if (address.getAddressId() != null){
-                this.addressId = address.getAddressId();
-            }
-            if (address.getItemsCount() > 0 ){
-                this.items = address.getItems();
-            }
-            if (address.getMainStreet() != null){
-                this.mainStreet = address.getMainStreet();
-            }
-            if (address.getSecondaryStreet() != null){
-                this.secondaryStreet = address.getSecondaryStreet();
-            }
-            if (address.getZipLocation() != null){
-                this.zipLocation = address.getZipLocation();
-            }
-            if (address.getCity() != null){
-                this.city = address.getCity();
-            }
-            if (address.getState() != null){
-                this.state = address.getState();
-            }
-            if (address.getLatitude() != null){
-                this.latitude = address.getLatitude();
-            }
-            if (address.getLongitude() != null){
-                this.longitude = address.getLongitude();
-            }
+    public AddressDTO(Address address) {
+        if (address != null) {
+            this.addressId = address.getAddressId();
+            this.mainStreet = address.getMainStreet();
+            this.secondaryStreet = address.getSecondaryStreet();
+            this.zipLocationSummary = calculateZipLocationSummary(address);
+            this.city = address.getCity();
+            this.state = address.getState();
+            this.latitude = address.getLatitude();
+            this.longitude = address.getLongitude();
+            this.associatedItemsCount = address.getItemsCount();
         }
+    }
+
+    public AddressDTO(){}
+
+    public Address ToEntity() {
+        Address address = new Address();
+        address.setAddressId(this.getAddressId());
+        address.setMainStreet(this.getMainStreet());
+        address.setSecondaryStreet(this.getSecondaryStreet());
+        address.setCity(this.getCity());
+        address.setState(this.getState());
+        address.setLongitude(this.getLongitude());
+        address.setLatitude(this.getLongitude());
+
+        return address;
+    }
+
+    private String calculateZipLocationSummary(Address address) {
+        return (address.getZipLocation() == null) ? "" : address.getZipLocation().getCity() + ". " + address.getZipLocation().getState() + " " + address.getZipLocation().getZipCode();
     }
 
     public Integer getAddressId() {
@@ -59,14 +58,6 @@ public class AddressDTO extends AbstractDTO{
 
     public void setAddressId(Integer addressId) {
         this.addressId = addressId;
-    }
-
-    public Set<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(Set<Item> items) {
-        this.items = items;
     }
 
     public String getMainStreet() {
@@ -83,14 +74,6 @@ public class AddressDTO extends AbstractDTO{
 
     public void setSecondaryStreet(String secondaryStreet) {
         this.secondaryStreet = secondaryStreet;
-    }
-
-    public ZipLocation getZipLocation() {
-        return zipLocation;
-    }
-
-    public void setZipLocation(ZipLocation zipLocation) {
-        this.zipLocation = zipLocation;
     }
 
     public String getCity() {
@@ -123,5 +106,21 @@ public class AddressDTO extends AbstractDTO{
 
     public void setLongitude(BigDecimal longitude) {
         this.longitude = longitude;
+    }
+
+    public int getAssociatedItemsCount() {
+        return associatedItemsCount;
+    }
+
+    public void setAssociatedItemsCount(int associatedItemsCount) {
+        this.associatedItemsCount = associatedItemsCount;
+    }
+
+    public String getZipLocationSummary() {
+        return zipLocationSummary;
+    }
+
+    public void setZipLocationSummary(String zipLocationSummary) {
+        this.zipLocationSummary = zipLocationSummary;
     }
 }

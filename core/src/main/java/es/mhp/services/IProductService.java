@@ -1,6 +1,7 @@
 package es.mhp.services;
 
 import es.mhp.entities.Product;
+import es.mhp.services.dto.ProductDTO;
 
 import java.util.Set;
 
@@ -8,11 +9,11 @@ import java.util.Set;
  * Created by Edu on 24/02/2016.
  */
 public interface IProductService {
-    Set<Product> findAllProducts();
-    Set<Product> findAllProducts(Product product);
-    Set<Product> findAnyProduct(Product product);
-    Product update(Product product);
+    Set<ProductDTO> findAllProducts();
+    Set<ProductDTO> findAllProducts(Product product);
+    Set<ProductDTO> findAnyProduct(Product product);
+    ProductDTO update(Product product);
     void delete(Product product);
-    Product findProductById(long id);
+    ProductDTO findProductById(long id);
 
 }

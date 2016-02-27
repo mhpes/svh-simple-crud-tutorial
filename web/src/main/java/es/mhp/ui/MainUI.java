@@ -29,12 +29,10 @@ public class MainUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
-        //EntityManagerFactory emf = Persistence.createEntityManagerFactory("PetshopUnit");
-
         getPage().setTitle("PetShop example");
 
         //LAYOUT GENERAL
-        HorizontalLayout generalLayout = createUILayout();
+        VerticalLayout generalLayout = createUILayout();
         setupNavigator();
         setContent(generalLayout);
     }
@@ -44,18 +42,19 @@ public class MainUI extends UI {
         navigator.addProvider(viewProvider);
     }
 
-    private HorizontalLayout createUILayout() {
-        HorizontalLayout generalLayout = new HorizontalLayout();
-        generalLayout.setSizeFull();
+    private VerticalLayout createUILayout() {
+        VerticalLayout generalLayout = new VerticalLayout();
         //LAYOUT MENU
         Layout menuLayout = createMenu();
 
         //LAYOUT VIEW
         Layout viewLayout = createView();
-        viewLayout.setSizeFull();
 
         generalLayout.addComponent(menuLayout);
         generalLayout.addComponent(viewLayout);
+
+        generalLayout.setExpandRatio(menuLayout, 2);
+        generalLayout.setExpandRatio(viewLayout, 8);
 
         return generalLayout;
     }
@@ -63,11 +62,12 @@ public class MainUI extends UI {
     private Layout createMenu() {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setMargin(true);
+        verticalLayout.setWidth("250px");
 
         verticalLayout.addComponent(createCustomButton(AddressView.VIEW_NAME));
-        /*verticalLayout.addComponent(createCustomButton(CategoryView.VIEW_NAME));
+        verticalLayout.addComponent(createCustomButton(CategoryView.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(ItemView.VIEW_NAME));
-        verticalLayout.addComponent(createCustomButton(ProductView.VIEW_NAME));
+        /*verticalLayout.addComponent(createCustomButton(ProductView.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(SellerContactInfoView.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(TagView.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(ZipLocationView.VIEW_NAME));*/
@@ -84,7 +84,6 @@ public class MainUI extends UI {
 
         //LAYOUT GENERAL
         viewContainer = new VerticalLayout();
-        viewContainer.setSizeFull();
         viewContainer.addStyleName("view-container");
         return viewContainer;
     }

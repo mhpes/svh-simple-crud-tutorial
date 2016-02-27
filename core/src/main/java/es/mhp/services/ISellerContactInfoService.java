@@ -1,6 +1,7 @@
 package es.mhp.services;
 
 import es.mhp.entities.SellerContactInfo;
+import es.mhp.services.dto.SellerContactInfoDTO;
 
 import java.util.Set;
 
@@ -9,10 +10,10 @@ import java.util.Set;
  */
 public interface ISellerContactInfoService {
 
-    Set<SellerContactInfo> findAllSellers();
-    Set<SellerContactInfo> findAllSellers(SellerContactInfo sellerContactInfo);
-    Set<SellerContactInfo> findAnySeller(SellerContactInfo sellerContactInfo);
-    SellerContactInfo update(SellerContactInfo sellerContactInfo);
+    Set<SellerContactInfoDTO> findAllSellers();
+    Set<SellerContactInfoDTO> findAllSellers(SellerContactInfo sellerContactInfo);
+    Set<SellerContactInfoDTO> findAnySeller(SellerContactInfo sellerContactInfo);
+    SellerContactInfoDTO update(SellerContactInfo sellerContactInfo);
     void delete(SellerContactInfo sellerContactInfo);
-    SellerContactInfo findSellerById(long id);
+    SellerContactInfoDTO findSellerById(long id);
 }

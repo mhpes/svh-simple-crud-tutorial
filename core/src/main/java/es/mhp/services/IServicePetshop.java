@@ -1,6 +1,7 @@
 package es.mhp.services;
 
 import es.mhp.entities.*;
+import es.mhp.services.dto.*;
 
 import java.util.Set;
 
@@ -9,37 +10,37 @@ import java.util.Set;
  */
 public interface IServicePetshop {
 
-    Set<Tag> findAllTags();
-    Set<Item> findAllItems();
-    Set<Product> findAllProducts();
-    Set<Address> findAllAddresses();
-    Set<Category> findAllCategories();
-    Set<ZipLocation> findAllZipLocations();
-    Set<SellerContactInfo> findAllSellers();
+    Set<TagDTO> findAllTags();
+    Set<ItemDTO> findAllItems();
+    Set<ProductDTO> findAllProducts();
+    Set<AddressDTO> findAllAddresses();
+    Set<CategoryDTO> findAllCategories();
+    Set<ZipLocationDTO> findAllZipLocations();
+    Set<SellerContactInfoDTO> findAllSellers();
 
-    Set<Tag> findAllTags(Tag tag);
-    Set<Item> findAllItems(Item item);
-    Set<Product> findAllProducts(Product product);
-    Set<Address> findAllAddresses(Address address);
-    Set<Category> findAllCategories(Category category);
-    Set<ZipLocation> findAllZipLocations(ZipLocation zipLocation);
-    Set<SellerContactInfo> findAllSellers(SellerContactInfo sellerContactInfo);
+    Set<TagDTO> findAllTags(Tag tag);
+    Set<ItemDTO> findAllItems(Item item);
+    Set<ProductDTO> findAllProducts(Product product);
+    Set<AddressDTO> findAllAddresses(Address address);
+    Set<CategoryDTO> findAllCategories(Category category);
+    Set<ZipLocationDTO> findAllZipLocations(ZipLocation zipLocation);
+    Set<SellerContactInfoDTO> findAllSellers(SellerContactInfo sellerContactInfo);
 
-    Set<Tag> findAnyTag(Tag tag);
-    Set<Item> findAnyItem(Item item);
-    Set<Product> findAnyProduct(Product product);
-    Set<Address> findAnyAddresse(Address address);
-    Set<Category> findAnyCategorie(Category category);
-    Set<ZipLocation> findAnyZipLocation(ZipLocation zipLocation);
-    Set<SellerContactInfo> findAnySeller(SellerContactInfo sellerContactInfo);
+    Set<TagDTO> findAnyTag(Tag tag);
+    Set<ItemDTO> findAnyItem(Item item);
+    Set<ProductDTO> findAnyProduct(Product product);
+    Set<AddressDTO> findAnyAddresse(Address address);
+    Set<CategoryDTO> findAnyCategorie(Category category);
+    Set<ZipLocationDTO> findAnyZipLocation(ZipLocation zipLocation);
+    Set<SellerContactInfoDTO> findAnySeller(SellerContactInfo sellerContactInfo);
 
-    Tag update(Tag tag);
-    Item update(Item item);
-    Product update(Product product);
-    Address update(Address address);
-    Category update(Category category);
-    ZipLocation update(ZipLocation zipLocation);
-    SellerContactInfo update(SellerContactInfo sellerContactInfo);
+    TagDTO update(Tag tag);
+    ItemDTO update(Item item);
+    ProductDTO update(Product product);
+    AddressDTO update(Address address);
+    CategoryDTO update(Category category);
+    ZipLocationDTO update(ZipLocation zipLocation);
+    SellerContactInfoDTO update(SellerContactInfo sellerContactInfo);
 
     void delete(Tag tag);
     void delete(Item item);
@@ -49,11 +50,11 @@ public interface IServicePetshop {
     void delete(ZipLocation zipLocation);
     void delete(SellerContactInfo sellerContactInfo);
 
-    Tag findTagById(long id);
-    Item findItemById(long id);
-    Product findProductById(long id);
-    Address findAddressById(long id);
-    Category findCategoryById(long id);
-    ZipLocation findZipById(long id);
-    SellerContactInfo findSellerById(long id);
+    TagDTO findTagById(long id);
+    ItemDTO findItemById(long id);
+    ProductDTO findProductById(long id);
+    AddressDTO findAddressById(long id);
+    CategoryDTO findCategoryById(long id);
+    ZipLocationDTO findZipById(long id);
+    SellerContactInfoDTO findSellerById(long id);
 }

@@ -1,35 +1,39 @@
+/*
 package es.mhp.services.impl;
 
 import es.mhp.dao.ITagDao;
 import es.mhp.entities.Tag;
 import es.mhp.services.ITagService;
+import es.mhp.services.dto.TagDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+*/
 /**
  * Created by Edu on 24/02/2016.
- */
+ *//*
+
 @Service
 public class ServiceTagImpl implements ITagService {
 
     @Autowired
     private ITagDao iTagDao;
 
-    public Set<Tag> findAllTags() {
+    public Set<TagDTO> findAllTags() {
         return iTagDao.findAll();
     }
 
-    public Set<Tag> findAllTags(Tag tag) {
+    public Set<TagDTO> findAllTags(Tag tag) {
         return iTagDao.findAll(tag);
     }
 
-    public Set<Tag> findAnyTag(Tag tag) {
+    public Set<TagDTO> findAnyTag(Tag tag) {
         return iTagDao.findAny(tag);
     }
 
-    public Tag update(Tag tag) {
+    public TagDTO update(Tag tag) {
         return iTagDao.update(tag);
     }
 
@@ -37,7 +41,8 @@ public class ServiceTagImpl implements ITagService {
         iTagDao.delete(tag);
     }
 
-    public Tag findTagById(long id) {
+    public TagDTO findTagById(long id) {
         return iTagDao.findById(id);
     }
 }
+*/

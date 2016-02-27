@@ -8,12 +8,9 @@ import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.VerticalLayout;
-import es.mhp.services.dto.AddressDTO;
+import com.vaadin.ui.*;
 import es.mhp.services.IAddressService;
+import es.mhp.services.dto.AddressDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
@@ -27,7 +24,7 @@ public class AddressView extends AbtractView<AddressDTO> {
     public static final String VIEW_NAME = "Addresses";
 
     @Autowired
-    private IAddressService adressService;
+    private IAddressService iAddressService;
 
     public AddressView() {
         setSizeFull();
@@ -41,10 +38,12 @@ public class AddressView extends AbtractView<AddressDTO> {
         verticalLayout.addStyleName("address-view-table-container");
         verticalLayout.setMargin(true);
 
-        Set<AddressDTO> addressDTOs = adressService.findAllAddresses();
+        Set<AddressDTO> addressDTOs = iAddressService.findAllAddresses();
 
         BeanItemContainer<AddressDTO> addressBeanItemContainer = new BeanItemContainer<>(AddressDTO.class, addressDTOs);
+        addressBeanItemContainer.removeItem("itemCount");
         Grid grid = new Grid(addressBeanItemContainer);
+        grid.removeColumn("addressId");
         grid.setSizeFull();
         VerticalLayout formContainer = new VerticalLayout();
 
@@ -88,6 +87,8 @@ public class AddressView extends AbtractView<AddressDTO> {
         form.addComponent(binder.buildAndBind("Latitude"));
         form.addComponent(binder.buildAndBind("Longitude"));
 
+        form.addComponent(createSaveButton(addressDTO));
+
         return form;
     }
 
@@ -95,5 +96,13 @@ public class AddressView extends AbtractView<AddressDTO> {
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         this.removeAllComponents();
         this.addComponent(createTable());
+    }
+
+    private Button createSaveButton(AddressDTO addressDTO){
+        final Button saveButton = new Button("Delete entry");
+
+        saveButton.addClickListener((Button.ClickListener) event -> iAddressService.delete(addressDTO));
+
+        return saveButton;
     }
 }

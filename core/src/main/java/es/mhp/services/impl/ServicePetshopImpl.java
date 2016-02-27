@@ -1,16 +1,20 @@
+/*
 package es.mhp.services.impl;
 
 import es.mhp.dao.*;
 import es.mhp.entities.*;
 import es.mhp.services.IServicePetshop;
+import es.mhp.services.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+*/
 /**
  * Created by Edu on 15/02/2016.
- */
+ *//*
+
 @Service
 public class ServicePetshopImpl implements IServicePetshop {
 
@@ -35,111 +39,111 @@ public class ServicePetshopImpl implements IServicePetshop {
     @Autowired
     private IZiplocationDao iZiplocationDao;
 
-    public Set<Tag> findAllTags() { return iTagDao.findAll(); }
+    public Set<TagDTO> findAllTags() { return iTagDao.findAll(); }
 
-    public Set<Item> findAllItems() {
+    public Set<ItemDTO> findAllItems() {
         return iItemDao.findAll();
     }
 
-    public Set<Product> findAllProducts() {
+    public Set<ProductDTO> findAllProducts() {
         return iProductDao.findAll();
     }
 
-    public Set<Address> findAllAddresses() { return iAddressDao.findAll(); }
+    public Set<AddressDTO> findAllAddresses() { return iAddressDao.findAll(); }
 
-    public Set<Category> findAllCategories() {
+    public Set<CategoryDTO> findAllCategories() {
         return iCategoryDao.findAll();
     }
 
-    public Set<ZipLocation> findAllZipLocations() {
+    public Set<ZipLocationDTO> findAllZipLocations() {
         return iZiplocationDao.findAll();
     }
 
-    public Set<SellerContactInfo> findAllSellers() {
+    public Set<SellerContactInfoDTO> findAllSellers() {
         return iSellerDao.findAll();
     }
 
-    public Set<Tag> findAllTags(Tag tag) {
+    public Set<TagDTO> findAllTags(Tag tag) {
         return iTagDao.findAll(tag);
     }
 
-    public Set<Item> findAllItems(Item item) {
+    public Set<ItemDTO> findAllItems(Item item) {
         return iItemDao.findAll(item);
     }
 
-    public Set<Product> findAllProducts(Product product) {
+    public Set<ProductDTO> findAllProducts(Product product) {
         return iProductDao.findAll(product);
     }
 
-    public Set<Address> findAllAddresses(Address address) {
+    public Set<AddressDTO> findAllAddresses(Address address) {
         return iAddressDao.findAll(address);
     }
 
-    public Set<Category> findAllCategories(Category category) {
+    public Set<CategoryDTO> findAllCategories(Category category) {
         return iCategoryDao.findAll(category);
     }
 
-    public Set<ZipLocation> findAllZipLocations(ZipLocation zipLocation) {
+    public Set<ZipLocationDTO> findAllZipLocations(ZipLocation zipLocation) {
         return iZiplocationDao.findAll(zipLocation);
     }
 
-    public Set<SellerContactInfo> findAllSellers(SellerContactInfo sellerContactInfo) {
+    public Set<SellerContactInfoDTO> findAllSellers(SellerContactInfo sellerContactInfo) {
         return iSellerDao.findAll(sellerContactInfo);
     }
 
-    public Set<Tag> findAnyTag(Tag tag) {
+    public Set<TagDTO> findAnyTag(Tag tag) {
         return iTagDao.findAny(tag);
     }
 
-    public Set<Item> findAnyItem(Item item) {
+    public Set<ItemDTO> findAnyItem(Item item) {
         return iItemDao.findAny(item);
     }
 
-    public Set<Product> findAnyProduct(Product product) {
+    public Set<ProductDTO> findAnyProduct(Product product) {
         return iProductDao.findAny(product);
     }
 
-    public Set<Address> findAnyAddresse(Address address) {
+    public Set<AddressDTO> findAnyAddresse(Address address) {
         return iAddressDao.findAny(address);
     }
 
-    public Set<Category> findAnyCategorie(Category category) {
+    public Set<CategoryDTO> findAnyCategorie(Category category) {
         return iCategoryDao.findAny(category);
     }
 
-    public Set<ZipLocation> findAnyZipLocation(ZipLocation zipLocation) {
+    public Set<ZipLocationDTO> findAnyZipLocation(ZipLocation zipLocation) {
         return iZiplocationDao.findAny(zipLocation);
     }
 
-    public Set<SellerContactInfo> findAnySeller(SellerContactInfo sellerContactInfo) {
+    public Set<SellerContactInfoDTO> findAnySeller(SellerContactInfo sellerContactInfo) {
         return iSellerDao.findAny(sellerContactInfo);
     }
 
-    public Tag update(Tag tag) {
+    public TagDTO update(Tag tag) {
         return iTagDao.update(tag);
     }
 
-    public Item update(Item item) {
+    public ItemDTO update(Item item) {
         return iItemDao.update(item);
     }
 
-    public Product update(Product product) {
+    public ProductDTO update(Product product) {
         return iProductDao.update(product);
     }
 
-    public Address update(Address address) {
+    public AddressDTO update(Address address) {
         return iAddressDao.update(address);
     }
 
-    public Category update(Category category) {
+    public CategoryDTO update(Category category) {
         return iCategoryDao.update(category);
     }
 
-    public ZipLocation update(ZipLocation zipLocation) {
+    public ZipLocationDTO update(ZipLocation zipLocation) {
         return iZiplocationDao.update(zipLocation);
     }
 
-    public SellerContactInfo update(SellerContactInfo sellerContactInfo) {
+    public SellerContactInfoDTO update(SellerContactInfo sellerContactInfo) {
         return iSellerDao.update(sellerContactInfo);
     }
 
@@ -171,31 +175,32 @@ public class ServicePetshopImpl implements IServicePetshop {
         iSellerDao.delete(sellerContactInfo);
     }
 
-    public Tag findTagById(long id) {
+    public TagDTO findTagById(long id) {
         return iTagDao.findById(id);
     }
 
-    public Item findItemById(long id) {
+    public ItemDTO findItemById(long id) {
         return iItemDao.findById(id);
     }
 
-    public Product findProductById(long id) {
+    public ProductDTO findProductById(long id) {
         return iProductDao.findById(id);
     }
 
-    public Address findAddressById(long id) {
+    public AddressDTO findAddressById(long id) {
         return iAddressDao.findById(id);
     }
 
-    public Category findCategoryById(long id) {
+    public CategoryDTO findCategoryById(long id) {
         return iCategoryDao.findById(id);
     }
 
-    public ZipLocation findZipById(long id) {
+    public ZipLocationDTO findZipById(long id) {
         return iZiplocationDao.findById(id);
     }
 
-    public SellerContactInfo findSellerById(long id) {
+    public SellerContactInfoDTO findSellerById(long id) {
         return iSellerDao.findById(id);
     }
 }
+*/

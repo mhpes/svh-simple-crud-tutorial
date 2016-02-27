@@ -3,9 +3,11 @@ package es.mhp.services.impl;
 import es.mhp.dao.IItemDao;
 import es.mhp.entities.Item;
 import es.mhp.services.IItemService;
+import es.mhp.services.dto.ItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -17,27 +19,51 @@ public class ServiceItemImpl implements IItemService {
     @Autowired
     private IItemDao iItemDao;
 
-    public Set<Item> findAllItems() {
-        return iItemDao.findAll();
+    public Set<ItemDTO> findAllItems() {
+        Set<Item> itemSet = iItemDao.findAll();
+
+        Set<ItemDTO> categoryDTOs = new HashSet<>();
+
+        for (Item item : itemSet){
+            categoryDTOs.add(new ItemDTO(item));
+        }
+
+        return categoryDTOs;
     }
 
-    public Set<Item> findAllItems(Item item) {
-        return iItemDao.findAll(item);
+    public Set<ItemDTO> findAllItems(Item item) {
+        Set<Item> itemSet = iItemDao.findAll(item);
+
+        Set<ItemDTO> categoryDTOs = new HashSet<>();
+
+        for (Item currentItem : itemSet){
+            categoryDTOs.add(new ItemDTO(currentItem));
+        }
+
+        return categoryDTOs;
     }
 
-    public Set<Item> findAnyItem(Item item) {
-        return iItemDao.findAny(item);
+    public Set<ItemDTO> findAnyItem(Item item) {
+        Set<Item> itemSet = iItemDao.findAny(item);
+
+        Set<ItemDTO> categoryDTOs = new HashSet<>();
+
+        for (Item currentItem : itemSet){
+            categoryDTOs.add(new ItemDTO(currentItem));
+        }
+
+        return categoryDTOs;
     }
 
-    public Item update(Item item) {
-        return iItemDao.update(item);
+    public ItemDTO update(Item item) {
+        return new ItemDTO(iItemDao.update(item));
     }
 
     public void delete(Item item) {
         iItemDao.delete(item);
     }
 
-    public Item findItemById(long id) {
-        return iItemDao.findById(id);
+    public ItemDTO findItemById(long id) {
+        return new ItemDTO(iItemDao.findById(id));
     }
 }
