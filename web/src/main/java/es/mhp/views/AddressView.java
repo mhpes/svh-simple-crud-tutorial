@@ -14,6 +14,7 @@ import es.mhp.services.dto.AddressDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Set;
 
 /**
@@ -111,10 +112,8 @@ public class AddressView extends AbtractView<AddressDTO> {
             String city = addressFieldGroup.getField(CITY).getValue().toString();
             String state = addressFieldGroup.getField(STATE).getValue().toString();
 
-            String longitude =  addressFieldGroup.getField(LONGITUDE).getValue().toString();
-            String latitude = addressFieldGroup.getField(LATITUDE).getValue().toString();
-
-            String longitudeNew = longitude
+            BigDecimal longitude =  BigDecimal.ONE;
+            BigDecimal latitude = BigDecimal.TEN;
 
             AddressDTO addressDTO = new AddressDTO(addressId, mainStreet, secondaryStreet, city, state, latitude, longitude);
             iAddressService.save(addressDTO);

@@ -1,11 +1,8 @@
-/*
 package es.mhp.views;
 
-*/
-/**
+/*
  * Created by Edu on 24/02/2016.
- *//*
-
+*/
 
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
@@ -15,28 +12,22 @@ import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.VerticalLayout;
-import es.mhp.entities.ZipLocation;
+import com.vaadin.ui.*;
 import es.mhp.services.IZipLocationService;
+import es.mhp.services.dto.ZipLocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
-*/
-/**
- * Created by Edu on 23/02/2016.
- *//*
-
+import java.util.Set;
 
 @SpringView(name = ZipLocationView.VIEW_NAME)
-public class ZipLocationView extends AbtractView<ZipLocation> {
+public class ZipLocationView extends AbtractView<ZipLocationDTO> {
     public static final String VIEW_NAME = "ZipLocation";
+    public static final String ZIPCODE = "Zipcode";
+    public static final String CITY = "City";
+    public static final String STATE = "State";
 
     @Autowired
-    private IZipLocationService zipLocationService;
+    private IZipLocationService iZipLocationService;
 
     public ZipLocationView(){
         setSizeFull();
@@ -56,9 +47,9 @@ public class ZipLocationView extends AbtractView<ZipLocation> {
         verticalLayout.addStyleName("item-view-table-container");
         verticalLayout.setMargin(true);
 
-        List<ZipLocation> zipLocations = zipLocationService.findAllZipLocations();
+        Set<ZipLocationDTO> zipLocationDTOs = iZipLocationService.findAllZipLocations();
 
-        BeanItemContainer<ZipLocation> itemBeanItemContainer = new BeanItemContainer<>(ZipLocation.class, zipLocations);
+        BeanItemContainer<ZipLocationDTO> itemBeanItemContainer = new BeanItemContainer<>(ZipLocationDTO.class, zipLocationDTOs);
         Grid grid = new Grid(itemBeanItemContainer);
         grid.setSizeFull();
         VerticalLayout formContainer = new VerticalLayout();
@@ -66,8 +57,8 @@ public class ZipLocationView extends AbtractView<ZipLocation> {
         grid.addSelectionListener((SelectionEvent.SelectionListener) event -> {
             if (grid.getSelectedRow() != null){
                 formContainer.removeAllComponents();
-                BeanItem<ZipLocation> zipLocationBeanItem = itemBeanItemContainer.getItem(grid.getSelectedRow());
-                formContainer.addComponent(createForm(zipLocationBeanItem.getBean()));
+                BeanItem<ZipLocationDTO> zipLocationDTOBeanItem = itemBeanItemContainer.getItem(grid.getSelectedRow());
+                formContainer.addComponent(createForm(zipLocationDTOBeanItem.getBean()));
             }
         });
 
@@ -79,24 +70,49 @@ public class ZipLocationView extends AbtractView<ZipLocation> {
     }
 
     @Override
-    protected Layout createForm(ZipLocation zipLocation) {
+    protected Layout createForm(ZipLocationDTO zipLocationDTO) {
         FormLayout form = new FormLayout();
-        form.addStyleName("zip-view-form-container");
-        PropertysetItem propertysetItemtem = new PropertysetItem();
+        form.setImmediate(true);
+        form.addStyleName("zipLocation-view-form-container");
+        PropertysetItem item = new PropertysetItem();
 
-        //propertysetItemtem.addItemProperty("ZipCode Id", new ObjectProperty(zipLocation.getZipCodeId()));
-        propertysetItemtem.addItemProperty("Zip Code", new ObjectProperty(zipLocation.getZipCode()));
-        propertysetItemtem.addItemProperty("City", new ObjectProperty(zipLocation.getCity()));
-        propertysetItemtem.addItemProperty("State", new ObjectProperty(zipLocation.getState()));
+        item.addItemProperty(ZIPCODE, new ObjectProperty(zipLocationDTO.getZipCode()));
+        item.addItemProperty(CITY, new ObjectProperty(zipLocationDTO.getCity()));
+        item.addItemProperty(STATE, new ObjectProperty(zipLocationDTO.getState()));
 
-        FieldGroup binder = new FieldGroup(propertysetItemtem);
-        form.addComponent(binder.buildAndBind("ZipCode Id"));
-        form.addComponent(binder.buildAndBind("Zip Code"));
-        form.addComponent(binder.buildAndBind("City"));
-        form.addComponent(binder.buildAndBind("State"));
+        FieldGroup binder = new FieldGroup(item);
+        form.addComponent(binder.buildAndBind(ZIPCODE));
+        form.addComponent(binder.buildAndBind(CITY));
+        form.addComponent(binder.buildAndBind(STATE));
+
+        form.addComponent(createDeleteButton(zipLocationDTO));
+        form.addComponent(createSavebutton(binder));
 
         return form;
     }
+
+    private Button createSavebutton(FieldGroup addressFieldGroup) {
+        final Button saveButton = new Button("Save");
+
+        saveButton.addClickListener((Button.ClickListener) event -> {
+            Integer zipcode = Integer.parseInt(addressFieldGroup.getField(ZIPCODE).getValue().toString());
+            String city = addressFieldGroup.getField(CITY).getValue().toString();
+            String state = addressFieldGroup.getField(STATE).getValue().toString();
+
+            ZipLocationDTO addressDTO = new ZipLocationDTO(zipcode, city, state);
+            iZipLocationService.save(addressDTO);
+        });
+
+        return saveButton;
+    }
+
+    private Button createDeleteButton(ZipLocationDTO zipLocationDTO){
+        final Button deleteButton = new Button("Delete entry");
+
+        deleteButton.addClickListener((Button.ClickListener) event ->
+                iZipLocationService.delete(zipLocationDTO));
+
+        return deleteButton;
+    }
 }
 
-*/

@@ -1,12 +1,14 @@
 package es.mhp.services.dto;
 
 import es.mhp.entities.Address;
+import org.springframework.beans.BeanUtils;
 
 import java.math.BigDecimal;
 
 /**
  * Created by Edu on 26/02/2016.
  */
+
 public class AddressDTO extends AbstractDTO{
 
     private long addressId;
@@ -36,15 +38,13 @@ public class AddressDTO extends AbstractDTO{
     public AddressDTO(){}
 
     public AddressDTO(long addressId, String mainStreet, String secondaryStreet, String city, String state, BigDecimal latitude, BigDecimal longitude){
-        if (addressId != 0){
-            this.addressId = addressId;
-            this.mainStreet = mainStreet;
-            this.secondaryStreet = secondaryStreet;
-            this.city = city;
-            this.state = state;
-            this.latitude = latitude;
-            this.longitude = longitude;
-        }
+        this.addressId = addressId;
+        this.mainStreet = mainStreet;
+        this.secondaryStreet = secondaryStreet;
+        this.city = city;
+        this.state = state;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Address ToEntity() {
@@ -61,7 +61,7 @@ public class AddressDTO extends AbstractDTO{
     }
 
     private String calculateZipLocationSummary(Address address) {
-        return (address.getZipLocation() == null) ? "" : address.getZipLocation().getCity() + ". " + address.getZipLocation().getState() + " " + address.getZipLocation().getZipCode();
+        return (address.getZipLocation() == null) ? "" : address.getZipLocation().getCity() + ". " + address.getZipLocation().getState() + " " + address.getZipLocation().getZipCodeId();
     }
 
     public long getAddressId() {
@@ -134,5 +134,10 @@ public class AddressDTO extends AbstractDTO{
 
     public void setZipLocationSummary(String zipLocationSummary) {
         this.zipLocationSummary = zipLocationSummary;
+    }
+
+    public Address ToEntity(Address address) {
+        BeanUtils.copyProperties(this, address);
+        return address;
     }
 }

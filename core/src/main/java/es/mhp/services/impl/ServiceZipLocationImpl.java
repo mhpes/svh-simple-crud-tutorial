@@ -1,4 +1,3 @@
-/*
 package es.mhp.services.impl;
 
 import es.mhp.dao.IZiplocationDao;
@@ -7,42 +6,87 @@ import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.ZipLocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
-*/
-/**
+/*
+*
  * Created by Edu on 24/02/2016.
- *//*
+*/
+
 
 @Service
-public class ServiceZipLocationImpl implements IZipLocationService{
+@Transactional
+public class ServiceZipLocationImpl implements IZipLocationService {
 
     @Autowired
     private IZiplocationDao iZiplocationDao;
 
+    @Override
     public Set<ZipLocationDTO> findAllZipLocations() {
-        return iZiplocationDao.findAll();
+        Set<ZipLocation> zipLocationSet = iZiplocationDao.findAll();
+
+        Set<ZipLocationDTO> zipLocationDTOs = new HashSet<>();
+
+        for (ZipLocation zipLocation : zipLocationSet){
+            zipLocationDTOs.add(new ZipLocationDTO(zipLocation));
+        }
+
+        return zipLocationDTOs;
     }
 
-    public Set<ZipLocationDTO> findAllZipLocations(ZipLocation zipLocation) {
-        return iZiplocationDao.findAll(zipLocation);
+    @Override
+    public Set<ZipLocationDTO> findAllZipLocations(ZipLocation address) {
+        Set<ZipLocation> zipLocationSet = iZiplocationDao.findAll(address);
+
+        Set<ZipLocationDTO> addressDTOs = new HashSet<>();
+
+        for (ZipLocation currentZip : zipLocationSet) {
+            addressDTOs.add(new ZipLocationDTO(currentZip));
+        }
+
+        return addressDTOs;
     }
 
-    public Set<ZipLocationDTO> findAnyZipLocation(ZipLocation zipLocation) {
-        return iZiplocationDao.findAny(zipLocation);
+    @Override
+    public Set<ZipLocationDTO> findAnyZipLocations(ZipLocation zipLocation) {
+        Set<ZipLocation> zipLocationSet = iZiplocationDao.findAny(zipLocation);
+
+        if (!zipLocationSet.isEmpty()){
+            Set<ZipLocationDTO> addressDTOs = new HashSet<>();
+
+            for (ZipLocation currentZip : zipLocationSet) {
+                addressDTOs.add(new ZipLocationDTO(currentZip));
+            }
+
+            return addressDTOs;
+        }
+        return Collections.emptySet();
     }
 
-    public void delete(ZipLocation zipLocation) {
-        iZiplocationDao.delete(zipLocation);
+    @Override
+    public ZipLocationDTO save(ZipLocationDTO zipLocationDTO) {
+        ZipLocation zipLocation = iZiplocationDao.findById(zipLocationDTO.getZipCode());
+
+        if (zipLocation != null){
+            iZiplocationDao.update(zipLocationDTO.ToEntity(zipLocation));
+        } else {
+            zipLocation = new ZipLocation();
+            iZiplocationDao.save(zipLocation);
+        }
+        return zipLocationDTO;
     }
 
+    @Override
+    public void delete(ZipLocationDTO addressDto) {
+        iZiplocationDao.deleteById(addressDto.getZipCode());
+    }
+
+    @Override
     public ZipLocationDTO findZipById(long id) {
-        return iZiplocationDao.findById(id);
-    }
-
-    public ZipLocationDTO update(ZipLocation zipLocation) {
-        return iZiplocationDao.update(zipLocation);
+        return new ZipLocationDTO(iZiplocationDao.findById(id));
     }
 }
-*/

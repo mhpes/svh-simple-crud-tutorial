@@ -2,6 +2,7 @@ package es.mhp.services.impl;
 
 import es.mhp.dao.IAddressDao;
 import es.mhp.entities.Address;
+import es.mhp.entities.ZipLocation;
 import es.mhp.services.dto.AddressDTO;
 import es.mhp.services.IAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -70,11 +72,11 @@ public class ServiceAddressImpl implements IAddressService {
         Address address = iAddressDao.findById(addressDto.getAddressId());
 
         if (address != null){
-            iAddressDao.update(address);
+            iAddressDao.update(addressDto.ToEntity(address));
         } else {
+            address = new Address();
             iAddressDao.save(address);
         }
-
         return addressDto;
     }
 

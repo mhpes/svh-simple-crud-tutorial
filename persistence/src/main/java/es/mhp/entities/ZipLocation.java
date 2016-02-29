@@ -13,8 +13,8 @@ import java.util.Set;
 public class ZipLocation extends AbstractEntity {
 
     @Id
-    @Column(name = "ZIPCODE", unique = true)
-    private Integer zipCode;
+    @Column(name = "ZIPCODE")
+    private Long zipCodeId;
 
     @Column(name = "CITY")
     @Size(max = 30)
@@ -29,18 +29,18 @@ public class ZipLocation extends AbstractEntity {
 
     public ZipLocation() {}
 
-    public ZipLocation (Integer zipCodeId, Integer zipCode, String city, String state){
-        this.zipCode = zipCode;
+    public ZipLocation (Long zipCode, String city, String state){
+        this.zipCodeId = zipCode;
         this.city = city;
         this.state = state;
     }
 
-    public Integer getZipCode() {
-        return zipCode;
+    public long getZipCodeId() {
+        return zipCodeId;
     }
 
-    public void setZipCode(Integer zipCode) {
-        this.zipCode = zipCode;
+    public void setZipCodeId(long zipCodeId) {
+        this.zipCodeId = zipCodeId;
     }
 
     public String getCity() {
@@ -61,6 +61,6 @@ public class ZipLocation extends AbstractEntity {
 
     @Override
     public String toString() {
-        return this.getCity() + ". " + this.getState() + " " + this.getZipCode();
+        return this.getCity() + ". " + this.getState() + " " + this.getZipCodeId();
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -32,7 +33,7 @@ public class ZiplocationDaoImpl extends AbstractPetshopGenericDao<ZipLocation> i
 
     @Override
     public Set<ZipLocation> findAll() {
-        return (Set<ZipLocation>) entityManager.createQuery("SELECT a FROM ZipLocation a");
+        return new HashSet<> (entityManager.createQuery("SELECT a FROM ZipLocation a").getResultList());
     }
 
     @Override
@@ -56,6 +57,12 @@ public class ZiplocationDaoImpl extends AbstractPetshopGenericDao<ZipLocation> i
             return (Set<ZipLocation>) query.getResultList();
         }
         return Collections.emptySet();
+    }
+
+    @Override
+    public void deleteById(long id) {
+        ZipLocation zipLocation = getEntityManager().find(ZipLocation.class, id);
+        getEntityManager().remove(zipLocation);
     }
 }
 
