@@ -22,7 +22,7 @@ public class Address extends AbstractEntity implements Serializable{
     @SequenceGenerator(name="address_sequence", initialValue=1, allocationSize=9999999)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="address_sequence")
     @Column(name = "ADDRESSID")
-    private Integer addressId;
+    private long addressId;
 
     @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Item> items;
@@ -56,7 +56,7 @@ public class Address extends AbstractEntity implements Serializable{
     @Digits(integer = 4, fraction = 10)
     private BigDecimal longitude;
 
-    public Address(int addressId, String mainStreet, String secondaryStreet, String city, String state, BigDecimal longitude, BigDecimal latitude, ZipLocation zipLocation){
+    public Address(long addressId, String mainStreet, String secondaryStreet, String city, String state, BigDecimal longitude, BigDecimal latitude, ZipLocation zipLocation){
         setAddressId(addressId);
         setMainStreet(mainStreet);
         setSecondaryStreet(secondaryStreet);
@@ -139,11 +139,11 @@ public class Address extends AbstractEntity implements Serializable{
         this.items = items;
     }
 
-    public Integer getAddressId() {
+    public long getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(Integer addressId) {
+    public void setAddressId(long addressId) {
         this.addressId = addressId;
     }
 

@@ -6,6 +6,7 @@ import es.mhp.services.dto.AddressDTO;
 import es.mhp.services.IAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -16,6 +17,7 @@ import java.util.Set;
  */
 
 @Service
+@Transactional
 public class ServiceAddressImpl implements IAddressService {
 
     @Autowired
@@ -64,13 +66,21 @@ public class ServiceAddressImpl implements IAddressService {
     }
 
     @Override
-    public AddressDTO update(AddressDTO addressDto) {
-        return new AddressDTO();
+    public AddressDTO save(AddressDTO addressDto) {
+        Address address = iAddressDao.findById(addressDto.getAddressId());
+
+        if (address != null){
+            iAddressDao.update(address);
+        } else {
+            iAddressDao.save(address);
+        }
+
+        return addressDto;
     }
 
     @Override
     public void delete(AddressDTO addressDto) {
-        iAddressDao.delete(addressDto.ToEntity());
+        iAddressDao.deleteById(addressDto.getAddressId());
     }
 
     @Override

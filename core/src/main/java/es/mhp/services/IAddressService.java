@@ -13,7 +13,7 @@ public interface IAddressService extends AbstractService{
     Set<AddressDTO> findAllAddresses();
     Set<AddressDTO> findAllAddresses(Address address);
     Set<AddressDTO> findAnyAddresses(Address address);
-    AddressDTO update(AddressDTO addressDTO);
+    AddressDTO save(AddressDTO addressDTO);
     void delete(AddressDTO address);
     AddressDTO findAddressById(long id);
 }

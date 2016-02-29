@@ -13,6 +13,7 @@ import es.mhp.services.IAddressService;
 import es.mhp.services.dto.AddressDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 /**
@@ -22,6 +23,13 @@ import java.util.Set;
 @SpringView(name = AddressView.VIEW_NAME)
 public class AddressView extends AbtractView<AddressDTO> {
     public static final String VIEW_NAME = "Addresses";
+    public static final String ADDRESS_ID = "Address Id";
+    public static final String MAIN_STREET = "Main Street";
+    public static final String SECONDARY_STREET = "Secondary Street";
+    public static final String CITY = "City";
+    public static final String STATE = "State";
+    public static final String LATITUDE = "Latitude";
+    public static final String LONGITUDE = "Longitude";
 
     @Autowired
     private IAddressService iAddressService;
@@ -65,31 +73,54 @@ public class AddressView extends AbtractView<AddressDTO> {
     @Override
     protected Layout createForm(AddressDTO addressDTO) {
         FormLayout form = new FormLayout();
+        form.setImmediate(true);
         form.addStyleName("address-view-form-container");
         PropertysetItem item = new PropertysetItem();
 
-        item.addItemProperty("Address Id", new ObjectProperty(addressDTO.getAddressId()));
-        item.addItemProperty("Main Street", new ObjectProperty(addressDTO.getMainStreet()));
-        item.addItemProperty("Secondary Street", new ObjectProperty(addressDTO.getSecondaryStreet()));
-        //item.addItemProperty("Zip Code Id", new ObjectProperty(address.getZipLocation().getZipCodeId()));
-        item.addItemProperty("City", new ObjectProperty(addressDTO.getCity()));
-        item.addItemProperty("State", new ObjectProperty(addressDTO.getState()));
-        item.addItemProperty("Latitude", new ObjectProperty(addressDTO.getLatitude()));
-        item.addItemProperty("Longitude", new ObjectProperty(addressDTO.getLongitude()));
+        item.addItemProperty(ADDRESS_ID, new ObjectProperty<Long>(addressDTO.getAddressId()));
+        item.addItemProperty(MAIN_STREET, new ObjectProperty(addressDTO.getMainStreet()));
+        item.addItemProperty(SECONDARY_STREET, new ObjectProperty(addressDTO.getSecondaryStreet()));
+        item.addItemProperty(CITY, new ObjectProperty(addressDTO.getCity()));
+        item.addItemProperty(STATE, new ObjectProperty(addressDTO.getState()));
+        item.addItemProperty(LATITUDE, new ObjectProperty(addressDTO.getLatitude()));
+        item.addItemProperty(LONGITUDE, new ObjectProperty(addressDTO.getLongitude()));
+
 
         FieldGroup binder = new FieldGroup(item);
-        form.addComponent(binder.buildAndBind("Address Id"));
-        form.addComponent(binder.buildAndBind("Main Street"));
-        form.addComponent(binder.buildAndBind("Secondary Street"));
-        //form.addComponent(binder.buildAndBind("Zip Code Id"));
-        form.addComponent(binder.buildAndBind("City"));
-        form.addComponent(binder.buildAndBind("State"));
-        form.addComponent(binder.buildAndBind("Latitude"));
-        form.addComponent(binder.buildAndBind("Longitude"));
+        form.addComponent(binder.buildAndBind(ADDRESS_ID));
+        form.addComponent(binder.buildAndBind(MAIN_STREET));
+        form.addComponent(binder.buildAndBind(SECONDARY_STREET));
+        form.addComponent(binder.buildAndBind(CITY));
+        form.addComponent(binder.buildAndBind(STATE));
+        form.addComponent(binder.buildAndBind(LATITUDE));
+        form.addComponent(binder.buildAndBind(LONGITUDE));
 
-        form.addComponent(createSaveButton(addressDTO));
+        form.addComponent(createDeleteButton(addressDTO));
+        form.addComponent(createSavebutton(binder));
 
         return form;
+    }
+
+    private Button createSavebutton(FieldGroup addressFieldGroup) {
+        final Button saveButton = new Button("Save");
+
+        saveButton.addClickListener((Button.ClickListener) event -> {
+            Long addressId = Long.parseLong(addressFieldGroup.getField(ADDRESS_ID).getValue().toString());
+            String mainStreet = addressFieldGroup.getField(MAIN_STREET).getValue().toString();
+            String secondaryStreet = addressFieldGroup.getField(SECONDARY_STREET).getValue().toString();
+            String city = addressFieldGroup.getField(CITY).getValue().toString();
+            String state = addressFieldGroup.getField(STATE).getValue().toString();
+
+            String longitude =  addressFieldGroup.getField(LONGITUDE).getValue().toString();
+            String latitude = addressFieldGroup.getField(LATITUDE).getValue().toString();
+
+            String longitudeNew = longitude
+
+            AddressDTO addressDTO = new AddressDTO(addressId, mainStreet, secondaryStreet, city, state, latitude, longitude);
+            iAddressService.save(addressDTO);
+        });
+
+        return saveButton;
     }
 
     @Override
@@ -98,11 +129,12 @@ public class AddressView extends AbtractView<AddressDTO> {
         this.addComponent(createTable());
     }
 
-    private Button createSaveButton(AddressDTO addressDTO){
-        final Button saveButton = new Button("Delete entry");
+    private Button createDeleteButton(AddressDTO addressDTO){
+        final Button deleteButton = new Button("Delete entry");
 
-        saveButton.addClickListener((Button.ClickListener) event -> iAddressService.delete(addressDTO));
+        deleteButton.addClickListener((Button.ClickListener) event ->
+                iAddressService.delete(addressDTO));
 
-        return saveButton;
+        return deleteButton;
     }
 }

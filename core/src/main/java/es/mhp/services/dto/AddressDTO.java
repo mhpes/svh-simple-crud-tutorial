@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  */
 public class AddressDTO extends AbstractDTO{
 
-    private Integer addressId;
+    private long addressId;
     private int associatedItemsCount;
     private String mainStreet;
     private String secondaryStreet;
@@ -35,6 +35,18 @@ public class AddressDTO extends AbstractDTO{
 
     public AddressDTO(){}
 
+    public AddressDTO(long addressId, String mainStreet, String secondaryStreet, String city, String state, BigDecimal latitude, BigDecimal longitude){
+        if (addressId != 0){
+            this.addressId = addressId;
+            this.mainStreet = mainStreet;
+            this.secondaryStreet = secondaryStreet;
+            this.city = city;
+            this.state = state;
+            this.latitude = latitude;
+            this.longitude = longitude;
+        }
+    }
+
     public Address ToEntity() {
         Address address = new Address();
         address.setAddressId(this.getAddressId());
@@ -52,7 +64,7 @@ public class AddressDTO extends AbstractDTO{
         return (address.getZipLocation() == null) ? "" : address.getZipLocation().getCity() + ". " + address.getZipLocation().getState() + " " + address.getZipLocation().getZipCode();
     }
 
-    public Integer getAddressId() {
+    public long getAddressId() {
         return addressId;
     }
 
