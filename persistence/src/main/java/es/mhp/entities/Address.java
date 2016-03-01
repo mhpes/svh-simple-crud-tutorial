@@ -1,9 +1,11 @@
 package es.mhp.entities;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -35,9 +37,9 @@ public class Address extends AbstractEntity implements Serializable{
     @Size(max = 55)
     private String secondaryStreet;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = ZipLocation.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = ZipLocation.class, optional = false, cascade = CascadeType.ALL)
     @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "zip", nullable = true)
+    @JoinColumn(name = "zip", referencedColumnName = "ZIPCODE")
     private ZipLocation zipLocation;
 
     @Column(name = "CITY")
@@ -145,9 +147,5 @@ public class Address extends AbstractEntity implements Serializable{
 
     public void setAddressId(long addressId) {
         this.addressId = addressId;
-    }
-
-    public String toString() {
-        return this.getCity() + ". " + this.getState();
     }
 }

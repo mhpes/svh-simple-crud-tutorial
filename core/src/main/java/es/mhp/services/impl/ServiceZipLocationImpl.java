@@ -69,20 +69,20 @@ public class ServiceZipLocationImpl implements IZipLocationService {
 
     @Override
     public ZipLocationDTO save(ZipLocationDTO zipLocationDTO) {
-        ZipLocation zipLocation = iZiplocationDao.findById(zipLocationDTO.getZipCode());
+        ZipLocation zipLocation = iZiplocationDao.findById(zipLocationDTO.getZipCodeId());
 
         if (zipLocation != null){
             iZiplocationDao.update(zipLocationDTO.ToEntity(zipLocation));
         } else {
             zipLocation = new ZipLocation();
-            iZiplocationDao.save(zipLocation);
+            iZiplocationDao.save(zipLocationDTO.ToEntity(zipLocation));
         }
         return zipLocationDTO;
     }
 
     @Override
-    public void delete(ZipLocationDTO addressDto) {
-        iZiplocationDao.deleteById(addressDto.getZipCode());
+    public void delete(long id) {
+        iZiplocationDao.deleteById(id);
     }
 
     @Override

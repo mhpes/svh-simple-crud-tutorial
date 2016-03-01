@@ -8,36 +8,36 @@ import org.springframework.beans.BeanUtils;
  */
 public class ZipLocationDTO extends AbstractDTO{
 
-    private long zipCode;
+    private long zipCodeId;
     private String city;
     private String state;
 
     public ZipLocationDTO(Integer zipCode, String city, String state) {
-        this.zipCode = zipCode;
+        this.zipCodeId = zipCode;
         this.city = city;
         this.state = state;
     }
 
     public ZipLocationDTO(ZipLocationDTO zipLocationDTO) {
         if (zipLocationDTO != null) {
-            this.zipCode = zipLocationDTO.getZipCode();
+            this.zipCodeId = zipLocationDTO.getZipCodeId();
             this.city = zipLocationDTO.getCity();
             this.state = zipLocationDTO.getState();
         }
     }
 
     public ZipLocationDTO(ZipLocation zipLocation) {
-        this.zipCode = zipLocation.getZipCodeId();
+        this.zipCodeId = zipLocation.getZipCodeId();
         this.city = zipLocation.getCity();
         this.state = zipLocation.getState();
     }
 
-    public long getZipCode() {
-        return zipCode;
+    public long getZipCodeId() {
+        return zipCodeId;
     }
 
-    public void setZipCode(long zipCode) {
-        this.zipCode = zipCode;
+    public void setZipCodeId(long zipCodeId) {
+        this.zipCodeId = zipCodeId;
     }
 
     public String getCity() {

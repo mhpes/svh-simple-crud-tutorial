@@ -27,9 +27,10 @@ public class ZipLocation extends AbstractEntity {
     @OneToMany(mappedBy = "zipLocation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Address> addresses;
 
-    public ZipLocation() {}
+    public ZipLocation() {
+    }
 
-    public ZipLocation (Long zipCode, String city, String state){
+    public ZipLocation(Long zipCode, String city, String state) {
         this.zipCodeId = zipCode;
         this.city = city;
         this.state = state;
@@ -59,8 +60,4 @@ public class ZipLocation extends AbstractEntity {
         this.state = state;
     }
 
-    @Override
-    public String toString() {
-        return this.getCity() + ". " + this.getState() + " " + this.getZipCodeId();
-    }
 }

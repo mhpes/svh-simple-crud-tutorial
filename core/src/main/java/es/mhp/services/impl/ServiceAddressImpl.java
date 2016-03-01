@@ -1,17 +1,17 @@
 package es.mhp.services.impl;
 
 import es.mhp.dao.IAddressDao;
+import es.mhp.dao.IZiplocationDao;
 import es.mhp.entities.Address;
 import es.mhp.entities.ZipLocation;
-import es.mhp.services.dto.AddressDTO;
 import es.mhp.services.IAddressService;
+import es.mhp.services.dto.AddressDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 /**
@@ -24,6 +24,9 @@ public class ServiceAddressImpl implements IAddressService {
 
     @Autowired
     private IAddressDao iAddressDao;
+
+    @Autowired
+    private IZiplocationDao iZiplocationDao;
 
     @Override
     public Set<AddressDTO> findAllAddresses() {
@@ -70,11 +73,26 @@ public class ServiceAddressImpl implements IAddressService {
     @Override
     public AddressDTO save(AddressDTO addressDto) {
         Address address = iAddressDao.findById(addressDto.getAddressId());
+        ZipLocation zipLocation = iZiplocationDao.findById(addressDto.getZip());
 
         if (address != null){
+
+            if (zipLocation == null){
+                zipLocation = new ZipLocation(addressDto.getZip(), addressDto.getCity(), addressDto.getState());
+                iZiplocationDao.save(zipLocation);
+            }
+
+            address.setZipLocation(zipLocation);
             iAddressDao.update(addressDto.ToEntity(address));
         } else {
             address = new Address();
+
+            if (zipLocation == null){
+                zipLocation = new ZipLocation(addressDto.getZip(), addressDto.getCity(), addressDto.getState());
+                iZiplocationDao.save(zipLocation);
+            }
+
+            address.setZipLocation(zipLocation);
             iAddressDao.save(address);
         }
         return addressDto;

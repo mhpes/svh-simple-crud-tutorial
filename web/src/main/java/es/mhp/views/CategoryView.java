@@ -12,7 +12,6 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
-import es.mhp.entities.Category;
 import es.mhp.services.ICategoryService;
 import es.mhp.services.dto.CategoryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,6 @@ import java.util.Set;
 /*
  * Created by Edu on 23/02/2016.
 */
-
-
 
 @SpringView(name = CategoryView.VIEW_NAME)
 public class CategoryView extends AbtractView<CategoryDTO> {

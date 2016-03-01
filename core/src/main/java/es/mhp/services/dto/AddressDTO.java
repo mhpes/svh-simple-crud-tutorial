@@ -15,7 +15,7 @@ public class AddressDTO extends AbstractDTO{
     private int associatedItemsCount;
     private String mainStreet;
     private String secondaryStreet;
-    private String zipLocationSummary;
+    private long zip;
     private String city;
     private String state;
     private BigDecimal latitude;
@@ -26,7 +26,11 @@ public class AddressDTO extends AbstractDTO{
             this.addressId = address.getAddressId();
             this.mainStreet = address.getMainStreet();
             this.secondaryStreet = address.getSecondaryStreet();
-            this.zipLocationSummary = calculateZipLocationSummary(address);
+
+            if (address.getZipLocation() != null){
+                this.zip = address.getZipLocation().getZipCodeId();
+            }
+
             this.city = address.getCity();
             this.state = address.getState();
             this.latitude = address.getLatitude();
@@ -37,10 +41,11 @@ public class AddressDTO extends AbstractDTO{
 
     public AddressDTO(){}
 
-    public AddressDTO(long addressId, String mainStreet, String secondaryStreet, String city, String state, BigDecimal latitude, BigDecimal longitude){
+    public AddressDTO(long addressId, String mainStreet, String secondaryStreet,long zip, String city, String state, BigDecimal latitude, BigDecimal longitude){
         this.addressId = addressId;
         this.mainStreet = mainStreet;
         this.secondaryStreet = secondaryStreet;
+        this.zip = zip;
         this.city = city;
         this.state = state;
         this.latitude = latitude;
@@ -58,10 +63,6 @@ public class AddressDTO extends AbstractDTO{
         address.setLatitude(this.getLongitude());
 
         return address;
-    }
-
-    private String calculateZipLocationSummary(Address address) {
-        return (address.getZipLocation() == null) ? "" : address.getZipLocation().getCity() + ". " + address.getZipLocation().getState() + " " + address.getZipLocation().getZipCodeId();
     }
 
     public long getAddressId() {
@@ -128,12 +129,16 @@ public class AddressDTO extends AbstractDTO{
         this.associatedItemsCount = associatedItemsCount;
     }
 
-    public String getZipLocationSummary() {
-        return zipLocationSummary;
+    public long getZip() {
+        return zip;
     }
 
-    public void setZipLocationSummary(String zipLocationSummary) {
-        this.zipLocationSummary = zipLocationSummary;
+    public void setZip(long zip) {
+        this.zip = zip;
+    }
+
+    public void setAddressId(long addressId) {
+        this.addressId = addressId;
     }
 
     public Address ToEntity(Address address) {

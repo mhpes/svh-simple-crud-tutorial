@@ -76,7 +76,7 @@ public class ZipLocationView extends AbtractView<ZipLocationDTO> {
         form.addStyleName("zipLocation-view-form-container");
         PropertysetItem item = new PropertysetItem();
 
-        item.addItemProperty(ZIPCODE, new ObjectProperty(zipLocationDTO.getZipCode()));
+        item.addItemProperty(ZIPCODE, new ObjectProperty(zipLocationDTO.getZipCodeId()));
         item.addItemProperty(CITY, new ObjectProperty(zipLocationDTO.getCity()));
         item.addItemProperty(STATE, new ObjectProperty(zipLocationDTO.getState()));
 
@@ -85,8 +85,8 @@ public class ZipLocationView extends AbtractView<ZipLocationDTO> {
         form.addComponent(binder.buildAndBind(CITY));
         form.addComponent(binder.buildAndBind(STATE));
 
-        form.addComponent(createDeleteButton(zipLocationDTO));
         form.addComponent(createSavebutton(binder));
+        form.addComponent(createDeleteButton(binder));
 
         return form;
     }
@@ -106,11 +106,14 @@ public class ZipLocationView extends AbtractView<ZipLocationDTO> {
         return saveButton;
     }
 
-    private Button createDeleteButton(ZipLocationDTO zipLocationDTO){
+    private Button createDeleteButton(FieldGroup addressFieldGroup){
         final Button deleteButton = new Button("Delete entry");
 
         deleteButton.addClickListener((Button.ClickListener) event ->
-                iZipLocationService.delete(zipLocationDTO));
+        {
+            Integer zipcode = Integer.parseInt(addressFieldGroup.getField(ZIPCODE).getValue().toString());
+            iZipLocationService.delete(zipcode);
+        });
 
         return deleteButton;
     }
