@@ -78,7 +78,7 @@ public class AddressView extends AbtractView<AddressDTO> {
         form.addStyleName("address-view-form-container");
         PropertysetItem item = new PropertysetItem();
 
-        item.addItemProperty(ADDRESS_ID, new ObjectProperty<Long>(addressDTO.getAddressId()));
+        item.addItemProperty(ADDRESS_ID, new ObjectProperty(addressDTO.getAddressId()));
         item.addItemProperty(MAIN_STREET, new ObjectProperty(addressDTO.getMainStreet()));
         item.addItemProperty(SECONDARY_STREET, new ObjectProperty(addressDTO.getSecondaryStreet()));
         item.addItemProperty(ZIP, new ObjectProperty(addressDTO.getZip()));
@@ -108,10 +108,10 @@ public class AddressView extends AbtractView<AddressDTO> {
         final Button saveButton = new Button("Save");
 
         saveButton.addClickListener((Button.ClickListener) event -> {
-            Long addressId = Long.parseLong(addressFieldGroup.getField(ADDRESS_ID).getValue().toString());
+            int addressId = Integer.parseInt(addressFieldGroup.getField(ADDRESS_ID).getValue().toString());
             String mainStreet = addressFieldGroup.getField(MAIN_STREET).getValue().toString();
             String secondaryStreet = addressFieldGroup.getField(SECONDARY_STREET).getValue().toString();
-            long zip = Long.parseLong(addressFieldGroup.getField(ZIP).getValue().toString());
+            int zip = Integer.parseInt(addressFieldGroup.getField(ZIP).getValue().toString());
             String city = addressFieldGroup.getField(CITY).getValue().toString();
             String state = addressFieldGroup.getField(STATE).getValue().toString();
 

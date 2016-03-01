@@ -21,7 +21,7 @@ import java.util.Set;
 public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implements IAddressDao {
 
     @Override
-    public Address findById(long id) {
+    public Address findById(int id) {
         return getEntityManager().find(Address.class, id);
     }
 
@@ -77,8 +77,9 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
     }
 
     @Override
-    public void deleteById(long id) {
-        Address address = getEntityManager().find(Address.class, id);
-        getEntityManager().remove(address);
+    public void deleteById(int id) {
+        Address address = findById(id);
+
+        if (address != null) getEntityManager().remove(address);
     }
 }

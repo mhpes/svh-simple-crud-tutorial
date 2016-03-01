@@ -3,15 +3,19 @@ package es.mhp.services.dto;
 import es.mhp.entities.Item;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 /**
  * Created by Edu on 26/02/2016.
  */
 public class ItemDTO extends AbstractDTO{
 
-    private Integer itemId;
+    private int itemId;
     private int associatedTagsCount;
     private String productSummary;
+    private String productId;
+    private int addressId;
+    private int contactInfoId;
     private String imageThumbUrl;
     private BigDecimal price;
     private String addressSummary;
@@ -21,6 +25,7 @@ public class ItemDTO extends AbstractDTO{
     private String name;
     private String description;
     private String imageUrl;
+    private int disabled;
 
     public ItemDTO(Item item){
         if (item != null){
@@ -39,6 +44,25 @@ public class ItemDTO extends AbstractDTO{
         }
     }
 
+    public ItemDTO() {
+
+    }
+
+    public ItemDTO(int addressId, int itemId, String productId, String name, String description, String imageUrl, String imageThumbUrl, BigDecimal price, int contactInfoId, int totalScore, int numberOfVotes, int disabled) {
+        this.addressId = addressId;
+        this.itemId = itemId;
+        this.productId = productId;
+        this.name = name;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.imageThumbUrl = imageThumbUrl;
+        this.price = price;
+        this.contactInfoId = contactInfoId;
+        this.totalScore = totalScore;
+        this.numberOfVotes = numberOfVotes;
+        this.disabled = disabled;
+    }
+
     private String calculateSellerContactSummary(Item item) {
         return item.getSeller() == null ? "" : (item.getSeller().getFirstName() + " " + item.getSeller().getLastName() + " - " + item.getSeller().getEmail());
     }
@@ -51,11 +75,11 @@ public class ItemDTO extends AbstractDTO{
         return item.getProduct() == null ? "" : (item.getProduct().getName() +". " + item.getProduct().getDescription());
     }
 
-    public Integer getItemId() {
+    public int getItemId() {
         return itemId;
     }
 
-    public void setItemId(Integer itemId) {
+    public void setItemId(int itemId) {
         this.itemId = itemId;
     }
 
@@ -145,5 +169,37 @@ public class ItemDTO extends AbstractDTO{
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public int getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
+    }
+
+    public int getContactInfoId() {
+        return contactInfoId;
+    }
+
+    public void setContactInfoId(int contactInfoId) {
+        this.contactInfoId = contactInfoId;
+    }
+
+    public int getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(int disabled) {
+        this.disabled = disabled;
     }
 }

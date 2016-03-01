@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -16,7 +17,14 @@ import java.util.Set;
 public class ProductDaoImpl extends AbstractPetshopGenericDao<Product> implements IProductDao {
 
     @Override
-    public Product findById(long id) {
+    public void deleteById(String id) {
+        Product product = findById(id);
+
+        if (product != null) getEntityManager().remove(product);
+    }
+
+    @Override
+    public Product findById(String id) {
         return entityManager.find(Product.class, id);
     }
 
@@ -32,7 +40,7 @@ public class ProductDaoImpl extends AbstractPetshopGenericDao<Product> implement
 
     @Override
     public Set<Product> findAll() {
-        return (Set<Product>) entityManager.createQuery("SELECT a FROM Product a").getResultList();
+        return new HashSet<> (entityManager.createQuery("SELECT a FROM Product a").getResultList());
     }
 
     @Override

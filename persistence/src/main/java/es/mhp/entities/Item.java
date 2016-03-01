@@ -43,8 +43,8 @@ public class Item extends AbstractEntity {
     private Integer numberOfVotes;
 
     //@Doubt: default value true, this could be done in the constructor too?
-    @Column(name = "DISABLED", columnDefinition = "boolean default true")
-    private boolean disabled = true;
+    @Column(name = "DISABLED")
+    private int disabled;
 
     @Column(name = "NAME")
     @Size(max = 30)
@@ -92,11 +92,11 @@ public class Item extends AbstractEntity {
         this.name = name;
     }
 
-    public boolean isDisabled() {
+    public int isDisabled() {
         return disabled;
     }
 
-    public void setDisabled(boolean disabled) {
+    public void setDisabled(int disabled) {
         this.disabled = disabled;
     }
 

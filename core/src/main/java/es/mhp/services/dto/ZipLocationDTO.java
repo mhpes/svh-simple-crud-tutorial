@@ -8,7 +8,7 @@ import org.springframework.beans.BeanUtils;
  */
 public class ZipLocationDTO extends AbstractDTO{
 
-    private long zipCodeId;
+    private int zipCodeId;
     private String city;
     private String state;
 
@@ -32,11 +32,11 @@ public class ZipLocationDTO extends AbstractDTO{
         this.state = zipLocation.getState();
     }
 
-    public long getZipCodeId() {
+    public int getZipCodeId() {
         return zipCodeId;
     }
 
-    public void setZipCodeId(long zipCodeId) {
+    public void setZipCodeId(int zipCodeId) {
         this.zipCodeId = zipCodeId;
     }
 

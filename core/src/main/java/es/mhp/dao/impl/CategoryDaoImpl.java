@@ -15,7 +15,7 @@ import java.util.*;
 public class CategoryDaoImpl extends AbstractPetshopGenericDao<Category> implements ICategoryDao{
 
     @Override
-    public Category findById(long id) {
+    public Category findById(String id) {
         return entityManager.find(Category.class, id);
     }
 

@@ -11,9 +11,8 @@ import java.util.Set;
 public interface IProductService {
     Set<ProductDTO> findAllProducts();
     Set<ProductDTO> findAllProducts(Product product);
-    Set<ProductDTO> findAnyProduct(Product product);
-    ProductDTO update(Product product);
-    void delete(Product product);
-    ProductDTO findProductById(long id);
-
+    Set<ProductDTO> findAnyProducts(Product product);
+    ProductDTO save(ProductDTO productDTO);
+    void delete(ProductDTO productDTO);
+    ProductDTO findProductById(String id);
 }

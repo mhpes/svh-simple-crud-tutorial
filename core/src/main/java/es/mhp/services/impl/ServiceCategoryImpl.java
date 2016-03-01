@@ -63,7 +63,7 @@ public class ServiceCategoryImpl implements ICategoryService {
         iCategoryDao.delete(category);
     }
 
-    public CategoryDTO findCategoryById(long id) {
+    public CategoryDTO findCategoryById(String id) {
         return new CategoryDTO(iCategoryDao.findById(id));
     }
 }

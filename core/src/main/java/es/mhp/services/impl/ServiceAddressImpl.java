@@ -104,7 +104,7 @@ public class ServiceAddressImpl implements IAddressService {
     }
 
     @Override
-    public AddressDTO findAddressById(long id) {
+    public AddressDTO findAddressById(int id) {
         return new AddressDTO(iAddressDao.findById(id));
     }
 }

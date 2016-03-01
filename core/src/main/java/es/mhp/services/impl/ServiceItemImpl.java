@@ -55,15 +55,15 @@ public class ServiceItemImpl implements IItemService {
         return categoryDTOs;
     }
 
-    public ItemDTO update(Item item) {
-        return new ItemDTO(iItemDao.update(item));
+    public ItemDTO save(ItemDTO itemDTO) {
+        return new ItemDTO(iItemDao.update(itemDTO));
     }
 
-    public void delete(Item item) {
-        iItemDao.delete(item);
+    public void delete(ItemDTO itemDTO) {
+        iItemDao.delete(itemDTO);
     }
 
-    public ItemDTO findItemById(long id) {
+    public ItemDTO findItemById(int id) {
         return new ItemDTO(iItemDao.findById(id));
     }
 }

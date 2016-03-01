@@ -16,7 +16,7 @@ import java.util.Set;
 public class TagDaoImpl extends AbstractPetshopGenericDao<Tag> implements ITagDao {
 
     @Override
-    public Tag findById(long id) {
+    public Tag findById(int id) {
         return entityManager.find(Tag.class, id);
     }
 

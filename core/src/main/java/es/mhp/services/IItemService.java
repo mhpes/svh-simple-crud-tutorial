@@ -12,7 +12,7 @@ public interface IItemService {
     Set<ItemDTO> findAllItems();
     Set<ItemDTO> findAllItems(Item item);
     Set<ItemDTO> findAnyItem(Item item);
-    ItemDTO update(Item item);
-    void delete(Item item);
-    ItemDTO findItemById(long id);
+    ItemDTO save(ItemDTO itemDTO);
+    void delete(ItemDTO itemDTO);
+    ItemDTO findItemById(int id);
 }

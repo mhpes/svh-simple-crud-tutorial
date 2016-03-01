@@ -16,5 +16,5 @@ public interface ICategoryService {
     Set<CategoryDTO> findAnyCategories(Category category);
     CategoryDTO update(Category category);
     void delete(Category category);
-    CategoryDTO findCategoryById(long id);
+    CategoryDTO findCategoryById(String id);
 }

@@ -14,7 +14,7 @@ public class ZipLocation extends AbstractEntity {
 
     @Id
     @Column(name = "ZIPCODE")
-    private Long zipCodeId;
+    private int zipCodeId;
 
     @Column(name = "CITY")
     @Size(max = 30)
@@ -30,17 +30,17 @@ public class ZipLocation extends AbstractEntity {
     public ZipLocation() {
     }
 
-    public ZipLocation(Long zipCode, String city, String state) {
+    public ZipLocation(int zipCode, String city, String state) {
         this.zipCodeId = zipCode;
         this.city = city;
         this.state = state;
     }
 
-    public long getZipCodeId() {
+    public int getZipCodeId() {
         return zipCodeId;
     }
 
-    public void setZipCodeId(long zipCodeId) {
+    public void setZipCodeId(int zipCodeId) {
         this.zipCodeId = zipCodeId;
     }
 

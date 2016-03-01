@@ -14,6 +14,6 @@ public interface IZipLocationService {
     Set<ZipLocationDTO> findAllZipLocations(ZipLocation zipLocation);
     Set<ZipLocationDTO> findAnyZipLocations(ZipLocation zipLocation);
     ZipLocationDTO save(ZipLocationDTO zipLocationDTO);
-    void delete(long id);
-    ZipLocationDTO findZipById(long id);
+    void delete(int id);
+    ZipLocationDTO findZipById(int id);
 }

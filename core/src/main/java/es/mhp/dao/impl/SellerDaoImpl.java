@@ -16,7 +16,7 @@ import java.util.Set;
 public class SellerDaoImpl extends AbstractPetshopGenericDao<SellerContactInfo> implements ISellerDao {
 
     @Override
-    public SellerContactInfo findById(long id) {
+    public SellerContactInfo findById(int id) {
         return entityManager.find(SellerContactInfo.class, id);
     }
 

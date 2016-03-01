@@ -81,12 +81,12 @@ public class ServiceZipLocationImpl implements IZipLocationService {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(int id) {
         iZiplocationDao.deleteById(id);
     }
 
     @Override
-    public ZipLocationDTO findZipById(long id) {
+    public ZipLocationDTO findZipById(int id) {
         return new ZipLocationDTO(iZiplocationDao.findById(id));
     }
 }

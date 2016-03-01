@@ -17,7 +17,7 @@ import java.util.Set;
 public class ItemDaoImpl extends AbstractPetshopGenericDao<Item> implements IItemDao {
 
     @Override
-    public Item findById(long id) {
+    public Item findById(int id) {
         return entityManager.find(Item.class, id);
     }
 

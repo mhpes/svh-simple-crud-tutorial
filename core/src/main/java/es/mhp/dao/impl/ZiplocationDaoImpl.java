@@ -17,7 +17,14 @@ import java.util.Set;
 public class ZiplocationDaoImpl extends AbstractPetshopGenericDao<ZipLocation> implements IZiplocationDao {
 
     @Override
-    public ZipLocation findById(long id) {
+    public void deleteById(int id) {
+        ZipLocation zipLocation = findById(id);
+
+        if (zipLocation != null) getEntityManager().remove(zipLocation);
+    }
+
+    @Override
+    public ZipLocation findById(int id) {
         return entityManager.find(ZipLocation.class, id);
     }
 
@@ -57,12 +64,6 @@ public class ZiplocationDaoImpl extends AbstractPetshopGenericDao<ZipLocation> i
             return (Set<ZipLocation>) query.getResultList();
         }
         return Collections.emptySet();
-    }
-
-    @Override
-    public void deleteById(long id) {
-        ZipLocation zipLocation = getEntityManager().find(ZipLocation.class, id);
-        getEntityManager().remove(zipLocation);
     }
 }
 
