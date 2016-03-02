@@ -1,6 +1,7 @@
 package es.mhp.services.dto;
 
 import es.mhp.entities.Category;
+import org.springframework.beans.BeanUtils;
 
 /**
  * Created by Edu on 26/02/2016.
@@ -21,6 +22,13 @@ public class CategoryDTO extends AbstractDTO{
             this.imageUrl = category.getImageUrl();
             this.associatedProductsCount = category.getProductsCount();
         }
+    }
+
+    public CategoryDTO(String categoryId,String name, String description,String imageUrl) {
+        this.categoryId = categoryId;
+        this.name = name;
+        this.description = description;
+        this.imageUrl = imageUrl;
     }
 
     public String getCategoryId() {
@@ -61,5 +69,10 @@ public class CategoryDTO extends AbstractDTO{
 
     public void setAssociatedProductsCount(int associatedProductsCount) {
         this.associatedProductsCount = associatedProductsCount;
+    }
+
+    public Category ToEntity(Category category) {
+        BeanUtils.copyProperties(this, category);
+        return category;
     }
 }

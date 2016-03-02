@@ -55,13 +55,21 @@ public class ServiceItemImpl implements IItemService {
         return categoryDTOs;
     }
 
+    @Override
     public ItemDTO save(ItemDTO itemDTO) {
-        return new ItemDTO(iItemDao.update(itemDTO));
+        Item item = iItemDao.findById(itemDTO.getItemId());
+
+        if (item != null){
+            iItemDao.update(itemDTO.ToEntity(item));
+        } else {
+            item = new Item();
+            iItemDao.save(item);
+        }
+        return new ItemDTO(item);
     }
 
-    public void delete(ItemDTO itemDTO) {
-        iItemDao.delete(itemDTO);
-    }
+    @Override
+    public void delete(ItemDTO itemDTO) { iItemDao.deleteById(itemDTO.getItemId()); }
 
     public ItemDTO findItemById(int id) {
         return new ItemDTO(iItemDao.findById(id));

@@ -1,9 +1,9 @@
 package es.mhp.services.dto;
 
 import es.mhp.entities.Item;
+import org.springframework.beans.BeanUtils;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 
 /**
  * Created by Edu on 26/02/2016.
@@ -32,6 +32,19 @@ public class ItemDTO extends AbstractDTO{
             this.itemId = item.getItemId();
             this.associatedTagsCount = item.getTagsCount();
             this.productSummary = calculateProductSummary(item);
+
+            if (item.getProduct() != null){
+                this.productId = item.getProduct().getProductId();
+            }
+
+            if (item.getSeller() != null){
+                this.contactInfoId = item.getSeller().getSellerId();
+            }
+
+            if (item.getAddress() != null){
+                this.addressId = item.getAddress().getAddressId();
+            }
+
             this.imageThumbUrl = item.getImageThumbUrl();
             this.price = item.getPrice();
             this.addressSummary = calculateAddressSummary(item);
@@ -201,5 +214,10 @@ public class ItemDTO extends AbstractDTO{
 
     public void setDisabled(int disabled) {
         this.disabled = disabled;
+    }
+
+    public Item ToEntity(Item item) {
+        BeanUtils.copyProperties(this, item);
+        return item;
     }
 }

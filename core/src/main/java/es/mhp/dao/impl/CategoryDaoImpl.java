@@ -20,6 +20,12 @@ public class CategoryDaoImpl extends AbstractPetshopGenericDao<Category> impleme
     }
 
     @Override
+    public void deleteById(String id) {
+        Category category = findById(id);
+        if (category != null) getEntityManager().remove(category);
+    }
+
+    @Override
     public Set<Category> findAny(Category entity) {
         return findAll(entity, false);
     }

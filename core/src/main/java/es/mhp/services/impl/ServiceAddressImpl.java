@@ -95,7 +95,7 @@ public class ServiceAddressImpl implements IAddressService {
             address.setZipLocation(zipLocation);
             iAddressDao.save(address);
         }
-        return addressDto;
+        return new AddressDTO(address);
     }
 
     @Override

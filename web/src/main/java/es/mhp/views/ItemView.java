@@ -19,7 +19,6 @@ import es.mhp.services.dto.ItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.Set;
 
 @SpringView(name = ItemView.VIEW_NAME)
@@ -81,7 +80,7 @@ public class ItemView extends AbtractView<ItemDTO> {
     protected Layout createForm(ItemDTO itemDTO) {
         FormLayout form = new FormLayout();
         form.setImmediate(true);
-        form.addStyleName("address-view-form-container");
+        form.addStyleName("item-view-form-container");
         PropertysetItem item = new PropertysetItem();
 
         item.addItemProperty(ITEM_ID, new ObjectProperty(itemDTO.getItemId()));
@@ -105,7 +104,6 @@ public class ItemView extends AbtractView<ItemDTO> {
         form.addComponent(binder.buildAndBind(IMAGE_URL));
         form.addComponent(binder.buildAndBind(IMAGE_THUMB_URL));
         form.addComponent(binder.buildAndBind(PRICE));
-        form.addComponent(binder.buildAndBind(ADDRESS_ID));
         form.addComponent(binder.buildAndBind(CONTACTINFO_ID));
         form.addComponent(binder.buildAndBind(TOTAL_SCORE));
         form.addComponent(binder.buildAndBind(NUMBER_OF_VOTES));
@@ -117,22 +115,22 @@ public class ItemView extends AbtractView<ItemDTO> {
         return form;
     }
 
-    private Button createSavebutton(FieldGroup addressFieldGroup) {
+    private Button createSavebutton(FieldGroup itemFieldGroup) {
         final Button saveButton = new Button("Save");
 
         saveButton.addClickListener((Button.ClickListener) event -> {
-            int addressId = Integer.parseInt(addressFieldGroup.getField(ADDRESS_ID).getValue().toString());
-            int itemId = Integer.parseInt(addressFieldGroup.getField(ITEM_ID).getValue().toString());
-            String productId = addressFieldGroup.getField(PRODUCT_ID).getValue().toString();
-            String name = addressFieldGroup.getField(NAME).getValue().toString();
-            String description = addressFieldGroup.getField(DESCRIPTION).getValue().toString();
-            String imageUrl = addressFieldGroup.getField(IMAGE_URL).getValue().toString();
-            String imageThumbUrl = addressFieldGroup.getField(IMAGE_THUMB_URL).getValue().toString();
+            int addressId = Integer.parseInt(itemFieldGroup.getField(ADDRESS_ID).getValue().toString());
+            int itemId = Integer.parseInt(itemFieldGroup.getField(ITEM_ID).getValue().toString());
+            String productId = itemFieldGroup.getField(PRODUCT_ID).getValue().toString();
+            String name = itemFieldGroup.getField(NAME).getValue().toString();
+            String description = itemFieldGroup.getField(DESCRIPTION).getValue().toString();
+            String imageUrl = itemFieldGroup.getField(IMAGE_URL).getValue().toString();
+            String imageThumbUrl = itemFieldGroup.getField(IMAGE_THUMB_URL).getValue().toString();
             BigDecimal price = BigDecimal.ONE;
-            int contactInfoId = Integer.parseInt(addressFieldGroup.getField(CONTACTINFO_ID).getValue().toString());
-            int totalScore = Integer.parseInt(addressFieldGroup.getField(TOTAL_SCORE).getValue().toString());
-            int numberOfVotes = Integer.parseInt(addressFieldGroup.getField(NUMBER_OF_VOTES).getValue().toString());
-            int disabled = Integer.parseInt(addressFieldGroup.getField(DISABLED).getValue().toString());
+            int contactInfoId = Integer.parseInt(itemFieldGroup.getField(CONTACTINFO_ID).getValue().toString());
+            int totalScore = Integer.parseInt(itemFieldGroup.getField(TOTAL_SCORE).getValue().toString());
+            int numberOfVotes = Integer.parseInt(itemFieldGroup.getField(NUMBER_OF_VOTES).getValue().toString());
+            int disabled = Integer.parseInt(itemFieldGroup.getField(DISABLED).getValue().toString());
 
             ItemDTO itemDTO = new ItemDTO(addressId, itemId, productId, name, description, imageUrl, imageThumbUrl, price, contactInfoId, totalScore, numberOfVotes, disabled);
             itemService.save(itemDTO);

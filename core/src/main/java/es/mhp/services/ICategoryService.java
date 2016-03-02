@@ -14,7 +14,7 @@ public interface ICategoryService {
     Set<CategoryDTO> findAllCategories();
     Set<CategoryDTO> findAllCategories(Category category);
     Set<CategoryDTO> findAnyCategories(Category category);
-    CategoryDTO update(Category category);
-    void delete(Category category);
+    CategoryDTO save(CategoryDTO categoryDTO);
+    void delete(CategoryDTO categoryDTO);
     CategoryDTO findCategoryById(String id);
 }

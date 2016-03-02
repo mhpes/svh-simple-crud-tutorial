@@ -7,4 +7,5 @@ import es.mhp.entities.Category;
  */
 public interface ICategoryDao extends IPetshopGenericDao<Category>{
     Category findById(String id);
+    void deleteById(String id);
 }

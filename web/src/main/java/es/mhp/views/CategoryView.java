@@ -8,10 +8,7 @@ import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import es.mhp.services.ICategoryService;
 import es.mhp.services.dto.CategoryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,19 +22,17 @@ import java.util.Set;
 @SpringView(name = CategoryView.VIEW_NAME)
 public class CategoryView extends AbtractView<CategoryDTO> {
     public static final String VIEW_NAME = "Categories";
+    public static final String CATEGORY_ID = "Category Id";
+    private static final String NAME = "Name";
+    private static final String DESCRIPTION = "Description";
+    private static final String IMAGE_URL = "Image URL";
 
     @Autowired
-    private ICategoryService categoryService;
+    private ICategoryService iCategoryService;
 
     public CategoryView(){
         setSizeFull();
         this.addStyleName("category-view");
-    }
-
-    @Override
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
-        this.removeAllComponents();
-        this.addComponent(createTable());
     }
 
     @Override
@@ -47,18 +42,19 @@ public class CategoryView extends AbtractView<CategoryDTO> {
         verticalLayout.addStyleName("category-view-table-container");
         verticalLayout.setMargin(true);
 
-        Set<CategoryDTO> categories = categoryService.findAllCategories();
+        Set<CategoryDTO> categoryDTOs = iCategoryService.findAllCategories();
 
-        BeanItemContainer<CategoryDTO> categoryBeanItemContainer = new BeanItemContainer<>(CategoryDTO.class, categories);
-        Grid grid = new Grid(categoryBeanItemContainer);
+        BeanItemContainer<CategoryDTO> categoryDTOBeanItemContainer = new BeanItemContainer<>(CategoryDTO.class, categoryDTOs);
+        Grid grid = new Grid(categoryDTOBeanItemContainer);
+
         grid.setSizeFull();
         VerticalLayout formContainer = new VerticalLayout();
 
         grid.addSelectionListener((SelectionEvent.SelectionListener) event -> {
             if (grid.getSelectedRow() != null){
                 formContainer.removeAllComponents();
-                BeanItem<CategoryDTO> categoryBeanItem = categoryBeanItemContainer.getItem(grid.getSelectedRow());
-                formContainer.addComponent(createForm(categoryBeanItem.getBean()));
+                BeanItem<CategoryDTO> categoryDTOBeanItem = categoryDTOBeanItemContainer.getItem(grid.getSelectedRow());
+                formContainer.addComponent(createForm(categoryDTOBeanItem.getBean()));
             }
         });
 
@@ -72,20 +68,55 @@ public class CategoryView extends AbtractView<CategoryDTO> {
     @Override
     protected Layout createForm(CategoryDTO categoryDTO) {
         FormLayout form = new FormLayout();
-        form.addStyleName("category-view-form-container");
+        form.setImmediate(true);
+        form.addStyleName("address-view-form-container");
         PropertysetItem item = new PropertysetItem();
 
-        item.addItemProperty("Category Id", new ObjectProperty(categoryDTO.getCategoryId()));
-        item.addItemProperty("Description", new ObjectProperty(categoryDTO.getDescription()));
-        item.addItemProperty("Image", new ObjectProperty(categoryDTO.getImageUrl()));
-        item.addItemProperty("Name", new ObjectProperty(categoryDTO.getName()));
+        item.addItemProperty(CATEGORY_ID, new ObjectProperty(categoryDTO.getCategoryId()));
+        item.addItemProperty(NAME, new ObjectProperty(categoryDTO.getName()));
+        item.addItemProperty(DESCRIPTION, new ObjectProperty(categoryDTO.getDescription()));
+        item.addItemProperty(IMAGE_URL, new ObjectProperty(categoryDTO.getImageUrl()));
+
 
         FieldGroup binder = new FieldGroup(item);
-        form.addComponent(binder.buildAndBind("Category Id"));
-        form.addComponent(binder.buildAndBind("Description"));
-        form.addComponent(binder.buildAndBind("Image"));
-        form.addComponent(binder.buildAndBind("Name"));
+        form.addComponent(binder.buildAndBind(CATEGORY_ID));
+        form.addComponent(binder.buildAndBind(NAME));
+        form.addComponent(binder.buildAndBind(DESCRIPTION));
+        form.addComponent(binder.buildAndBind(IMAGE_URL));
+
+        form.addComponent(createDeleteButton(categoryDTO));
+        form.addComponent(createSavebutton(binder));
 
         return form;
+    }
+
+    private Button createSavebutton(FieldGroup itemFieldGroup) {
+        final Button saveButton = new Button("Save");
+
+        saveButton.addClickListener((Button.ClickListener) event -> {
+            String categoryId = itemFieldGroup.getField(CATEGORY_ID).getValue().toString();
+            String name = itemFieldGroup.getField(NAME).getValue().toString();
+            String description = itemFieldGroup.getField(DESCRIPTION).getValue().toString();
+            String imageUrl = itemFieldGroup.getField(IMAGE_URL).getValue().toString();
+
+            CategoryDTO addressDTO = new CategoryDTO(categoryId, name, description, imageUrl);
+            iCategoryService.save(addressDTO);
+        });
+
+        return saveButton;
+    }
+
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent event) {
+        this.removeAllComponents();
+        this.addComponent(createTable());
+    }
+
+    private Button createDeleteButton(CategoryDTO categoryDTO){
+        final Button deleteButton = new Button("Delete entry");
+
+        deleteButton.addClickListener((Button.ClickListener) event -> iCategoryService.delete(categoryDTO));
+
+        return deleteButton;
     }
 }

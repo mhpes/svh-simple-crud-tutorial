@@ -9,17 +9,16 @@
 
     <artifactId>web</artifactId>
 
+    <properties>
+        <vaadin.version>7.5.9</vaadin.version>
+        <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-server</artifactId>
             <version>${vaadin.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>es.mhp</groupId>
-            <artifactId>core</artifactId>
-            <version>1.0</version>
         </dependency>
 
         <dependency>
@@ -34,31 +33,25 @@
             <version>${vaadin.version}</version>
         </dependency>
 
-        <!--<dependency>
-            <groupId>com.vaadin.addon</groupId>
-            <artifactId>jpacontainer-addon</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
-        </dependency>
-
         <dependency>
-            <groupId>org.vaadin.addons</groupId>
-            <artifactId>toolkit-productivity-tools</artifactId>
-            <version>1.1</version>
-        </dependency>-->
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-spring</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>4.1.6.RELEASE</version>
         </dependency>
+
         <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-spring</artifactId>
-            <version>1.0.0</version>
+            <groupId>es.mhp</groupId>
+            <artifactId>core</artifactId>
+            <version>1.0</version>
         </dependency>
+
     </dependencies>
-
-
 
     <packaging>war</packaging>
 

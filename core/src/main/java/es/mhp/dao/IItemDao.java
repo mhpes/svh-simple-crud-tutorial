@@ -7,4 +7,5 @@ import es.mhp.entities.Item;
  */
 public interface IItemDao extends IPetshopGenericDao<Item>{
     Item findById(int id);
+    void deleteById(int id);
 }

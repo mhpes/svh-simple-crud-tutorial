@@ -55,14 +55,25 @@ public class ServiceCategoryImpl implements ICategoryService {
         return categoryDTOs;
     }
 
-    public CategoryDTO update(Category category) {
-        return new CategoryDTO(iCategoryDao.update(category));
+    @Override
+    public CategoryDTO save(CategoryDTO categoryDTO) {
+        Category address = iCategoryDao.findById(categoryDTO.getCategoryId());
+
+        if (address != null){
+            iCategoryDao.update(categoryDTO.ToEntity(address));
+        } else {
+            address = new Category();
+            iCategoryDao.save(address);
+        }
+        return new CategoryDTO(address);
     }
 
-    public void delete(Category category) {
-        iCategoryDao.delete(category);
+    @Override
+    public void delete(CategoryDTO categoryDTO) {
+        iCategoryDao.deleteById(categoryDTO.getCategoryId());
     }
 
+    @Override
     public CategoryDTO findCategoryById(String id) {
         return new CategoryDTO(iCategoryDao.findById(id));
     }
