@@ -1,10 +1,9 @@
-/*
 package es.mhp.views;
 
-*/
 /**
  * Created by Edu on 24/02/2016.
- *//*
+ * */
+
 
 
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -24,11 +23,6 @@ import es.mhp.services.ISellerContactInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-
-*/
-/**
- * Created by Edu on 23/02/2016.
- *//*
 
 
 @SpringView(name = SellerContactInfoView.VIEW_NAME)
@@ -99,4 +93,3 @@ public class SellerContactInfoView extends AbtractView<SellerContactInfo> {
     }
 }
 
-*/

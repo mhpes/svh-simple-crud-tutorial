@@ -1,14 +1,11 @@
 package es.mhp.entities;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
 
@@ -18,7 +15,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "ADDRESS")
-public class Address extends AbstractEntity implements Serializable{
+public class Address extends AbstractEntity {
 
     @Id
     @SequenceGenerator(name="address_sequence", initialValue=1, allocationSize=9999999)
@@ -33,14 +30,14 @@ public class Address extends AbstractEntity implements Serializable{
     @Size(max = 55)
     private String mainStreet;
 
-    @Column(name = "STREET2")
-    @Size(max = 55)
-    private String secondaryStreet;
-
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = ZipLocation.class, optional = false, cascade = CascadeType.ALL)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "zip", referencedColumnName = "ZIPCODE")
     private ZipLocation zipLocation;
+
+    @Column(name = "STREET2")
+    @Size(max = 55)
+    private String secondaryStreet;
 
     @Column(name = "CITY")
     @Size(max = 55)

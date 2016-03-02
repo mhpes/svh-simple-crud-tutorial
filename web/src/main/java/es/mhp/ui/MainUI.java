@@ -69,9 +69,8 @@ public class MainUI extends UI {
         verticalLayout.addComponent(createCustomButton(ItemView.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(ZipLocationView.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(ProductView.VIEW_NAME));
-        /*verticalLayout.addComponent(createCustomButton(SellerContactInfoView.VIEW_NAME));
+        verticalLayout.addComponent(createCustomButton(SellerContactInfoView.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(TagView.VIEW_NAME));
-        */
 
         return verticalLayout;
     }
