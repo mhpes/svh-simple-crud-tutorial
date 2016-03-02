@@ -3,6 +3,7 @@ package es.mhp.dao.impl;
 import es.mhp.dao.ICategoryDao;
 import es.mhp.entities.Category;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
@@ -12,6 +13,7 @@ import java.util.*;
  * Created by Edu on 12/02/2016.
  */
 @Component
+@Transactional
 public class CategoryDaoImpl extends AbstractPetshopGenericDao<Category> implements ICategoryDao{
 
     @Override

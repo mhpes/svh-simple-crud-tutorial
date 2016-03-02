@@ -3,6 +3,7 @@ package es.mhp.dao.impl;
 import es.mhp.dao.IProductDao;
 import es.mhp.entities.Product;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
@@ -14,6 +15,7 @@ import java.util.Set;
  * Created by Edu on 12/02/2016.
  */
 @Component
+@Transactional
 public class ProductDaoImpl extends AbstractPetshopGenericDao<Product> implements IProductDao {
 
     @Override

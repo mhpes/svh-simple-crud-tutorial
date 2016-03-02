@@ -3,6 +3,7 @@ package es.mhp.dao.impl;
 import es.mhp.dao.ITagDao;
 import es.mhp.entities.Tag;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
@@ -14,19 +15,20 @@ import java.util.Set;
  * Created by Edu on 12/02/2016.
  */
 @Component
+@Transactional
 public class TagDaoImpl extends AbstractPetshopGenericDao<Tag> implements ITagDao {
 
     @Override
     public Tag findById(int id) {
-        return entityManager.find(Tag.class, id);
+        return getEntityManager().find(Tag.class, id);
     }
 
     @Override
     public void deleteById(int id) {
-        Tag tag = entityManager.find(Tag.class, id);
+        Tag tag = findById(id);
 
         if (tag != null) {
-            entityManager.remove(tag);
+            getEntityManager().remove(tag);
         }
     }
 
