@@ -172,10 +172,6 @@ public class Item extends AbstractEntity {
         this.itemId = itemId;
     }
 
-    public String toString() {
-        return this.getName() + ". " + this.getDescription();
-    }
-
     public int getTagsCount() {
         return this.tags.size();
     }

@@ -216,7 +216,7 @@ public class ItemDTO extends AbstractDTO{
         this.disabled = disabled;
     }
 
-    public Item ToEntity(Item item) {
+    public Item toEntity(Item item) {
         BeanUtils.copyProperties(this, item);
         return item;
     }

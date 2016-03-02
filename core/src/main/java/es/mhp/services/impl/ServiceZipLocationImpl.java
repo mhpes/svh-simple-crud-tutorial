@@ -72,10 +72,10 @@ public class ServiceZipLocationImpl implements IZipLocationService {
         ZipLocation zipLocation = iZiplocationDao.findById(zipLocationDTO.getZipCodeId());
 
         if (zipLocation != null){
-            iZiplocationDao.update(zipLocationDTO.ToEntity(zipLocation));
+            iZiplocationDao.update(zipLocationDTO.toEntity(zipLocation));
         } else {
             zipLocation = new ZipLocation();
-            iZiplocationDao.save(zipLocationDTO.ToEntity(zipLocation));
+            iZiplocationDao.save(zipLocationDTO.toEntity(zipLocation));
         }
         return zipLocationDTO;
     }

@@ -13,12 +13,10 @@ import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
-import es.mhp.entities.Product;
 import es.mhp.services.IProductService;
 import es.mhp.services.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
 import java.util.Set;
 
 @SpringView(name = ProductView.VIEW_NAME)

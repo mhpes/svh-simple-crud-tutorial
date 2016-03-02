@@ -34,7 +34,7 @@ public class SellerContactInfo extends AbstractEntity{
     @Size(max = 24)
     private String email;
 
-    SellerContactInfo(){}
+    public SellerContactInfo(){}
 
     public String getEmail() {
         return email;
@@ -74,9 +74,5 @@ public class SellerContactInfo extends AbstractEntity{
 
     public void setItem(Set<Item> item) {
         this.item = item;
-    }
-
-    public String toString() {
-        return this.getFirstName() + " " + this.getLastName();
     }
 }

@@ -11,8 +11,8 @@ import java.util.Set;
 public interface ITagService {
     Set<TagDTO> findAllTags();
     Set<TagDTO> findAllTags(Tag tag);
-    Set<TagDTO> findAnyTag(Tag tag);
-    TagDTO update(Tag tag);
-    void delete(Tag tag);
-    TagDTO findTagById(long id);
+    Set<TagDTO> findAnyTags(Tag tag);
+    TagDTO save(TagDTO tagDTO);
+    void delete(TagDTO tagDTO);
+    TagDTO findTagById(int id);
 }

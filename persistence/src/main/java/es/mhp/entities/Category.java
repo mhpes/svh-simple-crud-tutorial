@@ -83,10 +83,6 @@ public class Category extends AbstractEntity{
         this.categoryId = categoryId;
     }
 
-    public String toString() {
-        return this.getName() + ". " + this.getDescription();
-    }
-
     public int getProductsCount() {
         return this.products.size();
     }

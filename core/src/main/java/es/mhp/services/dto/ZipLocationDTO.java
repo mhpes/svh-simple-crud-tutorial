@@ -56,7 +56,7 @@ public class ZipLocationDTO extends AbstractDTO{
         this.state = state;
     }
 
-    public ZipLocation ToEntity(ZipLocation zipLocation) {
+    public ZipLocation toEntity(ZipLocation zipLocation) {
         BeanUtils.copyProperties(this, zipLocation);
         return zipLocation;
     }

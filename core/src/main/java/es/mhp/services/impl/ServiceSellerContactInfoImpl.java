@@ -1,4 +1,3 @@
-/*
 package es.mhp.services.impl;
 
 import es.mhp.dao.ISellerDao;
@@ -8,12 +7,14 @@ import es.mhp.services.dto.SellerContactInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
-*/
-/**
+/*
  * Created by Edu on 24/02/2016.
- *//*
+*/
+
 
 @Service
 public class ServiceSellerContactInfoImpl implements ISellerContactInfoService {
@@ -21,29 +22,68 @@ public class ServiceSellerContactInfoImpl implements ISellerContactInfoService {
     @Autowired
     private ISellerDao iSellerDao;
 
-
+    @Override
     public Set<SellerContactInfoDTO> findAllSellers() {
-        return iSellerDao.findAll();
+        Set<SellerContactInfo> tagSet = iSellerDao.findAll();
+
+        Set<SellerContactInfoDTO> tagDTOs = new HashSet<>();
+
+        for (SellerContactInfo sellerContactInfo : tagSet){
+            tagDTOs.add(new SellerContactInfoDTO(sellerContactInfo));
+        }
+
+        return tagDTOs;
     }
 
-    public Set<SellerContactInfoDTO> findAllSellers(SellerContactInfo sellerContactInfo) {
-        return iSellerDao.findAll(sellerContactInfo);
+    @Override
+    public Set<SellerContactInfoDTO> findAllSellers(SellerContactInfo tag) {
+        Set<SellerContactInfo> sellerContactInfoSet = iSellerDao.findAll(tag);
+
+        Set<SellerContactInfoDTO> tagDTOs = new HashSet<>();
+
+        for (SellerContactInfo currentSellerContactInfo : sellerContactInfoSet) {
+            tagDTOs.add(new SellerContactInfoDTO(currentSellerContactInfo));
+        }
+
+        return tagDTOs;
     }
 
-    public Set<SellerContactInfoDTO> findAnySeller(SellerContactInfo sellerContactInfo) {
-        return iSellerDao.findAny(sellerContactInfo);
+    @Override
+    public Set<SellerContactInfoDTO> findAnySellers(SellerContactInfo sellerContactInfo) {
+        Set<SellerContactInfo> sellerContactInfoSet = iSellerDao.findAny(sellerContactInfo);
+
+        if (!sellerContactInfoSet.isEmpty()){
+            Set<SellerContactInfoDTO> sellerContactInfoDTOs = new HashSet<>();
+
+            for (SellerContactInfo currentSellerContactInfo : sellerContactInfoSet) {
+                sellerContactInfoDTOs.add(new SellerContactInfoDTO(currentSellerContactInfo));
+            }
+
+            return sellerContactInfoDTOs;
+        }
+        return Collections.emptySet();
     }
 
-    public SellerContactInfoDTO update(SellerContactInfo sellerContactInfo) {
-        return iSellerDao.update(sellerContactInfo);
+    @Override
+    public SellerContactInfoDTO save(SellerContactInfoDTO tagDTO) {
+        SellerContactInfo sellerContactInfo = iSellerDao.findById(tagDTO.getContactInfoId());
+
+        if (sellerContactInfo != null){
+            iSellerDao.update(tagDTO.toEntity(sellerContactInfo));
+        } else {
+            sellerContactInfo = new SellerContactInfo();
+            iSellerDao.save(sellerContactInfo);
+        }
+        return new SellerContactInfoDTO(sellerContactInfo);
     }
 
-    public void delete(SellerContactInfo sellerContactInfo) {
-        iSellerDao.delete(sellerContactInfo);
+    @Override
+    public void delete(SellerContactInfoDTO sellerContactInfoDTO) {
+        iSellerDao.deleteById(sellerContactInfoDTO.getContactInfoId());
     }
 
-    public SellerContactInfoDTO findSellerById(long id) {
-        return iSellerDao.findById(id);
+    @Override
+    public SellerContactInfoDTO findSellerById(int id) {
+        return new SellerContactInfoDTO(iSellerDao.findById(id));
     }
 }
-*/

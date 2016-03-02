@@ -26,26 +26,26 @@ public class ServiceProductImpl implements IProductService {
     public Set<ProductDTO> findAllProducts() {
         Set<Product> addressSet = iProductDao.findAll();
 
-        Set<ProductDTO> ProductDTOs = new HashSet<>();
+        Set<ProductDTO> productDTOs = new HashSet<>();
 
         for (Product product : addressSet){
-            ProductDTOs.add(new ProductDTO(product));
+            productDTOs.add(new ProductDTO(product));
         }
 
-        return ProductDTOs;
+        return productDTOs;
     }
 
     @Override
     public Set<ProductDTO> findAllProducts(Product product) {
         Set<Product> productSet = iProductDao.findAll(product);
 
-        Set<ProductDTO> ProductDTOs = new HashSet<>();
+        Set<ProductDTO> productDTOs = new HashSet<>();
 
         for (Product currentProduct : productSet) {
-            ProductDTOs.add(new ProductDTO(currentProduct));
+            productDTOs.add(new ProductDTO(currentProduct));
         }
 
-        return ProductDTOs;
+        return productDTOs;
     }
 
     @Override
@@ -53,33 +53,33 @@ public class ServiceProductImpl implements IProductService {
         Set<Product> productSet = iProductDao.findAny(product);
 
         if (!productSet.isEmpty()){
-            Set<ProductDTO> ProductDTOs = new HashSet<>();
+            Set<ProductDTO> productDTOs = new HashSet<>();
 
             for (Product currentProduct : productSet) {
-                ProductDTOs.add(new ProductDTO(currentProduct));
+                productDTOs.add(new ProductDTO(currentProduct));
             }
 
-            return ProductDTOs;
+            return productDTOs;
         }
         return Collections.emptySet();
     }
 
     @Override
-    public ProductDTO save(ProductDTO ProductDTO) {
-        Product product = iProductDao.findById(ProductDTO.getProductId());
+    public ProductDTO save(ProductDTO productDTO) {
+        Product product = iProductDao.findById(productDTO.getProductId());
 
         if (product != null){
-            iProductDao.update(ProductDTO.ToEntity(product));
+            iProductDao.update(productDTO.toEntity(product));
         } else {
             product = new Product();
             iProductDao.save(product);
         }
-        return ProductDTO;
+        return productDTO;
     }
 
     @Override
-    public void delete(ProductDTO ProductDTO) {
-        iProductDao.deleteById(ProductDTO.getProductId());
+    public void delete(ProductDTO productDTO) {
+        iProductDao.deleteById(productDTO.getProductId());
     }
 
     @Override

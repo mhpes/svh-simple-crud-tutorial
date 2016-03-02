@@ -19,6 +19,7 @@ public class ServiceItemImpl implements IItemService {
     @Autowired
     private IItemDao iItemDao;
 
+    @Override
     public Set<ItemDTO> findAllItems() {
         Set<Item> itemSet = iItemDao.findAll();
 
@@ -31,6 +32,7 @@ public class ServiceItemImpl implements IItemService {
         return categoryDTOs;
     }
 
+    @Override
     public Set<ItemDTO> findAllItems(Item item) {
         Set<Item> itemSet = iItemDao.findAll(item);
 
@@ -43,6 +45,7 @@ public class ServiceItemImpl implements IItemService {
         return categoryDTOs;
     }
 
+    @Override
     public Set<ItemDTO> findAnyItem(Item item) {
         Set<Item> itemSet = iItemDao.findAny(item);
 
@@ -60,7 +63,7 @@ public class ServiceItemImpl implements IItemService {
         Item item = iItemDao.findById(itemDTO.getItemId());
 
         if (item != null){
-            iItemDao.update(itemDTO.ToEntity(item));
+            iItemDao.update(itemDTO.toEntity(item));
         } else {
             item = new Item();
             iItemDao.save(item);
@@ -71,6 +74,7 @@ public class ServiceItemImpl implements IItemService {
     @Override
     public void delete(ItemDTO itemDTO) { iItemDao.deleteById(itemDTO.getItemId()); }
 
+    @Override
     public ItemDTO findItemById(int id) {
         return new ItemDTO(iItemDao.findById(id));
     }

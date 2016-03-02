@@ -80,6 +80,8 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
     public void deleteById(int id) {
         Address address = findById(id);
 
-        if (address != null) getEntityManager().remove(address);
+        if (address != null) {
+            getEntityManager().remove(address);
+        }
     }
 }

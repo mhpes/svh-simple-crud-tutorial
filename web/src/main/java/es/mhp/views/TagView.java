@@ -1,11 +1,8 @@
-/*
 package es.mhp.views;
 
-*/
-/**
+/*
  * Created by Edu on 24/02/2016.
- *//*
-
+*/
 
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
@@ -15,28 +12,22 @@ import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.VerticalLayout;
-import es.mhp.entities.Tag;
+import com.vaadin.ui.*;
 import es.mhp.services.ITagService;
+import es.mhp.services.dto.TagDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
-*/
-/**
- * Created by Edu on 23/02/2016.
- *//*
-
+import java.util.Set;
 
 @SpringView(name = TagView.VIEW_NAME)
-public class TagView extends AbtractView<Tag> {
+public class TagView extends AbtractView<TagDTO> {
     public static final String VIEW_NAME = "Tags";
+    private static final String TAG_ID = "Tag Id";
+    private static final String TAG = "Tag";
+    private static final String REF_COUNT = "Reference Count";
 
     @Autowired
-    private ITagService tagService;
+    private ITagService iTagService;
 
     public TagView(){
         setSizeFull();
@@ -53,12 +44,12 @@ public class TagView extends AbtractView<Tag> {
     protected Layout createTable() {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setSizeFull();
-        verticalLayout.addStyleName("tag-view-table-container");
+        verticalLayout.addStyleName("item-view-table-container");
         verticalLayout.setMargin(true);
 
-        List<Tag> tags = tagService.findAllTags();
+        Set<TagDTO> zipLocationDTOs = iTagService.findAllTags();
 
-        BeanItemContainer<Tag> itemBeanItemContainer = new BeanItemContainer<>(Tag.class, tags);
+        BeanItemContainer<TagDTO> itemBeanItemContainer = new BeanItemContainer<>(TagDTO.class, zipLocationDTOs);
         Grid grid = new Grid(itemBeanItemContainer);
         grid.setSizeFull();
         VerticalLayout formContainer = new VerticalLayout();
@@ -66,8 +57,8 @@ public class TagView extends AbtractView<Tag> {
         grid.addSelectionListener((SelectionEvent.SelectionListener) event -> {
             if (grid.getSelectedRow() != null){
                 formContainer.removeAllComponents();
-                BeanItem<Tag> tagBeanItem = itemBeanItemContainer.getItem(grid.getSelectedRow());
-                formContainer.addComponent(createForm(tagBeanItem.getBean()));
+                BeanItem<TagDTO> zipLocationDTOBeanItem = itemBeanItemContainer.getItem(grid.getSelectedRow());
+                formContainer.addComponent(createForm(zipLocationDTOBeanItem.getBean()));
             }
         });
 
@@ -79,22 +70,48 @@ public class TagView extends AbtractView<Tag> {
     }
 
     @Override
-    protected Layout createForm(Tag tag) {
+    protected Layout createForm(TagDTO tagDTO) {
         FormLayout form = new FormLayout();
-        form.addStyleName("tag-view-form-container");
-        PropertysetItem propertysetItemtem = new PropertysetItem();
+        form.setImmediate(true);
+        form.addStyleName("zipLocation-view-form-container");
+        PropertysetItem item = new PropertysetItem();
 
-        propertysetItemtem.addItemProperty("Tag Id", new ObjectProperty(tag.getTagId()));
-        propertysetItemtem.addItemProperty("Description", new ObjectProperty(tag.getTagDescription()));
-        propertysetItemtem.addItemProperty("Reference Count", new ObjectProperty(tag.getRefCount()));
+        item.addItemProperty(TAG_ID, new ObjectProperty(tagDTO.getTagId()));
+        item.addItemProperty(TAG, new ObjectProperty(tagDTO.getTag()));
+        item.addItemProperty(REF_COUNT, new ObjectProperty(tagDTO.getRefCount()));
 
-        FieldGroup binder = new FieldGroup(propertysetItemtem);
-        form.addComponent(binder.buildAndBind("Tag Id"));
-        form.addComponent(binder.buildAndBind("Description"));
-        form.addComponent(binder.buildAndBind("Reference Count"));
+        FieldGroup binder = new FieldGroup(item);
+        form.addComponent(binder.buildAndBind(TAG_ID));
+        form.addComponent(binder.buildAndBind(TAG));
+        form.addComponent(binder.buildAndBind(REF_COUNT));
+
+        form.addComponent(createDeleteButton(tagDTO));
+        form.addComponent(createSavebutton(binder));
 
         return form;
     }
+
+    private Button createSavebutton(FieldGroup tagFieldGroup) {
+        final Button saveButton = new Button("Save");
+
+        saveButton.addClickListener((Button.ClickListener) event -> {
+            Integer tagId = Integer.parseInt(tagFieldGroup.getField(TAG_ID).getValue().toString());
+            String tagDescription = tagFieldGroup.getField(TAG).getValue().toString();
+            Integer refCount = Integer.parseInt(tagFieldGroup.getField(REF_COUNT).getValue().toString());
+
+            TagDTO addressDTO = new TagDTO(tagId, tagDescription, refCount);
+            iTagService.save(addressDTO);
+        });
+
+        return saveButton;
+    }
+
+    private Button createDeleteButton(TagDTO tagDTO){
+        final Button deleteButton = new Button("Delete entry");
+
+        deleteButton.addClickListener((Button.ClickListener) event -> iTagService.delete(tagDTO));
+
+        return deleteButton;
+    }
 }
 
-*/

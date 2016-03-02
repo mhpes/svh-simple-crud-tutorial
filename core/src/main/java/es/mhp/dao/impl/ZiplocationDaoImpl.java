@@ -20,7 +20,9 @@ public class ZiplocationDaoImpl extends AbstractPetshopGenericDao<ZipLocation> i
     public void deleteById(int id) {
         ZipLocation zipLocation = findById(id);
 
-        if (zipLocation != null) getEntityManager().remove(zipLocation);
+        if (zipLocation != null) {
+            getEntityManager().remove(zipLocation);
+        }
     }
 
     @Override

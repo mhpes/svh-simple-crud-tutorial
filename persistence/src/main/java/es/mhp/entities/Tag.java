@@ -32,7 +32,7 @@ public class Tag extends AbstractEntity {
     @JoinTable(name="TAG_ITEM", joinColumns = {@JoinColumn(name="tagId")}, inverseJoinColumns={@JoinColumn(name="itemId")})
     private Set<Item> items;
 
-    Tag() {}
+    public Tag() {}
 
     public Set<Item> getItems() {
         return items;
@@ -64,9 +64,5 @@ public class Tag extends AbstractEntity {
 
     public void setTagId(Integer tagId) {
         this.tagId = tagId;
-    }
-
-    public String toString() {
-        return this.getTagDescription();
     }
 }

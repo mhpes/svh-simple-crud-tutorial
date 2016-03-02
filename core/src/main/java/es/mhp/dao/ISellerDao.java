@@ -7,4 +7,5 @@ import es.mhp.entities.SellerContactInfo;
  */
 public interface ISellerDao extends IPetshopGenericDao<SellerContactInfo> {
     SellerContactInfo findById(int id);
+    void deleteById(int id);
 }

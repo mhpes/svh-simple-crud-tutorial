@@ -85,6 +85,8 @@ public class ItemDaoImpl extends AbstractPetshopGenericDao<Item> implements IIte
     public void deleteById(int id) {
         Item item = findById(id);
 
-        if (item != null) getEntityManager().remove(item);
+        if (item != null) {
+            getEntityManager().remove(item);
+        }
     }
 }

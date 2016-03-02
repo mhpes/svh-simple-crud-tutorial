@@ -20,7 +20,9 @@ public class ProductDaoImpl extends AbstractPetshopGenericDao<Product> implement
     public void deleteById(String id) {
         Product product = findById(id);
 
-        if (product != null) getEntityManager().remove(product);
+        if (product != null) {
+            getEntityManager().remove(product);
+        }
     }
 
     @Override

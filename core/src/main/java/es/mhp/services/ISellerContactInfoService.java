@@ -12,8 +12,8 @@ public interface ISellerContactInfoService {
 
     Set<SellerContactInfoDTO> findAllSellers();
     Set<SellerContactInfoDTO> findAllSellers(SellerContactInfo sellerContactInfo);
-    Set<SellerContactInfoDTO> findAnySeller(SellerContactInfo sellerContactInfo);
-    SellerContactInfoDTO update(SellerContactInfo sellerContactInfo);
-    void delete(SellerContactInfo sellerContactInfo);
-    SellerContactInfoDTO findSellerById(long id);
+    Set<SellerContactInfoDTO> findAnySellers(SellerContactInfo sellerContactInfo);
+    SellerContactInfoDTO save(SellerContactInfoDTO sellerContactInfoDTO);
+    void delete(SellerContactInfoDTO sellerContactInfoDTO);
+    SellerContactInfoDTO findSellerById(int id);
 }

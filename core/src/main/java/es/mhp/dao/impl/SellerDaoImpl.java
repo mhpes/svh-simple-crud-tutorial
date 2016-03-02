@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -21,6 +22,15 @@ public class SellerDaoImpl extends AbstractPetshopGenericDao<SellerContactInfo> 
     }
 
     @Override
+    public void deleteById(int id) {
+        SellerContactInfo sellerContactInfo = entityManager.find(SellerContactInfo.class, id);
+
+        if (sellerContactInfo != null) {
+            entityManager.remove(sellerContactInfo);
+        }
+    }
+
+    @Override
     public Set<SellerContactInfo> findAny(SellerContactInfo entity) {
         return findAll(entity, false);
     }
@@ -32,7 +42,7 @@ public class SellerDaoImpl extends AbstractPetshopGenericDao<SellerContactInfo> 
 
     @Override
     public Set<SellerContactInfo> findAll() {
-        return (Set<SellerContactInfo>) entityManager.createQuery("SELECT a FROM SellerContactInfo a").getResultList();
+        return new HashSet<>(entityManager.createQuery("SELECT a FROM SellerContactInfo a").getResultList());
     }
 
     @Override

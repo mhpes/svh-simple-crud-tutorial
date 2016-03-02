@@ -87,8 +87,4 @@ public class Product extends AbstractEntity {
     public void setProductId(String productId) {
         this.productId = productId;
     }
-
-    public String toString() {
-        return this.getName() + ". " + this.getDescription();
-    }
 }

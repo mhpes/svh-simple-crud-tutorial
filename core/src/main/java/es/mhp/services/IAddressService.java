@@ -14,6 +14,6 @@ public interface IAddressService extends AbstractService{
     Set<AddressDTO> findAllAddresses(Address address);
     Set<AddressDTO> findAnyAddresses(Address address);
     AddressDTO save(AddressDTO addressDTO);
-    void delete(AddressDTO address);
+    void delete(AddressDTO addressDTO);
     AddressDTO findAddressById(int id);
 }

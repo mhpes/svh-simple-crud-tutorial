@@ -37,17 +37,7 @@ public class ProductDTO extends AbstractDTO {
         this.imageUrl = imageUrl;
     }
 
-    public Product ToEntity() {
-        Product product = new Product();
-        product.setProductId(this.getProductId());
-        product.setName(this.getName());
-        product.setDescription(this.getDescription());
-        product.setImageUrl(this.getImageUrl());
-
-        return product;
-    }
-
-    public Product ToEntity(Product product) {
+    public Product toEntity(Product product) {
         BeanUtils.copyProperties(this, product);
         return product;
     }

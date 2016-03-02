@@ -51,19 +51,6 @@ public class AddressDTO extends AbstractDTO{
         this.longitude = longitude;
     }
 
-    public Address ToEntity() {
-        Address address = new Address();
-        address.setAddressId(this.getAddressId());
-        address.setMainStreet(this.getMainStreet());
-        address.setSecondaryStreet(this.getSecondaryStreet());
-        address.setCity(this.getCity());
-        address.setState(this.getState());
-        address.setLongitude(this.getLongitude());
-        address.setLatitude(this.getLongitude());
-
-        return address;
-    }
-
     public int getAddressId() {
         return addressId;
     }
@@ -140,7 +127,7 @@ public class AddressDTO extends AbstractDTO{
         this.addressId = addressId;
     }
 
-    public Address ToEntity(Address address) {
+    public Address toEntity(Address address) {
         BeanUtils.copyProperties(this, address);
         return address;
     }

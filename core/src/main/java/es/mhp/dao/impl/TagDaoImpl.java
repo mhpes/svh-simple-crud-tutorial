@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.Query;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -21,6 +22,15 @@ public class TagDaoImpl extends AbstractPetshopGenericDao<Tag> implements ITagDa
     }
 
     @Override
+    public void deleteById(int id) {
+        Tag tag = entityManager.find(Tag.class, id);
+
+        if (tag != null) {
+            entityManager.remove(tag);
+        }
+    }
+
+    @Override
     public Set<Tag> findAny(Tag entity) {
         return findAll(entity, false);
     }
@@ -32,7 +42,7 @@ public class TagDaoImpl extends AbstractPetshopGenericDao<Tag> implements ITagDa
 
     @Override
     public Set<Tag> findAll() {
-        return (Set<Tag>) entityManager.createQuery("SELECT a FROM Tag a").getResultList();
+        return new HashSet<> (entityManager.createQuery("SELECT a FROM Tag a").getResultList());
     }
 
     @Override

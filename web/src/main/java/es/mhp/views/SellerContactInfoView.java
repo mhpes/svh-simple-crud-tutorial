@@ -14,20 +14,21 @@ import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.VerticalLayout;
-import es.mhp.entities.SellerContactInfo;
+import com.vaadin.ui.*;
 import es.mhp.services.ISellerContactInfoService;
+import es.mhp.services.dto.SellerContactInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
+import java.util.Set;
 
 
 @SpringView(name = SellerContactInfoView.VIEW_NAME)
-public class SellerContactInfoView extends AbtractView<SellerContactInfo> {
+public class SellerContactInfoView extends AbtractView<SellerContactInfoDTO> {
     public static final String VIEW_NAME = "SellerContactInfos";
+    public static final String CONTACTINFO_ID = "Seller Id";
+    public static final String LAST_NAME = "Last name";
+    public static final String FIRST_NAME = "First name";
+    public static final String EMAIL = "Email";
 
     @Autowired
     private ISellerContactInfoService iSellerContactInfoService;
@@ -38,30 +39,26 @@ public class SellerContactInfoView extends AbtractView<SellerContactInfo> {
     }
 
     @Override
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
-        this.removeAllComponents();
-        this.addComponent(createTable());
-    }
-
-    @Override
     protected Layout createTable() {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setSizeFull();
-        verticalLayout.addStyleName("item-view-table-container");
+        verticalLayout.addStyleName("seller-view-table-container");
         verticalLayout.setMargin(true);
 
-        List<SellerContactInfo> sellerContactInfos = iSellerContactInfoService.findAllSellers();
+        Set<SellerContactInfoDTO> sellerContactInfoDTOs = iSellerContactInfoService.findAllSellers();
 
-        BeanItemContainer<SellerContactInfo> itemBeanItemContainer = new BeanItemContainer<>(SellerContactInfo.class, sellerContactInfos);
-        Grid grid = new Grid(itemBeanItemContainer);
+        BeanItemContainer<SellerContactInfoDTO> sellerContactInfoDTOBeanItemContainer = new BeanItemContainer<>(SellerContactInfoDTO.class, sellerContactInfoDTOs);
+        sellerContactInfoDTOBeanItemContainer.removeItem("itemCount");
+        Grid grid = new Grid(sellerContactInfoDTOBeanItemContainer);
+
         grid.setSizeFull();
         VerticalLayout formContainer = new VerticalLayout();
 
         grid.addSelectionListener((SelectionEvent.SelectionListener) event -> {
             if (grid.getSelectedRow() != null){
                 formContainer.removeAllComponents();
-                BeanItem<SellerContactInfo> sellerContactInfoBeanItem = itemBeanItemContainer.getItem(grid.getSelectedRow());
-                formContainer.addComponent(createForm(sellerContactInfoBeanItem.getBean()));
+                BeanItem<SellerContactInfoDTO> sellerContactInfoDTOBeanItem = sellerContactInfoDTOBeanItemContainer.getItem(grid.getSelectedRow());
+                formContainer.addComponent(createForm(sellerContactInfoDTOBeanItem.getBean()));
             }
         });
 
@@ -73,23 +70,57 @@ public class SellerContactInfoView extends AbtractView<SellerContactInfo> {
     }
 
     @Override
-    protected Layout createForm(SellerContactInfo sellerContactInfo) {
+    protected Layout createForm(SellerContactInfoDTO sellerContactInfoDTO) {
         FormLayout form = new FormLayout();
+        form.setImmediate(true);
         form.addStyleName("seller-view-form-container");
-        PropertysetItem propertysetItem = new PropertysetItem();
+        PropertysetItem item = new PropertysetItem();
 
-        propertysetItem.addItemProperty("Seller Id", new ObjectProperty(sellerContactInfo.getSellerId()));
-        propertysetItem.addItemProperty("First Name", new ObjectProperty(sellerContactInfo.getFirstName()));
-        propertysetItem.addItemProperty("Last Name", new ObjectProperty(sellerContactInfo.getLastName()));
-        propertysetItem.addItemProperty("Email", new ObjectProperty(sellerContactInfo.getEmail()));
+        item.addItemProperty(CONTACTINFO_ID, new ObjectProperty(sellerContactInfoDTO.getContactInfoId()));
+        item.addItemProperty(LAST_NAME, new ObjectProperty(sellerContactInfoDTO.getLastName()));
+        item.addItemProperty(FIRST_NAME, new ObjectProperty(sellerContactInfoDTO.getFirstName()));
+        item.addItemProperty(EMAIL, new ObjectProperty(sellerContactInfoDTO.getEmail()));
 
-        FieldGroup binder = new FieldGroup(propertysetItem);
-        form.addComponent(binder.buildAndBind("Seller Id"));
-        form.addComponent(binder.buildAndBind("First Name"));
-        form.addComponent(binder.buildAndBind("Last Name"));
-        form.addComponent(binder.buildAndBind("Email"));
+        FieldGroup binder = new FieldGroup(item);
+        form.addComponent(binder.buildAndBind(CONTACTINFO_ID));
+        form.addComponent(binder.buildAndBind(LAST_NAME));
+        form.addComponent(binder.buildAndBind(FIRST_NAME));
+        form.addComponent(binder.buildAndBind(EMAIL));
+
+        form.addComponent(createDeleteButton(sellerContactInfoDTO));
+        form.addComponent(createSavebutton(binder));
 
         return form;
+    }
+
+    private Button createSavebutton(FieldGroup sellerFieldGroup) {
+        final Button saveButton = new Button("Save");
+
+        saveButton.addClickListener((Button.ClickListener) event -> {
+            int contactInfoId = Integer.parseInt(sellerFieldGroup.getField(CONTACTINFO_ID).getValue().toString());
+            String lastName = sellerFieldGroup.getField(LAST_NAME).getValue().toString();
+            String firstName = sellerFieldGroup.getField(FIRST_NAME).getValue().toString();
+            String email = sellerFieldGroup.getField(EMAIL).getValue().toString();
+
+            SellerContactInfoDTO sellerContactInfoDTO = new SellerContactInfoDTO(contactInfoId, lastName, firstName, email);
+            iSellerContactInfoService.save(sellerContactInfoDTO);
+        });
+
+        return saveButton;
+    }
+
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent event) {
+        this.removeAllComponents();
+        this.addComponent(createTable());
+    }
+
+    private Button createDeleteButton(SellerContactInfoDTO sellerContactInfoDTO){
+        final Button deleteButton = new Button("Delete entry");
+
+        deleteButton.addClickListener((Button.ClickListener) event -> iSellerContactInfoService.delete(sellerContactInfoDTO));
+
+        return deleteButton;
     }
 }
 

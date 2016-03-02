@@ -7,4 +7,5 @@ import es.mhp.entities.Tag;
  */
 public interface ITagDao extends IPetshopGenericDao<Tag>{
     Tag findById(int id);
+    void deleteById(int id);
 }
