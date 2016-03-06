@@ -14,6 +14,7 @@ import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import es.mhp.entities.Item;
 import es.mhp.services.IItemService;
 import es.mhp.services.dto.ItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,15 +58,20 @@ public class ItemView extends AbtractView<ItemDTO> {
         BeanItemContainer<ItemDTO> itemDTOBeanItemContainer = new BeanItemContainer<>(ItemDTO.class, itemDTOs);
         itemDTOBeanItemContainer.removeItem("itemCount");
         Grid grid = new Grid(itemDTOBeanItemContainer);
+        grid.removeColumn("itemId");
+        grid.removeColumn("productId");
+        grid.removeColumn("addressId");
+        grid.removeColumn("contactInfoId");
+        grid.setColumnOrder("name", "description", "price", "imageUrl", "disabled", "totalScore", "productSummary", "addressSummary", "sellerContactSummary");
 
-        grid.setSizeFull();
+        grid.setWidth("60%");
         VerticalLayout formContainer = new VerticalLayout();
 
         grid.addSelectionListener((SelectionEvent.SelectionListener) event -> {
             if (grid.getSelectedRow() != null){
                 formContainer.removeAllComponents();
                 BeanItem<ItemDTO> itemDTOBeanItem = itemDTOBeanItemContainer.getItem(grid.getSelectedRow());
-                formContainer.addComponent(createForm(itemDTOBeanItem.getBean()));
+                formContainer.addComponent(createForm(itemDTOBeanItem.getBean(), EDIT_MODE + Item.class));
             }
         });
 
@@ -77,7 +83,7 @@ public class ItemView extends AbtractView<ItemDTO> {
     }
 
     @Override
-    protected Layout createForm(ItemDTO itemDTO) {
+    protected Layout createForm(ItemDTO itemDTO, String mode) {
         FormLayout form = new FormLayout();
         form.setImmediate(true);
         form.addStyleName("item-view-form-container");
@@ -97,14 +103,16 @@ public class ItemView extends AbtractView<ItemDTO> {
         item.addItemProperty(DISABLED, new ObjectProperty(itemDTO.getDisabled()));
 
         FieldGroup binder = new FieldGroup(item);
-        form.addComponent(binder.buildAndBind(ADDRESS_ID));
-        form.addComponent(binder.buildAndBind(PRODUCT_ID));
+        binder.buildAndBind(ADDRESS_ID);
+        binder.buildAndBind(ITEM_ID);
+        binder.buildAndBind(PRODUCT_ID);
+        binder.buildAndBind(CONTACTINFO_ID);
+
         form.addComponent(binder.buildAndBind(NAME));
         form.addComponent(binder.buildAndBind(DESCRIPTION));
         form.addComponent(binder.buildAndBind(IMAGE_URL));
         form.addComponent(binder.buildAndBind(IMAGE_THUMB_URL));
         form.addComponent(binder.buildAndBind(PRICE));
-        form.addComponent(binder.buildAndBind(CONTACTINFO_ID));
         form.addComponent(binder.buildAndBind(TOTAL_SCORE));
         form.addComponent(binder.buildAndBind(NUMBER_OF_VOTES));
         form.addComponent(binder.buildAndBind(DISABLED));

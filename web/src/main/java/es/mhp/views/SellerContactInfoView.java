@@ -15,6 +15,7 @@ import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import es.mhp.entities.SellerContactInfo;
 import es.mhp.services.ISellerContactInfoService;
 import es.mhp.services.dto.SellerContactInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,15 +51,17 @@ public class SellerContactInfoView extends AbtractView<SellerContactInfoDTO> {
         BeanItemContainer<SellerContactInfoDTO> sellerContactInfoDTOBeanItemContainer = new BeanItemContainer<>(SellerContactInfoDTO.class, sellerContactInfoDTOs);
         sellerContactInfoDTOBeanItemContainer.removeItem("itemCount");
         Grid grid = new Grid(sellerContactInfoDTOBeanItemContainer);
+        grid.removeColumn("contactInfoId");
+        grid.setColumnOrder("firstName", "lastName", "email");
 
-        grid.setSizeFull();
+        grid.setWidth("60%");
         VerticalLayout formContainer = new VerticalLayout();
 
         grid.addSelectionListener((SelectionEvent.SelectionListener) event -> {
             if (grid.getSelectedRow() != null){
                 formContainer.removeAllComponents();
                 BeanItem<SellerContactInfoDTO> sellerContactInfoDTOBeanItem = sellerContactInfoDTOBeanItemContainer.getItem(grid.getSelectedRow());
-                formContainer.addComponent(createForm(sellerContactInfoDTOBeanItem.getBean()));
+                formContainer.addComponent(createForm(sellerContactInfoDTOBeanItem.getBean(), EDIT_MODE + SellerContactInfo.class));
             }
         });
 
@@ -70,7 +73,7 @@ public class SellerContactInfoView extends AbtractView<SellerContactInfoDTO> {
     }
 
     @Override
-    protected Layout createForm(SellerContactInfoDTO sellerContactInfoDTO) {
+    protected Layout createForm(SellerContactInfoDTO sellerContactInfoDTO, String mode) {
         FormLayout form = new FormLayout();
         form.setImmediate(true);
         form.addStyleName("seller-view-form-container");
@@ -82,7 +85,7 @@ public class SellerContactInfoView extends AbtractView<SellerContactInfoDTO> {
         item.addItemProperty(EMAIL, new ObjectProperty(sellerContactInfoDTO.getEmail()));
 
         FieldGroup binder = new FieldGroup(item);
-        form.addComponent(binder.buildAndBind(CONTACTINFO_ID));
+        binder.buildAndBind(CONTACTINFO_ID);
         form.addComponent(binder.buildAndBind(LAST_NAME));
         form.addComponent(binder.buildAndBind(FIRST_NAME));
         form.addComponent(binder.buildAndBind(EMAIL));

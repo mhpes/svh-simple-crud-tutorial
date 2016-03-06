@@ -13,6 +13,7 @@ import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import es.mhp.entities.Tag;
 import es.mhp.services.ITagService;
 import es.mhp.services.dto.TagDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,14 +52,15 @@ public class TagView extends AbtractView<TagDTO> {
 
         BeanItemContainer<TagDTO> itemBeanItemContainer = new BeanItemContainer<>(TagDTO.class, zipLocationDTOs);
         Grid grid = new Grid(itemBeanItemContainer);
-        grid.setSizeFull();
+        grid.removeColumn("tagId");
+        grid.setWidth("60%");
         VerticalLayout formContainer = new VerticalLayout();
 
         grid.addSelectionListener((SelectionEvent.SelectionListener) event -> {
             if (grid.getSelectedRow() != null){
                 formContainer.removeAllComponents();
                 BeanItem<TagDTO> zipLocationDTOBeanItem = itemBeanItemContainer.getItem(grid.getSelectedRow());
-                formContainer.addComponent(createForm(zipLocationDTOBeanItem.getBean()));
+                formContainer.addComponent(createForm(zipLocationDTOBeanItem.getBean(), EDIT_MODE + Tag.class));
             }
         });
 
@@ -70,7 +72,7 @@ public class TagView extends AbtractView<TagDTO> {
     }
 
     @Override
-    protected Layout createForm(TagDTO tagDTO) {
+    protected Layout createForm(TagDTO tagDTO, String mode) {
         FormLayout form = new FormLayout();
         form.setImmediate(true);
         form.addStyleName("zipLocation-view-form-container");
@@ -81,7 +83,7 @@ public class TagView extends AbtractView<TagDTO> {
         item.addItemProperty(REF_COUNT, new ObjectProperty(tagDTO.getRefCount()));
 
         FieldGroup binder = new FieldGroup(item);
-        form.addComponent(binder.buildAndBind(TAG_ID));
+        binder.buildAndBind(TAG_ID);
         form.addComponent(binder.buildAndBind(TAG));
         form.addComponent(binder.buildAndBind(REF_COUNT));
 

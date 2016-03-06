@@ -93,7 +93,7 @@ public class ServiceAddressImpl implements IAddressService {
             }
 
             address.setZipLocation(zipLocation);
-            iAddressDao.save(address);
+            iAddressDao.save(addressDto.toEntity(address));
         }
         return new AddressDTO(address);
     }

@@ -23,14 +23,14 @@ public class Address extends AbstractEntity {
     @Column(name = "ADDRESSID")
     private int addressId;
 
-    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Item> items;
 
     @Column(name = "STREET1")
     @Size(max = 55)
     private String mainStreet;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = ZipLocation.class, optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = ZipLocation.class)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "zip", referencedColumnName = "ZIPCODE")
     private ZipLocation zipLocation;

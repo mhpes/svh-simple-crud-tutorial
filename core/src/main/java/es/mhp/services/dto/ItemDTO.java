@@ -11,21 +11,23 @@ import java.math.BigDecimal;
 public class ItemDTO extends AbstractDTO{
 
     private int itemId;
-    private int associatedTagsCount;
-    private String productSummary;
-    private String productId;
     private int addressId;
+    private String productId;
     private int contactInfoId;
-    private String imageThumbUrl;
-    private BigDecimal price;
+
+    private String productSummary;
     private String addressSummary;
+    private int associatedTagsCount;
     private String sellerContactSummary;
-    private Integer totalScore;
-    private Integer numberOfVotes;
+
     private String name;
-    private String description;
-    private String imageUrl;
     private int disabled;
+    private String imageUrl;
+    private BigDecimal price;
+    private Integer totalScore;
+    private String description;
+    private String imageThumbUrl;
+    private Integer numberOfVotes;
 
     public ItemDTO(Item item){
         if (item != null){

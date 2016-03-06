@@ -13,6 +13,7 @@ import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import es.mhp.entities.Product;
 import es.mhp.services.IProductService;
 import es.mhp.services.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,14 +48,17 @@ public class ProductView extends AbtractView<ProductDTO> {
         BeanItemContainer<ProductDTO> productDTOBeanItemContainer = new BeanItemContainer<>(ProductDTO.class, productDTOs);
         productDTOBeanItemContainer.removeItem("itemCount");
         Grid grid = new Grid(productDTOBeanItemContainer);
-        grid.setSizeFull();
+        grid.removeColumn("productId");
+        grid.setColumnOrder("name", "description", "imageUrl");
+
+        grid.setWidth("60%");
         VerticalLayout formContainer = new VerticalLayout();
 
         grid.addSelectionListener((SelectionEvent.SelectionListener) event -> {
             if (grid.getSelectedRow() != null) {
                 formContainer.removeAllComponents();
                 BeanItem<ProductDTO> productDTOBeanItem = productDTOBeanItemContainer.getItem(grid.getSelectedRow());
-                formContainer.addComponent(createForm(productDTOBeanItem.getBean()));
+                formContainer.addComponent(createForm(productDTOBeanItem.getBean(), EDIT_MODE + Product.class));
             }
         });
 
@@ -66,7 +70,7 @@ public class ProductView extends AbtractView<ProductDTO> {
     }
 
     @Override
-    protected Layout createForm(ProductDTO productDTO) {
+    protected Layout createForm(ProductDTO productDTO, String mode) {
         FormLayout form = new FormLayout();
         form.setImmediate(true);
         form.addStyleName("product-view-form-container");
@@ -79,7 +83,7 @@ public class ProductView extends AbtractView<ProductDTO> {
 
 
         FieldGroup binder = new FieldGroup(item);
-        form.addComponent(binder.buildAndBind(PRODUCT_ID));
+        binder.buildAndBind(PRODUCT_ID);
         form.addComponent(binder.buildAndBind(NAME));
         form.addComponent(binder.buildAndBind(DESCRIPTION));
         form.addComponent(binder.buildAndBind(IMAGE_URL));

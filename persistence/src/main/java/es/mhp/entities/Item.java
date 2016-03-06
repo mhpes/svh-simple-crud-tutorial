@@ -32,7 +32,7 @@ public class Item extends AbstractEntity {
     @JoinColumn(name = "ADDRESS_ADDRESSID")
     private Address address;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = SellerContactInfo.class)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CONTACTINFO_CONTACTINFOID")
     private SellerContactInfo seller;
 

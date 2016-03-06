@@ -6,6 +6,7 @@ import es.mhp.services.ITagService;
 import es.mhp.services.dto.TagDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import java.util.Set;
 
 
 @Service
+@Transactional
 public class ServiceTagImpl implements ITagService {
 
     @Autowired

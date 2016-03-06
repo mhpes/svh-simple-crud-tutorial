@@ -6,6 +6,7 @@ import es.mhp.services.ICategoryService;
 import es.mhp.services.dto.CategoryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +15,7 @@ import java.util.Set;
  * Created by Edu on 24/02/2016.
  */
 @Service
+@Transactional
 public class ServiceCategoryImpl implements ICategoryService {
 
     @Autowired
@@ -60,15 +62,15 @@ public class ServiceCategoryImpl implements ICategoryService {
 
     @Override
     public CategoryDTO save(CategoryDTO categoryDTO) {
-        Category address = iCategoryDao.findById(categoryDTO.getCategoryId());
+        Category category = iCategoryDao.findById(categoryDTO.getCategoryId());
 
-        if (address != null){
-            iCategoryDao.update(categoryDTO.ToEntity(address));
+        if (category != null){
+            iCategoryDao.update(categoryDTO.ToEntity(category));
         } else {
-            address = new Category();
-            iCategoryDao.save(address);
+            category = new Category();
+            iCategoryDao.save(category);
         }
-        return new CategoryDTO(address);
+        return new CategoryDTO(category);
     }
 
     @Override

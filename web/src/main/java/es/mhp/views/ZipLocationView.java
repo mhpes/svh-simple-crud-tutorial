@@ -51,14 +51,15 @@ public class ZipLocationView extends AbtractView<ZipLocationDTO> {
 
         BeanItemContainer<ZipLocationDTO> itemBeanItemContainer = new BeanItemContainer<>(ZipLocationDTO.class, zipLocationDTOs);
         Grid grid = new Grid(itemBeanItemContainer);
-        grid.setSizeFull();
+
+        grid.setWidth("60%");
         VerticalLayout formContainer = new VerticalLayout();
 
         grid.addSelectionListener((SelectionEvent.SelectionListener) event -> {
             if (grid.getSelectedRow() != null){
                 formContainer.removeAllComponents();
                 BeanItem<ZipLocationDTO> zipLocationDTOBeanItem = itemBeanItemContainer.getItem(grid.getSelectedRow());
-                formContainer.addComponent(createForm(zipLocationDTOBeanItem.getBean()));
+                formContainer.addComponent(createForm(zipLocationDTOBeanItem.getBean(), EDIT_MODE));
             }
         });
 
@@ -70,18 +71,18 @@ public class ZipLocationView extends AbtractView<ZipLocationDTO> {
     }
 
     @Override
-    protected Layout createForm(ZipLocationDTO zipLocationDTO) {
+    protected Layout createForm(ZipLocationDTO zipLoc, String mode) {
         FormLayout form = new FormLayout();
         form.setImmediate(true);
         form.addStyleName("zipLocation-view-form-container");
         PropertysetItem item = new PropertysetItem();
 
-        item.addItemProperty(ZIPCODE, new ObjectProperty(zipLocationDTO.getZipCodeId()));
-        item.addItemProperty(CITY, new ObjectProperty(zipLocationDTO.getCity()));
-        item.addItemProperty(STATE, new ObjectProperty(zipLocationDTO.getState()));
+        item.addItemProperty(ZIPCODE, new ObjectProperty(""));
+        item.addItemProperty(CITY, new ObjectProperty(""));
+        item.addItemProperty(STATE, new ObjectProperty(""));
 
         FieldGroup binder = new FieldGroup(item);
-        form.addComponent(binder.buildAndBind(ZIPCODE));
+        binder.buildAndBind(ZIPCODE);
         form.addComponent(binder.buildAndBind(CITY));
         form.addComponent(binder.buildAndBind(STATE));
 

@@ -9,6 +9,7 @@ import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import es.mhp.entities.Category;
 import es.mhp.services.ICategoryService;
 import es.mhp.services.dto.CategoryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,15 +47,17 @@ public class CategoryView extends AbtractView<CategoryDTO> {
 
         BeanItemContainer<CategoryDTO> categoryDTOBeanItemContainer = new BeanItemContainer<>(CategoryDTO.class, categoryDTOs);
         Grid grid = new Grid(categoryDTOBeanItemContainer);
+        grid.removeColumn("categoryId");
+        grid.setColumnOrder("name", "description", "imageUrl", "associatedProductsCount");
 
-        grid.setSizeFull();
+        grid.setWidth("60%");
         VerticalLayout formContainer = new VerticalLayout();
 
         grid.addSelectionListener((SelectionEvent.SelectionListener) event -> {
             if (grid.getSelectedRow() != null){
                 formContainer.removeAllComponents();
                 BeanItem<CategoryDTO> categoryDTOBeanItem = categoryDTOBeanItemContainer.getItem(grid.getSelectedRow());
-                formContainer.addComponent(createForm(categoryDTOBeanItem.getBean()));
+                formContainer.addComponent(createForm(categoryDTOBeanItem.getBean(), EDIT_MODE + Category.class));
             }
         });
 
@@ -66,7 +69,7 @@ public class CategoryView extends AbtractView<CategoryDTO> {
     }
 
     @Override
-    protected Layout createForm(CategoryDTO categoryDTO) {
+    protected Layout createForm(CategoryDTO categoryDTO, String mode) {
         FormLayout form = new FormLayout();
         form.setImmediate(true);
         form.addStyleName("address-view-form-container");
@@ -79,7 +82,7 @@ public class CategoryView extends AbtractView<CategoryDTO> {
 
 
         FieldGroup binder = new FieldGroup(item);
-        form.addComponent(binder.buildAndBind(CATEGORY_ID));
+        binder.buildAndBind(CATEGORY_ID);
         form.addComponent(binder.buildAndBind(NAME));
         form.addComponent(binder.buildAndBind(DESCRIPTION));
         form.addComponent(binder.buildAndBind(IMAGE_URL));

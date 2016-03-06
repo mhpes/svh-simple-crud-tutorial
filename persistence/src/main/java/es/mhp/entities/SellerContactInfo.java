@@ -18,8 +18,8 @@ public class SellerContactInfo extends AbstractEntity{
     @Column(name = "CONTACTINFOID")
     private Integer sellerId;
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = Item.class)
-    @JoinColumn(name = "itemId")
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CONTACTINFO_CONTACTINFOID")
     private Set<Item> item;
 
     @Column(name = "LASTNAME")

@@ -22,7 +22,7 @@ public class MainView extends AbtractView{
     }
 
     @Override
-    protected Layout createForm(Object entity) {
+    protected Layout createForm(Object entity, String mode) {
         return null;
     }
 }
