@@ -6,13 +6,19 @@ import org.springframework.beans.BeanUtils;
 /**
  * Created by Edu on 26/02/2016.
  */
-public class CategoryDTO extends AbstractDTO{
+public class CategoryDTO extends AbstractDTO<Category>{
 
     private String categoryId;
     private String name;
     private String description;
     private String imageUrl;
     private int associatedProductsCount;
+
+    @Override
+    public Category toEntity(Category category) {
+        BeanUtils.copyProperties(this, category);
+        return category;
+    }
 
     public CategoryDTO(Category category) {
         if (category != null) {
@@ -69,10 +75,5 @@ public class CategoryDTO extends AbstractDTO{
 
     public void setAssociatedProductsCount(int associatedProductsCount) {
         this.associatedProductsCount = associatedProductsCount;
-    }
-
-    public Category ToEntity(Category category) {
-        BeanUtils.copyProperties(this, category);
-        return category;
     }
 }

@@ -129,20 +129,21 @@ public class AddressView extends AbtractView<AddressDTO> {
     private void setNewForm(AddressDTO addressDTO, PropertysetItem item, FormLayout form, FieldGroup binder) {
         setItemPropertyEdit(item);
 
-        ComboBox selectZip = new ComboBox("Zips");
-
         binder.buildAndBind(ADDRESS_ID);
 
-        form.addComponent(binder.buildAndBind(ZIP, selectZip, ComboBox.class));
+        //form.addComponent(binder.buildAndBind(ZIP, selectZip, ComboBox.class));
 
         Set<ZipLocation> zipList = iZiplocationDao.findAll();
 
-        for (ZipLocation zipLocation : zipList){
-            selectZip.addItem(zipLocation.getCity() + " " + zipLocation.getState());
-        }
+        ComboBox selectZip = new ComboBox("Zips");
 
         //binder.buildAndBind(ZIP);
+        for (ZipLocation zipLocation : zipList){
+            selectZip.addItem(zipLocation.getZipCodeId());
+        }
 
+        binder.bind(selectZip, ZIP);
+        form.addComponent(selectZip);
         form.addComponent(binder.buildAndBind(MAIN_STREET));
         form.addComponent(binder.buildAndBind(SECONDARY_STREET));
         form.addComponent(binder.buildAndBind(CITY));

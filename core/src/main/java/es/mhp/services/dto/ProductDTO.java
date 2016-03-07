@@ -6,13 +6,19 @@ import org.springframework.beans.BeanUtils;
 /**
  * Created by Edu on 26/02/2016.
  */
-public class ProductDTO extends AbstractDTO {
+public class ProductDTO extends AbstractDTO<Product> {
 
     private String productId;
     private String categoryId;
     private String name;
     private String description;
     private String imageUrl;
+
+    @Override
+    public Product toEntity(Product product) {
+        BeanUtils.copyProperties(this, product);
+        return product;
+    }
 
     public ProductDTO(Product product) {
         if (product != null) {
@@ -35,11 +41,6 @@ public class ProductDTO extends AbstractDTO {
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
-    }
-
-    public Product toEntity(Product product) {
-        BeanUtils.copyProperties(this, product);
-        return product;
     }
 
     public String getProductId() {

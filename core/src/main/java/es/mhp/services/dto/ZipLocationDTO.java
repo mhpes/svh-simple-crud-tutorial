@@ -6,11 +6,17 @@ import org.springframework.beans.BeanUtils;
 /**
  * Created by Edu on 26/02/2016.
  */
-public class ZipLocationDTO extends AbstractDTO{
+public class ZipLocationDTO extends AbstractDTO<ZipLocation>{
 
     private int zipCodeId;
     private String city;
     private String state;
+
+    @Override
+    public ZipLocation toEntity(ZipLocation zipLocation) {
+        BeanUtils.copyProperties(this, zipLocation);
+        return zipLocation;
+    }
 
     public ZipLocationDTO(Integer zipCode, String city, String state) {
         this.zipCodeId = zipCode;
@@ -54,10 +60,5 @@ public class ZipLocationDTO extends AbstractDTO{
 
     public void setState(String state) {
         this.state = state;
-    }
-
-    public ZipLocation toEntity(ZipLocation zipLocation) {
-        BeanUtils.copyProperties(this, zipLocation);
-        return zipLocation;
     }
 }

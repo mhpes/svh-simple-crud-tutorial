@@ -6,11 +6,17 @@ import org.springframework.beans.BeanUtils;
 /**
  * Created by Edu on 26/02/2016.
  */
-public class TagDTO extends AbstractDTO{
+public class TagDTO extends AbstractDTO<Tag>{
 
     private int tagId;
     private String tagDescription;
     private int refCount;
+
+    @Override
+    public Tag toEntity(Tag tag) {
+        BeanUtils.copyProperties(this, tag);
+        return tag;
+    }
 
     public TagDTO(Tag tag) {
         if (tag != null) {
@@ -48,10 +54,5 @@ public class TagDTO extends AbstractDTO{
 
     public void setRefCount(int refCount) {
         this.refCount = refCount;
-    }
-
-    public Tag toEntity(Tag tag) {
-        BeanUtils.copyProperties(this, tag);
-        return tag;
     }
 }

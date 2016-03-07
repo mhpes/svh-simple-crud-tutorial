@@ -131,6 +131,8 @@ public class Address extends AbstractEntity {
     }
 
     public int getItemsCount() {
+        if (items == null)
+            return 0;
         return this.items.size();
     }
 

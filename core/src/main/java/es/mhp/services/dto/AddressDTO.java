@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * Created by Edu on 26/02/2016.
  */
 
-public class AddressDTO extends AbstractDTO{
+public class AddressDTO extends AbstractDTO<Address>{
 
     private int addressId;
     private int associatedItemsCount;
@@ -127,6 +127,7 @@ public class AddressDTO extends AbstractDTO{
         this.addressId = addressId;
     }
 
+    @Override
     public Address toEntity(Address address) {
         BeanUtils.copyProperties(this, address);
         return address;

@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 /**
  * Created by Edu on 26/02/2016.
  */
-public class ItemDTO extends AbstractDTO{
+public class ItemDTO extends AbstractDTO<Item>{
 
     private int itemId;
     private int addressId;
@@ -28,6 +28,12 @@ public class ItemDTO extends AbstractDTO{
     private String description;
     private String imageThumbUrl;
     private Integer numberOfVotes;
+
+    @Override
+    public Item toEntity(Item item) {
+        BeanUtils.copyProperties(this, item);
+        return item;
+    }
 
     public ItemDTO(Item item){
         if (item != null){
@@ -216,10 +222,5 @@ public class ItemDTO extends AbstractDTO{
 
     public void setDisabled(int disabled) {
         this.disabled = disabled;
-    }
-
-    public Item toEntity(Item item) {
-        BeanUtils.copyProperties(this, item);
-        return item;
     }
 }

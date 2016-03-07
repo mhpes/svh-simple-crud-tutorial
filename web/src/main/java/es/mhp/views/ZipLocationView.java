@@ -13,6 +13,7 @@ import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import es.mhp.entities.ZipLocation;
 import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.ZipLocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class ZipLocationView extends AbtractView<ZipLocationDTO> {
             if (grid.getSelectedRow() != null){
                 formContainer.removeAllComponents();
                 BeanItem<ZipLocationDTO> zipLocationDTOBeanItem = itemBeanItemContainer.getItem(grid.getSelectedRow());
-                formContainer.addComponent(createForm(zipLocationDTOBeanItem.getBean(), EDIT_MODE));
+                formContainer.addComponent(createForm(zipLocationDTOBeanItem.getBean(), EDIT_MODE + ZipLocation.class));
             }
         });
 
@@ -71,15 +72,15 @@ public class ZipLocationView extends AbtractView<ZipLocationDTO> {
     }
 
     @Override
-    protected Layout createForm(ZipLocationDTO zipLoc, String mode) {
+    protected Layout createForm(ZipLocationDTO zipLocation, String mode) {
         FormLayout form = new FormLayout();
         form.setImmediate(true);
         form.addStyleName("zipLocation-view-form-container");
         PropertysetItem item = new PropertysetItem();
 
-        item.addItemProperty(ZIPCODE, new ObjectProperty(""));
-        item.addItemProperty(CITY, new ObjectProperty(""));
-        item.addItemProperty(STATE, new ObjectProperty(""));
+        item.addItemProperty(ZIPCODE, new ObjectProperty(zipLocation.getZipCodeId()));
+        item.addItemProperty(CITY, new ObjectProperty(zipLocation.getCity()));
+        item.addItemProperty(STATE, new ObjectProperty(zipLocation.getState()));
 
         FieldGroup binder = new FieldGroup(item);
         binder.buildAndBind(ZIPCODE);

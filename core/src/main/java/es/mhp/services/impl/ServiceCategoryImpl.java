@@ -65,7 +65,7 @@ public class ServiceCategoryImpl implements ICategoryService {
         Category category = iCategoryDao.findById(categoryDTO.getCategoryId());
 
         if (category != null){
-            iCategoryDao.update(categoryDTO.ToEntity(category));
+            iCategoryDao.update(categoryDTO.toEntity(category));
         } else {
             category = new Category();
             iCategoryDao.save(category);

@@ -6,13 +6,18 @@ import org.springframework.beans.BeanUtils;
 /**
  * Created by Edu on 26/02/2016.
  */
-public class SellerContactInfoDTO extends AbstractDTO {
+public class SellerContactInfoDTO extends AbstractDTO<SellerContactInfo> {
 
     private int contactInfoId;
     private String lastName;
     private String firstName;
     private String email;
 
+    @Override
+    public SellerContactInfo toEntity(SellerContactInfo sellerContactInfo) {
+        BeanUtils.copyProperties(this, sellerContactInfo);
+        return sellerContactInfo;
+    }
 
     public SellerContactInfoDTO(int contactInfoId, String lastName, String firstName, String email) {
         this.contactInfoId = contactInfoId;
@@ -60,10 +65,5 @@ public class SellerContactInfoDTO extends AbstractDTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public SellerContactInfo toEntity(SellerContactInfo sellerContactInfo) {
-        BeanUtils.copyProperties(this, sellerContactInfo);
-        return sellerContactInfo;
     }
 }
