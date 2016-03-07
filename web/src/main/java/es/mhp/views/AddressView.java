@@ -39,7 +39,6 @@ public class AddressView extends AbtractView<AddressDTO> {
 
     @Autowired
     private IZiplocationDao iZiplocationDao;
-    private VerticalLayout newAddresButton;
 
     public AddressView() {
         setSizeFull();
@@ -54,11 +53,13 @@ public class AddressView extends AbtractView<AddressDTO> {
 
     @Override
     protected Layout createTable() {
-        VerticalLayout verticalLayout = new VerticalLayout();
-        setTableSyle(verticalLayout);
-        fillAddressTable(verticalLayout);
-        setNewAddress(verticalLayout);
-        return verticalLayout;
+        VerticalLayout table = new VerticalLayout();
+
+        createFilter(table);
+        setTableSyle(table);
+        fillAddressTable(table);
+        setNewAddress(table);
+        return table;
     }
 
     private void fillAddressTable(VerticalLayout verticalLayout) {
@@ -209,18 +210,21 @@ public class AddressView extends AbtractView<AddressDTO> {
         final Button saveButton = new Button("Save");
 
         saveButton.addClickListener((Button.ClickListener) event -> {
-            int addressId = Integer.parseInt(addressFieldGroup.getField(ADDRESS_ID).getValue().toString());
-            String mainStreet = addressFieldGroup.getField(MAIN_STREET).getValue().toString();
-            String secondaryStreet = addressFieldGroup.getField(SECONDARY_STREET).getValue().toString();
-            int zip = Integer.parseInt(addressFieldGroup.getField(ZIP).getValue().toString());
-            String city = addressFieldGroup.getField(CITY).getValue().toString();
-            String state = addressFieldGroup.getField(STATE).getValue().toString();
 
-            BigDecimal longitude =  BigDecimal.ONE;
-            BigDecimal latitude = BigDecimal.TEN;
+            if (validateAllFields(addressFieldGroup)){
+                int addressId = Integer.parseInt(addressFieldGroup.getField(ADDRESS_ID).getValue().toString());
+                String mainStreet = addressFieldGroup.getField(MAIN_STREET).getValue().toString();
+                String secondaryStreet = addressFieldGroup.getField(SECONDARY_STREET).getValue().toString();
+                int zip = Integer.parseInt(addressFieldGroup.getField(ZIP).getValue().toString());
+                String city = addressFieldGroup.getField(CITY).getValue().toString();
+                String state = addressFieldGroup.getField(STATE).getValue().toString();
 
-            AddressDTO addressDTO = new AddressDTO(addressId, mainStreet, secondaryStreet,zip ,city, state, latitude, longitude);
-            iAddressService.save(addressDTO);
+                BigDecimal longitude =  BigDecimal.ONE;
+                BigDecimal latitude = BigDecimal.TEN;
+
+                AddressDTO addressDTO = new AddressDTO(addressId, mainStreet, secondaryStreet,zip ,city, state, latitude, longitude);
+                iAddressService.save(addressDTO);
+            }
         });
 
         return saveButton;
@@ -242,12 +246,39 @@ public class AddressView extends AbtractView<AddressDTO> {
 
         createButton.addClickListener((Button.ClickListener) event -> {
             createNewAddressLayout.removeAllComponents();
-            createNewAddressLayout.addComponent(createForm
-                    (new AddressDTO(), NEW_MODE)
+            createNewAddressLayout.addComponent(
+                    createForm(new AddressDTO(), NEW_MODE)
             );
         });
 
         verticalLayout.addComponent(createButton);
         verticalLayout.addComponent(createNewAddressLayout);
+    }
+
+    private boolean validateAllFields(FieldGroup binder) {
+        String mainStreet = binder.getField(MAIN_STREET).getValue().toString();
+        String secondaryStreet = binder.getField(SECONDARY_STREET).getValue().toString();
+
+        if (mainStreet.length() < 1 || mainStreet.length() > 50)
+        {
+            Notification.show("Main Street can't be less than 1 and bigger than 55 characters.");
+            return false;
+        }
+
+        if (secondaryStreet.length() < 1 || secondaryStreet.length() > 50)
+        {
+            Notification.show("Secondary Street can't be less than 1 and bigger than 55 characters.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void createFilter(VerticalLayout layout) {
+        TextField filter = new TextField();
+
+        filter.setInputPrompt("Filter addresses...");
+
+        layout.addComponent(filter);
     }
 }

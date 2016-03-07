@@ -5,6 +5,7 @@ import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Set;
@@ -27,7 +28,8 @@ public class Address extends AbstractEntity {
     private Set<Item> items;
 
     @Column(name = "STREET1")
-    @Size(max = 55)
+    @NotNull(message = "Please enter a valid main street")
+    @Size(max = 55, message = "The maximum size for Main Street is 55 and minumum is 1")
     private String mainStreet;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = ZipLocation.class)

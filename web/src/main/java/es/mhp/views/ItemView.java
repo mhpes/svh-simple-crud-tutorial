@@ -31,7 +31,7 @@ public class ItemView extends AbtractView<ItemDTO> {
     private static final String DESCRIPTION = "Description";
     private static final String IMAGE_URL = "Image URL";
     private static final String IMAGE_THUMB_URL = "Image Thumb URL";
-    private static final String PRICE = "Pridce";
+    private static final String PRICE = "Price";
     private static final String ADDRESS_ID = "Address Id";
     private static final String CONTACTINFO_ID = "Contact Info Id";
     private static final String TOTAL_SCORE = "Total Score";
