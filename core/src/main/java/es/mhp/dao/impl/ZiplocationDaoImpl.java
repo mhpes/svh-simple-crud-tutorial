@@ -43,6 +43,11 @@ public class ZiplocationDaoImpl extends AbstractPetshopGenericDao<ZipLocation> i
     }
 
     @Override
+    public Set<ZipLocation> findAny(String text) {
+        return null;
+    }
+
+    @Override
     public Set<ZipLocation> findAll() {
         return new HashSet<> (entityManager.createQuery("SELECT a FROM ZipLocation a").getResultList());
     }

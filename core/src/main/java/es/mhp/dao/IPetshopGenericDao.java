@@ -14,4 +14,5 @@ public interface IPetshopGenericDao<T extends AbstractEntity> {
     Set<T> findAll();
     Set<T> findAny(T entity);
     Set<T> findAll(T entity);
+    Set<T> findAny(String text);
 }

@@ -2,10 +2,10 @@ package es.mhp.entities;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Set;
@@ -28,8 +28,8 @@ public class Address extends AbstractEntity {
     private Set<Item> items;
 
     @Column(name = "STREET1")
-    @NotNull(message = "Please enter a valid main street")
-    @Size(max = 55, message = "The maximum size for Main Street is 55 and minumum is 1")
+    @NotBlank
+    @Size(max = 55, message = "The maximum size for Main Street is 55 and minimum is 1")
     private String mainStreet;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = ZipLocation.class)
@@ -38,14 +38,17 @@ public class Address extends AbstractEntity {
     private ZipLocation zipLocation;
 
     @Column(name = "STREET2")
+    @NotBlank
     @Size(max = 55)
     private String secondaryStreet;
 
     @Column(name = "CITY")
+    @NotBlank
     @Size(max = 55)
     private String city;
 
     @Column(name = "STATE")
+    @NotBlank
     @Size(max = 25)
     private String state;
 

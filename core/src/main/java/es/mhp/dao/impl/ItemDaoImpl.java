@@ -34,6 +34,11 @@ public class ItemDaoImpl extends AbstractPetshopGenericDao<Item> implements IIte
     }
 
     @Override
+    public Set<Item> findAny(String text) {
+        return null;
+    }
+
+    @Override
     public Set<Item> findAll() {
         return new HashSet<> (entityManager.createQuery("SELECT a FROM Item a").getResultList());
     }

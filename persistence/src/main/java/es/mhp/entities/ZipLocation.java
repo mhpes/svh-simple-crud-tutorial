@@ -60,4 +60,7 @@ public class ZipLocation extends AbstractEntity {
         this.state = state;
     }
 
+    public String toString(){
+        return getZipCodeId() + " " + getState() + " " + getCity();
+    }
 }

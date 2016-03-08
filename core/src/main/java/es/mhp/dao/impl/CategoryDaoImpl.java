@@ -38,6 +38,11 @@ public class CategoryDaoImpl extends AbstractPetshopGenericDao<Category> impleme
     }
 
     @Override
+    public Set<Category> findAny(String text) {
+        return null;
+    }
+
+    @Override
     public Set<Category> findAll() {
         return new HashSet<>(entityManager.createQuery("SELECT a FROM Category a").getResultList());
     }

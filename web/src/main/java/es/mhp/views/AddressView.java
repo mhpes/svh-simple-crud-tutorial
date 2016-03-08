@@ -9,10 +9,10 @@ import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
-import es.mhp.dao.IZiplocationDao;
-import es.mhp.entities.ZipLocation;
 import es.mhp.services.IAddressService;
+import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.AddressDTO;
+import es.mhp.services.dto.ZipLocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
@@ -24,6 +24,7 @@ import java.util.Set;
 
 @SpringView(name = AddressView.VIEW_NAME)
 public class AddressView extends AbtractView<AddressDTO> {
+
     public static final String VIEW_NAME = "Addresses";
     public static final String ADDRESS_ID = "Address Id";
     public static final String MAIN_STREET = "Main Street";
@@ -34,14 +35,19 @@ public class AddressView extends AbtractView<AddressDTO> {
     public static final String LATITUDE = "Latitude";
     public static final String LONGITUDE = "Longitude";
 
+    private VerticalLayout addressLayout;
+    private VerticalLayout addressTable;
+
     @Autowired
     private IAddressService iAddressService;
 
     @Autowired
-    private IZiplocationDao iZiplocationDao;
+    private IZipLocationService iZipLocationService;
 
     public AddressView() {
         setSizeFull();
+        addressLayout = new VerticalLayout();
+        addressTable = new VerticalLayout();
         this.addStyleName("address-view");
     }
 
@@ -53,17 +59,14 @@ public class AddressView extends AbtractView<AddressDTO> {
 
     @Override
     protected Layout createTable() {
-        VerticalLayout table = new VerticalLayout();
-
-        createFilter(table);
-        setTableSyle(table);
-        fillAddressTable(table);
-        setNewAddress(table);
-        return table;
+        setTableSyle(addressLayout);
+        createFilter();
+        addressLayout.addComponent(addressTable);
+        return addressLayout;
     }
 
-    private void fillAddressTable(VerticalLayout verticalLayout) {
-        Set<AddressDTO> addressDTOs = iAddressService.findAllAddresses();
+    private void fillAddressTable(Set<AddressDTO> addressDTOs) {
+        addressTable.removeAllComponents();
 
         BeanItemContainer<AddressDTO> addressBeanItemContainer = new BeanItemContainer<>(AddressDTO.class, addressDTOs);
         addressBeanItemContainer.removeItem("itemCount");
@@ -75,9 +78,11 @@ public class AddressView extends AbtractView<AddressDTO> {
 
         VerticalLayout formContainer = createAddressForm(addressBeanItemContainer, grid);
 
-        verticalLayout.addComponent(grid);
-        verticalLayout.addComponent(formContainer);
-        verticalLayout.setExpandRatio(grid, 1);
+        addressTable.addComponent(grid);
+        addressTable.addComponent(formContainer);
+        addressTable.setExpandRatio(grid, 1);
+
+        setNewAddress(addressTable);
     }
 
     private VerticalLayout createAddressForm(BeanItemContainer<AddressDTO> addressBeanItemContainer, Grid grid) {
@@ -94,10 +99,9 @@ public class AddressView extends AbtractView<AddressDTO> {
         return formContainer;
     }
 
-    private void setTableSyle(VerticalLayout verticalLayout) {
-        verticalLayout.setSizeFull();
-        verticalLayout.addStyleName("address-view-table-container");
-        verticalLayout.setMargin(true);
+    private void setTableSyle(VerticalLayout layout) {
+        layout.setSizeFull();
+        layout.setMargin(true);
     }
 
     @Override
@@ -123,41 +127,50 @@ public class AddressView extends AbtractView<AddressDTO> {
         if (EDIT_MODE.equals(mode)){
             setEditForm(addressDTO, item, form, binder);
         } else if (NEW_MODE.equals(mode)){
-            setNewForm(addressDTO, item, form, binder);
+            setNewForm(item, form, binder);
         }
     }
 
-    private void setNewForm(AddressDTO addressDTO, PropertysetItem item, FormLayout form, FieldGroup binder) {
+    private void setNewForm(PropertysetItem item, FormLayout form, FieldGroup binder) {
         setItemPropertyEdit(item);
+        binder.setBuffered(true);
 
-        binder.buildAndBind(ADDRESS_ID);
-
-        //form.addComponent(binder.buildAndBind(ZIP, selectZip, ComboBox.class));
-
-        Set<ZipLocation> zipList = iZiplocationDao.findAll();
-
+        Set<ZipLocationDTO> zipList = iZipLocationService.findAllZipLocations();
         ComboBox selectZip = new ComboBox("Zips");
+        TextField mainStreet = new TextField(MAIN_STREET);
+        mainStreet.setImmediate(true);
 
-        //binder.buildAndBind(ZIP);
-        for (ZipLocation zipLocation : zipList){
-            selectZip.addItem(zipLocation.getZipCodeId());
+        BeanItemContainer<ZipLocationDTO> zipLocationContainer = new BeanItemContainer<>(ZipLocationDTO.class);
+
+        for (ZipLocationDTO zipLocationDTO : zipList){
+            zipLocationContainer.addBean(zipLocationDTO);
         }
 
-        binder.bind(selectZip, ZIP);
+        selectZip.setItemCaptionPropertyId("city");
+        selectZip.setContainerDataSource(zipLocationContainer);
+        selectZip.setRequired(true);
+        selectZip.setImmediate(true);
+
+        binder.bind(selectZip,ZIP);
+        binder.buildAndBind(ADDRESS_ID);
         form.addComponent(selectZip);
-        form.addComponent(binder.buildAndBind(MAIN_STREET));
+
+        binder.bind(mainStreet, MAIN_STREET);
+
+        form.addComponent(mainStreet);
         form.addComponent(binder.buildAndBind(SECONDARY_STREET));
         form.addComponent(binder.buildAndBind(CITY));
         form.addComponent(binder.buildAndBind(STATE));
         form.addComponent(binder.buildAndBind(LATITUDE));
         form.addComponent(binder.buildAndBind(LONGITUDE));
 
-        form.addComponent(createCancelButton(form));
+        form.addComponent(createCancelButton(form, binder));
         form.addComponent(createSaveButton(binder));
     }
 
-    private Component createCancelButton(FormLayout form) {
+    private Component createCancelButton(FormLayout form, FieldGroup binder) {
         Button cancelButton = new Button("Cancel");
+        binder.discard();
 
         cancelButton.addClickListener((Button.ClickListener) event ->
             form.removeAllComponents()
@@ -191,8 +204,8 @@ public class AddressView extends AbtractView<AddressDTO> {
         item.addItemProperty(ZIP, new ObjectProperty<>(""));
         item.addItemProperty(CITY, new ObjectProperty<>(""));
         item.addItemProperty(STATE, new ObjectProperty<>(""));
-        item.addItemProperty(LATITUDE, new ObjectProperty<>(new BigDecimal(0.0)));
-        item.addItemProperty(LONGITUDE, new ObjectProperty<>(new BigDecimal(0.0)));
+        item.addItemProperty(LATITUDE, new ObjectProperty<>(new BigDecimal(0)));
+        item.addItemProperty(LONGITUDE, new ObjectProperty<>(new BigDecimal(0)));
     }
 
     private void setItemPropertyEdit(AddressDTO addressDTO, PropertysetItem item) {
@@ -209,23 +222,8 @@ public class AddressView extends AbtractView<AddressDTO> {
     private Button createSaveButton(FieldGroup addressFieldGroup) {
         final Button saveButton = new Button("Save");
 
-        saveButton.addClickListener((Button.ClickListener) event -> {
-
-            if (validateAllFields(addressFieldGroup)){
-                int addressId = Integer.parseInt(addressFieldGroup.getField(ADDRESS_ID).getValue().toString());
-                String mainStreet = addressFieldGroup.getField(MAIN_STREET).getValue().toString();
-                String secondaryStreet = addressFieldGroup.getField(SECONDARY_STREET).getValue().toString();
-                int zip = Integer.parseInt(addressFieldGroup.getField(ZIP).getValue().toString());
-                String city = addressFieldGroup.getField(CITY).getValue().toString();
-                String state = addressFieldGroup.getField(STATE).getValue().toString();
-
-                BigDecimal longitude =  BigDecimal.ONE;
-                BigDecimal latitude = BigDecimal.TEN;
-
-                AddressDTO addressDTO = new AddressDTO(addressId, mainStreet, secondaryStreet,zip ,city, state, latitude, longitude);
-                iAddressService.save(addressDTO);
-            }
-        });
+        saveButton.addClickListener((Button.ClickListener) event ->
+                trySaveAddress(addressFieldGroup));
 
         return saveButton;
     }
@@ -255,30 +253,35 @@ public class AddressView extends AbtractView<AddressDTO> {
         verticalLayout.addComponent(createNewAddressLayout);
     }
 
-    private boolean validateAllFields(FieldGroup binder) {
-        String mainStreet = binder.getField(MAIN_STREET).getValue().toString();
-        String secondaryStreet = binder.getField(SECONDARY_STREET).getValue().toString();
-
-        if (mainStreet.length() < 1 || mainStreet.length() > 50)
-        {
-            Notification.show("Main Street can't be less than 1 and bigger than 55 characters.");
-            return false;
-        }
-
-        if (secondaryStreet.length() < 1 || secondaryStreet.length() > 50)
-        {
-            Notification.show("Secondary Street can't be less than 1 and bigger than 55 characters.");
-            return false;
-        }
-
-        return true;
-    }
-
-    private void createFilter(VerticalLayout layout) {
+    private void createFilter() {
+        addressLayout.removeAllComponents();
         TextField filter = new TextField();
+        addressLayout.addComponent(filter);
 
         filter.setInputPrompt("Filter addresses...");
+        fillAddressTable(iAddressService.findAllAddresses());
+        filter.addTextChangeListener(e ->
+                fillAddressTable(iAddressService.findAnyAddresses(e.getText())));
+    }
 
-        layout.addComponent(filter);
+    public void trySaveAddress(FieldGroup addressFieldGroup) {
+        int addressId = Integer.parseInt(addressFieldGroup.getField(ADDRESS_ID).getValue().toString());
+        String mainStreet = addressFieldGroup.getField(MAIN_STREET).getValue().toString();
+        String secondaryStreet = addressFieldGroup.getField(SECONDARY_STREET).getValue().toString();
+        ZipLocationDTO zipLocationDTO = (ZipLocationDTO) addressFieldGroup.getField(ZIP).getValue();
+        String city = addressFieldGroup.getField(CITY).getValue().toString();
+        String state = addressFieldGroup.getField(STATE).getValue().toString();
+
+        BigDecimal longitude =  BigDecimal.ONE;
+        BigDecimal latitude = BigDecimal.TEN;
+
+        try{
+            AddressDTO addressDTO = new AddressDTO(addressId, mainStreet, secondaryStreet, zipLocationDTO.getZipCodeId() ,city, state, latitude, longitude);
+            iAddressService.save(addressDTO);
+            Notification.show("New Address added!", Notification.Type.TRAY_NOTIFICATION);
+        } catch (Exception err){ //I can't handle the correct Exception ConstraintViolationException
+            Notification.show("Error adding new Address: " + err.getMessage(), Notification.Type.WARNING_MESSAGE);
+        }
     }
 }
+

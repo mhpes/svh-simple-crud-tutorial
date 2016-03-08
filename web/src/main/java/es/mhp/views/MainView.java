@@ -3,6 +3,7 @@ package es.mhp.views;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * Created by Edu on 23/02/2016.
@@ -18,7 +19,7 @@ public class MainView extends AbtractView{
 
     @Override
     protected Layout createTable() {
-        return null;
+        return new VerticalLayout();
     }
 
     @Override

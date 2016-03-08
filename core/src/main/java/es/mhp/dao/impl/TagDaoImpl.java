@@ -43,6 +43,11 @@ public class TagDaoImpl extends AbstractPetshopGenericDao<Tag> implements ITagDa
     }
 
     @Override
+    public Set<Tag> findAny(String text) {
+        return null;
+    }
+
+    @Override
     public Set<Tag> findAll() {
         return new HashSet<> (entityManager.createQuery("SELECT a FROM Tag a").getResultList());
     }

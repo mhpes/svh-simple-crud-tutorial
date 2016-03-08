@@ -26,6 +26,24 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
     }
 
     @Override
+    public Set<Address> findAny(String text) {
+        String concatenator = " OR ";
+
+        if (text != null) {
+            String queryParameters = "SELECT a FROM Address a WHERE ";
+
+            queryParameters += "STREET1 like '%" + text + "%' " + concatenator;
+            queryParameters += "STREET2 like '%" + text + "%' " + concatenator;
+            queryParameters += "CITY like '%" + text + "%' " +  concatenator;
+            queryParameters += "STATE like '%" + text + "%' " + concatenator;
+            queryParameters += "LATITUDE like '%" + text + "%' " + concatenator + " LONGITUDE like '%" + text + "%' ";
+
+            return new HashSet (entityManager.createQuery(queryParameters).getResultList());
+        }
+        return Collections.emptySet();
+    }
+
+    @Override
     public Set<Address> findAny(Address entity) {
         return findAll(entity, false);
     }

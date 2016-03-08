@@ -43,6 +43,11 @@ public class ProductDaoImpl extends AbstractPetshopGenericDao<Product> implement
     }
 
     @Override
+    public Set<Product> findAny(String text) {
+        return null;
+    }
+
+    @Override
     public Set<Product> findAll() {
         return new HashSet<> (entityManager.createQuery("SELECT a FROM Product a").getResultList());
     }

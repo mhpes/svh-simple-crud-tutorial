@@ -39,8 +39,8 @@ public class ServiceZipLocationImpl implements IZipLocationService {
     }
 
     @Override
-    public Set<ZipLocationDTO> findAllZipLocations(ZipLocation address) {
-        Set<ZipLocation> zipLocationSet = iZiplocationDao.findAll(address);
+    public Set<ZipLocationDTO> findAllZipLocations(ZipLocation zipLocation) {
+        Set<ZipLocation> zipLocationSet = iZiplocationDao.findAll(zipLocation);
 
         Set<ZipLocationDTO> addressDTOs = new HashSet<>();
 

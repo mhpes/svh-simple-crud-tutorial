@@ -37,7 +37,7 @@ public class ProductView extends AbtractView<ProductDTO> {
     }
 
     @Override
-    protected Layout createTable() {
+    protected VerticalLayout createTable() {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setSizeFull();
         verticalLayout.addStyleName("product-view-table-container");

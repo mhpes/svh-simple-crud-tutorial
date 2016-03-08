@@ -43,6 +43,11 @@ public class SellerDaoImpl extends AbstractPetshopGenericDao<SellerContactInfo> 
     }
 
     @Override
+    public Set<SellerContactInfo> findAny(String text) {
+        return null;
+    }
+
+    @Override
     public Set<SellerContactInfo> findAll() {
         return new HashSet<>(entityManager.createQuery("SELECT a FROM SellerContactInfo a").getResultList());
     }

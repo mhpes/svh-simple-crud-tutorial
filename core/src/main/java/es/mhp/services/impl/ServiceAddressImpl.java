@@ -71,6 +71,19 @@ public class ServiceAddressImpl implements IAddressService {
     }
 
     @Override
+    public Set<AddressDTO> findAnyAddresses(String text) {
+        Set<Address> addressSet = iAddressDao.findAny(text);
+
+        Set<AddressDTO> addressDTOs = new HashSet<>();
+
+        for (Address currentAddress : addressSet) {
+            addressDTOs.add(new AddressDTO(currentAddress));
+        }
+
+        return addressDTOs;
+    }
+
+    @Override
     public AddressDTO save(AddressDTO addressDto) {
         Address address = iAddressDao.findById(addressDto.getAddressId());
         ZipLocation zipLocation = iZiplocationDao.findById(addressDto.getZip());
