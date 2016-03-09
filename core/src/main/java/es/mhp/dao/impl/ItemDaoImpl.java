@@ -34,11 +34,6 @@ public class ItemDaoImpl extends AbstractPetshopGenericDao<Item> implements IIte
     }
 
     @Override
-    public Set<Item> findAny(String text) {
-        return null;
-    }
-
-    @Override
     public Set<Item> findAll() {
         return new HashSet<> (entityManager.createQuery("SELECT a FROM Item a").getResultList());
     }
@@ -95,5 +90,22 @@ public class ItemDaoImpl extends AbstractPetshopGenericDao<Item> implements IIte
         if (item != null) {
             getEntityManager().remove(item);
         }
+    }
+
+    @Override
+    public Set<Item> findAny(String text) {
+        String concatenator = " OR ";
+
+        if (text != null) {
+            String queryParameters = "SELECT a FROM Item a WHERE ";
+
+            queryParameters += "NAME like '%" + text + "%' " + concatenator;
+            queryParameters += "DESCRIPTION like '%" + text + "%' " + concatenator;
+            queryParameters += "IMAGEURL like '%" + text + "%' " +  concatenator;
+            queryParameters += "IMAGETHUMBURL like '%" + text + "%' ";
+
+            return new HashSet (getEntityManager().createQuery(queryParameters).getResultList());
+        }
+        return Collections.emptySet();
     }
 }

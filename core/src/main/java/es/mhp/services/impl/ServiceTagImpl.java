@@ -67,6 +67,19 @@ public class ServiceTagImpl implements ITagService {
     }
 
     @Override
+    public Set<TagDTO> findAnyTags(String text) {
+        Set<Tag> tagSet = iTagDao.findAny(text);
+
+        Set<TagDTO> zipLocationDTOs = new HashSet<>();
+
+        for (Tag currentTag : tagSet) {
+            zipLocationDTOs.add(new TagDTO(currentTag));
+        }
+
+        return zipLocationDTOs;
+    }
+
+    @Override
     public TagDTO save(TagDTO tagDTO) {
         Tag tag = iTagDao.findById(tagDTO.getTagId());
 

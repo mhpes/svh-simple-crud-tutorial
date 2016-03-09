@@ -22,7 +22,7 @@ import java.util.Set;
  * Created by Edu on 23/02/2016.
 */
 
-@SpringView(name = ProductView.VIEW_NAME)
+@SpringView(name = ItemView.VIEW_NAME)
 public class ProductView extends AbtractView<ProductDTO> {
     public static final String VIEW_NAME = "Products";
     private static final String PRODUCT_ID = "Product Id";

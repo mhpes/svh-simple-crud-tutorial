@@ -10,7 +10,8 @@ import java.util.Set;
 public interface IItemService {
     Set<ItemDTO> findAllItems();
     Set<ItemDTO> findAllItems(ItemDTO itemDTO);
-    Set<ItemDTO> findAnyItem(ItemDTO itemDTO);
+    Set<ItemDTO> findAnyItems(ItemDTO itemDTO);
+    Set<ItemDTO> findAnyItems(String text);
     ItemDTO save(ItemDTO itemDTO);
     void delete(ItemDTO itemDTO);
     ItemDTO findItemById(int id);

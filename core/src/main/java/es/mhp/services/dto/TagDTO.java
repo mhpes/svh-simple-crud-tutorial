@@ -12,6 +12,10 @@ public class TagDTO extends AbstractDTO<Tag>{
     private String tagDescription;
     private int refCount;
 
+    public TagDTO() {
+
+    }
+
     @Override
     public Tag toEntity(Tag tag) {
         BeanUtils.copyProperties(this, tag);

@@ -69,7 +69,8 @@ public class ItemDTO extends AbstractDTO<Item>{
 
     }
 
-    public ItemDTO(int addressId, int itemId, String productId, String name, String description, String imageUrl, String imageThumbUrl, BigDecimal price, int contactInfoId, int totalScore, int numberOfVotes, int disabled) {
+    public ItemDTO(int addressId, int itemId, String productId, String name, String description, String imageUrl,
+                   String imageThumbUrl, BigDecimal price, int contactInfoId, int totalScore, int numberOfVotes, int disabled) {
         this.addressId = addressId;
         this.itemId = itemId;
         this.productId = productId;

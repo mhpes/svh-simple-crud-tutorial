@@ -44,7 +44,14 @@ public class TagDaoImpl extends AbstractPetshopGenericDao<Tag> implements ITagDa
 
     @Override
     public Set<Tag> findAny(String text) {
-        return null;
+        if (text != null) {
+            String queryParameters = "SELECT a FROM Tag a WHERE ";
+
+            queryParameters += "TAG like '%" + text + "%'";
+
+            return new HashSet (getEntityManager().createQuery(queryParameters).getResultList());
+        }
+        return Collections.emptySet();
     }
 
     @Override

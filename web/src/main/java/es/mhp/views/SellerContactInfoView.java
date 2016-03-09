@@ -96,7 +96,8 @@ public class SellerContactInfoView extends AbtractView<SellerContactInfoDTO> {
 
         BeanItemContainer<SellerContactInfoDTO> zipLocationDTOBeanItemContainer = new BeanItemContainer<>(SellerContactInfoDTO.class, zipLocationDTOs);
         Grid grid = new Grid(zipLocationDTOBeanItemContainer);
-        grid.setColumnOrder("city", "state");
+        grid.removeColumn("contactInfoId");
+        grid.setColumnOrder("firstName", "lastName", "email");
 
         grid.setWidth("60%");
         VerticalLayout formContainer = createZipForm(zipLocationDTOBeanItemContainer, grid);
