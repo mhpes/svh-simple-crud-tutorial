@@ -35,8 +35,8 @@ public class ServiceCategoryImpl implements ICategoryService {
     }
 
     @Override
-    public Set<CategoryDTO> findAllCategories(Category category) {
-        Set<Category> categorySet = iCategoryDao.findAll(category);
+    public Set<CategoryDTO> findAllCategories(CategoryDTO categoryDTO) {
+        Set<Category> categorySet = iCategoryDao.findAll(categoryDTO.toEntity(new Category()));
 
         Set<CategoryDTO> categoryDTOs = new HashSet<>();
 
@@ -48,8 +48,8 @@ public class ServiceCategoryImpl implements ICategoryService {
     }
 
     @Override
-    public Set<CategoryDTO> findAnyCategories(Category category) {
-        Set<Category> categorySet = iCategoryDao.findAny(category);
+    public Set<CategoryDTO> findAnyCategories(CategoryDTO categoryDTO) {
+        Set<Category> categorySet = iCategoryDao.findAny(categoryDTO.toEntity(new Category()));
 
         Set<CategoryDTO> categoryDTOs = new HashSet<>();
 

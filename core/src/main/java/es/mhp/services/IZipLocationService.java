@@ -1,6 +1,5 @@
 package es.mhp.services;
 
-import es.mhp.entities.ZipLocation;
 import es.mhp.services.dto.ZipLocationDTO;
 
 import java.util.Set;
@@ -11,9 +10,10 @@ import java.util.Set;
 
 public interface IZipLocationService {
     Set<ZipLocationDTO> findAllZipLocations();
-    Set<ZipLocationDTO> findAllZipLocations(ZipLocation zipLocation);
-    Set<ZipLocationDTO> findAnyZipLocations(ZipLocation zipLocation);
+    Set<ZipLocationDTO> findAllZipLocations(ZipLocationDTO zipLocationDTO);
+    Set<ZipLocationDTO> findAnyZipLocations(ZipLocationDTO zipLocationDTO);
+    Set<ZipLocationDTO> findAnyZipLocations(String text);
     ZipLocationDTO save(ZipLocationDTO zipLocationDTO);
-    void delete(int id);
+    void delete(ZipLocationDTO zipLocationDTO);
     ZipLocationDTO findZipById(int id);
 }

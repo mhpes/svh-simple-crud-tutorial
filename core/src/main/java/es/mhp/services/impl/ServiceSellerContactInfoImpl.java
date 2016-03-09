@@ -38,8 +38,8 @@ public class ServiceSellerContactInfoImpl implements ISellerContactInfoService {
     }
 
     @Override
-    public Set<SellerContactInfoDTO> findAllSellers(SellerContactInfo tag) {
-        Set<SellerContactInfo> sellerContactInfoSet = iSellerDao.findAll(tag);
+    public Set<SellerContactInfoDTO> findAllSellers(SellerContactInfoDTO sellerContactInfoDTO) {
+        Set<SellerContactInfo> sellerContactInfoSet = iSellerDao.findAll(sellerContactInfoDTO.toEntity(new SellerContactInfo()));
 
         Set<SellerContactInfoDTO> tagDTOs = new HashSet<>();
 
@@ -51,8 +51,8 @@ public class ServiceSellerContactInfoImpl implements ISellerContactInfoService {
     }
 
     @Override
-    public Set<SellerContactInfoDTO> findAnySellers(SellerContactInfo sellerContactInfo) {
-        Set<SellerContactInfo> sellerContactInfoSet = iSellerDao.findAny(sellerContactInfo);
+    public Set<SellerContactInfoDTO> findAnySellers(SellerContactInfoDTO sellerContactInfoDTO) {
+        Set<SellerContactInfo> sellerContactInfoSet = iSellerDao.findAny(sellerContactInfoDTO.toEntity(new SellerContactInfo()));
 
         if (!sellerContactInfoSet.isEmpty()){
             Set<SellerContactInfoDTO> sellerContactInfoDTOs = new HashSet<>();

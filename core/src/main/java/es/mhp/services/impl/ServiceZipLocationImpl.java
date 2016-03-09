@@ -39,8 +39,8 @@ public class ServiceZipLocationImpl implements IZipLocationService {
     }
 
     @Override
-    public Set<ZipLocationDTO> findAllZipLocations(ZipLocation zipLocation) {
-        Set<ZipLocation> zipLocationSet = iZiplocationDao.findAll(zipLocation);
+    public Set<ZipLocationDTO> findAllZipLocations(ZipLocationDTO zipLocationDTO) {
+        Set<ZipLocation> zipLocationSet = iZiplocationDao.findAll(zipLocationDTO.toEntity(new ZipLocation()));
 
         Set<ZipLocationDTO> addressDTOs = new HashSet<>();
 
@@ -52,8 +52,8 @@ public class ServiceZipLocationImpl implements IZipLocationService {
     }
 
     @Override
-    public Set<ZipLocationDTO> findAnyZipLocations(ZipLocation zipLocation) {
-        Set<ZipLocation> zipLocationSet = iZiplocationDao.findAny(zipLocation);
+    public Set<ZipLocationDTO> findAnyZipLocations(ZipLocationDTO zipLocationDTO) {
+        Set<ZipLocation> zipLocationSet = iZiplocationDao.findAny(zipLocationDTO.toEntity(new ZipLocation()));
 
         if (!zipLocationSet.isEmpty()){
             Set<ZipLocationDTO> addressDTOs = new HashSet<>();
@@ -65,6 +65,19 @@ public class ServiceZipLocationImpl implements IZipLocationService {
             return addressDTOs;
         }
         return Collections.emptySet();
+    }
+
+    @Override
+    public Set<ZipLocationDTO> findAnyZipLocations(String text) {
+        Set<ZipLocation> zipLocationSet = iZiplocationDao.findAny(text);
+
+        Set<ZipLocationDTO> zipLocationDTOs = new HashSet<>();
+
+        for (ZipLocation currentZip : zipLocationSet) {
+            zipLocationDTOs.add(new ZipLocationDTO(currentZip));
+        }
+
+        return zipLocationDTOs;
     }
 
     @Override
@@ -81,8 +94,8 @@ public class ServiceZipLocationImpl implements IZipLocationService {
     }
 
     @Override
-    public void delete(int id) {
-        iZiplocationDao.deleteById(id);
+    public void delete(ZipLocationDTO zipLocationDTO) {
+        iZiplocationDao.deleteById(zipLocationDTO.getZipCodeId());
     }
 
     @Override

@@ -43,8 +43,8 @@ public class ServiceProductImpl implements IProductService {
     }
 
     @Override
-    public Set<ProductDTO> findAllProducts(Product product) {
-        Set<Product> productSet = iProductDao.findAll(product);
+    public Set<ProductDTO> findAllProducts(ProductDTO productDTO) {
+        Set<Product> productSet = iProductDao.findAll(productDTO.toEntity(new Product()));
 
         Set<ProductDTO> productDTOs = new HashSet<>();
 
@@ -56,8 +56,8 @@ public class ServiceProductImpl implements IProductService {
     }
 
     @Override
-    public Set<ProductDTO> findAnyProducts(Product product) {
-        Set<Product> productSet = iProductDao.findAny(product);
+    public Set<ProductDTO> findAnyProducts(ProductDTO productDTO) {
+        Set<Product> productSet = iProductDao.findAny(productDTO.toEntity(new Product()));
 
         if (!productSet.isEmpty()){
             Set<ProductDTO> productDTOs = new HashSet<>();

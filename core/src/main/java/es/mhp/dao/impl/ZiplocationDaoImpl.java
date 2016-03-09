@@ -43,11 +43,6 @@ public class ZiplocationDaoImpl extends AbstractPetshopGenericDao<ZipLocation> i
     }
 
     @Override
-    public Set<ZipLocation> findAny(String text) {
-        return null;
-    }
-
-    @Override
     public Set<ZipLocation> findAll() {
         return new HashSet<> (entityManager.createQuery("SELECT a FROM ZipLocation a").getResultList());
     }
@@ -74,7 +69,25 @@ public class ZiplocationDaoImpl extends AbstractPetshopGenericDao<ZipLocation> i
         }
         return Collections.emptySet();
     }
+
+    @Override
+    public Set<ZipLocation> findAny(String text) {
+        String concatenator = " OR ";
+
+        if (text != null) {
+            String queryParameters = "SELECT a FROM ZipLocation a WHERE ";
+
+            queryParameters += "CITY like '%" + text + "%' " + concatenator;
+            queryParameters += "STATE like '%" + text + "%'";
+
+            return new HashSet (getEntityManager().createQuery(queryParameters).getResultList());
+        }
+        return Collections.emptySet();
+    }
 }
+
+
+
 
 
 

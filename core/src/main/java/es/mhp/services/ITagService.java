@@ -1,6 +1,5 @@
 package es.mhp.services;
 
-import es.mhp.entities.Tag;
 import es.mhp.services.dto.TagDTO;
 
 import java.util.Set;
@@ -10,8 +9,8 @@ import java.util.Set;
  */
 public interface ITagService {
     Set<TagDTO> findAllTags();
-    Set<TagDTO> findAllTags(Tag tag);
-    Set<TagDTO> findAnyTags(Tag tag);
+    Set<TagDTO> findAllTags(TagDTO tagDTO);
+    Set<TagDTO> findAnyTags(TagDTO tagDTO);
     TagDTO save(TagDTO tagDTO);
     void delete(TagDTO tagDTO);
     TagDTO findTagById(int id);

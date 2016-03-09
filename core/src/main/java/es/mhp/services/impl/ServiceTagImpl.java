@@ -38,8 +38,8 @@ public class ServiceTagImpl implements ITagService {
     }
 
     @Override
-    public Set<TagDTO> findAllTags(Tag tag) {
-        Set<Tag> tagSet = iTagDao.findAll(tag);
+    public Set<TagDTO> findAllTags(TagDTO tagDTO) {
+        Set<Tag> tagSet = iTagDao.findAll(tagDTO.toEntity(new Tag()));
 
         Set<TagDTO> tagDTOs = new HashSet<>();
 
@@ -51,8 +51,8 @@ public class ServiceTagImpl implements ITagService {
     }
 
     @Override
-    public Set<TagDTO> findAnyTags(Tag tag) {
-        Set<Tag> tagSet = iTagDao.findAny(tag);
+    public Set<TagDTO> findAnyTags(TagDTO tagDTO) {
+        Set<Tag> tagSet = iTagDao.findAny(tagDTO.toEntity(new Tag()));
 
         if (!tagSet.isEmpty()){
             Set<TagDTO> tagDTOs = new HashSet<>();
