@@ -18,7 +18,7 @@ public class CategoryDaoImpl extends AbstractPetshopGenericDao<Category> impleme
 
     @Override
     public Category findById(String id) {
-        return entityManager.find(Category.class, id);
+        return getEntityManager().find(Category.class, id);
     }
 
     @Override
@@ -39,47 +39,50 @@ public class CategoryDaoImpl extends AbstractPetshopGenericDao<Category> impleme
 
     @Override
     public Set<Category> findAny(String text) {
-        return null;
+        String concatenator = " OR ";
+
+        if (text != null) {
+            String queryParameters = "SELECT a FROM Category a WHERE ";
+
+            queryParameters += "CATEGORYID like '%" + text + "%' " + concatenator;
+            queryParameters += "NAME like '%" + text + "%' " + concatenator;
+            queryParameters += "DESCRIPTION like '%" + text + "%' " +  concatenator;
+            queryParameters += "IMAGEURL like '%" + text + "%' ";
+
+            return new HashSet (getEntityManager().createQuery(queryParameters).getResultList());
+        }
+        return Collections.emptySet();
     }
 
     @Override
     public Set<Category> findAll() {
-        return new HashSet<>(entityManager.createQuery("SELECT a FROM Category a").getResultList());
+        return new HashSet<>(getEntityManager().createQuery("SELECT a FROM Category a").getResultList());
     }
 
     @Override
     protected Set<Category> findAll(Category entity, boolean type) {
-        String contatenator = type ? " AND ": " OR ";
+        String concatenator = type ? " AND " : " OR ";
 
         if (entity != null) {
             String queryParameters = "SELECT a FROM Category a WHERE ";
 
             if (!StringUtils.isEmpty(entity.getName())) {
-                queryParameters += "NAME = " + entity.getName() + contatenator;
+                queryParameters += "NAME = " + entity.getName() + concatenator;
             }
 
             if (!StringUtils.isEmpty(entity.getDescription())) {
-                queryParameters += "DESCRIPTION = " + entity.getDescription() + contatenator;
+                queryParameters += "DESCRIPTION = " + entity.getDescription() + concatenator;
             }
 
             if (!StringUtils.isEmpty(entity.getImageUrl())) {
-                queryParameters += "IMAGEURL = " + entity.getImageUrl() + contatenator;
+                queryParameters += "IMAGEURL = " + entity.getImageUrl() + concatenator;
             }
 
-            queryParameters = replaceLast(queryParameters, contatenator, "");
-            Query query = entityManager.createQuery(queryParameters);
+            queryParameters = replaceLast(queryParameters, concatenator, "");
+            Query query = getEntityManager().createQuery(queryParameters);
 
             return (Set<Category>) query.getResultList();
         }
         return Collections.emptySet();
-    }
-
-    private List<Category> findAllMocked() {
-        List<Category> addresses = new ArrayList<>();
-
-        addresses.add(new Category("http://www.dogsaffaire.com/blog/wp-content/uploads/2016/02/perro-listo.jpg", "Perro Listo", "Paco", "1"));
-        addresses.add(new Category("http://img.desmotivaciones.es/201110/perrofeo1.jpg", "Perro Feo", "Haineto", "1"));
-
-        return addresses;
     }
 }

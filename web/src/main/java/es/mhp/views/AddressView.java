@@ -7,6 +7,7 @@ import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import es.mhp.services.IAddressService;
@@ -34,6 +35,8 @@ public class AddressView extends AbtractView<AddressDTO> {
     public static final String STATE = "State";
     public static final String LATITUDE = "Latitude";
     public static final String LONGITUDE = "Longitude";
+    public static final String ALL = "All";
+    public static final String ANY = "Any";
 
     private VerticalLayout addressLayout;
     private VerticalLayout addressTable;
@@ -43,6 +46,7 @@ public class AddressView extends AbtractView<AddressDTO> {
 
     @Autowired
     private IZipLocationService iZipLocationService;
+    public static String[] cityList = {"Millbrae","Palo Alto","San Francisco","Stanford"};
 
     public AddressView() {
         setSizeFull();
@@ -133,7 +137,6 @@ public class AddressView extends AbtractView<AddressDTO> {
 
     private void setNewForm(PropertysetItem item, FormLayout form, FieldGroup binder) {
         setItemPropertyEdit(item);
-        binder.setBuffered(true);
 
         Set<ZipLocationDTO> zipList = iZipLocationService.findAllZipLocations();
         ComboBox selectZip = new ComboBox("Zips");
@@ -151,7 +154,7 @@ public class AddressView extends AbtractView<AddressDTO> {
         selectZip.setRequired(true);
         selectZip.setImmediate(true);
 
-        binder.bind(selectZip,ZIP);
+        binder.bind(selectZip, ZIP);
         binder.buildAndBind(ADDRESS_ID);
         form.addComponent(selectZip);
 
@@ -169,7 +172,7 @@ public class AddressView extends AbtractView<AddressDTO> {
     }
 
     private Component createCancelButton(FormLayout form, FieldGroup binder) {
-        Button cancelButton = new Button("Cancel");
+        Button cancelButton = new Button("Cancel", FontAwesome.TRASH_O);
         binder.discard();
 
         cancelButton.addClickListener((Button.ClickListener) event ->
@@ -220,7 +223,7 @@ public class AddressView extends AbtractView<AddressDTO> {
     }
 
     private Button createSaveButton(FieldGroup addressFieldGroup) {
-        final Button saveButton = new Button("Save");
+        final Button saveButton = new Button("Save", FontAwesome.SAVE);
 
         saveButton.addClickListener((Button.ClickListener) event ->
                 trySaveAddress(addressFieldGroup));
@@ -255,13 +258,50 @@ public class AddressView extends AbtractView<AddressDTO> {
 
     private void createFilter() {
         addressLayout.removeAllComponents();
-        TextField filter = new TextField();
-        addressLayout.addComponent(filter);
+        FormLayout formBrowser = createFormBrowser();
+        addressLayout.addComponent(formBrowser);
+    }
 
-        filter.setInputPrompt("Filter addresses...");
+    private FormLayout createFormBrowser() {
+        FormLayout formBrowser = new FormLayout();
+
+        TextField mainStreet = new TextField(MAIN_STREET);
+        TextField secondaryStreet = new TextField(SECONDARY_STREET);
+        ComboBox city = new ComboBox(CITY);
+        city.addItems(cityList);
+        city.select("Stanford");
+        city.setNullSelectionAllowed(false);
+
+        ComboBox state = new ComboBox(STATE);
+        state.addItems(iAddressService.stateList());
+
+        OptionGroup browserWay = new OptionGroup();
+        browserWay.addItems("All", "Any");
+        browserWay.select("All");
+
+        Button browserButton = new Button("Search Addresses!");
         fillAddressTable(iAddressService.findAllAddresses());
-        filter.addTextChangeListener(e ->
-                fillAddressTable(iAddressService.findAnyAddresses(e.getText())));
+
+        browserButton.addClickListener(e -> {
+            AddressDTO addressDTO;
+            if (state.getValue() == null)
+                addressDTO = new AddressDTO(mainStreet.getValue().toString(), secondaryStreet.getValue().toString(), city.getValue().toString());
+            else
+                addressDTO = new AddressDTO(mainStreet.getValue().toString(), secondaryStreet.getValue().toString(), city.getValue().toString(), state.getValue().toString());
+
+            String way = browserWay.getValue().toString();
+
+            if (ALL.equals(way)){
+                fillAddressTable(iAddressService.findAllAddresses(addressDTO));
+            }
+            else if (ANY.equals(way)){
+                fillAddressTable(iAddressService.findAnyAddresses(addressDTO));
+            }
+        });
+
+        formBrowser.addComponents(mainStreet, secondaryStreet, city, state, browserWay, browserButton);
+
+        return formBrowser;
     }
 
     public void trySaveAddress(FieldGroup addressFieldGroup) {

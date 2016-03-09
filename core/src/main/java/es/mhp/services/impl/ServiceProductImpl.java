@@ -1,6 +1,8 @@
 package es.mhp.services.impl;
 
+import es.mhp.dao.ICategoryDao;
 import es.mhp.dao.IProductDao;
+import es.mhp.entities.Category;
 import es.mhp.entities.Product;
 import es.mhp.services.IProductService;
 import es.mhp.services.dto.ProductDTO;
@@ -23,6 +25,9 @@ public class ServiceProductImpl implements IProductService {
 
     @Autowired
     private IProductDao iProductDao;
+
+    @Autowired
+    private ICategoryDao iCategoryDao;
 
     @Override
     public Set<ProductDTO> findAllProducts() {
@@ -67,16 +72,32 @@ public class ServiceProductImpl implements IProductService {
     }
 
     @Override
+    public Set<ProductDTO> findAnyProducts(String text) {
+        Set<Product> productSet = iProductDao.findAny(text);
+
+        Set<ProductDTO> productDTOs = new HashSet<>();
+
+        for (Product currentProduct : productSet) {
+            productDTOs.add(new ProductDTO(currentProduct));
+        }
+
+        return productDTOs;
+    }
+
+    @Override
     public ProductDTO save(ProductDTO productDTO) {
         Product product = iProductDao.findById(productDTO.getProductId());
+        Category category = iCategoryDao.findById(productDTO.getCategory());
 
         if (product != null){
+            product.setCategory(category);
             iProductDao.update(productDTO.toEntity(product));
         } else {
             product = new Product();
-            iProductDao.save(product);
+            product.setCategory(category);
+            iProductDao.save(productDTO.toEntity(product));
         }
-        return productDTO;
+        return new ProductDTO(product);
     }
 
     @Override

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.Query;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,7 +37,7 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
             queryParameters += "STATE like '%" + text + "%' " + concatenator;
             queryParameters += "LATITUDE like '%" + text + "%' " + concatenator + " LONGITUDE like '%" + text + "%' ";
 
-            return new HashSet (entityManager.createQuery(queryParameters).getResultList());
+            return new HashSet (getEntityManager().createQuery(queryParameters).getResultList());
         }
         return Collections.emptySet();
     }
@@ -55,7 +54,11 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
 
     @Override
     public Set<Address> findAll() {
-        return new HashSet<> (entityManager.createQuery("SELECT a FROM Address a ORDER BY addressid").getResultList());
+        return new HashSet<> (getEntityManager().createQuery("SELECT a FROM Address a ORDER BY addressid").getResultList());
+    }
+
+    public Set<String> findAllStates(){
+        return new HashSet<> (getEntityManager().createQuery("SELECT DISTINCT a.state FROM Address a").getResultList());
     }
 
     @Override
@@ -66,30 +69,23 @@ public class AddressDaoImpl extends AbstractPetshopGenericDao<Address> implement
             String queryParameters = "SELECT a FROM Address a WHERE ";
 
             if (!StringUtils.isEmpty(entity.getMainStreet())) {
-                queryParameters += "STREET1 = " + entity.getMainStreet() + contatenator;
+                queryParameters += "STREET1 = '" + entity.getMainStreet() + "'" + contatenator;
             }
 
             if (!StringUtils.isEmpty(entity.getSecondaryStreet())) {
-                queryParameters += "STREET2 = " + entity.getSecondaryStreet() + contatenator;
+                queryParameters += "STREET2 = '" + entity.getSecondaryStreet() + "'" + contatenator;
             }
 
             if (!StringUtils.isEmpty(entity.getCity())) {
-                queryParameters += "CITY = " + entity.getCity() + contatenator;
+                queryParameters += "CITY = '" + entity.getCity() + "'" + contatenator;
             }
 
             if (!StringUtils.isEmpty(entity.getState())) {
-                queryParameters += "STATE = " + entity.getState() + contatenator;
-            }
-
-            if (!StringUtils.isEmpty(entity.getLatitude()) && !StringUtils.isEmpty(entity.getLongitude())) {
-                queryParameters += "LATITUDE = " + entity.getLatitude() +
-                                  "AND LONGITUDE = " + entity.getLongitude() + contatenator;
+                queryParameters += "STATE = '" + entity.getState()+ "'" + contatenator;
             }
 
             queryParameters = replaceLast(queryParameters, contatenator, "");
-            Query query = entityManager.createQuery(queryParameters);
-
-            return (Set<Address>) query.getResultList();
+            return new HashSet<> (getEntityManager().createQuery(queryParameters).getResultList());
         }
         return Collections.emptySet();
     }

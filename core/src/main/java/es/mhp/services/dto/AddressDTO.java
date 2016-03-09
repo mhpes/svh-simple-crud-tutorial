@@ -38,8 +38,6 @@ public class AddressDTO extends AbstractDTO<Address>{
         }
     }
 
-    public AddressDTO(){}
-
     public AddressDTO(int addressId, String mainStreet, String secondaryStreet, int zip, String city, String state, BigDecimal latitude, BigDecimal longitude){
         this.addressId = addressId;
         this.mainStreet = mainStreet;
@@ -49,6 +47,23 @@ public class AddressDTO extends AbstractDTO<Address>{
         this.state = state;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public AddressDTO(String mainStreet, String secondaryStreet, String city, String state) {
+        this.mainStreet = mainStreet;
+        this.secondaryStreet = secondaryStreet;
+        this.city = city;
+        this.state = state;
+    }
+
+    public AddressDTO(String mainStreet, String secondaryStreet, String city) {
+        this.mainStreet = mainStreet;
+        this.secondaryStreet = secondaryStreet;
+        this.city = city;
+    }
+
+    public AddressDTO() {
+
     }
 
     public int getAddressId() {

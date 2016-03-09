@@ -61,6 +61,19 @@ public class ServiceCategoryImpl implements ICategoryService {
     }
 
     @Override
+    public Set<CategoryDTO> findAnyCategories(String text) {
+        Set<Category> categorySet = iCategoryDao.findAny(text);
+
+        Set<CategoryDTO> categoryDTOs = new HashSet<>();
+
+        for (Category currentCategory : categorySet) {
+            categoryDTOs.add(new CategoryDTO(currentCategory));
+        }
+
+        return categoryDTOs;
+    }
+
+    @Override
     public CategoryDTO save(CategoryDTO categoryDTO) {
         Category category = iCategoryDao.findById(categoryDTO.getCategoryId());
 
@@ -68,7 +81,7 @@ public class ServiceCategoryImpl implements ICategoryService {
             iCategoryDao.update(categoryDTO.toEntity(category));
         } else {
             category = new Category();
-            iCategoryDao.save(category);
+            iCategoryDao.save(categoryDTO.toEntity(category));
         }
         return new CategoryDTO(category);
     }

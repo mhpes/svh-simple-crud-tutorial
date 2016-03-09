@@ -13,13 +13,11 @@ import java.util.Set;
 public class Category extends AbstractEntity{
 
     @Id
-    @SequenceGenerator(name="category_sequence", initialValue=1, allocationSize=9999999)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="category_sequence")
     @Size(max = 10)
     @Column(name = "CATEGORYID")
     private String categoryId;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY )
     private Set<Product> products;
 
     @Column(name = "NAME")
@@ -84,6 +82,8 @@ public class Category extends AbstractEntity{
     }
 
     public int getProductsCount() {
+        if (getProducts() == null)
+            return 0;
         return this.products.size();
     }
 }

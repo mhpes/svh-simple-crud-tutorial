@@ -12,6 +12,7 @@ public interface IProductService {
     Set<ProductDTO> findAllProducts();
     Set<ProductDTO> findAllProducts(Product product);
     Set<ProductDTO> findAnyProducts(Product product);
+    Set<ProductDTO> findAnyProducts(String text);
     ProductDTO save(ProductDTO productDTO);
     void delete(ProductDTO productDTO);
     ProductDTO findProductById(String id);

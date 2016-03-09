@@ -44,7 +44,19 @@ public class ProductDaoImpl extends AbstractPetshopGenericDao<Product> implement
 
     @Override
     public Set<Product> findAny(String text) {
-        return null;
+        String concatenator = " OR ";
+
+        if (text != null) {
+            String queryParameters = "SELECT a FROM Product a WHERE ";
+
+            queryParameters += "PRODUCTID like '%" + text + "%' " + concatenator;
+            queryParameters += "NAME like '%" + text + "%' " + concatenator;
+            queryParameters += "DESCRIPTION like '%" + text + "%' " +  concatenator;
+            queryParameters += "IMAGEURL like '%" + text + "%' ";
+
+            return new HashSet (getEntityManager().createQuery(queryParameters).getResultList());
+        }
+        return Collections.emptySet();
     }
 
     @Override

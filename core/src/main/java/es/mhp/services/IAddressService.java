@@ -1,6 +1,5 @@
 package es.mhp.services;
 
-import es.mhp.entities.Address;
 import es.mhp.services.dto.AddressDTO;
 
 import java.util.Set;
@@ -11,9 +10,10 @@ import java.util.Set;
 
 public interface IAddressService extends AbstractService{
     Set<AddressDTO> findAllAddresses();
-    Set<AddressDTO> findAllAddresses(Address address);
-    Set<AddressDTO> findAnyAddresses(Address address);
+    Set<AddressDTO> findAllAddresses(AddressDTO addressDTO);
+    Set<AddressDTO> findAnyAddresses(AddressDTO addressDTO);
     Set<AddressDTO> findAnyAddresses(String text);
+    Set<String> stateList();
     AddressDTO save(AddressDTO addressDTO);
     void delete(AddressDTO addressDTO);
     AddressDTO findAddressById(int id);

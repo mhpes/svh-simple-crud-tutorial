@@ -37,6 +37,8 @@ public class CategoryDTO extends AbstractDTO<Category>{
         this.imageUrl = imageUrl;
     }
 
+    public CategoryDTO(){}
+
     public String getCategoryId() {
         return categoryId;
     }

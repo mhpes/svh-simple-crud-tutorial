@@ -13,8 +13,6 @@ import java.util.Set;
 public class Product extends AbstractEntity {
 
     @Id
-    @SequenceGenerator(name="product_sequence", initialValue=1, allocationSize=9999999)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="product_sequence")
     @Size(max = 10)
     @Column(name = "PRODUCTID")
     private String productId;

@@ -9,7 +9,7 @@ import org.springframework.beans.BeanUtils;
 public class ProductDTO extends AbstractDTO<Product> {
 
     private String productId;
-    private String categoryId;
+    private String category;
     private String name;
     private String description;
     private String imageUrl;
@@ -25,7 +25,7 @@ public class ProductDTO extends AbstractDTO<Product> {
             this.productId = product.getProductId();
 
             if (product.getCategory() != null){
-                this.categoryId = product.getCategory().getCategoryId();
+                this.category = product.getCategory().getCategoryId();
             }
 
             this.name = product.getName();
@@ -36,11 +36,12 @@ public class ProductDTO extends AbstractDTO<Product> {
 
     public ProductDTO(){}
 
-    public ProductDTO(String productId, String name, String description, String imageUrl) {
+    public ProductDTO(String productId, String name, String description, String imageUrl, String category) {
         this.productId = productId;
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.category = category;
     }
 
     public String getProductId() {
@@ -51,12 +52,12 @@ public class ProductDTO extends AbstractDTO<Product> {
         this.productId = productId;
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getName() {
