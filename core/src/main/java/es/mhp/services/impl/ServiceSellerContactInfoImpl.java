@@ -67,6 +67,19 @@ public class ServiceSellerContactInfoImpl implements ISellerContactInfoService {
     }
 
     @Override
+    public Set<SellerContactInfoDTO> findAnySellers(String text) {
+        Set<SellerContactInfo> sellerSet = iSellerDao.findAny(text);
+
+        Set<SellerContactInfoDTO> sellerDTOs = new HashSet<>();
+
+        for (SellerContactInfo currentCategory : sellerSet) {
+            sellerDTOs.add(new SellerContactInfoDTO(currentCategory));
+        }
+
+        return sellerDTOs;
+    }
+
+    @Override
     public SellerContactInfoDTO save(SellerContactInfoDTO tagDTO) {
         SellerContactInfo sellerContactInfo = iSellerDao.findById(tagDTO.getContactInfoId());
 

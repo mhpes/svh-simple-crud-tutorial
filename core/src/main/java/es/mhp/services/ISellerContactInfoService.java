@@ -12,7 +12,10 @@ public interface ISellerContactInfoService {
     Set<SellerContactInfoDTO> findAllSellers();
     Set<SellerContactInfoDTO> findAllSellers(SellerContactInfoDTO sellerContactInfoDTO);
     Set<SellerContactInfoDTO> findAnySellers(SellerContactInfoDTO sellerContactInfoDTO);
+    Set<SellerContactInfoDTO> findAnySellers(String text);
     SellerContactInfoDTO save(SellerContactInfoDTO sellerContactInfoDTO);
     void delete(SellerContactInfoDTO sellerContactInfoDTO);
     SellerContactInfoDTO findSellerById(int id);
+
+
 }

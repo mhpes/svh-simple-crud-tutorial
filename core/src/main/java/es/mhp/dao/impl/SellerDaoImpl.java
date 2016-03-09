@@ -44,7 +44,18 @@ public class SellerDaoImpl extends AbstractPetshopGenericDao<SellerContactInfo> 
 
     @Override
     public Set<SellerContactInfo> findAny(String text) {
-        return null;
+        String concatenator = " OR ";
+
+        if (text != null) {
+            String queryParameters = "SELECT a FROM SellerContactInfo a WHERE ";
+
+            queryParameters += "FIRSTNAME like '%" + text + "%' " + concatenator;
+            queryParameters += "LASTNAME like '%" + text + "%' " + concatenator;
+            queryParameters += "EMAIL like '%" + text + "%'";
+
+            return new HashSet (getEntityManager().createQuery(queryParameters).getResultList());
+        }
+        return Collections.emptySet();
     }
 
     @Override
