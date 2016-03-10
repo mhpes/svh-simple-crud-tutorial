@@ -19,7 +19,6 @@ import java.util.Set;
 /*
  * Created by Edu on 23/02/2016.
 */
-
 @SpringView(name = ZipLocationView.VIEW_NAME)
 public class ZipLocationView extends AbtractView<ZipLocationDTO> {
     public static final String VIEW_NAME = "ZipLocation";
@@ -84,7 +83,7 @@ public class ZipLocationView extends AbtractView<ZipLocationDTO> {
         TextField filter = new TextField();
         zipLayout.addComponent(filter);
 
-        filter.setInputPrompt("Filter categories...");
+        filter.setInputPrompt("Filter Zip...");
         fillZipTable(iZipLocationService.findAllZipLocations());
         filter.addTextChangeListener(e ->
                 fillZipTable(iZipLocationService.findAnyZipLocations(e.getText())));
@@ -192,12 +191,12 @@ public class ZipLocationView extends AbtractView<ZipLocationDTO> {
     }
 
     public void trySaveZip(FieldGroup zipFieldGroup) {
-        int categoryId = Integer.parseInt(zipFieldGroup.getField(ZIPCODE).getValue().toString());
+        int ziplocationId = Integer.parseInt(zipFieldGroup.getField(ZIPCODE).getValue().toString());
         String name = zipFieldGroup.getField(CITY).getValue().toString();
         String description = zipFieldGroup.getField(STATE).getValue().toString();
 
         try{
-            ZipLocationDTO zipLocationDTO = new ZipLocationDTO(categoryId, name, description);
+            ZipLocationDTO zipLocationDTO = new ZipLocationDTO(ziplocationId, name, description);
             iZipLocationService.save(zipLocationDTO);
             Notification.show("New Zip added!", Notification.Type.TRAY_NOTIFICATION);
         } catch (Exception err){ //I can't handle the correct Exception ConstraintViolationException

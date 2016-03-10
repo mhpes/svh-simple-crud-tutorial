@@ -2,10 +2,12 @@ package es.mhp.entities;
 
 import net.sf.minuteProject.architecture.bsla.domain.AbstractDomainObject;
 
+import java.io.Serializable;
+
 /**
  * Created by Edu on 12/02/2016.
  */
-public class AbstractEntity extends AbstractDomainObject{
+public class AbstractEntity extends AbstractDomainObject implements Serializable{
     @Override
     public boolean equalsMask(Object o) {
         return false;

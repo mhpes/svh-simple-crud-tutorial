@@ -85,7 +85,7 @@ public class TagView extends AbtractView<TagDTO> {
         TextField filter = new TextField();
         tagLayout.addComponent(filter);
 
-        filter.setInputPrompt("Filter categories...");
+        filter.setInputPrompt("Filter tags...");
         fillTagTable(iTagService.findAllTags());
         filter.addTextChangeListener(e ->
                 fillTagTable(iTagService.findAnyTags(e.getText())));
@@ -193,12 +193,12 @@ public class TagView extends AbtractView<TagDTO> {
     }
 
     public void trySaveTag(FieldGroup tagFieldGroup) {
-        int categoryId = Integer.parseInt(tagFieldGroup.getField(TAG_ID).getValue().toString());
+        int tagId = Integer.parseInt(tagFieldGroup.getField(TAG_ID).getValue().toString());
         String name = tagFieldGroup.getField(TAG).getValue().toString();
         int refCount = Integer.parseInt(tagFieldGroup.getField(REF_COUNT).getValue().toString());
 
         try{
-            TagDTO tagDTO = new TagDTO(categoryId, name, refCount);
+            TagDTO tagDTO = new TagDTO(tagId, name, refCount);
             iTagService.save(tagDTO);
             Notification.show("New Tag added!", Notification.Type.TRAY_NOTIFICATION);
         } catch (Exception err){ //I can't handle the correct Exception ConstraintViolationException

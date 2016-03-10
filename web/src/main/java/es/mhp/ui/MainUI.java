@@ -29,7 +29,7 @@ public class MainUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
-        getPage().setTitle("PetShop example");
+        getPage().setTitle("PetShop example V.2");
 
         //LAYOUT GENERAL
         VerticalLayout generalLayout = createUILayout();
@@ -66,7 +66,7 @@ public class MainUI extends UI {
 
         verticalLayout.addComponent(createCustomButton(AddressView.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(CategoryView.VIEW_NAME));
-        verticalLayout.addComponent(createCustomButton(ItemView.VIEW_NAME));
+        verticalLayout.addComponent(createCustomButton(ProductView.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(ZipLocationView.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(ItemView.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(SellerContactInfoView.VIEW_NAME));

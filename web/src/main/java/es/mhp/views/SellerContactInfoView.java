@@ -85,7 +85,7 @@ public class SellerContactInfoView extends AbtractView<SellerContactInfoDTO> {
         TextField filter = new TextField();
         sellerLayout.addComponent(filter);
 
-        filter.setInputPrompt("Filter categories...");
+        filter.setInputPrompt("Filter seller...");
         fillZipTable(iSellerContactInfoService.findAllSellers());
         filter.addTextChangeListener(e ->
                 fillZipTable(iSellerContactInfoService.findAnySellers(e.getText())));
@@ -198,13 +198,13 @@ public class SellerContactInfoView extends AbtractView<SellerContactInfoDTO> {
     }
 
     public void trySaveSeller(FieldGroup sellerFieldGroup) {
-        int categoryId = Integer.parseInt(sellerFieldGroup.getField(CONTACTINFO_ID).getValue().toString());
+        int contactInfoId = Integer.parseInt(sellerFieldGroup.getField(CONTACTINFO_ID).getValue().toString());
         String firstName = sellerFieldGroup.getField(FIRST_NAME).getValue().toString();
         String lastName = sellerFieldGroup.getField(LAST_NAME).getValue().toString();
         String email = sellerFieldGroup.getField(EMAIL).getValue().toString();
 
         try{
-            SellerContactInfoDTO sellerContactInfoDTO = new SellerContactInfoDTO(categoryId, firstName, lastName, email);
+            SellerContactInfoDTO sellerContactInfoDTO = new SellerContactInfoDTO(contactInfoId, firstName, lastName, email);
             iSellerContactInfoService.save(sellerContactInfoDTO);
             Notification.show("New Seller added!", Notification.Type.TRAY_NOTIFICATION);
         } catch (Exception err){ //I can't handle the correct Exception ConstraintViolationException

@@ -1,0 +1,47 @@
+<project name="P2T" default="copyAll" basedir=".">
+    <description>Publicacion de artefactos en Tomcat</description>
+    <!-- Set global properties for this build -->
+    <property environment="env"/>
+    <property name="tomcat_install" location="${env.CATALINA_HOME}" />
+    <property name="destination" location="${tomcat_install}\webapps" />
+    <property name="dir_work" location="${tomcat_install}\work\Catalina\localhost" />
+    <property name="temp_work" location="${tomcat_install}\temp" />
+    <property name="app_prefix" value="web" />
+    <property name="app_webapp_name" value="1.0" />
+
+    <!-- Copy all artifacts with the specified preffix -->
+    <target name="copyAll">
+        <delete includeemptydirs="true">
+            <fileset dir="${destination}" includes="**/${app_prefix}*/**" excludes="**/*.war" defaultexcludes="false" />
+            <fileset dir="${dir_work}" includes="**/*" defaultexcludes="false" />
+            <fileset dir="${temp_work}" includes="**/*" defaultexcludes="false" />
+        </delete>
+        <copy todir="${destination}" overwrite="true" flatten="true">
+            <fileset dir=".">
+                <include name="**/*.war" />
+            </fileset>
+        </copy>
+    </target>
+    <!-- Copy only the web application artifact -->
+    <target name="copyWebAppWAR">
+        <echo message="Deleting ${destination}/${app_prefix}-${app_webapp_name}.war"/>
+        <delete includeemptydirs="true">
+            <fileset dir="${destination}" includes="**/${app_prefix}-${app_webapp_name}.war" defaultexcludes="false" />
+            <fileset dir="${dir_work}" includes="**${app_prefix}-${app_webapp_name}*/**" defaultexcludes="false" />
+        </delete>
+        <echo message="Copying '${app_prefix}-${app_webapp_name}.war' to ${destination}/"/>
+        <copy todir="${destination}" overwrite="true" flatten="true">
+            <fileset dir=".">
+                <include name="**/${app_prefix}-${app_webapp_name}.war" />
+            </fileset>
+        </copy>
+    </target>
+
+	<!-- Copy the web application artifact exploded -->
+    <target name="copyWebAppEXPLODED">
+        <echo message="Copying to ${destination}\${app_prefix}-${app_webapp_name}"/>
+        <copy todir="${destination}\${app_prefix}-${app_webapp_name}" overwrite="true">
+            <fileset dir="./web/target/${app_prefix}-${app_webapp_name}" />
+        </copy>
+    </target>
+</project>
