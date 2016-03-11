@@ -9,8 +9,6 @@ import java.util.Set;
  */
 public interface ITagService {
     Set<TagDTO> findAllTags();
-    Set<TagDTO> findAllTags(TagDTO tagDTO);
-    Set<TagDTO> findAnyTags(TagDTO tagDTO);
     Set<TagDTO> findAnyTags(String text);
     TagDTO save(TagDTO tagDTO);
     void delete(TagDTO tagDTO);

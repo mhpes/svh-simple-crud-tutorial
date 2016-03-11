@@ -1,11 +1,12 @@
 package es.mhp.services.impl;
 
-import es.mhp.dao.IItemDao;
 import es.mhp.entities.Item;
+import es.mhp.repositories.ItemRepository;
 import es.mhp.services.IItemService;
-import es.mhp.services.IProductService;
 import es.mhp.services.dto.ItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,14 +18,16 @@ import java.util.Set;
  */
 @Service
 @Transactional
+@Configuration
+@EnableJpaRepositories
 public class ServiceItemImpl implements IItemService {
 
     @Autowired
-    private IItemDao iItemDao;
+    private ItemRepository itemRepository;
 
     @Override
     public Set<ItemDTO> findAllItems() {
-        Set<Item> itemSet = iItemDao.findAll();
+        Iterable<Item> itemSet = itemRepository.findAll();
 
         Set<ItemDTO> categoryDTOs = new HashSet<>();
 
@@ -36,21 +39,8 @@ public class ServiceItemImpl implements IItemService {
     }
 
     @Override
-    public Set<ItemDTO> findAllItems(ItemDTO itemDTO) {
-        Set<Item> itemSet = iItemDao.findAll(itemDTO.toEntity());
-
-        Set<ItemDTO> categoryDTOs = new HashSet<>();
-
-        for (Item currentItem : itemSet){
-            categoryDTOs.add(new ItemDTO(currentItem));
-        }
-
-        return categoryDTOs;
-    }
-
-    @Override
     public Set<ItemDTO> findAnyItems(String text) {
-        Set<Item> itemSet = iItemDao.findAny(text);
+        Iterable<Item> itemSet = itemRepository.findByValue(text);
 
         Set<ItemDTO> itemDTOs = new HashSet<>();
 
@@ -62,36 +52,10 @@ public class ServiceItemImpl implements IItemService {
     }
 
     @Override
-    public Set<ItemDTO> findAnyItems(ItemDTO itemDTO) {
-        Set<Item> itemSet = iItemDao.findAny(itemDTO.toEntity());
-
-        Set<ItemDTO> categoryDTOs = new HashSet<>();
-
-        for (Item currentItem : itemSet){
-            categoryDTOs.add(new ItemDTO(currentItem));
-        }
-
-        return categoryDTOs;
-    }
-
-    @Override
     public ItemDTO save(ItemDTO itemDTO) {
-        Item item = iItemDao.findById(itemDTO.getItemId());
-
-        if (item != null){
-            iItemDao.update(itemDTO.toEntity(item));
-        } else {
-            item = new Item();
-            iItemDao.save(item);
-        }
-        return new ItemDTO(item);
+            return new ItemDTO(itemRepository.save(itemDTO.toEntity()));
     }
 
     @Override
-    public void delete(ItemDTO itemDTO) { iItemDao.deleteById(itemDTO.getItemId()); }
-
-    @Override
-    public ItemDTO findItemById(int id) {
-        return new ItemDTO(iItemDao.findById(id));
-    }
+    public void delete(ItemDTO itemDTO) { itemRepository.delete(itemDTO.getItemId()); }
 }

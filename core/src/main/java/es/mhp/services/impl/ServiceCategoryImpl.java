@@ -1,10 +1,12 @@
 package es.mhp.services.impl;
 
-import es.mhp.dao.ICategoryDao;
 import es.mhp.entities.Category;
+import es.mhp.repositories.CategoryRepository;
 import es.mhp.services.ICategoryService;
 import es.mhp.services.dto.CategoryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,14 +18,16 @@ import java.util.Set;
  */
 @Service
 @Transactional
+@Configuration
+@EnableJpaRepositories
 public class ServiceCategoryImpl implements ICategoryService {
 
     @Autowired
-    private ICategoryDao iCategoryDao;
+    private CategoryRepository categoryRepository;
 
     @Override
     public Set<CategoryDTO> findAllCategories() {
-        Set<Category> categorySet = iCategoryDao.findAll();
+        Iterable<Category> categorySet = categoryRepository.findAll();
 
         Set<CategoryDTO> categoryDTOs = new HashSet<>();
 
@@ -35,34 +39,8 @@ public class ServiceCategoryImpl implements ICategoryService {
     }
 
     @Override
-    public Set<CategoryDTO> findAllCategories(CategoryDTO categoryDTO) {
-        Set<Category> categorySet = iCategoryDao.findAll(categoryDTO.toEntity());
-
-        Set<CategoryDTO> categoryDTOs = new HashSet<>();
-
-        for (Category currentCategory : categorySet){
-            categoryDTOs.add(new CategoryDTO(currentCategory));
-        }
-
-        return categoryDTOs;
-    }
-
-    @Override
-    public Set<CategoryDTO> findAnyCategories(CategoryDTO categoryDTO) {
-        Set<Category> categorySet = iCategoryDao.findAny(categoryDTO.toEntity());
-
-        Set<CategoryDTO> categoryDTOs = new HashSet<>();
-
-        for (Category currentCategory : categorySet){
-            categoryDTOs.add(new CategoryDTO(currentCategory));
-        }
-
-        return categoryDTOs;
-    }
-
-    @Override
     public Set<CategoryDTO> findAnyCategories(String text) {
-        Set<Category> categorySet = iCategoryDao.findAny(text);
+        Iterable<Category> categorySet = categoryRepository.findByValue(text);
 
         Set<CategoryDTO> categoryDTOs = new HashSet<>();
 
@@ -75,24 +53,11 @@ public class ServiceCategoryImpl implements ICategoryService {
 
     @Override
     public CategoryDTO save(CategoryDTO categoryDTO) {
-        Category category = iCategoryDao.findById(categoryDTO.getCategoryId());
-
-        if (category != null){
-            iCategoryDao.update(categoryDTO.toEntity(category));
-        } else {
-            category = new Category();
-            iCategoryDao.save(categoryDTO.toEntity(category));
-        }
-        return new CategoryDTO(category);
+        return new CategoryDTO(categoryRepository.save(categoryDTO.toEntity()));
     }
 
     @Override
     public void delete(CategoryDTO categoryDTO) {
-        iCategoryDao.deleteById(categoryDTO.getCategoryId());
-    }
-
-    @Override
-    public CategoryDTO findCategoryById(String id) {
-        return new CategoryDTO(iCategoryDao.findById(id));
+        categoryRepository.delete(categoryDTO.getCategoryId());
     }
 }

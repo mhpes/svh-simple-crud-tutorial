@@ -1,14 +1,15 @@
 package es.mhp.services.impl;
 
-import es.mhp.dao.ISellerDao;
 import es.mhp.entities.SellerContactInfo;
+import es.mhp.repositories.SellerRepository;
 import es.mhp.services.ISellerContactInfoService;
 import es.mhp.services.dto.SellerContactInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,14 +20,16 @@ import java.util.Set;
 
 @Service
 @Transactional
+@Configuration
+@EnableJpaRepositories
 public class ServiceSellerContactInfoImpl implements ISellerContactInfoService {
 
     @Autowired
-    private ISellerDao iSellerDao;
+    private SellerRepository sellerRepository;
 
     @Override
     public Set<SellerContactInfoDTO> findAllSellers() {
-        Set<SellerContactInfo> tagSet = iSellerDao.findAll();
+        Iterable<SellerContactInfo> tagSet = sellerRepository.findAll();
 
         Set<SellerContactInfoDTO> tagDTOs = new HashSet<>();
 
@@ -38,37 +41,8 @@ public class ServiceSellerContactInfoImpl implements ISellerContactInfoService {
     }
 
     @Override
-    public Set<SellerContactInfoDTO> findAllSellers(SellerContactInfoDTO sellerContactInfoDTO) {
-        Set<SellerContactInfo> sellerContactInfoSet = iSellerDao.findAll(sellerContactInfoDTO.toEntity());
-
-        Set<SellerContactInfoDTO> tagDTOs = new HashSet<>();
-
-        for (SellerContactInfo currentSellerContactInfo : sellerContactInfoSet) {
-            tagDTOs.add(new SellerContactInfoDTO(currentSellerContactInfo));
-        }
-
-        return tagDTOs;
-    }
-
-    @Override
-    public Set<SellerContactInfoDTO> findAnySellers(SellerContactInfoDTO sellerContactInfoDTO) {
-        Set<SellerContactInfo> sellerContactInfoSet = iSellerDao.findAny(sellerContactInfoDTO.toEntity());
-
-        if (!sellerContactInfoSet.isEmpty()){
-            Set<SellerContactInfoDTO> sellerContactInfoDTOs = new HashSet<>();
-
-            for (SellerContactInfo currentSellerContactInfo : sellerContactInfoSet) {
-                sellerContactInfoDTOs.add(new SellerContactInfoDTO(currentSellerContactInfo));
-            }
-
-            return sellerContactInfoDTOs;
-        }
-        return Collections.emptySet();
-    }
-
-    @Override
     public Set<SellerContactInfoDTO> findAnySellers(String text) {
-        Set<SellerContactInfo> sellerSet = iSellerDao.findAny(text);
+        Iterable<SellerContactInfo> sellerSet = sellerRepository.findByValue(text);
 
         Set<SellerContactInfoDTO> sellerDTOs = new HashSet<>();
 
@@ -80,25 +54,17 @@ public class ServiceSellerContactInfoImpl implements ISellerContactInfoService {
     }
 
     @Override
-    public SellerContactInfoDTO save(SellerContactInfoDTO tagDTO) {
-        SellerContactInfo sellerContactInfo = iSellerDao.findById(tagDTO.getContactInfoId());
-
-        if (sellerContactInfo != null){
-            iSellerDao.update(tagDTO.toEntity(sellerContactInfo));
-        } else {
-            sellerContactInfo = new SellerContactInfo();
-            iSellerDao.save(sellerContactInfo);
-        }
-        return new SellerContactInfoDTO(sellerContactInfo);
+    public SellerContactInfoDTO save(SellerContactInfoDTO sellerContactInfoDTO) {
+        return new SellerContactInfoDTO(sellerRepository.save(sellerContactInfoDTO.toEntity()));
     }
 
     @Override
     public void delete(SellerContactInfoDTO sellerContactInfoDTO) {
-        iSellerDao.deleteById(sellerContactInfoDTO.getContactInfoId());
+        sellerRepository.delete(sellerContactInfoDTO.getContactInfoId());
     }
 
     @Override
     public SellerContactInfoDTO findSellerById(int id) {
-        return new SellerContactInfoDTO(iSellerDao.findById(id));
+        return new SellerContactInfoDTO(sellerRepository.findOne(id));
     }
 }

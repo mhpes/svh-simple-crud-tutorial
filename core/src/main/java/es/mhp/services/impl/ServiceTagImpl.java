@@ -1,14 +1,15 @@
 package es.mhp.services.impl;
 
-import es.mhp.dao.ITagDao;
 import es.mhp.entities.Tag;
+import es.mhp.repositories.TagRepository;
 import es.mhp.services.ITagService;
 import es.mhp.services.dto.TagDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,14 +20,16 @@ import java.util.Set;
 
 @Service
 @Transactional
+@Configuration
+@EnableJpaRepositories
 public class ServiceTagImpl implements ITagService {
 
     @Autowired
-    private ITagDao iTagDao;
+    private TagRepository tagRepository;
 
     @Override
     public Set<TagDTO> findAllTags() {
-        Set<Tag> tagSet = iTagDao.findAll();
+        Iterable<Tag> tagSet = tagRepository.findAll();
 
         Set<TagDTO> tagDTOs = new HashSet<>();
 
@@ -38,37 +41,8 @@ public class ServiceTagImpl implements ITagService {
     }
 
     @Override
-    public Set<TagDTO> findAllTags(TagDTO tagDTO) {
-        Set<Tag> tagSet = iTagDao.findAll(tagDTO.toEntity());
-
-        Set<TagDTO> tagDTOs = new HashSet<>();
-
-        for (Tag currentTag : tagSet) {
-            tagDTOs.add(new TagDTO(currentTag));
-        }
-
-        return tagDTOs;
-    }
-
-    @Override
-    public Set<TagDTO> findAnyTags(TagDTO tagDTO) {
-        Set<Tag> tagSet = iTagDao.findAny(tagDTO.toEntity());
-
-        if (!tagSet.isEmpty()){
-            Set<TagDTO> tagDTOs = new HashSet<>();
-
-            for (Tag currentTag : tagSet) {
-                tagDTOs.add(new TagDTO(currentTag));
-            }
-
-            return tagDTOs;
-        }
-        return Collections.emptySet();
-    }
-
-    @Override
     public Set<TagDTO> findAnyTags(String text) {
-        Set<Tag> tagSet = iTagDao.findAny(text);
+        Iterable<Tag> tagSet = tagRepository.findByValue(text);
 
         Set<TagDTO> zipLocationDTOs = new HashSet<>();
 
@@ -81,24 +55,17 @@ public class ServiceTagImpl implements ITagService {
 
     @Override
     public TagDTO save(TagDTO tagDTO) {
-        Tag tag = iTagDao.findById(tagDTO.getTagId());
+        return new TagDTO(tagRepository.save(tagDTO.toEntity()));
 
-        if (tag != null){
-            iTagDao.update(tagDTO.toEntity(tag));
-        } else {
-            tag = new Tag();
-            iTagDao.save(tag);
-        }
-        return new TagDTO(tag);
     }
 
     @Override
     public void delete(TagDTO tagDTO) {
-        iTagDao.deleteById(tagDTO.getTagId());
+        tagRepository.delete(tagDTO.getTagId());
     }
 
     @Override
     public TagDTO findTagById(int id) {
-        return new TagDTO(iTagDao.findById(id));
+        return new TagDTO(tagRepository.findOne(id));
     }
 }

@@ -1,10 +1,14 @@
 package es.mhp.services.impl;
 
-import es.mhp.dao.IAddressDao;
 import es.mhp.entities.Address;
+import es.mhp.entities.ZipLocation;
+import es.mhp.repositories.AddressRepository;
+import es.mhp.repositories.ZipLocationRepository;
 import es.mhp.services.IAddressService;
 import es.mhp.services.dto.AddressDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,17 +22,19 @@ import java.util.Set;
 
 @Service
 @Transactional
+@Configuration
+@EnableJpaRepositories
 public class ServiceAddressImpl implements IAddressService {
 
     @Autowired
-    private IAddressDao iAddressDao;
+    private AddressRepository addressRepository;
 
-    /*@Autowired
-    private ZipLocationRepository iZipLocationRepository;*/
+    @Autowired
+    private ZipLocationRepository iZipLocationRepository;
 
     @Override
     public Set<AddressDTO> findAllAddresses() {
-        Set<Address> addressSet = iAddressDao.findAll();
+        Iterable<Address> addressSet = addressRepository.findAll();
 
         Set<AddressDTO> addressDTOs = new HashSet<>();
 
@@ -41,20 +47,8 @@ public class ServiceAddressImpl implements IAddressService {
 
     @Override
     public Set<AddressDTO> findAllAddresses(AddressDTO addressDTO) {
-        Set<Address> addressSet = iAddressDao.findAll(addressDTO.toEntity());
-
-        Set<AddressDTO> addressDTOs = new HashSet<>();
-
-        for (Address currentAddress : addressSet) {
-            addressDTOs.add(new AddressDTO(currentAddress));
-        }
-
-        return addressDTOs;
-    }
-
-    @Override
-    public Set<AddressDTO> findAnyAddresses(AddressDTO addressDTO) {
-        Set<Address> addressSet = iAddressDao.findAny(addressDTO.toEntity());
+        //Set<Address> addressSet = addressRepository.findAll(addressDTO.toEntity());
+        Set<Address> addressSet = new HashSet<>();
 
         if (!addressSet.isEmpty()){
             Set<AddressDTO> addressDTOs = new HashSet<>();
@@ -69,58 +63,58 @@ public class ServiceAddressImpl implements IAddressService {
     }
 
     @Override
-    public Set<AddressDTO> findAnyAddresses(String text) {
-        Set<Address> addressSet = iAddressDao.findAny(text);
+    public Set<AddressDTO> findAnyAddresses(AddressDTO addressDTO) {
+        //Set<Address> addressSet = addressRepository.findAny(addressDTO.toEntity());
 
-        Set<AddressDTO> addressDTOs = new HashSet<>();
+        Set<Address> addressSet = new HashSet<>();
 
-        for (Address currentAddress : addressSet) {
-            addressDTOs.add(new AddressDTO(currentAddress));
+        if (!addressSet.isEmpty()){
+            Set<AddressDTO> addressDTOs = new HashSet<>();
+
+            for (Address currentAddress : addressSet) {
+                addressDTOs.add(new AddressDTO(currentAddress));
+            }
+
+            return addressDTOs;
         }
-
-        return addressDTOs;
+        return Collections.emptySet();
     }
 
     @Override
     public Set<String> stateList() {
-        return iAddressDao.findAllStates();
+        return null;/*return addressRepository.findAllStates();*/
     }
 
     @Override
     public AddressDTO save(AddressDTO addressDto) {
-        Address address = iAddressDao.findById(addressDto.getAddressId());
-        //ZipLocation zipLocation = iZipLocationRepository.findById(addressDto.getZip());
+        Address address = addressRepository.findOne(addressDto.getAddressId());
+        ZipLocation zipLocation = iZipLocationRepository.findOne(addressDto.getZip());
 
         if (address != null){
 
-            /*if (zipLocation == null){
+            if (zipLocation == null){
                 zipLocation = new ZipLocation(addressDto.getZip(), addressDto.getCity(), addressDto.getState());
                 iZipLocationRepository.save(zipLocation);
-            }*/
+            }
 
-            //address.setZipLocation(zipLocation);
-            iAddressDao.update(addressDto.toEntity(address));
+            address.setZipLocation(zipLocation);
+            addressRepository.save(addressDto.toEntity(address));
         } else {
             address = new Address();
 
-            /*if (zipLocation == null){
+            if (zipLocation == null){
                 zipLocation = new ZipLocation(addressDto.getZip(), addressDto.getCity(), addressDto.getState());
                 iZipLocationRepository.save(zipLocation);
-            }*/
+            }
 
-            //address.setZipLocation(zipLocation);
-            iAddressDao.save(addressDto.toEntity(address));
+            address.setZipLocation(zipLocation);
+            addressRepository.save(addressDto.toEntity(address));
         }
         return new AddressDTO(address);
     }
 
     @Override
     public void delete(AddressDTO addressDto) {
-        iAddressDao.deleteById(addressDto.getAddressId());
-    }
-
-    @Override
-    public AddressDTO findAddressById(int id) {
-        return new AddressDTO(iAddressDao.findById(id));
+        addressRepository.delete(addressDto.getAddressId());
     }
 }

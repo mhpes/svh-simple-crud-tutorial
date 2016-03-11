@@ -44,7 +44,7 @@ public class AddressView extends AbtractView<AddressDTO> {
     @Autowired
     private IAddressService iAddressService;
 
-    @Autowired
+    //@Autowired
     private IZipLocationService iZipLocationService;
     public static String[] cityList = {"Millbrae","Palo Alto","San Francisco","Stanford"};
 

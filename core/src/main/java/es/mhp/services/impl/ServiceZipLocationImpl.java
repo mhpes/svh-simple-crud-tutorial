@@ -1,6 +1,6 @@
 package es.mhp.services.impl;
 
-import es.mhp.dao.ZipLocationRepository;
+import es.mhp.repositories.ZipLocationRepository;
 import es.mhp.entities.ZipLocation;
 import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.ZipLocationDTO;
@@ -19,7 +19,6 @@ import java.util.Set;
  * Created by Edu on 24/02/2016.
 */
 
-
 @Service
 @Transactional
 @Configuration
@@ -27,11 +26,11 @@ import java.util.Set;
 public class ServiceZipLocationImpl implements IZipLocationService {
 
     @Autowired
-    private ZipLocationRepository zipLocationRepository;
+    private ZipLocationRepository ZipLocationRepository;
 
     @Override
     public Set<ZipLocationDTO> findAllZipLocations() {
-        Iterable<ZipLocation> zipLocationSet = zipLocationRepository.findAll();
+        Iterable<ZipLocation> zipLocationSet = ZipLocationRepository.findAll();
 
         Set<ZipLocationDTO> zipLocationDTOs = new HashSet<>();
 
@@ -44,7 +43,7 @@ public class ServiceZipLocationImpl implements IZipLocationService {
 
     @Override
     public Set<ZipLocationDTO> findAnyZipLocations(String text) {
-        List<ZipLocation> zipLocationList = zipLocationRepository.findByValue(text);
+        List<ZipLocation> zipLocationList = ZipLocationRepository.findByValue(text);
 
         Set<ZipLocationDTO> zipLocationDTOs = new HashSet<>();
 
@@ -57,16 +56,16 @@ public class ServiceZipLocationImpl implements IZipLocationService {
 
     @Override
     public ZipLocationDTO save(ZipLocationDTO zipLocationDTO) {
-        return new ZipLocationDTO(zipLocationRepository.save(zipLocationDTO.toEntity()));
+        return new ZipLocationDTO(ZipLocationRepository.save(zipLocationDTO.toEntity()));
     }
 
     @Override
     public void delete(ZipLocationDTO zipLocationDTO) {
-        zipLocationRepository.delete(zipLocationDTO.getZipCodeId());
+        ZipLocationRepository.delete(zipLocationDTO.getZipCodeId());
     }
 
     @Override
     public ZipLocationDTO findZipById(int id) {
-        return new ZipLocationDTO(zipLocationRepository.findOne(id));
+        return new ZipLocationDTO(ZipLocationRepository.findOne(id));
     }
 }

@@ -11,10 +11,7 @@ import java.util.Set;
 
 public interface ICategoryService {
     Set<CategoryDTO> findAllCategories();
-    Set<CategoryDTO> findAllCategories(CategoryDTO categoryDTO);
-    Set<CategoryDTO> findAnyCategories(CategoryDTO categoryDTO);
     Set<CategoryDTO> findAnyCategories(String text);
     CategoryDTO save(CategoryDTO categoryDTO);
     void delete(CategoryDTO categoryDTO);
-    CategoryDTO findCategoryById(String id);
 }
