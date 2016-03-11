@@ -1,7 +1,9 @@
 package es.mhp.dao;
 
 import es.mhp.entities.ZipLocation;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,7 +14,8 @@ import java.util.List;
 
 @Repository
 public interface ZipLocationRepository extends CrudRepository<ZipLocation, Integer> {
-    /*void deleteById(int id);*/
-    ZipLocation findByzipCodeId(int zipCodeId);
-    List<ZipLocation> findByCity(String city);
+    @Query(value = "SELECT * from Ziplocation where ZIPCODE like %?1% OR CITY like %?1% OR STATE like %?1%", nativeQuery = true)
+    List<ZipLocation> findByValue(String value);
 }
+
+

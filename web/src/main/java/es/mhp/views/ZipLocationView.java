@@ -14,6 +14,7 @@ import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.ZipLocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Set;
 
 /*
@@ -54,12 +55,12 @@ public class ZipLocationView extends AbtractView<ZipLocationDTO> {
     }
 
     @Override
-    protected Layout createForm(ZipLocationDTO zipLocationDTODTO, String mode) {
+    protected Layout createForm(ZipLocationDTO zipLocationDTO, String mode) {
         FormLayout form = new FormLayout();
         setFormStyle(form);
 
         PropertysetItem item = new PropertysetItem();
-        bindForm(zipLocationDTODTO, form, item, mode);
+        bindForm(zipLocationDTO, form, item, mode);
 
         return form;
     }

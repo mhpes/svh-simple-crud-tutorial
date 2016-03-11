@@ -15,6 +15,13 @@ public class CategoryDTO extends AbstractDTO<Category>{
     private int associatedProductsCount;
 
     @Override
+    public Category toEntity() {
+        Category category = new Category();
+        BeanUtils.copyProperties(this, category);
+        return category;
+    }
+
+    @Override
     public Category toEntity(Category category) {
         BeanUtils.copyProperties(this, category);
         return category;

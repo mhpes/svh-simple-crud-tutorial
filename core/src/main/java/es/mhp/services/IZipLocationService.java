@@ -10,8 +10,6 @@ import java.util.Set;
 
 public interface IZipLocationService {
     Set<ZipLocationDTO> findAllZipLocations();
-    Set<ZipLocationDTO> findAllZipLocations(ZipLocationDTO zipLocationDTO);
-    Set<ZipLocationDTO> findAnyZipLocations(ZipLocationDTO zipLocationDTO);
     Set<ZipLocationDTO> findAnyZipLocations(String text);
     ZipLocationDTO save(ZipLocationDTO zipLocationDTO);
     void delete(ZipLocationDTO zipLocationDTO);

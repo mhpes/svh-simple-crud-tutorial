@@ -20,6 +20,13 @@ public class ProductDTO extends AbstractDTO<Product> {
         return product;
     }
 
+    @Override
+    public Product toEntity() {
+        Product product = new Product();
+        BeanUtils.copyProperties(this, product);
+        return product;
+    }
+
     public ProductDTO(Product product) {
         if (product != null) {
             this.productId = product.getProductId();

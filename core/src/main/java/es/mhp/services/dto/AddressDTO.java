@@ -20,6 +20,19 @@ public class AddressDTO extends AbstractDTO<Address>{
     private BigDecimal latitude;
     private BigDecimal longitude;
 
+    @Override
+    public Address toEntity() {
+        Address address = new Address();
+        BeanUtils.copyProperties(this, address);
+        return address;
+    }
+
+    @Override
+    public Address toEntity(Address address) {
+        BeanUtils.copyProperties(this, address);
+        return address;
+    }
+
     public AddressDTO(Address address) {
         if (address != null) {
             this.addressId = address.getAddressId();
@@ -140,11 +153,5 @@ public class AddressDTO extends AbstractDTO<Address>{
 
     public void setAddressId(int addressId) {
         this.addressId = addressId;
-    }
-
-    @Override
-    public Address toEntity(Address address) {
-        BeanUtils.copyProperties(this, address);
-        return address;
     }
 }

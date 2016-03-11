@@ -30,10 +30,18 @@ public class ItemDTO extends AbstractDTO<Item>{
     private Integer numberOfVotes;
 
     @Override
+    public Item toEntity() {
+        Item item = new Item();
+        BeanUtils.copyProperties(this, item);
+        return item;
+    }
+
+    @Override
     public Item toEntity(Item item) {
         BeanUtils.copyProperties(this, item);
         return item;
     }
+
 
     public ItemDTO(Item item){
         if (item != null){

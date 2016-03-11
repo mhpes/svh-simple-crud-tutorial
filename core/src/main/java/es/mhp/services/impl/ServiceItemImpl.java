@@ -37,7 +37,7 @@ public class ServiceItemImpl implements IItemService {
 
     @Override
     public Set<ItemDTO> findAllItems(ItemDTO itemDTO) {
-        Set<Item> itemSet = iItemDao.findAll(itemDTO.toEntity(new Item()));
+        Set<Item> itemSet = iItemDao.findAll(itemDTO.toEntity());
 
         Set<ItemDTO> categoryDTOs = new HashSet<>();
 
@@ -63,7 +63,7 @@ public class ServiceItemImpl implements IItemService {
 
     @Override
     public Set<ItemDTO> findAnyItems(ItemDTO itemDTO) {
-        Set<Item> itemSet = iItemDao.findAny(itemDTO.toEntity(new Item()));
+        Set<Item> itemSet = iItemDao.findAny(itemDTO.toEntity());
 
         Set<ItemDTO> categoryDTOs = new HashSet<>();
 

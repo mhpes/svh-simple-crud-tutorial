@@ -23,6 +23,13 @@ public class SellerContactInfoDTO extends AbstractDTO<SellerContactInfo> {
         return sellerContactInfo;
     }
 
+    @Override
+    public SellerContactInfo toEntity() {
+        SellerContactInfo sellerContactInfo = new SellerContactInfo();
+        BeanUtils.copyProperties(this, sellerContactInfo);
+        return sellerContactInfo;
+    }
+
     public SellerContactInfoDTO(int contactInfoId, String lastName, String firstName, String email) {
         this.contactInfoId = contactInfoId;
         this.lastName = lastName;

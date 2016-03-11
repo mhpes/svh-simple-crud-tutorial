@@ -41,7 +41,7 @@ public class ServiceAddressImpl implements IAddressService {
 
     @Override
     public Set<AddressDTO> findAllAddresses(AddressDTO addressDTO) {
-        Set<Address> addressSet = iAddressDao.findAll(addressDTO.toEntity(new Address()));
+        Set<Address> addressSet = iAddressDao.findAll(addressDTO.toEntity());
 
         Set<AddressDTO> addressDTOs = new HashSet<>();
 
@@ -54,7 +54,7 @@ public class ServiceAddressImpl implements IAddressService {
 
     @Override
     public Set<AddressDTO> findAnyAddresses(AddressDTO addressDTO) {
-        Set<Address> addressSet = iAddressDao.findAny(addressDTO.toEntity(new Address()));
+        Set<Address> addressSet = iAddressDao.findAny(addressDTO.toEntity());
 
         if (!addressSet.isEmpty()){
             Set<AddressDTO> addressDTOs = new HashSet<>();

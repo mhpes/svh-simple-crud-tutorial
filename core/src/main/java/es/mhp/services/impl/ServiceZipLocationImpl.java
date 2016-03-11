@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /*
@@ -34,7 +35,7 @@ public class ServiceZipLocationImpl implements IZipLocationService {
 
         Set<ZipLocationDTO> zipLocationDTOs = new HashSet<>();
 
-        for (ZipLocation zipLocation : zipLocationSet){
+        for (ZipLocation zipLocation : zipLocationSet) {
             zipLocationDTOs.add(new ZipLocationDTO(zipLocation));
         }
 
@@ -42,33 +43,30 @@ public class ServiceZipLocationImpl implements IZipLocationService {
     }
 
     @Override
-    public Set<ZipLocationDTO> findAllZipLocations(ZipLocationDTO zipLocationDTO) {
-        return null;
-    }
-
-    @Override
-    public Set<ZipLocationDTO> findAnyZipLocations(ZipLocationDTO zipLocationDTO) {
-        return null;
-    }
-
-    @Override
     public Set<ZipLocationDTO> findAnyZipLocations(String text) {
-        return null;
+        List<ZipLocation> zipLocationList = zipLocationRepository.findByValue(text);
+
+        Set<ZipLocationDTO> zipLocationDTOs = new HashSet<>();
+
+        for (ZipLocation zipLocation : zipLocationList) {
+            zipLocationDTOs.add(new ZipLocationDTO(zipLocation));
+        }
+
+        return zipLocationDTOs;
     }
 
     @Override
     public ZipLocationDTO save(ZipLocationDTO zipLocationDTO) {
-        return null;
+        return new ZipLocationDTO(zipLocationRepository.save(zipLocationDTO.toEntity()));
     }
 
     @Override
     public void delete(ZipLocationDTO zipLocationDTO) {
-        //zipLocationRepository.deleteById(zipLocationDTO.getZipCodeId());
+        zipLocationRepository.delete(zipLocationDTO.getZipCodeId());
     }
 
     @Override
     public ZipLocationDTO findZipById(int id) {
-        return null;
-        //return new ZipLocationDTO(zipLocationRepository.findById(id));
+        return new ZipLocationDTO(zipLocationRepository.findOne(id));
     }
 }

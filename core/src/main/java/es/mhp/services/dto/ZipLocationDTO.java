@@ -17,6 +17,13 @@ public class ZipLocationDTO extends AbstractDTO<ZipLocation>{
     }
 
     @Override
+    public ZipLocation toEntity() {
+        ZipLocation zipLocation = new ZipLocation();
+        BeanUtils.copyProperties(this, zipLocation);
+        return zipLocation;
+    }
+
+    @Override
     public ZipLocation toEntity(ZipLocation zipLocation) {
         BeanUtils.copyProperties(this, zipLocation);
         return zipLocation;
