@@ -1,7 +1,8 @@
 package es.mhp.repositories.impl;
 
 import es.mhp.entities.Address;
-import es.mhp.repositories.ICustomAddressRepository;
+import es.mhp.repositories.IAddressRepositoryCustom;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
@@ -14,7 +15,8 @@ import java.util.Set;
  * Created by Edu on 11/03/2016.
  */
 
-public class CustomAddressRepositoryImpl implements ICustomAddressRepository {
+@Component
+public class AddressRepositoryImpl implements IAddressRepositoryCustom {
 
     @PersistenceContext(unitName = "PetshopUnit")
     private EntityManager entityManager;

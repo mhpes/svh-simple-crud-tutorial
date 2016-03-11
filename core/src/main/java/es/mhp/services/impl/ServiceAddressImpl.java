@@ -47,8 +47,7 @@ public class ServiceAddressImpl implements IAddressService {
 
     @Override
     public Set<AddressDTO> findAllAddresses(AddressDTO addressDTO) {
-        //Set<Address> addressSet = addressRepository.findAll(addressDTO.toEntity());
-        Set<Address> addressSet = new HashSet<>();
+        Set<Address> addressSet = addressRepository.findAll(addressDTO.toEntity());
 
         if (!addressSet.isEmpty()){
             Set<AddressDTO> addressDTOs = new HashSet<>();
@@ -64,9 +63,7 @@ public class ServiceAddressImpl implements IAddressService {
 
     @Override
     public Set<AddressDTO> findAnyAddresses(AddressDTO addressDTO) {
-        //Set<Address> addressSet = addressRepository.findAny(addressDTO.toEntity());
-
-        Set<Address> addressSet = new HashSet<>();
+        Set<Address> addressSet = addressRepository.findAny(addressDTO.toEntity());
 
         if (!addressSet.isEmpty()){
             Set<AddressDTO> addressDTOs = new HashSet<>();
@@ -82,7 +79,7 @@ public class ServiceAddressImpl implements IAddressService {
 
     @Override
     public Set<String> stateList() {
-        return null;/*return addressRepository.findAllStates();*/
+        return addressRepository.findAllStates();
     }
 
     @Override
