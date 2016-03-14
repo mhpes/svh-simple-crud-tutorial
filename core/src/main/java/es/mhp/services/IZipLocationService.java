@@ -11,7 +11,7 @@ import java.util.Set;
 public interface IZipLocationService {
     Set<ZipLocationDTO> findAllZipLocations();
     Set<ZipLocationDTO> findAnyZipLocations(String text);
-    ZipLocationDTO save(ZipLocationDTO zipLocationDTO);
+    void save(ZipLocationDTO zipLocationDTO);
     void delete(ZipLocationDTO zipLocationDTO);
     ZipLocationDTO findZipById(int id);
 }

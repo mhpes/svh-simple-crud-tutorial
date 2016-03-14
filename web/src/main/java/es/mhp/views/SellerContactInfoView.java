@@ -142,6 +142,7 @@ public class SellerContactInfoView extends AbtractView<SellerContactInfoDTO> {
     private void setNewForm(PropertysetItem item, FormLayout form, FieldGroup binder) {
         setItemPropertyEdit(item);
 
+        binder.buildAndBind(CONTACTINFO_ID);
         form.addComponent(binder.buildAndBind(FIRST_NAME));
         form.addComponent(binder.buildAndBind(LAST_NAME));
         form.addComponent(binder.buildAndBind(EMAIL));
@@ -163,15 +164,20 @@ public class SellerContactInfoView extends AbtractView<SellerContactInfoDTO> {
         form.addComponent(binder.buildAndBind(FIRST_NAME));
         form.addComponent(binder.buildAndBind(LAST_NAME));
         form.addComponent(binder.buildAndBind(EMAIL));
+
+        form.addComponent(createDeleteButton(sellerContactInfoDTO));
+        form.addComponent(createSaveButton(binder));
     }
 
     private void setItemPropertyEdit(PropertysetItem item) {
+        item.addItemProperty(CONTACTINFO_ID, new ObjectProperty<>(0));
         item.addItemProperty(FIRST_NAME, new ObjectProperty<>(""));
         item.addItemProperty(LAST_NAME, new ObjectProperty<>(""));
         item.addItemProperty(EMAIL, new ObjectProperty<>(""));
     }
 
     private void setItemPropertyEdit(SellerContactInfoDTO zipLocationDTO, PropertysetItem item) {
+        item.addItemProperty(CONTACTINFO_ID, new ObjectProperty<>(0));
         item.addItemProperty(FIRST_NAME, new ObjectProperty<>(zipLocationDTO.getFirstName()));
         item.addItemProperty(LAST_NAME, new ObjectProperty<>(zipLocationDTO.getLastName()));
         item.addItemProperty(EMAIL, new ObjectProperty<>(zipLocationDTO.getEmail()));

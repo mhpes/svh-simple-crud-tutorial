@@ -13,13 +13,12 @@ import java.util.Set;
 public class SellerContactInfo extends AbstractEntity{
 
     @Id
-    @SequenceGenerator(name="seller_sequence", initialValue=1, allocationSize=9999999)
+    @SequenceGenerator(name="seller_sequence", initialValue=1, allocationSize=1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seller_sequence")
     @Column(name = "CONTACTINFOID")
     private Integer sellerId;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CONTACTINFO_CONTACTINFOID")
+    @OneToMany(orphanRemoval = true, mappedBy = "seller")
     private Set<Item> item;
 
     @Column(name = "LASTNAME")

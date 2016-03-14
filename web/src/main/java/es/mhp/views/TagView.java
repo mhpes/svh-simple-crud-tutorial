@@ -142,6 +142,7 @@ public class TagView extends AbtractView<TagDTO> {
     private void setNewForm(PropertysetItem item, FormLayout form, FieldGroup binder) {
         setItemPropertyEdit(item);
 
+        binder.buildAndBind(TAG_ID);
         form.addComponent(binder.buildAndBind(TAG));
         form.addComponent(binder.buildAndBind(REF_COUNT));
 
@@ -161,7 +162,7 @@ public class TagView extends AbtractView<TagDTO> {
     }
 
     private void setItemPropertyEdit(PropertysetItem item) {
-        item.addItemProperty(TAG_ID, new ObjectProperty<>(""));
+        item.addItemProperty(TAG_ID, new ObjectProperty<>(0));
         item.addItemProperty(TAG, new ObjectProperty<>(""));
         item.addItemProperty(REF_COUNT, new ObjectProperty<>(""));
     }

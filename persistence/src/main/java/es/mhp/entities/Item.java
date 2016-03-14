@@ -16,23 +16,23 @@ import java.util.Set;
 public class Item extends AbstractEntity {
 
     @Id
-    @SequenceGenerator(name="item_sequence", initialValue=1, allocationSize=9999999)
+    @SequenceGenerator(name="item_sequence", initialValue=1, allocationSize=1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="item_sequence")
     @Column(name = "ITEMID")
     private Integer itemId;
 
-    @ManyToMany(cascade = {CascadeType.ALL},mappedBy="items")
+    @ManyToMany(cascade = CascadeType.ALL ,mappedBy="items")
     private Set<Tag> tags;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Product.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Product.class)
     @JoinColumn(name = "productId")
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Address.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Address.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "ADDRESS_ADDRESSID")
     private Address address;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CONTACTINFO_CONTACTINFOID")
     private SellerContactInfo seller;
 
@@ -42,7 +42,6 @@ public class Item extends AbstractEntity {
     @Column(name = "NUMBEROFVOTES")
     private Integer numberOfVotes;
 
-    //@Doubt: default value true, this could be done in the constructor too?
     @Column(name = "DISABLED")
     private int disabled;
 

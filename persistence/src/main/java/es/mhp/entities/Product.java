@@ -17,7 +17,7 @@ public class Product extends AbstractEntity {
     @Column(name = "PRODUCTID")
     private String productId;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<Item> items;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Category.class)

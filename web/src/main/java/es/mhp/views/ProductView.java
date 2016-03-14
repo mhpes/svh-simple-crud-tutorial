@@ -176,8 +176,24 @@ public class ProductView extends AbtractView<ProductDTO> {
     private void setEditForm(ProductDTO productDTO, PropertysetItem item, FormLayout form, FieldGroup binder) {
         setItemPropertyEdit(productDTO, item);
 
+        Set<CategoryDTO> categoryList = iCategoryService.findAllCategories();
+        ComboBox selectCategory = new ComboBox("Categories");
+
+        BeanItemContainer<CategoryDTO> zipLocationContainer = new BeanItemContainer<>(CategoryDTO.class);
+
+        for (CategoryDTO category : categoryList){
+            zipLocationContainer.addBean(category);
+        }
+
+        selectCategory.setItemCaptionPropertyId("categoryId");
+        selectCategory.setContainerDataSource(zipLocationContainer);
+        selectCategory.setRequired(true);
+        selectCategory.setImmediate(true);
+
         binder.buildAndBind(PRODUCT_ID);
-        binder.buildAndBind(CATEGORY);
+        binder.bind(selectCategory, CATEGORY);
+
+        form.addComponent(selectCategory);
         form.addComponent(binder.buildAndBind(NAME));
         form.addComponent(binder.buildAndBind(DESCRIPTION));
         form.addComponent(binder.buildAndBind(IMAGE_URL));

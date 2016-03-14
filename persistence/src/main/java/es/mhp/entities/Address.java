@@ -19,12 +19,12 @@ import java.util.Set;
 public class Address extends AbstractEntity {
 
     @Id
-    @SequenceGenerator(name="address_sequence", initialValue=1, allocationSize=9999999)
+    @SequenceGenerator(name="address_sequence", initialValue=1, allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="address_sequence")
     @Column(name = "ADDRESSID")
     private int addressId;
 
-    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Item> items;
 
     @Column(name = "STREET1")
@@ -32,7 +32,7 @@ public class Address extends AbstractEntity {
     @Size(max = 55, message = "The maximum size for Main Street is 55 and minimum is 1")
     private String mainStreet;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = ZipLocation.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = ZipLocation.class)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "zip", referencedColumnName = "ZIPCODE")
     private ZipLocation zipLocation;

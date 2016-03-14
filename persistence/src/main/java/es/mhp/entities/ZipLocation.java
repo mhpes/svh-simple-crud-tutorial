@@ -36,10 +36,6 @@ public class ZipLocation extends AbstractEntity {
         this.state = state;
     }
 
-    public int getZipCodeId() {
-        return zipCodeId;
-    }
-
     public void setZipCodeId(int zipCodeId) {
         this.zipCodeId = zipCodeId;
     }
@@ -60,7 +56,15 @@ public class ZipLocation extends AbstractEntity {
         this.state = state;
     }
 
-    public String toString(){
-        return getZipCodeId() + " " + getState() + " " + getCity();
+    public int getZipCodeId() {
+        return zipCodeId;
+    }
+
+    public Set<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
     }
 }

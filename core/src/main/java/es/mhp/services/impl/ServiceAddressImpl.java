@@ -1,7 +1,6 @@
 package es.mhp.services.impl;
 
 import es.mhp.entities.Address;
-import es.mhp.entities.ZipLocation;
 import es.mhp.repositories.AddressRepository;
 import es.mhp.repositories.ZipLocationRepository;
 import es.mhp.services.IAddressService;
@@ -83,31 +82,8 @@ public class ServiceAddressImpl implements IAddressService {
     }
 
     @Override
-    public AddressDTO save(AddressDTO addressDto) {
-        Address address = addressRepository.findOne(addressDto.getAddressId());
-        ZipLocation zipLocation = iZipLocationRepository.findOne(addressDto.getZip());
-
-        if (address != null){
-
-            if (zipLocation == null){
-                zipLocation = new ZipLocation(addressDto.getZip(), addressDto.getCity(), addressDto.getState());
-                iZipLocationRepository.save(zipLocation);
-            }
-
-            address.setZipLocation(zipLocation);
-            addressRepository.save(addressDto.toEntity(address));
-        } else {
-            address = new Address();
-
-            if (zipLocation == null){
-                zipLocation = new ZipLocation(addressDto.getZip(), addressDto.getCity(), addressDto.getState());
-                iZipLocationRepository.save(zipLocation);
-            }
-
-            address.setZipLocation(zipLocation);
-            addressRepository.save(addressDto.toEntity(address));
-        }
-        return new AddressDTO(address);
+    public void save(AddressDTO addressDto) {
+        addressRepository.save(addressDto.toEntity());
     }
 
     @Override

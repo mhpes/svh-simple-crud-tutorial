@@ -113,7 +113,7 @@ public class AddressView extends AbtractView<AddressDTO> {
         FormLayout form = new FormLayout();
         setFormStyle(form);
 
-        PropertysetItem item = new PropertysetItem();
+        BeanItem item = new BeanItem(addressDTO);
         bindForm(addressDTO, form, item, mode);
 
         return form;
@@ -124,7 +124,7 @@ public class AddressView extends AbtractView<AddressDTO> {
         form.addStyleName("address-view-form-container");
     }
 
-    private void bindForm(AddressDTO addressDTO, FormLayout form, PropertysetItem item, String mode) {
+    private void bindForm(AddressDTO addressDTO, FormLayout form, BeanItem item, String mode) {
         form.addComponent(new Label(mode));
         FieldGroup binder = new FieldGroup(item);
 
@@ -155,9 +155,9 @@ public class AddressView extends AbtractView<AddressDTO> {
         selectZip.setImmediate(true);
 
         binder.bind(selectZip, ZIP);
-        binder.buildAndBind(ADDRESS_ID);
         form.addComponent(selectZip);
 
+        binder.buildAndBind(ADDRESS_ID);
         binder.bind(mainStreet, MAIN_STREET);
 
         form.addComponent(mainStreet);
@@ -182,12 +182,29 @@ public class AddressView extends AbtractView<AddressDTO> {
         return cancelButton;
     }
 
-    private void setEditForm(AddressDTO addressDTO, PropertysetItem item, FormLayout form, FieldGroup binder) {
-
+    private void setEditForm(AddressDTO addressDTO, BeanItem item, FormLayout form, FieldGroup binder) {
         setItemPropertyEdit(addressDTO, item);
 
         binder.buildAndBind(ADDRESS_ID);
-        binder.buildAndBind(ZIP);
+
+        ComboBox selectZip = new ComboBox("Zips");
+
+        BeanItemContainer<ZipLocationDTO> zipLocationContainer = new BeanItemContainer<>(ZipLocationDTO.class);
+        Set<ZipLocationDTO> zipList = iZipLocationService.findAllZipLocations();
+
+        for (ZipLocationDTO zip : zipList){
+            zipLocationContainer.addBean(zip);
+        }
+
+        selectZip.setContainerDataSource(zipLocationContainer);
+
+        selectZip.setItemCaptionPropertyId("zipCodeId");
+        selectZip.select(addressDTO.getZip());
+        selectZip.setNullSelectionAllowed(false);
+        selectZip.setRequired(true);
+
+        binder.bind(selectZip, ZIP);
+        form.addComponent(selectZip);
 
         form.addComponent(binder.buildAndBind(MAIN_STREET));
         form.addComponent(binder.buildAndBind(SECONDARY_STREET));
@@ -211,7 +228,7 @@ public class AddressView extends AbtractView<AddressDTO> {
         item.addItemProperty(LONGITUDE, new ObjectProperty<>(new BigDecimal(0)));
     }
 
-    private void setItemPropertyEdit(AddressDTO addressDTO, PropertysetItem item) {
+    private void setItemPropertyEdit(AddressDTO addressDTO, BeanItem item) {
         item.addItemProperty(ADDRESS_ID, new ObjectProperty(addressDTO.getAddressId()));
         item.addItemProperty(MAIN_STREET, new ObjectProperty(addressDTO.getMainStreet()));
         item.addItemProperty(SECONDARY_STREET, new ObjectProperty(addressDTO.getSecondaryStreet()));
@@ -316,7 +333,7 @@ public class AddressView extends AbtractView<AddressDTO> {
         BigDecimal latitude = BigDecimal.TEN;
 
         try{
-            AddressDTO addressDTO = new AddressDTO(addressId, mainStreet, secondaryStreet, zipLocationDTO.getZipCodeId() ,city, state, latitude, longitude);
+            AddressDTO addressDTO = new AddressDTO(addressId, mainStreet, secondaryStreet, zipLocationDTO, city, state, latitude, longitude);
             iAddressService.save(addressDTO);
             Notification.show("New Address added!", Notification.Type.TRAY_NOTIFICATION);
         } catch (Exception err){ //I can't handle the correct Exception ConstraintViolationException

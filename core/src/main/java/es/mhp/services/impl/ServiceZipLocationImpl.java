@@ -55,8 +55,8 @@ public class ServiceZipLocationImpl implements IZipLocationService {
     }
 
     @Override
-    public ZipLocationDTO save(ZipLocationDTO zipLocationDTO) {
-        return new ZipLocationDTO(ZipLocationRepository.save(zipLocationDTO.toEntity()));
+    public void save(ZipLocationDTO zipLocationDTO) {
+        ZipLocationRepository.save(zipLocationDTO.toEntity());
     }
 
     @Override

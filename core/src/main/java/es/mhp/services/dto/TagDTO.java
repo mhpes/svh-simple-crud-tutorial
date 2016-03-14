@@ -26,6 +26,7 @@ public class TagDTO extends AbstractDTO<Tag>{
     public Tag toEntity() {
         Tag tag = new Tag();
         BeanUtils.copyProperties(this, tag);
+
         return tag;
     }
 
@@ -65,5 +66,13 @@ public class TagDTO extends AbstractDTO<Tag>{
 
     public void setRefCount(int refCount) {
         this.refCount = refCount;
+    }
+
+    public String getTagDescription() {
+        return tagDescription;
+    }
+
+    public void setTagDescription(String tagDescription) {
+        this.tagDescription = tagDescription;
     }
 }

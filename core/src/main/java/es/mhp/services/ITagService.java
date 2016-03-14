@@ -10,7 +10,7 @@ import java.util.Set;
 public interface ITagService {
     Set<TagDTO> findAllTags();
     Set<TagDTO> findAnyTags(String text);
-    TagDTO save(TagDTO tagDTO);
+    void save(TagDTO tagDTO);
     void delete(TagDTO tagDTO);
     TagDTO findTagById(int id);
 }

@@ -1,6 +1,7 @@
 package es.mhp.services.dto;
 
 import es.mhp.entities.Address;
+import es.mhp.entities.ZipLocation;
 import org.springframework.beans.BeanUtils;
 import java.math.BigDecimal;
 
@@ -14,7 +15,7 @@ public class AddressDTO extends AbstractDTO<Address>{
     private int associatedItemsCount;
     private String mainStreet;
     private String secondaryStreet;
-    private int zip;
+    private ZipLocationDTO zip;
     private String city;
     private String state;
     private BigDecimal latitude;
@@ -23,7 +24,9 @@ public class AddressDTO extends AbstractDTO<Address>{
     @Override
     public Address toEntity() {
         Address address = new Address();
+        ZipLocation zipLocation = this.getZip().toEntity();
         BeanUtils.copyProperties(this, address);
+        address.setZipLocation(zipLocation);
         return address;
     }
 
@@ -40,7 +43,7 @@ public class AddressDTO extends AbstractDTO<Address>{
             this.secondaryStreet = address.getSecondaryStreet();
 
             if (address.getZipLocation() != null){
-                this.zip = address.getZipLocation().getZipCodeId();
+                this.zip = new ZipLocationDTO(address.getZipLocation());
             }
 
             this.city = address.getCity();
@@ -51,7 +54,7 @@ public class AddressDTO extends AbstractDTO<Address>{
         }
     }
 
-    public AddressDTO(int addressId, String mainStreet, String secondaryStreet, int zip, String city, String state, BigDecimal latitude, BigDecimal longitude){
+    public AddressDTO(int addressId, String mainStreet, String secondaryStreet, ZipLocationDTO zip, String city, String state, BigDecimal latitude, BigDecimal longitude){
         this.addressId = addressId;
         this.mainStreet = mainStreet;
         this.secondaryStreet = secondaryStreet;
@@ -143,15 +146,15 @@ public class AddressDTO extends AbstractDTO<Address>{
         this.associatedItemsCount = associatedItemsCount;
     }
 
-    public int getZip() {
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
+    }
+
+    public ZipLocationDTO getZip() {
         return zip;
     }
 
-    public void setZip(int zip) {
+    public void setZip(ZipLocationDTO zip) {
         this.zip = zip;
-    }
-
-    public void setAddressId(int addressId) {
-        this.addressId = addressId;
     }
 }
