@@ -15,12 +15,12 @@ import java.util.Set;
 @Repository
 public interface AddressRepository extends CrudRepository<Address, Integer>, IAddressRepositoryCustom {
     @Query(value = "SELECT a from Address a " +
-            "where a.STREET1 like %?1% " +
-            "OR a.STREET2 like %?1% " +
-            "OR a.CITY like %?1% " +
-            "OR a.STATE like %?1%", nativeQuery = true)
+            "where STREET1 like %?1% " +
+            "OR STREET2 like %?1% " +
+            "OR CITY like %?1% " +
+            "OR STATE like %?1%")
     Set<Address> findAny(String text);
 
-    @Query(value = "SELECT DISTINCT a.state FROM Address a", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT STATE FROM Address a", nativeQuery = true)
     Set<String> findAllStates();
 }

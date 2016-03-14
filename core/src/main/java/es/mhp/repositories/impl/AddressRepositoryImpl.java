@@ -53,13 +53,17 @@ public class AddressRepositoryImpl implements IAddressRepositoryCustom {
                 queryParameters += "STATE = '" + address.getState()+ "'" + contatenator;
             }
 
-            /*queryParameters = replaceLast(queryParameters, contatenator, "");*/
-            return new HashSet<>(getEntityManager().createQuery(queryParameters).getResultList());
+            queryParameters = replaceLast(queryParameters, contatenator, "");
+            return new HashSet<>(entityManager.createQuery(queryParameters).getResultList());
         }
         return Collections.emptySet();
     }
 
     public EntityManager getEntityManager() {
         return getEntityManager();
+    }
+
+    public static String replaceLast(String text, String regex, String replacement) {
+        return text.replaceFirst("(?s)"+regex+"(?!.*?"+regex+")", replacement);
     }
 }

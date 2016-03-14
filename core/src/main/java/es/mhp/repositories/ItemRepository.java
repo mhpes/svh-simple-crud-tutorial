@@ -13,10 +13,10 @@ import java.util.List;
 
 @Repository
 public interface ItemRepository extends CrudRepository<Item, Integer>{
-    @Query(value = "SELECT * from Item" +
+    @Query(value = "SELECT a from Item a" +
             " where PRODUCTID like %?1%" +
             " OR NAME like %?1%" +
             " OR DESCRIPTION like %?1%" +
-            " OR IMAGEURL like %?1%", nativeQuery = true)
+            " OR IMAGEURL like %?1%")
     List<Item> findByValue(String value);
 }

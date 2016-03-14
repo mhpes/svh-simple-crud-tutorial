@@ -13,10 +13,10 @@ import java.util.List;
 
 @Repository
 public interface ZipLocationRepository extends CrudRepository<ZipLocation, Integer> {
-    @Query(value = "SELECT * from Ziplocation " +
+    @Query(value = "SELECT a from ZipLocation a " +
             "where ZIPCODE like %?1% " +
             "OR CITY like %?1% " +
-            "OR STATE like %?1%", nativeQuery = true)
+            "OR STATE like %?1%")
     List<ZipLocation> findByValue(String value);
 }
 

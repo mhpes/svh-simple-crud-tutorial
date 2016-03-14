@@ -14,9 +14,9 @@ import java.util.List;
 
 @Repository
 public interface SellerRepository extends CrudRepository<SellerContactInfo, Integer> {
-    @Query(value = "SELECT * from Sellercontactinfo" +
+    @Query(value = "SELECT a from SellerContactInfo a" +
             " where FIRSTNAME like %?1%" +
             " OR LASTNAME like %?1%" +
-            " OR EMAIL like %?1%", nativeQuery = true)
+            " OR EMAIL like %?1%")
     List<SellerContactInfo> findByValue(String value);
 }
