@@ -1,7 +1,8 @@
-package es.mhp.repositories;
+package es.mhp.repositories.custom;
 
 
 import es.mhp.entities.Address;
+import es.mhp.repositories.IAddressRepositoryCustom;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

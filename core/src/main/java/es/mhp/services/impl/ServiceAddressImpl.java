@@ -1,7 +1,7 @@
 package es.mhp.services.impl;
 
 import es.mhp.entities.Address;
-import es.mhp.repositories.AddressRepository;
+import es.mhp.repositories.custom.AddressRepository;
 import es.mhp.repositories.ZipLocationRepository;
 import es.mhp.services.IAddressService;
 import es.mhp.services.dto.AddressDTO;

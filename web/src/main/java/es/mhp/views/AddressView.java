@@ -77,7 +77,7 @@ public class AddressView extends AbtractView<AddressDTO> {
         Grid grid = new Grid(addressBeanItemContainer);
         grid.setColumnOrder("mainStreet", "secondaryStreet", "city", "state", "latitude", "longitude");
         grid.removeColumn("addressId");
-        grid.removeColumn("zip");
+        grid.removeColumn("zipLocation");
         grid.setWidth("60%");
 
         VerticalLayout formContainer = createAddressForm(addressBeanItemContainer, grid);
@@ -199,7 +199,7 @@ public class AddressView extends AbtractView<AddressDTO> {
         selectZip.setContainerDataSource(zipLocationContainer);
 
         selectZip.setItemCaptionPropertyId("zipCodeId");
-        selectZip.select(addressDTO.getZip());
+        selectZip.select(addressDTO.getZipLocation());
         selectZip.setNullSelectionAllowed(false);
         selectZip.setRequired(true);
 
@@ -232,7 +232,7 @@ public class AddressView extends AbtractView<AddressDTO> {
         item.addItemProperty(ADDRESS_ID, new ObjectProperty(addressDTO.getAddressId()));
         item.addItemProperty(MAIN_STREET, new ObjectProperty(addressDTO.getMainStreet()));
         item.addItemProperty(SECONDARY_STREET, new ObjectProperty(addressDTO.getSecondaryStreet()));
-        item.addItemProperty(ZIP, new ObjectProperty(addressDTO.getZip()));
+        item.addItemProperty(ZIP, new ObjectProperty(addressDTO.getZipLocation()));
         item.addItemProperty(CITY, new ObjectProperty(addressDTO.getCity()));
         item.addItemProperty(STATE, new ObjectProperty(addressDTO.getState()));
         item.addItemProperty(LATITUDE, new ObjectProperty(addressDTO.getLatitude()));

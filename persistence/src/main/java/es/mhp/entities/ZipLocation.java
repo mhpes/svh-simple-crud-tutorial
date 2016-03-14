@@ -24,7 +24,7 @@ public class ZipLocation extends AbstractEntity {
     @Size(max = 2)
     private String state;
 
-    @OneToMany(mappedBy = "zipLocation", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "zipLocation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Address> addresses;
 
     public ZipLocation() {

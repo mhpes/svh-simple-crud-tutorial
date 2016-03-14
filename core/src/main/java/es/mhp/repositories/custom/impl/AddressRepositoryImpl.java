@@ -1,4 +1,4 @@
-package es.mhp.repositories.impl;
+package es.mhp.repositories.custom.impl;
 
 import es.mhp.entities.Address;
 import es.mhp.repositories.IAddressRepositoryCustom;

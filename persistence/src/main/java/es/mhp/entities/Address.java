@@ -24,7 +24,7 @@ public class Address extends AbstractEntity {
     @Column(name = "ADDRESSID")
     private int addressId;
 
-    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Item> items;
 
     @Column(name = "STREET1")
@@ -38,7 +38,6 @@ public class Address extends AbstractEntity {
     private ZipLocation zipLocation;
 
     @Column(name = "STREET2")
-    @NotBlank
     @Size(max = 55)
     private String secondaryStreet;
 
