@@ -14,12 +14,9 @@ import java.util.List;
 @Repository
 public interface ItemRepository extends CrudRepository<Item, Integer>{
     @Query(value = "SELECT * from Item" +
-            " where CATEGORYID like %?1%" +
+            " where PRODUCTID like %?1%" +
             " OR NAME like %?1%" +
-            " OR DESCRIPTION like %?1% OR" +
-            " OR PRICE like %?1% OR" +
-            " OR TOTALSCORE like %?1% OR" +
-            " OR NUMBEROFVOTES like %?1% OR" +
-            " IMAGEURL like %?1%", nativeQuery = true)
+            " OR DESCRIPTION like %?1%" +
+            " OR IMAGEURL like %?1%", nativeQuery = true)
     List<Item> findByValue(String value);
 }

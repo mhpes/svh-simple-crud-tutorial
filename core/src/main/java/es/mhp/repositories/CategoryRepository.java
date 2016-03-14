@@ -13,10 +13,10 @@ import java.util.List;
 
 @Repository
 public interface CategoryRepository extends CrudRepository<Category, String> {
-    @Query(value = "SELECT * from Category " +
-            "where CATEGORYID like %?1% " +
-            "OR NAME like %?1% " +
-            "OR DESCRIPTION like %?1% " +
-            "OR IMAGEURL like %?1%", nativeQuery = true)
+    @Query(value = "SELECT * from Category" +
+            " where CATEGORYID like %?1%" +
+            " OR NAME like %?1%" +
+            " OR DESCRIPTION like %?1%" +
+            " OR IMAGEURL like %?1%", nativeQuery = true)
     List<Category> findByValue(String value);
 }

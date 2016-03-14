@@ -15,8 +15,6 @@ import java.util.List;
 @Repository
 public interface TagRepository extends CrudRepository<Tag, Integer> {
     @Query(value = "SELECT * from Tag " +
-            "where FIRSTNAME like %?1%" +
-            " OR LASTTNAME like %?1%" +
-            " OR EMAIL like %?1%", nativeQuery = true)
+            "where TAG like %?1%", nativeQuery = true)
     List<Tag> findByValue(String value);
 }

@@ -23,12 +23,16 @@ public class AddressRepositoryImpl implements IAddressRepositoryCustom {
 
     @Override
     public Set<Address> findAny(Address address) {
-        return null;
+        return findAll(address, false);
     }
 
     @Override
     public Set<Address> findAll(Address address) {
-        String contatenator = " AND ";
+        return findAll(address, true);
+    }
+
+    private Set<Address> findAll(Address address, boolean type) {
+        String contatenator = type ? " AND " : " OR ";
 
         if (address != null) {
             String queryParameters = "SELECT a FROM Address a WHERE ";
