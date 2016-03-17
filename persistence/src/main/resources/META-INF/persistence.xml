@@ -26,10 +26,6 @@
             <property name="net.sf.ehcache.configurationResourceName" value="/ehcache.xml" />
             <property name="hibernate.cache.use_query_cache" value="true" />
             <property name="hibernate.cache.use_second_level_cache" value="true" />
-
-            <!-- Tener cuidado con esto, se puede dar el problema de N+1. La otra solución es escribir la consulta a mano con el INNER:
-             http://stackoverflow.com/questions/22821695/lazyinitializationexception-failed-to-lazily-initialize-a-collection-of-roles
-             -->
             <property name="hibernate.enable_lazy_load_no_trans" value="true" />
         </properties>
     </persistence-unit>

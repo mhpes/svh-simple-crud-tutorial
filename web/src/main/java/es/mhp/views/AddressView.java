@@ -5,11 +5,13 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
-import com.vaadin.event.SelectionEvent;
+import com.vaadin.event.ItemClickEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import es.mhp.helpers.StateType;
+import es.mhp.helpers.Toolbar;
 import es.mhp.services.IAddressService;
 import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.AddressDTO;
@@ -38,8 +40,9 @@ public class AddressView extends AbtractView<AddressDTO> {
     public static final String ALL = "All";
     public static final String ANY = "Any";
 
-    private VerticalLayout addressLayout;
-    private VerticalLayout addressTable;
+//    private VerticalLayout addressLayout;
+    private VerticalLayout addressTableLayout; //Browser extends VerticalLayout
+    private IToolbar toolbar;
 
     @Autowired
     private IAddressService iAddressService;
@@ -50,8 +53,8 @@ public class AddressView extends AbtractView<AddressDTO> {
 
     public AddressView() {
         setSizeFull();
-        addressLayout = new VerticalLayout();
-        addressTable = new VerticalLayout();
+        addressTableLayout = new VerticalLayout();
+        toolbar = new Toolbar();
         this.addStyleName("address-view");
     }
 
@@ -65,14 +68,64 @@ public class AddressView extends AbtractView<AddressDTO> {
     protected Layout createTable() {
         setTableSyle(addressLayout);
         createFilter();
-        addressLayout.addComponent(addressTable);
+        addressLayout.addComponent(toolbar.getToolbarLayout());
+        addressLayout.addComponent(addressTableLayout);
         return addressLayout;
     }
 
+    private void createFilter() {
+        addressLayout.removeAllComponents();
+        addressLayout.addComponent(createToolbar(StateType.INITIAL));
+        addressLayout.addComponent(createFormBrowser());
+    }
+
+    private FormLayout createFormBrowser() {
+        FormLayout formBrowser = new FormLayout();
+
+        TextField mainStreet = new TextField(MAIN_STREET);
+        TextField secondaryStreet = new TextField(SECONDARY_STREET);
+        ComboBox city = new ComboBox(CITY);
+        city.addItems(cityList);
+        city.select("Stanford");
+        city.setNullSelectionAllowed(false);
+
+        ComboBox state = new ComboBox(STATE);
+        state.addItems(iAddressService.stateList());
+
+        OptionGroup browserWay = new OptionGroup();
+        browserWay.addItems("All", "Any");
+        browserWay.select("All");
+
+        Button browserButton = new Button("Search Addresses!");
+        fillAddressTable(iAddressService.findAllAddresses());
+
+        browserButton.addClickListener(e -> {
+            AddressDTO addressDTO;
+            if (state.getValue() == null)
+                addressDTO = new AddressDTO(mainStreet.getValue().toString(), secondaryStreet.getValue().toString(), city.getValue().toString());
+            else
+                addressDTO = new AddressDTO(mainStreet.getValue().toString(), secondaryStreet.getValue().toString(), city.getValue().toString(), state.getValue().toString());
+
+            String way = browserWay.getValue().toString();
+
+            if (ALL.equals(way)){
+                fillAddressTable(iAddressService.findAllAddresses(addressDTO));
+            }
+            else if (ANY.equals(way)){
+                fillAddressTable(iAddressService.findAnyAddresses(addressDTO));
+            }
+        });
+
+        formBrowser.addComponents(mainStreet, secondaryStreet, city, state, browserWay, browserButton);
+
+        return formBrowser;
+    }
+
     private void fillAddressTable(Set<AddressDTO> addressDTOs) {
-        addressTable.removeAllComponents();
+        addressTableLayout.removeAllComponents();
 
         BeanItemContainer<AddressDTO> addressBeanItemContainer = new BeanItemContainer<>(AddressDTO.class, addressDTOs);
+
         addressBeanItemContainer.removeItem("itemCount");
         Grid grid = new Grid(addressBeanItemContainer);
         grid.setColumnOrder("mainStreet", "secondaryStreet", "city", "state", "latitude", "longitude");
@@ -82,30 +135,48 @@ public class AddressView extends AbtractView<AddressDTO> {
 
         VerticalLayout formContainer = createAddressForm(addressBeanItemContainer, grid);
 
-        addressTable.addComponent(grid);
-        addressTable.addComponent(formContainer);
-        addressTable.setExpandRatio(grid, 1);
-
-        setNewAddress(addressTable);
+        addressTableLayout.addComponent(grid);
+        addressTableLayout.addComponent(formContainer);
+        addressTableLayout.setExpandRatio(grid, 1);
     }
+
+    private Layout createToolbar(StateType stateType) {
+        toolbar.setButtonsInvisible();
+        toolbar.setButtonVisibilityByState(stateType);
+        return toolbar.getToolbarLayout();
+    }
+
+    /*private Button createNewAddressButton(boolean isVisible) {
+        Button newAddressButton = new Button("New");
+        newAddressButton.setVisible(isVisible);
+
+        newAddressButton.addClickListener((Button.ClickListener) event -> {
+            addressTableLayout.removeAllComponents();
+            addressTableLayout.addComponent(
+                    createForm(new AddressDTO(), NEW_MODE)
+            );
+        });
+
+        newAddressButton.setVisible(true);
+        return newAddressButton;
+    }*/
 
     private VerticalLayout createAddressForm(BeanItemContainer<AddressDTO> addressBeanItemContainer, Grid grid) {
         VerticalLayout formContainer = new VerticalLayout();
 
-        grid.addSelectionListener((SelectionEvent.SelectionListener) event -> {
-            if (grid.getSelectedRow() != null){
+        grid.addItemClickListener((ItemClickEvent.ItemClickListener) event -> {
+            if (event.isDoubleClick()){
                 formContainer.removeAllComponents();
-                BeanItem<AddressDTO> addressBeanItem = addressBeanItemContainer.getItem(grid.getSelectedRow());
+                toolbar.setButtonVisibilityByState(StateType.EDIT);
+                BeanItem<AddressDTO> addressBeanItem = (BeanItem<AddressDTO>) event.getItem();
                 formContainer.addComponent(createForm(addressBeanItem.getBean(), EDIT_MODE));
+            } else {
+                toolbar.setButtonVisibilityByState(StateType.SELECTEDROW);
+                formContainer.removeAllComponents();
             }
         });
 
         return formContainer;
-    }
-
-    private void setTableSyle(VerticalLayout layout) {
-        layout.setSizeFull();
-        layout.setMargin(true);
     }
 
     @Override
@@ -117,11 +188,6 @@ public class AddressView extends AbtractView<AddressDTO> {
         bindForm(addressDTO, form, item, mode);
 
         return form;
-    }
-
-    private void setFormStyle(FormLayout form) {
-        form.setImmediate(true);
-        form.addStyleName("address-view-form-container");
     }
 
     private void bindForm(AddressDTO addressDTO, FormLayout form, BeanItem item, String mode) {
@@ -213,6 +279,8 @@ public class AddressView extends AbtractView<AddressDTO> {
         form.addComponent(binder.buildAndBind(LATITUDE));
         form.addComponent(binder.buildAndBind(LONGITUDE));
 
+        toolbar.setButtonVisibilityByState(StateType.EDIT);
+
         form.addComponent(createDeleteButton(addressDTO));
         form.addComponent(createSaveButton(binder));
     }
@@ -257,70 +325,6 @@ public class AddressView extends AbtractView<AddressDTO> {
         return deleteButton;
     }
 
-    public void setNewAddress(VerticalLayout verticalLayout) {
-        VerticalLayout createNewAddressLayout = new VerticalLayout();
-
-        Button createButton = new Button("New Address");
-
-        createButton.addClickListener((Button.ClickListener) event -> {
-            createNewAddressLayout.removeAllComponents();
-            createNewAddressLayout.addComponent(
-                    createForm(new AddressDTO(), NEW_MODE)
-            );
-        });
-
-        verticalLayout.addComponent(createButton);
-        verticalLayout.addComponent(createNewAddressLayout);
-    }
-
-    private void createFilter() {
-        addressLayout.removeAllComponents();
-        FormLayout formBrowser = createFormBrowser();
-        addressLayout.addComponent(formBrowser);
-    }
-
-    private FormLayout createFormBrowser() {
-        FormLayout formBrowser = new FormLayout();
-
-        TextField mainStreet = new TextField(MAIN_STREET);
-        TextField secondaryStreet = new TextField(SECONDARY_STREET);
-        ComboBox city = new ComboBox(CITY);
-        city.addItems(cityList);
-        city.select("Stanford");
-        city.setNullSelectionAllowed(false);
-
-        ComboBox state = new ComboBox(STATE);
-        state.addItems(iAddressService.stateList());
-
-        OptionGroup browserWay = new OptionGroup();
-        browserWay.addItems("All", "Any");
-        browserWay.select("All");
-
-        Button browserButton = new Button("Search Addresses!");
-        fillAddressTable(iAddressService.findAllAddresses());
-
-        browserButton.addClickListener(e -> {
-            AddressDTO addressDTO;
-            if (state.getValue() == null)
-                addressDTO = new AddressDTO(mainStreet.getValue().toString(), secondaryStreet.getValue().toString(), city.getValue().toString());
-            else
-                addressDTO = new AddressDTO(mainStreet.getValue().toString(), secondaryStreet.getValue().toString(), city.getValue().toString(), state.getValue().toString());
-
-            String way = browserWay.getValue().toString();
-
-            if (ALL.equals(way)){
-                fillAddressTable(iAddressService.findAllAddresses(addressDTO));
-            }
-            else if (ANY.equals(way)){
-                fillAddressTable(iAddressService.findAnyAddresses(addressDTO));
-            }
-        });
-
-        formBrowser.addComponents(mainStreet, secondaryStreet, city, state, browserWay, browserButton);
-
-        return formBrowser;
-    }
-
     public void trySaveAddress(FieldGroup addressFieldGroup) {
         int addressId = Integer.parseInt(addressFieldGroup.getField(ADDRESS_ID).getValue().toString());
         String mainStreet = addressFieldGroup.getField(MAIN_STREET).getValue().toString();
@@ -334,11 +338,21 @@ public class AddressView extends AbtractView<AddressDTO> {
 
         try{
             AddressDTO addressDTO = new AddressDTO(addressId, mainStreet, secondaryStreet, zipLocationDTO, city, state, latitude, longitude);
-            iAddressService.save(addressDTO);
+            iAddressService.save(addressDTO).getAddressId();
             Notification.show("New Address added!", Notification.Type.TRAY_NOTIFICATION);
         } catch (Exception err){ //I can't handle the correct Exception ConstraintViolationException
             Notification.show("Error adding new Address: " + err.getMessage(), Notification.Type.WARNING_MESSAGE);
         }
+    }
+
+    private void setTableSyle(VerticalLayout layout) {
+        layout.setSizeFull();
+        layout.setMargin(true);
+    }
+
+    private void setFormStyle(FormLayout form) {
+        form.setImmediate(true);
+        form.addStyleName("address-view-form-container");
     }
 }
 

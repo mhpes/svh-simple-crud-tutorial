@@ -54,13 +54,17 @@ public class AddressRepositoryImpl implements IAddressRepositoryCustom {
             }
 
             queryParameters = replaceLast(queryParameters, contatenator, "");
-            return new HashSet<>(entityManager.createQuery(queryParameters).getResultList());
+            return new HashSet<>(getEntityManager().createQuery(queryParameters).getResultList());
         }
         return Collections.emptySet();
     }
 
     public EntityManager getEntityManager() {
-        return getEntityManager();
+        return entityManager;
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     public static String replaceLast(String text, String regex, String replacement) {

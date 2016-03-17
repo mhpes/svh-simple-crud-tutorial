@@ -82,8 +82,8 @@ public class ServiceAddressImpl implements IAddressService {
     }
 
     @Override
-    public void save(AddressDTO addressDto) {
-        addressRepository.save(addressDto.toEntity());
+    public AddressDTO save(AddressDTO addressDto) {
+        return new AddressDTO(addressRepository.save(addressDto.toEntity()));
     }
 
     @Override
