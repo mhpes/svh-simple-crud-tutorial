@@ -61,6 +61,8 @@
     <packaging>war</packaging>
 
     <build>
+        <finalName>svh-simple-crud-tutorial</finalName>
+
         <plugins>
 
             <plugin>

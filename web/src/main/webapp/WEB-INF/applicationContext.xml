@@ -27,12 +27,14 @@
         <property name="entityManagerFactory" ref="JPApetshopFactory" />
     </bean>
 
+    <!--<bean id="browser" class="es.mhp.browser.interfaces.impl.Browsertowire="byName"/>
+    <bean id="toolbar" class="es.mhp.browser.interfaces.impl.Toolbartowire="byName"/>-->
+
     <tx:annotation-driven transaction-manager="txManager" />
 
     <bean class="es.mhp.ui.configuration.ApplicationConfiguration" />
 
     <context:component-scan base-package="es.mhp"/>
-    <context:component-scan base-package="es.mhp.helpers"/>
 
     <jpa:repositories base-package="es.mhp.repositories" entity-manager-factory-ref="JPApetshopFactory" transaction-manager-ref="txManager"/>
 

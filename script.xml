@@ -11,17 +11,17 @@
 
     <!-- Copy all artifacts with the specified preffix -->
     <target name="copyAll">
-        <delete includeemptydirs="true">
-            <fileset dir="${destination}" includes="**/${app_prefix}*/**" excludes="**/*.war" defaultexcludes="false" />
-            <fileset dir="${dir_work}" includes="**/*" defaultexcludes="false" />
-            <fileset dir="${temp_work}" includes="**/*" defaultexcludes="false" />
-        </delete>
-        <copy todir="${destination}" overwrite="true" flatten="true">
-            <fileset dir=".">
-                <include name="**/*.war" />
-            </fileset>
-        </copy>
-    </target>
+    <delete includeemptydirs="true">
+        <fileset dir="${destination}" includes="**/${app_prefix}*/**" excludes="**/*.war" defaultexcludes="false" />
+        <fileset dir="${dir_work}" includes="**/*" defaultexcludes="false" />
+        <fileset dir="${temp_work}" includes="**/*" defaultexcludes="false" />
+    </delete>
+    <copy todir="${destination}" overwrite="true" flatten="true">
+        <fileset dir=".">
+            <include name="**/*.war" />
+        </fileset>
+    </copy>
+</target>
     <!-- Copy only the web application artifact -->
     <target name="copyWebAppWAR">
         <echo message="Deleting ${destination}/${app_prefix}-${app_webapp_name}.war"/>

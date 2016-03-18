@@ -21,7 +21,7 @@ import java.util.Set;
 */
 
 @SpringView(name = TagView.VIEW_NAME)
-public class TagView extends AbtractView<TagDTO> {
+public class TagView extends AbstractView<TagDTO> {
     public static final String VIEW_NAME = "Tags";
     private static final String TAG_ID = "Tag Id";
     private static final String TAG = "Tag";
@@ -44,11 +44,11 @@ public class TagView extends AbtractView<TagDTO> {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         this.removeAllComponents();
-        createTable();
+        createMainLayout();
     }
 
     @Override
-    protected void createTable() {
+    protected void createMainLayout() {
         setTableSyle(tagLayout);
         createFilter();
         tagLayout.addComponent(tagTable);

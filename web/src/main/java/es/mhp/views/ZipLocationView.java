@@ -14,14 +14,13 @@ import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.ZipLocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
 import java.util.Set;
 
 /*
  * Created by Edu on 23/02/2016.
 */
 @SpringView(name = ZipLocationView.VIEW_NAME)
-public class ZipLocationView extends AbtractView<ZipLocationDTO> {
+public class ZipLocationView extends AbstractView<ZipLocationDTO> {
     public static final String VIEW_NAME = "ZipLocation";
     public static final String ZIPCODE = "Zipcode";
     public static final String CITY = "City";
@@ -43,11 +42,11 @@ public class ZipLocationView extends AbtractView<ZipLocationDTO> {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         this.removeAllComponents();
-        createTable();
+        createMainLayout();
     }
 
     @Override
-    protected void createTable() {
+    protected void createMainLayout() {
         setTableSyle(zipLayout);
         createFilter();
         zipLayout.addComponent(zipTable);

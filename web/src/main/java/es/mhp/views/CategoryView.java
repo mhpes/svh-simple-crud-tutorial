@@ -21,7 +21,7 @@ import java.util.Set;
 */
 
 @SpringView(name = CategoryView.VIEW_NAME)
-public class CategoryView extends AbtractView<CategoryDTO> {
+public class CategoryView extends AbstractView<CategoryDTO> {
     public static final String VIEW_NAME = "Categories";
     public static final String CATEGORY_ID = "Category Id";
     private static final String NAME = "Name";
@@ -44,11 +44,11 @@ public class CategoryView extends AbtractView<CategoryDTO> {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         this.removeAllComponents();
-        createTable();
+        createMainLayout();
     }
 
     @Override
-    protected void createTable() {
+    protected void createMainLayout() {
         setTableSyle(categoryLayout);
         createFilter();
         categoryLayout.addComponent(categoryTable);

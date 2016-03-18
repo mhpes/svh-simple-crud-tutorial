@@ -21,7 +21,7 @@ import java.util.Set;
 */
 
 @SpringView(name = SellerContactInfoView.VIEW_NAME)
-public class SellerContactInfoView extends AbtractView<SellerContactInfoDTO> {
+public class SellerContactInfoView extends AbstractView<SellerContactInfoDTO> {
     public static final String VIEW_NAME = "SellerContactInfos";
     public static final String CONTACTINFO_ID = "Seller Id";
     public static final String LAST_NAME = "Last name";
@@ -44,11 +44,11 @@ public class SellerContactInfoView extends AbtractView<SellerContactInfoDTO> {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         this.removeAllComponents();
-        createTable();
+        createMainLayout();
     }
 
     @Override
-    protected void createTable() {
+    protected void createMainLayout() {
         setTableSyle(sellerLayout);
         createFilter();
         sellerLayout.addComponent(sellerTable);

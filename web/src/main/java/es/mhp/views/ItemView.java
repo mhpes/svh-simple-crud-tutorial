@@ -10,7 +10,6 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
-import es.mhp.entities.Address;
 import es.mhp.services.IAddressService;
 import es.mhp.services.IItemService;
 import es.mhp.services.IProductService;
@@ -26,7 +25,7 @@ import java.util.Set;
 */
 
 @SpringView(name = ItemView.VIEW_NAME)
-public class ItemView extends AbtractView<ItemDTO> {
+public class ItemView extends AbstractView<ItemDTO> {
     public static final String VIEW_NAME = "Items";
     private static final String ITEM_ID = "Item Id";
     private static final String PRODUCT_ID = "Product Id";
@@ -67,11 +66,11 @@ public class ItemView extends AbtractView<ItemDTO> {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         this.removeAllComponents();
-        createTable();
+        createMainLayout();
     }
 
     @Override
-    protected void createTable() {
+    protected void createMainLayout() {
         setTableSyle(itemLayout);
         createFilter();
         itemLayout.addComponent(itemTable);

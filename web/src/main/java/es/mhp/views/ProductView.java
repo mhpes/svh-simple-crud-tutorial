@@ -23,7 +23,7 @@ import java.util.Set;
 */
 
 @SpringView(name = ProductView.VIEW_NAME)
-public class ProductView extends AbtractView<ProductDTO> {
+public class ProductView extends AbstractView<ProductDTO> {
     public static final String VIEW_NAME = "Products";
     private static final String PRODUCT_ID = "Product Id";
     private static final String NAME = "Name";
@@ -50,11 +50,11 @@ public class ProductView extends AbtractView<ProductDTO> {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         this.removeAllComponents();
-        createTable();
+        createMainLayout();
     }
 
     @Override
-    protected void createTable() {
+    protected void createMainLayout() {
         setTableSyle(productLayout);
         createFilter();
         productLayout.addComponent(productTable);
