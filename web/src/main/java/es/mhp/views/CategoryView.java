@@ -44,15 +44,15 @@ public class CategoryView extends AbtractView<CategoryDTO> {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         this.removeAllComponents();
-        this.addComponent(createTable());
+        createTable();
     }
 
     @Override
-    protected Layout createTable() {
+    protected void createTable() {
         setTableSyle(categoryLayout);
         createFilter();
         categoryLayout.addComponent(categoryTable);
-        return categoryLayout;
+        this.addComponent(categoryLayout);
     }
 
     @Override

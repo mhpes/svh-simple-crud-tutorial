@@ -32,6 +32,7 @@
     <bean class="es.mhp.ui.configuration.ApplicationConfiguration" />
 
     <context:component-scan base-package="es.mhp"/>
+    <context:component-scan base-package="es.mhp.helpers"/>
 
     <jpa:repositories base-package="es.mhp.repositories" entity-manager-factory-ref="JPApetshopFactory" transaction-manager-ref="txManager"/>
 

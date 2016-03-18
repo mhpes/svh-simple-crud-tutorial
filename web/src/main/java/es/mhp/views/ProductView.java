@@ -50,15 +50,15 @@ public class ProductView extends AbtractView<ProductDTO> {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         this.removeAllComponents();
-        this.addComponent(createTable());
+        createTable();
     }
 
     @Override
-    protected Layout createTable() {
+    protected void createTable() {
         setTableSyle(productLayout);
         createFilter();
         productLayout.addComponent(productTable);
-        return productLayout;
+        this.addComponent(productLayout);
     }
 
     @Override

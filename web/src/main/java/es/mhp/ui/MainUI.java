@@ -20,7 +20,7 @@ public class MainUI extends UI {
     @Autowired
     private SpringViewProvider viewProvider;
 
-    Navigator navigator;
+    private Navigator navigator;
 
     private VerticalLayout viewContainer;
 

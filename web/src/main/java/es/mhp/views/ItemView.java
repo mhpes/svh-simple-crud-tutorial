@@ -67,15 +67,15 @@ public class ItemView extends AbtractView<ItemDTO> {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         this.removeAllComponents();
-        this.addComponent(createTable());
+        createTable();
     }
 
     @Override
-    protected Layout createTable() {
+    protected void createTable() {
         setTableSyle(itemLayout);
         createFilter();
         itemLayout.addComponent(itemTable);
-        return itemLayout;
+        this.addComponent(itemLayout);
     }
 
     @Override

@@ -1,8 +1,16 @@
-package es.mhp.helpers;
+package es.mhp.helpers.interfaces.impl;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
+import es.mhp.helpers.StateType;
+import es.mhp.helpers.ToolButtonType;
+import es.mhp.helpers.interfaces.IToolbar;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -10,11 +18,13 @@ import java.util.LinkedHashMap;
 /**
  * Created by Edu on 17/03/2016.
  */
-public class Toolbar extends HorizontalLayout {
+
+@Component
+public class ToolbarImpl extends HorizontalLayout implements IToolbar {
 
     private HashMap<ToolButtonType, Button> buttonMap;
 
-    public Toolbar(VerticalLayout tableLayout) {
+    public void buildToolbar(VerticalLayout tableLayout){
         buttonMap = new LinkedHashMap<>();
 
         this.buttonMap.put(ToolButtonType.NEW, createNewButton(tableLayout));
@@ -29,15 +39,11 @@ public class Toolbar extends HorizontalLayout {
     }
 
     private Button createNewButton(VerticalLayout tableLayout) {
-        Button.ClickListener listener = null;
+        Button.ClickListener listener = (Button.ClickListener) clickEvent -> {
+            tableLayout.removeAllComponents();
+            //tableLayout.addComponent(createForm(new AddressDTO(), NEW_MODE));
+        };
         return new Button(ToolButtonType.NEW.toString(), listener);
-
-//        newAddressButton.addClickListener((Button.ClickListener) event -> {
-//            addressTable.removeAllComponents();
-//            addressTable.addComponent(
-//                    createForm(new AddressDTO(), NEW_MODE)
-//            );
-//        });
     }
 
     private void setButtonVisibility(ToolButtonType buttonType){
@@ -45,9 +51,11 @@ public class Toolbar extends HorizontalLayout {
     }
 
     public void setButtonsInvisible(){
-        getButtonMap().forEach((buttonType, button) -> button.setVisible(false));
+        getButtonMap().forEach(
+                (buttonType, button) -> button.setVisible(false));
     }
 
+    @Override
     public void setButtonVisibilityByState(StateType state){
         setButtonsInvisible();
 
@@ -71,11 +79,18 @@ public class Toolbar extends HorizontalLayout {
         }
     }
 
-    public HashMap<ToolButtonType, Button> getButtonMap() {
+    @Override
+    public ToolbarImpl getToolbarLayout() {
+        return this;
+    }
+
+    public ToolbarImpl() { }
+
+    private HashMap<ToolButtonType, Button> getButtonMap() {
         return buttonMap;
     }
 
-    public void setButtonMap(HashMap<ToolButtonType, Button> buttonMap) {
+    private void setButtonMap(HashMap<ToolButtonType, Button> buttonMap) {
         this.buttonMap = buttonMap;
     }
 }

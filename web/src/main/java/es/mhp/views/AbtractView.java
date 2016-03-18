@@ -11,6 +11,6 @@ public abstract class AbtractView<T> extends VerticalLayout implements View {
     public static final String EDIT_MODE = "Edit ";
     public static final String NEW_MODE = "New ";
 
-    protected abstract Layout createTable();
+    protected abstract void createTable();
     protected abstract Layout createForm(T entity, String mode);
 }

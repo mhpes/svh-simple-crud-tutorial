@@ -43,15 +43,15 @@ public class ZipLocationView extends AbtractView<ZipLocationDTO> {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         this.removeAllComponents();
-        this.addComponent(createTable());
+        createTable();
     }
 
     @Override
-    protected Layout createTable() {
+    protected void createTable() {
         setTableSyle(zipLayout);
         createFilter();
         zipLayout.addComponent(zipTable);
-        return zipLayout;
+        this.addComponent(zipLayout);
     }
 
     @Override

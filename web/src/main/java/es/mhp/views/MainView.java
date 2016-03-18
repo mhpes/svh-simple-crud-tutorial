@@ -18,9 +18,7 @@ public class MainView extends AbtractView{
     }
 
     @Override
-    protected Layout createTable() {
-        return new VerticalLayout();
-    }
+    protected void createTable() {}
 
     @Override
     protected Layout createForm(Object entity, String mode) {

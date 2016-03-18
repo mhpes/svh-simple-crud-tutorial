@@ -44,15 +44,15 @@ public class TagView extends AbtractView<TagDTO> {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         this.removeAllComponents();
-        this.addComponent(createTable());
+        createTable();
     }
 
     @Override
-    protected Layout createTable() {
+    protected void createTable() {
         setTableSyle(tagLayout);
         createFilter();
         tagLayout.addComponent(tagTable);
-        return tagLayout;
+        this.addComponent(tagLayout);
     }
 
     @Override

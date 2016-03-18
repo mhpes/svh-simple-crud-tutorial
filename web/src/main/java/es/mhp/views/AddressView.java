@@ -10,8 +10,11 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
-import es.mhp.helpers.StateType;
-import es.mhp.helpers.Toolbar;
+import es.mhp.helpers.*;
+import es.mhp.helpers.interfaces.IBrowser;
+import es.mhp.helpers.interfaces.impl.BrowserImpl;
+import es.mhp.helpers.interfaces.IToolbar;
+import es.mhp.helpers.interfaces.impl.ToolbarImpl;
 import es.mhp.services.IAddressService;
 import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.AddressDTO;
@@ -40,9 +43,11 @@ public class AddressView extends AbtractView<AddressDTO> {
     public static final String ALL = "All";
     public static final String ANY = "Any";
 
-//    private VerticalLayout addressLayout;
-    private VerticalLayout addressTableLayout; //Browser extends VerticalLayout
-    private IToolbar toolbar;
+    @Autowired
+    private IToolbar iToolbar;
+
+    @Autowired
+    private IBrowser iBrowser;
 
     @Autowired
     private IAddressService iAddressService;
@@ -52,31 +57,30 @@ public class AddressView extends AbtractView<AddressDTO> {
     public static String[] cityList = {"Millbrae","Palo Alto","San Francisco","Stanford"};
 
     public AddressView() {
+        iToolbar.buildToolbar(iBrowser.getTableLayout());
         setSizeFull();
-        addressTableLayout = new VerticalLayout();
-        toolbar = new Toolbar();
         this.addStyleName("address-view");
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         this.removeAllComponents();
-        this.addComponent(createTable());
+        createTable();
     }
 
     @Override
-    protected Layout createTable() {
-        setTableSyle(addressLayout);
+    protected void createTable() {
+        setTableSyle(this);
         createFilter();
-        addressLayout.addComponent(toolbar.getToolbarLayout());
-        addressLayout.addComponent(addressTableLayout);
-        return addressLayout;
+        this.addComponent(iToolbar.getToolbarLayout());
+        this.addComponent(iBrowser.getTableLayout());
+        this.addComponent(iBrowser.getFormLayout());
     }
 
     private void createFilter() {
-        addressLayout.removeAllComponents();
-        addressLayout.addComponent(createToolbar(StateType.INITIAL));
-        addressLayout.addComponent(createFormBrowser());
+        this.removeAllComponents();
+        this.addComponent(createToolbar(StateType.INITIAL));
+        this.addComponent(createFormBrowser());
     }
 
     private FormLayout createFormBrowser() {
@@ -122,7 +126,7 @@ public class AddressView extends AbtractView<AddressDTO> {
     }
 
     private void fillAddressTable(Set<AddressDTO> addressDTOs) {
-        addressTableLayout.removeAllComponents();
+        iBrowser.getTableLayout().removeAllComponents();
 
         BeanItemContainer<AddressDTO> addressBeanItemContainer = new BeanItemContainer<>(AddressDTO.class, addressDTOs);
 
@@ -135,15 +139,15 @@ public class AddressView extends AbtractView<AddressDTO> {
 
         VerticalLayout formContainer = createAddressForm(addressBeanItemContainer, grid);
 
-        addressTableLayout.addComponent(grid);
-        addressTableLayout.addComponent(formContainer);
-        addressTableLayout.setExpandRatio(grid, 1);
+        iBrowser.getTableLayout().addComponent(grid);
+        iBrowser.getTableLayout().addComponent(formContainer);
+        iBrowser.getTableLayout().setExpandRatio(grid, 1);
     }
 
     private Layout createToolbar(StateType stateType) {
-        toolbar.setButtonsInvisible();
-        toolbar.setButtonVisibilityByState(stateType);
-        return toolbar.getToolbarLayout();
+        iToolbar.setButtonsInvisible();
+        iToolbar.setButtonVisibilityByState(stateType);
+        return iToolbar.getToolbarLayout();
     }
 
     /*private Button createNewAddressButton(boolean isVisible) {
@@ -167,11 +171,11 @@ public class AddressView extends AbtractView<AddressDTO> {
         grid.addItemClickListener((ItemClickEvent.ItemClickListener) event -> {
             if (event.isDoubleClick()){
                 formContainer.removeAllComponents();
-                toolbar.setButtonVisibilityByState(StateType.EDIT);
+                iToolbar.setButtonVisibilityByState(StateType.EDIT);
                 BeanItem<AddressDTO> addressBeanItem = (BeanItem<AddressDTO>) event.getItem();
                 formContainer.addComponent(createForm(addressBeanItem.getBean(), EDIT_MODE));
             } else {
-                toolbar.setButtonVisibilityByState(StateType.SELECTEDROW);
+                iToolbar.setButtonVisibilityByState(StateType.SELECTEDROW);
                 formContainer.removeAllComponents();
             }
         });
@@ -279,7 +283,7 @@ public class AddressView extends AbtractView<AddressDTO> {
         form.addComponent(binder.buildAndBind(LATITUDE));
         form.addComponent(binder.buildAndBind(LONGITUDE));
 
-        toolbar.setButtonVisibilityByState(StateType.EDIT);
+        iToolbar.setButtonVisibilityByState(StateType.EDIT);
 
         form.addComponent(createDeleteButton(addressDTO));
         form.addComponent(createSaveButton(binder));

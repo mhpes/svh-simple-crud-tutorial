@@ -44,15 +44,15 @@ public class SellerContactInfoView extends AbtractView<SellerContactInfoDTO> {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         this.removeAllComponents();
-        this.addComponent(createTable());
+        createTable();
     }
 
     @Override
-    protected Layout createTable() {
+    protected void createTable() {
         setTableSyle(sellerLayout);
         createFilter();
         sellerLayout.addComponent(sellerTable);
-        return sellerLayout;
+        this.addComponent(sellerLayout);
     }
 
     @Override
