@@ -2,17 +2,19 @@ package es.mhp.views;
 
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.VerticalLayout;
 import es.mhp.browser.IBrowser;
-import es.mhp.browser.impl.AddressBrowser;
+import es.mhp.search.ISearchForm;
+import es.mhp.browser.impl.AbstractBrowser;
+import es.mhp.search.impl.AbstractSearchForm;
+import es.mhp.browser.impl.address.AddressBrowser;
+import es.mhp.search.impl.address.AddressSearchForm;
 import es.mhp.browser.utils.StateType;
 import es.mhp.services.dto.AddressDTO;
-import es.mhp.toolbar.IToolbar;
+import es.mhp.toolbar.impl.Toolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import static es.mhp.views.utils.AddressViewUtils.VIEW_NAME;
+import static es.mhp.views.utils.AddressViewConstants.VIEW_NAME;
 
 /**
  * Created by Edu on 23/02/2016.
@@ -22,56 +24,38 @@ import static es.mhp.views.utils.AddressViewUtils.VIEW_NAME;
 public class AddressView extends AbstractView<AddressDTO> {
 
     @Autowired
-    private IToolbar iToolbar;
+    @Qualifier(AddressSearchForm.BEAN_NAME)
+    private ISearchForm searchForm;
 
     @Autowired
     @Qualifier(AddressBrowser.BEAN_NAME)
-    private IBrowser iBrowser;
+    private IBrowser browser;
 
     public AddressView() {
-        setSizeFull();
+        this.setSizeFull();
         this.addStyleName("address-view");
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        this.removeAllComponents();
         createMainLayout();
+        //At first time, the toolbar is initialized to the INITIAL state
+        toolbar.updateToolbar(StateType.INITIAL);
     }
 
     @Override
     protected void createMainLayout() {
-        setTableSyle(this);
         buildComponents();
-
-//        iBrowser.getIGridBrowser().setVisible(true);
-//        iBrowser.getIFormBrowser().setVisible(false);
-
-        this.addComponent(iToolbar.getToolbarLayout());
-        this.addComponent(iBrowser.getBrowserLayout());
+        this.removeAllComponents();
+        this.addComponent((AbstractSearchForm)searchForm);
+        this.addComponent((AbstractBrowser)browser);
+        this.addComponent((Toolbar)toolbar);
     }
 
     private void buildComponents() {
-        this.removeAllComponents();
-        //Inicializar sus componentes y poner visible el que sea
-        iBrowser.buildBrowser();
-        iToolbar.buildToolbar(iBrowser.getBrowserLayout());
-        iToolbar.buildToolbar();
-    }
-
-    private Layout createToolbar(StateType stateType) {
-        iToolbar.setButtonsInvisible();
-        iToolbar.setButtonVisibilityByState(stateType);
-        return iToolbar.getToolbarLayout();
-    }
-
-    private void setTableSyle(VerticalLayout layout) {
-        layout.setSizeFull();
-        layout.setMargin(true);
-    }
-
-    public IBrowser getiBrowser() {
-        return iBrowser;
+        browser.buildBrowser();
+        toolbar.buildToolbar(browser);
+        searchForm.buildSearchForm(browser);
     }
 }
 

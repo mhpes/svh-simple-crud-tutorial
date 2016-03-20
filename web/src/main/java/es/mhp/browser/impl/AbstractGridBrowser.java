@@ -6,6 +6,5 @@ import es.mhp.browser.IGridBrowser;
 /**
  * Created by Edu on 18/03/2016.
  */
-public abstract class AbstractGridBrowser<T> extends VerticalLayout implements IGridBrowser {
-
+public abstract class AbstractGridBrowser extends VerticalLayout implements IGridBrowser {
 }

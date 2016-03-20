@@ -16,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
 
+import static es.mhp.browser.utils.FormBrowserUtils.EDIT_MODE;
+import static es.mhp.browser.utils.FormBrowserUtils.NEW_MODE;
+
 /*
  * Created by Edu on 23/02/2016.
 */
@@ -55,7 +58,7 @@ public class CategoryView extends AbstractView<CategoryDTO> {
         this.addComponent(categoryLayout);
     }
 
-    @Override
+//    @Override
     protected Layout createForm(CategoryDTO categoryDTO, String mode) {
         FormLayout form = new FormLayout();
         setFormStyle(form);

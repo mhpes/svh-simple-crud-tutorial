@@ -19,7 +19,7 @@ public class MainView extends AbstractView {
     @Override
     protected void createMainLayout() {}
 
-    @Override
+//    @Override
     protected Layout createForm(Object entity, String mode) {
         return null;
     }

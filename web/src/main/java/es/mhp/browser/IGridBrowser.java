@@ -1,8 +1,8 @@
 package es.mhp.browser;
 
-import es.mhp.browser.impl.AddressGridBrowser;
-import es.mhp.services.dto.AddressDTO;
+import es.mhp.services.dto.AbstractDTO;
 
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -10,5 +10,6 @@ import java.util.Set;
  */
 
 public interface IGridBrowser {
-    void fillGrid(Set<T> newDataSource);
+    void updateGrid(Collection<? extends AbstractDTO> newDataSource);
+    void addDoubleClickListenerToGrid(IBrowser browser);
 }

@@ -3,10 +3,9 @@ package es.mhp.views.utils;
 /**
  * Created by Edu on 18/03/2016.
  */
-public final class AddressViewUtils {
-    private AddressViewUtils(){ }
+public final class AddressViewConstants {
 
-    public final static String[] cityList = {"Millbrae","Palo Alto","San Francisco","Stanford"};
+    public static final String[] cityList = {"Millbrae","Palo Alto","San Francisco","Stanford"};
 
     public static final String VIEW_NAME = "Addresses";
     public static final String ADDRESS_ID = "Address Id";
@@ -41,4 +40,6 @@ public final class AddressViewUtils {
 
     public static final String NEW_ADDRESS_NOTIFICATION = "New Address added!";
     public static final String ERROR_NEW_ADDRESS_NOTIFICATION = "Error adding new Address: ";
+
+    private AddressViewConstants(){ }
 }

@@ -1,34 +1,33 @@
-package es.mhp.browser.impl;
+package es.mhp.browser.impl.address;
 
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
-import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.*;
-import es.mhp.browser.IFormBrowser;
-import es.mhp.browser.IGridBrowser;
+import es.mhp.browser.impl.AbstractFormBrowser;
 import es.mhp.browser.utils.StateType;
 import es.mhp.services.IAddressService;
 import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.AddressDTO;
 import es.mhp.services.dto.ZipLocationDTO;
+import es.mhp.views.AbstractView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import es.mhp.browser.impl.utils.AddressFormUtils;
+import es.mhp.browser.utils.FormBrowserUtils;
 
 import java.math.BigDecimal;
 import java.util.Set;
 
-import static es.mhp.views.utils.AddressViewUtils.*;
+import static es.mhp.views.utils.AddressViewConstants.*;
 
 /**
  * Created by Edu on 18/03/2016.
  */
 
 @Component(AddressFormBrowser.BEAN_NAME)
-public class AddressFormBrowser extends AbstractFormBrowser<AddressDTO>{
+public class AddressFormBrowser extends AbstractFormBrowser {
 
     public static final String BEAN_NAME = "address_form_browser";
 
@@ -38,99 +37,27 @@ public class AddressFormBrowser extends AbstractFormBrowser<AddressDTO>{
     @Autowired
     private IZipLocationService iZipLocationService;
 
-    @Override
-    public void buildFormBrowser() {
-        createFormBrowser();
-    }
+    private FormLayout form;
 
-    @Override
-    public FormLayout createFormBrowser() {
-        FormLayout formBrowser = new FormLayout();
-
-        TextField mainStreet = new TextField(MAIN_STREET);
-        TextField secondaryStreet = new TextField(SECONDARY_STREET);
-        ComboBox city = new ComboBox(CITY);
-        city.addItems(cityList);
-        city.select("Stanford");
-        city.setNullSelectionAllowed(false);
-
-        ComboBox state = new ComboBox(STATE);
-        state.addItems(iAddressService.stateList());
-
-        OptionGroup browserWay = new OptionGroup();
-        browserWay.addItems(ALL, ANY);
-        browserWay.select(ALL);
-
-        Button browserButton = new Button(ADDRESS_SEARCH);
-        iGridBrowser.fillGrid(iAddressService.findAllAddresses());
-
-        browserButton.addClickListener(e -> {
-            AddressDTO addressDTO;
-            if (state.getValue() == null)
-                addressDTO = new AddressDTO(mainStreet.getValue().toString(), secondaryStreet.getValue().toString(), city.getValue().toString());
-            else
-                addressDTO = new AddressDTO(mainStreet.getValue().toString(), secondaryStreet.getValue().toString(), city.getValue().toString(), state.getValue().toString());
-
-            String way = browserWay.getValue().toString();
-
-            if (ALL.equals(way)){
-                iGridBrowser.fillGrid(iAddressService.findAllAddresses(addressDTO));
-            }
-            else if (ANY.equals(way)){
-                iGridBrowser.fillGrid(iAddressService.findAnyAddresses(addressDTO));
-            }
-        });
-
-        formBrowser.addComponents(mainStreet, secondaryStreet, city, state, browserWay, browserButton);
-
-        return formBrowser;
-    }
-
-    @Override
-    public AddressFormBrowser getFormBrowser() {
-        return this;
-    }
-
-    private VerticalLayout createAddressForm(Grid grid) {
-        VerticalLayout formContainer = new VerticalLayout();
-        iBrowser.getAddressFormBrowser().removeAllComponents();
-        iBrowser.getAddressFormBrowser().addComponent(formContainer);
-
-        grid.addItemClickListener((ItemClickEvent.ItemClickListener) event -> {
-            if (event.isDoubleClick()){
-                formContainer.removeAllComponents();
-                iToolbar.setButtonVisibilityByState(StateType.EDIT);
-                iBrowser.getAddressGridBrowser().setVisible(false);
-                iBrowser.getAddressFormBrowser().setVisible(true);
-                BeanItem<AddressDTO> addressBeanItem = (BeanItem<AddressDTO>) event.getItem();
-                formContainer.addComponent(createForm(addressBeanItem.getBean(), AddressFormUtils.EDIT_MODE));
-            } else {
-                iToolbar.setButtonVisibilityByState(StateType.SELECTEDROW);
-                formContainer.removeAllComponents();
-            }
-        });
-
-        return formContainer;
-    }
-
-    @Override
-    protected Layout createForm(AddressDTO addressDTO, String mode) {
-        FormLayout form = new FormLayout();
+    public AddressFormBrowser() {
+        super();
+        form = new FormLayout();
         setFormStyle(form);
-
-        BeanItem item = new BeanItem(addressDTO);
-        bindForm(addressDTO, form, item, mode);
-
-        return form;
     }
 
-    private void bindForm(AddressDTO addressDTO, FormLayout form, BeanItem item, String mode) {
+    @Override
+    public void createFormBrowser(Object addresDto, String mode) {
+        BeanItem item = new BeanItem(addresDto);
+        bindForm(addresDto, form, item, mode);
+    }
+
+    private void bindForm(Object addressDTO, FormLayout form, BeanItem item, String mode) {
         form.addComponent(new Label(mode));
         FieldGroup binder = new FieldGroup(item);
 
-        if (AddressFormUtils.EDIT_MODE.equals(mode)){
-            setEditForm(addressDTO, item, form, binder);
-        } else if (AddressFormUtils.NEW_MODE.equals(mode)){
+        if (FormBrowserUtils.EDIT_MODE.equals(mode)){
+            setEditForm((AddressDTO)addressDTO, item, form, binder);
+        } else if (FormBrowserUtils.NEW_MODE.equals(mode)){
             setNewForm(item, form, binder);
         }
     }
@@ -166,6 +93,8 @@ public class AddressFormBrowser extends AbstractFormBrowser<AddressDTO>{
         form.addComponent(binder.buildAndBind(STATE));
         form.addComponent(binder.buildAndBind(LATITUDE));
         form.addComponent(binder.buildAndBind(LONGITUDE));
+
+        ((AbstractView)getParent().getParent()).updateToolbar(StateType.NEW);
     }
 
     private void setEditForm(AddressDTO addressDTO, BeanItem item, FormLayout form, FieldGroup binder) {
@@ -199,7 +128,7 @@ public class AddressFormBrowser extends AbstractFormBrowser<AddressDTO>{
         form.addComponent(binder.buildAndBind(LATITUDE));
         form.addComponent(binder.buildAndBind(LONGITUDE));
 
-        iToolbar.setButtonVisibilityByState(StateType.EDIT);
+        ((AbstractView)getParent().getParent()).updateToolbar(StateType.EDIT);
     }
 
     private void setItemPropertyEdit(PropertysetItem item) {

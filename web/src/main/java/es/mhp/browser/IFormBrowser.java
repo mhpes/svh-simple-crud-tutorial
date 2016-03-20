@@ -8,6 +8,5 @@ import com.vaadin.ui.FormLayout;
  */
 
 public interface IFormBrowser {
-    FormLayout createFormBrowser();
-    void buildFormBrowser();
+    void createFormBrowser(Object id, String mode);
 }

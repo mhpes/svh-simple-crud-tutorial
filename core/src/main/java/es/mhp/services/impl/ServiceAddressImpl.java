@@ -4,6 +4,7 @@ import es.mhp.entities.Address;
 import es.mhp.repositories.custom.AddressRepository;
 import es.mhp.repositories.ZipLocationRepository;
 import es.mhp.services.IAddressService;
+import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.AddressDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -32,10 +33,10 @@ public class ServiceAddressImpl implements IAddressService {
     private ZipLocationRepository iZipLocationRepository;
 
     @Override
-    public Set<AddressDTO> findAllAddresses() {
+    public Set<AbstractDTO> findAll() {
         Iterable<Address> addressSet = addressRepository.findAll();
 
-        Set<AddressDTO> addressDTOs = new HashSet<>();
+        Set<AbstractDTO> addressDTOs = new HashSet<>();
 
         for (Address address : addressSet){
             addressDTOs.add(new AddressDTO(address));
@@ -45,11 +46,11 @@ public class ServiceAddressImpl implements IAddressService {
     }
 
     @Override
-    public Set<AddressDTO> findAllAddresses(AddressDTO addressDTO) {
+    public Set<AbstractDTO> findAllAddresses(AddressDTO addressDTO) {
         Set<Address> addressSet = addressRepository.findAll(addressDTO.toEntity());
 
         if (!addressSet.isEmpty()){
-            Set<AddressDTO> addressDTOs = new HashSet<>();
+            Set<AbstractDTO> addressDTOs = new HashSet<>();
 
             for (Address currentAddress : addressSet) {
                 addressDTOs.add(new AddressDTO(currentAddress));
@@ -61,11 +62,11 @@ public class ServiceAddressImpl implements IAddressService {
     }
 
     @Override
-    public Set<AddressDTO> findAnyAddresses(AddressDTO addressDTO) {
+    public Set<AbstractDTO> findAnyAddresses(AddressDTO addressDTO) {
         Set<Address> addressSet = addressRepository.findAny(addressDTO.toEntity());
 
         if (!addressSet.isEmpty()){
-            Set<AddressDTO> addressDTOs = new HashSet<>();
+            Set<AbstractDTO> addressDTOs = new HashSet<>();
 
             for (Address currentAddress : addressSet) {
                 addressDTOs.add(new AddressDTO(currentAddress));

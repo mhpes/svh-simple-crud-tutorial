@@ -10,6 +10,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import es.mhp.browser.utils.StateType;
 import es.mhp.services.ICategoryService;
 import es.mhp.services.IProductService;
 import es.mhp.services.dto.CategoryDTO;
@@ -17,6 +18,9 @@ import es.mhp.services.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
+
+import static es.mhp.browser.utils.FormBrowserUtils.EDIT_MODE;
+import static es.mhp.browser.utils.FormBrowserUtils.NEW_MODE;
 
 /*
  * Created by Edu on 23/02/2016.
@@ -61,7 +65,7 @@ public class ProductView extends AbstractView<ProductDTO> {
         this.addComponent(productLayout);
     }
 
-    @Override
+    //    @Override
     protected Layout createForm(ProductDTO productDTO, String mode) {
         FormLayout form = new FormLayout();
         setFormStyle(form);

@@ -2,15 +2,15 @@ package es.mhp.toolbar.impl;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
+import es.mhp.browser.IBrowser;
 import es.mhp.browser.utils.StateType;
 import es.mhp.browser.utils.ToolButtonType;
 import es.mhp.toolbar.IToolbar;
-import es.mhp.views.AbstractView;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static es.mhp.browser.impl.utils.AddressFormUtils.NEW_MODE;
+import static es.mhp.browser.utils.FormBrowserUtils.NEW_MODE;
 
 /**
  * Created by Edu on 17/03/2016.
@@ -21,72 +21,63 @@ public class Toolbar extends HorizontalLayout implements IToolbar {
 
     private HashMap<ToolButtonType, Button> buttonMap;
 
-    public Toolbar() { }
+    public Toolbar() {
+        this.buttonMap = new LinkedHashMap<>();
+    }
 
-//    public Toolbar buildToolbar(AbstractBrowser browserLayout){
-    public Toolbar buildToolbar(){
-
-        buttonMap = new LinkedHashMap<>();
-
-//        this.buttonMap.put(ToolButtonType.NEW, createNewButton(browserLayout));
-        this.buttonMap.put(ToolButtonType.NEW, createNewButton());
+    public void buildToolbar(IBrowser browser){
+        this.buttonMap.put(ToolButtonType.NEW, createNewButton(browser));
         this.buttonMap.put(ToolButtonType.SAVE, new Button(ToolButtonType.SAVE.toString()));
         this.buttonMap.put(ToolButtonType.DELETE, new Button(ToolButtonType.DELETE.toString()));
         this.buttonMap.put(ToolButtonType.BACK, new Button(ToolButtonType.BACK.toString()));
 
         for (Button button : buttonMap.values()) {
-            button.setVisible(false);
             this.addComponent(button);
         }
-
-        return this;
     }
 
-//    private Button createNewButton(AbstractBrowser browserLayout) {
-    private Button createNewButton() {
+    private Button createNewButton(IBrowser browser) {
         Button.ClickListener listener = (Button.ClickListener) clickEvent -> {
-            //browserLayout.getiFormBrowser().addComponent(createForm(new AddressDTO(), NEW_MODE));
-            ((AbstractView)this.getParent()).getiBrowser().createForm(null, NEW_MODE);
+            browser.createForm(null, NEW_MODE);
         };
         return new Button(ToolButtonType.NEW.toString(), listener);
     }
 
-    private void setButtonVisibility(ToolButtonType buttonType){
-        getButtonMap().get(buttonType).setVisible(true);
+    @Override
+    public void updateToolbar(StateType stateType) {
+        this.setAllButtonsNotVisible();
+        this.setButtonVisibleByState(stateType);
     }
 
-    public void setButtonsInvisible(){
+    private void setAllButtonsNotVisible(){
         getButtonMap().forEach(
                 (buttonType, button) -> button.setVisible(false));
     }
 
-    @Override
-    public void setButtonVisibilityByState(StateType state){
-        setButtonsInvisible();
 
+    public void setButtonVisibleByState(StateType state){
         switch (state){
             case SELECTEDROW:
-                setButtonVisibility(ToolButtonType.NEW);
-                setButtonVisibility(ToolButtonType.DELETE);
+                setButtonVisible(ToolButtonType.NEW);
+                setButtonVisible(ToolButtonType.DELETE);
                 break;
             case INITIAL:
-                setButtonVisibility(ToolButtonType.NEW);
+                setButtonVisible(ToolButtonType.NEW);
                 break;
             case EDIT:
-                setButtonVisibility(ToolButtonType.NEW);
-                setButtonVisibility(ToolButtonType.DELETE);
-                setButtonVisibility(ToolButtonType.BACK);
+                setButtonVisible(ToolButtonType.NEW);
+                setButtonVisible(ToolButtonType.DELETE);
+                setButtonVisible(ToolButtonType.BACK);
                 break;
             case NEW:
-                setButtonVisibility(ToolButtonType.NEW);
-                setButtonVisibility(ToolButtonType.BACK);
+                setButtonVisible(ToolButtonType.NEW);
+                setButtonVisible(ToolButtonType.BACK);
                 break;
         }
     }
 
-    @Override
-    public Toolbar getToolbarLayout() {
-        return this;
+    private void setButtonVisible(ToolButtonType buttonType){
+        getButtonMap().get(buttonType).setVisible(true);
     }
 
     private HashMap<ToolButtonType, Button> getButtonMap() {
