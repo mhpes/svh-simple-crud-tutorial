@@ -4,7 +4,6 @@
 # User-specific stuff:
 .idea/
 *.iml
-*.bat
 *.log
 
 # Sensitive or high-churn files:
