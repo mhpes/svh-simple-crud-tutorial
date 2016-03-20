@@ -4,7 +4,6 @@
 # User-specific stuff:
 .idea/
 *.iml
-/database/
 *.bat
 *.log
 
