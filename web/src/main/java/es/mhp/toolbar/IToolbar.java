@@ -11,4 +11,5 @@ public interface IToolbar {
     Toolbar getToolbarLayout();
     void setButtonsInvisible();
     Toolbar buildToolbar();
+    void updateToolbar(StateType stateType);
 }

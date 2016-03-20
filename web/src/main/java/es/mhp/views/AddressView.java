@@ -5,10 +5,13 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 import es.mhp.browser.IBrowser;
+import es.mhp.browser.impl.AbstractBrowser;
 import es.mhp.browser.impl.AddressBrowser;
 import es.mhp.browser.utils.StateType;
+import es.mhp.search.ISearchForm;
 import es.mhp.services.dto.AddressDTO;
 import es.mhp.toolbar.IToolbar;
+import es.mhp.toolbar.impl.Toolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -22,11 +25,14 @@ import static es.mhp.views.utils.AddressViewUtils.VIEW_NAME;
 public class AddressView extends AbstractView<AddressDTO> {
 
     @Autowired
-    private IToolbar iToolbar;
+    private ISearchForm searchForm;
+
+    @Autowired
+    private IToolbar toolbar;
 
     @Autowired
     @Qualifier(AddressBrowser.BEAN_NAME)
-    private IBrowser iBrowser;
+    private IBrowser browser;
 
     public AddressView() {
         setSizeFull();
@@ -35,34 +41,36 @@ public class AddressView extends AbstractView<AddressDTO> {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        this.removeAllComponents();
+        //this.removeAllComponents();
         createMainLayout();
+        //At first time, the toolbar is initialized to the INITIAL state
+        toolbar.updateToolbar(StateType.INITIAL);
     }
 
     @Override
     protected void createMainLayout() {
-        setTableSyle(this);
         buildComponents();
+        this.removeAllComponents();
 
-//        iBrowser.getIGridBrowser().setVisible(true);
-//        iBrowser.getIFormBrowser().setVisible(false);
+//        browser.getIGridBrowser().setVisible(true);
+//        browser.getIFormBrowser().setVisible(false);
 
-        this.addComponent(iToolbar.getToolbarLayout());
-        this.addComponent(iBrowser.getBrowserLayout());
+        this.addComponent((AbstractBrowser) browser);
+        this.addComponent((Toolbar) toolbar);
     }
 
     private void buildComponents() {
         this.removeAllComponents();
         //Inicializar sus componentes y poner visible el que sea
-        iBrowser.buildBrowser();
-        iToolbar.buildToolbar(iBrowser.getBrowserLayout());
-        iToolbar.buildToolbar();
+        browser.buildBrowser();
+        toolbar.buildToolbar(browser.getBrowserLayout());
+        toolbar.buildToolbar();
     }
 
     private Layout createToolbar(StateType stateType) {
-        iToolbar.setButtonsInvisible();
-        iToolbar.setButtonVisibilityByState(stateType);
-        return iToolbar.getToolbarLayout();
+        toolbar.setButtonsInvisible();
+        toolbar.setButtonVisibilityByState(stateType);
+        return toolbar.getToolbarLayout();
     }
 
     private void setTableSyle(VerticalLayout layout) {
@@ -70,8 +78,8 @@ public class AddressView extends AbstractView<AddressDTO> {
         layout.setMargin(true);
     }
 
-    public IBrowser getiBrowser() {
-        return iBrowser;
+    public IBrowser getBrowser() {
+        return browser;
     }
 }
 

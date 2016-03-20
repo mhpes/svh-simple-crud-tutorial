@@ -9,5 +9,5 @@ import es.mhp.browser.IBrowser;
  */
 public abstract class AbstractView<T> extends VerticalLayout implements View {
     protected abstract void createMainLayout();
-    public abstract IBrowser getiBrowser();
+    public abstract IBrowser getBrowser();
 }

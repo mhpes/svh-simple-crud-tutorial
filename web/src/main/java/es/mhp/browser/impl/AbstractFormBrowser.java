@@ -9,5 +9,10 @@ import es.mhp.browser.IFormBrowser;
  * Created by Edu on 18/03/2016.
  */
 public abstract class AbstractFormBrowser<T> extends VerticalLayout  implements IFormBrowser {
+
+    public AbstractFormBrowser() {
+        this.setSizeFull();
+        this.setMargin(true);
+    }
     abstract FormLayout createFormBrowser();
 }

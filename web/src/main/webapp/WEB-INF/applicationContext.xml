@@ -12,13 +12,7 @@
                            http://www.springframework.org/schema/data/jpa
                            http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <bean id="JPApetshopFactory" autowire="byName"
-          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <!-- all connection information are retrieve from the persistence file-->
-        <!--
-         <property name="dataSource" ref="..."/>
-         <property name="persistenceUnitName" value="..."/>
-        -->
+    <bean id="JPApetshopFactory" autowire="byName" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="PetshopUnit"/>
         <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
     </bean>
@@ -26,9 +20,6 @@
     <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="JPApetshopFactory" />
     </bean>
-
-    <!--<bean id="browser" class="es.mhp.browser.interfaces.impl.Browsertowire="byName"/>
-    <bean id="toolbar" class="es.mhp.browser.interfaces.impl.Toolbartowire="byName"/>-->
 
     <tx:annotation-driven transaction-manager="txManager" />
 

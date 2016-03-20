@@ -42,11 +42,16 @@ public class Toolbar extends HorizontalLayout implements IToolbar {
         return this;
     }
 
-//    private Button createNewButton(AbstractBrowser browserLayout) {
+    @Override
+    public void updateToolbar(StateType stateType) {
+        getButtonMap().get(stateType).setVisible(true);
+    }
+
+    //    private Button createNewButton(AbstractBrowser browserLayout) {
     private Button createNewButton() {
         Button.ClickListener listener = (Button.ClickListener) clickEvent -> {
             //browserLayout.getiFormBrowser().addComponent(createForm(new AddressDTO(), NEW_MODE));
-            ((AbstractView)this.getParent()).getiBrowser().createForm(null, NEW_MODE);
+            ((AbstractView)this.getParent()).getBrowser().createForm(null, NEW_MODE);
         };
         return new Button(ToolButtonType.NEW.toString(), listener);
     }
