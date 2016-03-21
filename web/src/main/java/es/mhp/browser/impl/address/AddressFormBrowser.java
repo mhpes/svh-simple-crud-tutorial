@@ -1,21 +1,21 @@
 package es.mhp.browser.impl.address;
 
-import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.ObjectProperty;
-import com.vaadin.data.util.PropertysetItem;
-import com.vaadin.ui.*;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.TextField;
 import es.mhp.browser.impl.AbstractFormBrowser;
+import es.mhp.browser.utils.FormBrowserUtils;
 import es.mhp.browser.utils.StateType;
 import es.mhp.services.IAddressService;
 import es.mhp.services.IZipLocationService;
+import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.AddressDTO;
 import es.mhp.services.dto.ZipLocationDTO;
 import es.mhp.views.AbstractView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import es.mhp.browser.utils.FormBrowserUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -49,23 +49,22 @@ public class AddressFormBrowser extends AbstractFormBrowser {
             addresDto = new AddressDTO();
         }
 
-        BeanItem item = new BeanItem(addresDto);
-        bindForm(addresDto, form, item, mode);
+        createFieldGroup((AbstractDTO) addresDto);
+        bindForm(addresDto, mode);
     }
 
-    private void bindForm(Object addressDTO, FormLayout form, BeanItem item, String mode) {
+    private void bindForm(Object addressDTO, String mode) {
         form.removeAllComponents();
-        FieldGroup binder = new FieldGroup(item);
 
         if (FormBrowserUtils.EDIT_MODE.equals(mode)){
-            setEditForm((AddressDTO)addressDTO, item, form, binder);
+            setEditForm((AddressDTO)addressDTO);
         } else if (FormBrowserUtils.NEW_MODE.equals(mode)){
-            setNewForm(item, form, binder);
+            setNewForm();
         }
     }
 
-    private void setNewForm(PropertysetItem item, FormLayout form, FieldGroup binder) {
-        setItemPropertyEdit(item);
+    private void setNewForm() {
+        setItemPropertyNew();
 
         Set<ZipLocationDTO> zipList = iZipLocationService.findAllZipLocations();
         ComboBox selectZip = new ComboBox(ZIPS);
@@ -83,26 +82,26 @@ public class AddressFormBrowser extends AbstractFormBrowser {
         selectZip.setRequired(true);
         selectZip.setImmediate(true);
 
-        binder.bind(selectZip, ZIP);
+        fieldGroup.bind(selectZip, ZIP);
         form.addComponent(selectZip);
 
-        binder.buildAndBind(ADDRESS_ID);
-        binder.bind(mainStreet, MAIN_STREET);
+        fieldGroup.buildAndBind(ADDRESS_ID);
+        fieldGroup.bind(mainStreet, MAIN_STREET);
 
         form.addComponent(mainStreet);
-        form.addComponent(binder.buildAndBind(SECONDARY_STREET));
-        form.addComponent(binder.buildAndBind(CITY));
-        form.addComponent(binder.buildAndBind(STATE));
-        form.addComponent(binder.buildAndBind(LATITUDE));
-        form.addComponent(binder.buildAndBind(LONGITUDE));
+        form.addComponent(fieldGroup.buildAndBind(SECONDARY_STREET));
+        form.addComponent(fieldGroup.buildAndBind(CITY));
+        form.addComponent(fieldGroup.buildAndBind(STATE));
+        form.addComponent(fieldGroup.buildAndBind(LATITUDE));
+        form.addComponent(fieldGroup.buildAndBind(LONGITUDE));
 
         ((AbstractView)getParent().getParent()).updateToolbar(StateType.NEW);
     }
 
-    private void setEditForm(AddressDTO addressDTO, BeanItem item, FormLayout form, FieldGroup binder) {
-        setItemPropertyEdit(addressDTO, item);
+    private void setEditForm(AddressDTO addressDTO) {
+        setItemPropertyEdit(addressDTO);
 
-        binder.buildAndBind(ADDRESS_ID);
+        fieldGroup.buildAndBind(ADDRESS_ID);
 
         ComboBox selectZip = new ComboBox(ZIPS);
 
@@ -120,59 +119,41 @@ public class AddressFormBrowser extends AbstractFormBrowser {
         selectZip.setNullSelectionAllowed(false);
         selectZip.setRequired(true);
 
-        binder.bind(selectZip, ZIP);
+        fieldGroup.bind(selectZip, ZIP);
         form.addComponent(selectZip);
 
-        form.addComponent(binder.buildAndBind(MAIN_STREET));
-        form.addComponent(binder.buildAndBind(SECONDARY_STREET));
-        form.addComponent(binder.buildAndBind(CITY));
-        form.addComponent(binder.buildAndBind(STATE));
-        form.addComponent(binder.buildAndBind(LATITUDE));
-        form.addComponent(binder.buildAndBind(LONGITUDE));
+        form.addComponent(fieldGroup.buildAndBind(MAIN_STREET));
+        form.addComponent(fieldGroup.buildAndBind(SECONDARY_STREET));
+        form.addComponent(fieldGroup.buildAndBind(CITY));
+        form.addComponent(fieldGroup.buildAndBind(STATE));
+        form.addComponent(fieldGroup.buildAndBind(LATITUDE));
+        form.addComponent(fieldGroup.buildAndBind(LONGITUDE));
 
         ((AbstractView)getParent().getParent()).updateToolbar(StateType.EDIT);
     }
 
-    private void setItemPropertyEdit(PropertysetItem item) {
-        item.addItemProperty(ADDRESS_ID, new ObjectProperty<>(0));
-        item.addItemProperty(MAIN_STREET, new ObjectProperty<>(""));
-        item.addItemProperty(SECONDARY_STREET, new ObjectProperty<>(""));
-        item.addItemProperty(ZIP, new ObjectProperty<>(""));
-        item.addItemProperty(CITY, new ObjectProperty<>(""));
-        item.addItemProperty(STATE, new ObjectProperty<>(""));
-        item.addItemProperty(LATITUDE, new ObjectProperty<>(new BigDecimal(0)));
-        item.addItemProperty(LONGITUDE, new ObjectProperty<>(new BigDecimal(0)));
+    private void setItemPropertyNew() {
+        BeanItem<? extends AbstractDTO> beanItem = fieldGroup.getItemDataSource();
+        beanItem.addItemProperty(ADDRESS_ID, new ObjectProperty<>(0));
+        beanItem.addItemProperty(MAIN_STREET, new ObjectProperty<>(""));
+        beanItem.addItemProperty(SECONDARY_STREET, new ObjectProperty<>(""));
+        beanItem.addItemProperty(ZIP, new ObjectProperty<>(""));
+        beanItem.addItemProperty(CITY, new ObjectProperty<>(""));
+        beanItem.addItemProperty(STATE, new ObjectProperty<>(""));
+        beanItem.addItemProperty(LATITUDE, new ObjectProperty<>(new BigDecimal(0)));
+        beanItem.addItemProperty(LONGITUDE, new ObjectProperty<>(new BigDecimal(0)));
     }
 
-    private void setItemPropertyEdit(AddressDTO addressDTO, BeanItem item) {
-        item.addItemProperty(ADDRESS_ID, new ObjectProperty(addressDTO.getAddressId()));
-        item.addItemProperty(MAIN_STREET, new ObjectProperty(addressDTO.getMainStreet()));
-        item.addItemProperty(SECONDARY_STREET, new ObjectProperty(addressDTO.getSecondaryStreet()));
-        item.addItemProperty(ZIP, new ObjectProperty(addressDTO.getZipLocation()));
-        item.addItemProperty(CITY, new ObjectProperty(addressDTO.getCity()));
-        item.addItemProperty(STATE, new ObjectProperty(addressDTO.getState()));
-        item.addItemProperty(LATITUDE, new ObjectProperty(addressDTO.getLatitude()));
-        item.addItemProperty(LONGITUDE, new ObjectProperty(addressDTO.getLongitude()));
-    }
-
-    public void trySaveAddress(FieldGroup addressFieldGroup) {
-        int addressId = Integer.parseInt(addressFieldGroup.getField(ADDRESS_ID).getValue().toString());
-        String mainStreet = addressFieldGroup.getField(MAIN_STREET).getValue().toString();
-        String secondaryStreet = addressFieldGroup.getField(SECONDARY_STREET).getValue().toString();
-        ZipLocationDTO zipLocationDTO = (ZipLocationDTO) addressFieldGroup.getField(ZIP).getValue();
-        String city = addressFieldGroup.getField(CITY).getValue().toString();
-        String state = addressFieldGroup.getField(STATE).getValue().toString();
-
-        BigDecimal longitude =  BigDecimal.ONE;
-        BigDecimal latitude = BigDecimal.TEN;
-
-        try{
-            AddressDTO addressDTO = new AddressDTO(addressId, mainStreet, secondaryStreet, zipLocationDTO, city, state, latitude, longitude);
-            iAddressService.save(addressDTO).getAddressId();
-            Notification.show(NEW_ADDRESS_NOTIFICATION, Notification.Type.TRAY_NOTIFICATION);
-        } catch (Exception err){ //I can't handle the correct Exception ConstraintViolationException
-            Notification.show(ERROR_NEW_ADDRESS_NOTIFICATION + err.getMessage(), Notification.Type.WARNING_MESSAGE);
-        }
+    private void setItemPropertyEdit(AddressDTO entityDTO) {
+        BeanItem<? extends AbstractDTO> beanItem = fieldGroup.getItemDataSource();
+        beanItem.addItemProperty(ADDRESS_ID, new ObjectProperty(entityDTO.getAddressId()));
+        beanItem.addItemProperty(MAIN_STREET, new ObjectProperty(entityDTO.getMainStreet()));
+        beanItem.addItemProperty(SECONDARY_STREET, new ObjectProperty(entityDTO.getSecondaryStreet()));
+        beanItem.addItemProperty(ZIP, new ObjectProperty(entityDTO.getZipLocation()));
+        beanItem.addItemProperty(CITY, new ObjectProperty(entityDTO.getCity()));
+        beanItem.addItemProperty(STATE, new ObjectProperty(entityDTO.getState()));
+        beanItem.addItemProperty(LATITUDE, new ObjectProperty(entityDTO.getLatitude()));
+        beanItem.addItemProperty(LONGITUDE, new ObjectProperty(entityDTO.getLongitude()));
     }
 
     @Override
@@ -190,4 +171,24 @@ public class AddressFormBrowser extends AbstractFormBrowser {
 
         return addressDTO;
     }
+
+    /*public void trySaveAddress(FieldGroup addressFieldGroup) {
+        int addressId = Integer.parseInt(addressFieldGroup.getField(ADDRESS_ID).getValue().toString());
+        String mainStreet = addressFieldGroup.getField(MAIN_STREET).getValue().toString();
+        String secondaryStreet = addressFieldGroup.getField(SECONDARY_STREET).getValue().toString();
+        ZipLocationDTO zipLocationDTO = (ZipLocationDTO) addressFieldGroup.getField(ZIP).getValue();
+        String city = addressFieldGroup.getField(CITY).getValue().toString();
+        String state = addressFieldGroup.getField(STATE).getValue().toString();
+
+        BigDecimal longitude =  BigDecimal.ONE;
+        BigDecimal latitude = BigDecimal.TEN;
+
+        try{
+            AddressDTO addressDTO = new AddressDTO(addressId, mainStreet, secondaryStreet, zipLocationDTO, city, state, latitude, longitude);
+            iAddressService.save(addressDTO).getAddressId();
+            Notification.show(NEW_ADDRESS_NOTIFICATION, Notification.Type.TRAY_NOTIFICATION);
+        } catch (Exception err){ //I can't handle the correct Exception ConstraintViolationException
+            Notification.show(ERROR_NEW_ADDRESS_NOTIFICATION + err.getMessage(), Notification.Type.WARNING_MESSAGE);
+        }
+    }*/
 }

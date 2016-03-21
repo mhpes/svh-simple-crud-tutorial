@@ -10,6 +10,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import es.mhp.browser.IBrowser;
 import es.mhp.services.ITagService;
 import es.mhp.services.dto.TagDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,11 @@ public class TagView extends AbstractView<TagDTO> {
     }
 
     @Override
+    void addComponentsToView() {
+
+    }
+
+    //    @Override
     protected void createMainLayout() {
         setTableSyle(tagLayout);
         createFilter();
@@ -224,5 +230,15 @@ public class TagView extends AbstractView<TagDTO> {
     private void setFormStyle(FormLayout form) {
         form.setImmediate(true);
         form.addStyleName("tag-view-form-container");
+    }
+
+    @Override
+    void configureComponents() {
+
+    }
+
+    @Override
+    IBrowser getBrowser() {
+        return null;
     }
 }

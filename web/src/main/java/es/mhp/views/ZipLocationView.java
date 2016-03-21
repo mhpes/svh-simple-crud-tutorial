@@ -10,6 +10,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import es.mhp.browser.IBrowser;
 import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.ZipLocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,11 @@ public class ZipLocationView extends AbstractView<ZipLocationDTO> {
     }
 
     @Override
+    void addComponentsToView() {
+
+    }
+
+    //    @Override
     protected void createMainLayout() {
         setTableSyle(zipLayout);
         createFilter();
@@ -221,5 +227,15 @@ public class ZipLocationView extends AbstractView<ZipLocationDTO> {
     private void setFormStyle(FormLayout form) {
         form.setImmediate(true);
         form.addStyleName("zip-view-form-container");
+    }
+
+    @Override
+    void configureComponents() {
+
+    }
+
+    @Override
+    IBrowser getBrowser() {
+        return null;
     }
 }

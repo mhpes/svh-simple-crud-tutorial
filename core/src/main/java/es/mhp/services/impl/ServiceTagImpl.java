@@ -3,6 +3,7 @@ package es.mhp.services.impl;
 import es.mhp.entities.Tag;
 import es.mhp.repositories.TagRepository;
 import es.mhp.services.ITagService;
+import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.TagDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -59,12 +60,19 @@ public class ServiceTagImpl implements ITagService {
     }
 
     @Override
-    public void delete(TagDTO tagDTO) {
-        tagRepository.delete(tagDTO.getTagId());
+    public TagDTO findTagById(int id) {
+        return new TagDTO(tagRepository.findOne(id));
+    }
+
+
+    /*To Implement*/
+    @Override
+    public Set<AbstractDTO> findAll() {
+        return null;
     }
 
     @Override
-    public TagDTO findTagById(int id) {
-        return new TagDTO(tagRepository.findOne(id));
+    public void delete(Object id) {
+        tagRepository.delete((Integer) id);
     }
 }

@@ -8,10 +8,9 @@ import java.util.Set;
  * Created by Edu on 24/02/2016.
  */
 
-public interface IZipLocationService {
+public interface IZipLocationService extends AbstractService {
     Set<ZipLocationDTO> findAllZipLocations();
     Set<ZipLocationDTO> findAnyZipLocations(String text);
     void save(ZipLocationDTO zipLocationDTO);
-    void delete(ZipLocationDTO zipLocationDTO);
     ZipLocationDTO findZipById(int id);
 }

@@ -1,14 +1,12 @@
-package es.mhp.views;
+package  es.mhp.views;
 
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import es.mhp.browser.IBrowser;
-import es.mhp.search.ISearchForm;
 import es.mhp.browser.impl.AbstractBrowser;
-import es.mhp.search.impl.AbstractSearchForm;
 import es.mhp.browser.impl.address.AddressBrowser;
+import es.mhp.search.ISearchForm;
+import es.mhp.search.impl.AbstractSearchForm;
 import es.mhp.search.impl.address.AddressSearchForm;
-import es.mhp.browser.utils.StateType;
 import es.mhp.services.dto.AddressDTO;
 import es.mhp.toolbar.impl.Toolbar;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,30 +30,27 @@ public class AddressView extends AbstractView<AddressDTO> {
     private IBrowser browser;
 
     public AddressView() {
-        this.setSizeFull();
         this.addStyleName("address-view");
     }
 
     @Override
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
-        createMainLayout();
-        //At first time, the toolbar is initialized to the INITIAL state
-        toolbar.updateToolbar(StateType.INITIAL);
-    }
-
-    @Override
-    protected void createMainLayout() {
-        buildComponents();
+    protected void addComponentsToView() {
         this.removeAllComponents();
         this.addComponent((AbstractSearchForm)searchForm);
         this.addComponent((Toolbar)toolbar);
         this.addComponent((AbstractBrowser)browser);
     }
 
-    private void buildComponents() {
+    @Override
+    protected void configureComponents() {
         browser.buildBrowser();
         toolbar.buildToolbar(browser);
-        searchForm.buildSearchForm(browser);
+        searchForm.buildSearchForm(browser, toolbar);
+    }
+
+    @Override
+    protected IBrowser getBrowser() {
+        return browser;
     }
 }
 

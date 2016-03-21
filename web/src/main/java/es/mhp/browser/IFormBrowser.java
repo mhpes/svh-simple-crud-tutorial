@@ -1,7 +1,9 @@
 package es.mhp.browser;
 
 
-import es.mhp.services.dto.AddressDTO;
+import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.ui.FormLayout;
+import es.mhp.services.dto.AbstractDTO;
 
 /**
  * Created by Edu on 18/03/2016.
@@ -9,5 +11,8 @@ import es.mhp.services.dto.AddressDTO;
 
 public interface IFormBrowser {
     void createFormBrowser(Object id, String mode);
-    AddressDTO getNewForm();
+    AbstractDTO getNewForm();
+    FormLayout getForm();
+    void createFieldGroup(AbstractDTO dto);
+    AbstractDTO extractBean() throws FieldGroup.CommitException;
 }

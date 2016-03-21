@@ -3,6 +3,7 @@ package es.mhp.services.impl;
 import es.mhp.entities.SellerContactInfo;
 import es.mhp.repositories.SellerRepository;
 import es.mhp.services.ISellerContactInfoService;
+import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.SellerContactInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -59,12 +60,18 @@ public class ServiceSellerContactInfoImpl implements ISellerContactInfoService {
     }
 
     @Override
-    public void delete(SellerContactInfoDTO sellerContactInfoDTO) {
-        sellerRepository.delete(sellerContactInfoDTO.getContactInfoId());
+    public SellerContactInfoDTO findSellerById(int id) {
+        return new SellerContactInfoDTO(sellerRepository.findOne(id));
+    }
+
+    /*To Implement*/
+    @Override
+    public Set<AbstractDTO> findAll() {
+        return null;
     }
 
     @Override
-    public SellerContactInfoDTO findSellerById(int id) {
-        return new SellerContactInfoDTO(sellerRepository.findOne(id));
+    public void delete(Object id) {
+
     }
 }

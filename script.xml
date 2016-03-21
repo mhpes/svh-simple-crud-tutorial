@@ -39,9 +39,9 @@
 
 	<!-- Copy the web application artifact exploded -->
     <target name="copyWebAppEXPLODED">
-        <echo message="Copying to ${destination}\${app_prefix}-${app_webapp_name}"/>
-        <copy todir="${destination}\${app_prefix}-${app_webapp_name}" overwrite="true">
-            <fileset dir="./web/target/${app_prefix}-${app_webapp_name}" />
+        <echo message="Copying to ${destination}\${app_prefix}${app_webapp_name}"/>
+        <copy todir="${destination}\${app_prefix}${app_webapp_name}" overwrite="true">
+            <fileset dir="./web/target/${app_prefix}${app_webapp_name}" />
         </copy>
     </target>
 </project>

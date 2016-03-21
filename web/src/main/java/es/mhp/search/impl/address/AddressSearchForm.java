@@ -2,10 +2,12 @@ package es.mhp.search.impl.address;
 
 import com.vaadin.ui.*;
 import es.mhp.browser.IBrowser;
+import es.mhp.browser.utils.StateType;
 import es.mhp.search.impl.AbstractSearchForm;
 import es.mhp.services.IAddressService;
 import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.AddressDTO;
+import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,7 +37,7 @@ public class AddressSearchForm extends AbstractSearchForm {
     }
 
     @Override
-    public void buildSearchForm(IBrowser browser) {
+    public void buildSearchForm(IBrowser browser, IToolbar toolbar) {
         searchForm.removeAllComponents();
 
         TextField mainStreet = new TextField(MAIN_STREET);
@@ -57,6 +59,8 @@ public class AddressSearchForm extends AbstractSearchForm {
         browser.updateGrid(iAddressService.findAll());
 
         browserButton.addClickListener(e -> {
+            browser.buildBrowser();
+            toolbar.updateToolbar(StateType.INITIAL);
             AddressDTO addressDTO;
             if (state.getValue() == null)
                 addressDTO = new AddressDTO(mainStreet.getValue().toString(), secondaryStreet.getValue().toString(), city.getValue().toString());

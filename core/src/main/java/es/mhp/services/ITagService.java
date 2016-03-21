@@ -7,10 +7,9 @@ import java.util.Set;
 /**
  * Created by Edu on 24/02/2016.
  */
-public interface ITagService {
+public interface ITagService extends AbstractService {
     Set<TagDTO> findAllTags();
     Set<TagDTO> findAnyTags(String text);
     void save(TagDTO tagDTO);
-    void delete(TagDTO tagDTO);
     TagDTO findTagById(int id);
 }

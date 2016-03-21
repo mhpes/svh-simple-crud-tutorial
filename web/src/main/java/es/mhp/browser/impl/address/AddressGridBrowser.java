@@ -1,14 +1,10 @@
 package es.mhp.browser.impl.address;
 
-import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.Compare;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.Grid;
-import es.mhp.browser.IBrowser;
 import es.mhp.browser.impl.AbstractGridBrowser;
-import es.mhp.browser.utils.FormBrowserUtils;
 import es.mhp.browser.utils.StateType;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.AddressDTO;
@@ -16,7 +12,6 @@ import es.mhp.views.AbstractView;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.Set;
 
 import static es.mhp.views.utils.AddressViewConstants.*;
 
@@ -40,15 +35,14 @@ public class AddressGridBrowser extends AbstractGridBrowser {
     }
 
     @Override
-    public void addDoubleClickListenerToGrid(IBrowser browser) {
+    public void addDoubleClickListenerToGrid() {
         grid.addItemClickListener((ItemClickEvent.ItemClickListener) event -> {
+            BeanItem<AddressDTO> addressBeanItem = (BeanItem<AddressDTO>) event.getItem();
             if (event.isDoubleClick()){
-                ((AbstractView)this.getParent().getParent()).updateToolbar(StateType.EDIT);
-                BeanItem<AddressDTO> addressBeanItem = (BeanItem<AddressDTO>) event.getItem();
-                ((AddressBrowser)this.getParent()).createForm(addressBeanItem.getBean(), FormBrowserUtils.EDIT_MODE);
+                grid.select(event.getItemId());
+                ((AbstractView)this.getParent().getParent()).updateView(StateType.EDIT);
             } else {
-                ((AbstractView)this.getParent().getParent()).updateToolbar(StateType.SELECTEDROW);
-                ((AddressBrowser)this.getParent()).displayGridAndHideForm();
+                ((AbstractView)this.getParent().getParent()).updateView(StateType.SELECTEDROW);
             }
         });
     }
@@ -79,14 +73,25 @@ public class AddressGridBrowser extends AbstractGridBrowser {
     }
 
     @Override
-    public void deleteEntry(Object id) {
-        grid.getContainerDataSource().removeItem(grid.getSelectedRow());
+    public void deleteEntry() {
+        if (grid.getSelectedRow() != null) {
+            grid.getContainerDataSource().removeItem(grid.getSelectedRow());
+        }
     }
 
     @Override
     public void updateGrid() {
         this.removeAllComponents();
         this.addComponent(grid);
+    }
+
+    @Override
+    public void updateAndDisplayGrid(AbstractDTO dto) {
+        if (grid.getContainerDataSource().containsId(dto.getId())) {
+            grid.getContainerDataSource().removeItem(dto.getId());
+        }
+        grid.getContainerDataSource().addItem(dto);
+        grid.select(dto.getId());
     }
 
     public Grid getGrid() {

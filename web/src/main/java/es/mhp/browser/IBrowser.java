@@ -1,7 +1,7 @@
 package es.mhp.browser;
 
+import es.mhp.exceptions.UIException;
 import es.mhp.services.dto.AbstractDTO;
-import es.mhp.services.dto.AddressDTO;
 
 import java.util.Set;
 
@@ -10,10 +10,12 @@ import java.util.Set;
  */
 public interface IBrowser {
     void buildBrowser();
-    void createForm(Object id, String mode);
-    void saveFormData(AbstractDTO entityDto);
-    void deleteFormData(Object id);
+    void createAndDisplayForm(String mode);
+    void saveItemAndUpdateGrid() throws UIException;
+    void deleteItemAndUpdateGrid() throws UIException;
     void updateGrid(Set<AbstractDTO> newDataSource);
-    AddressDTO getSelectedFormRow();
+    AbstractDTO getSelectedFormRow();
     Object getSelectedGridRow();
+    void displayGridAndHideForm();
+    void displayFormAndHideGrid();
 }

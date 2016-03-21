@@ -10,9 +10,10 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
-import es.mhp.browser.utils.StateType;
+import es.mhp.browser.IBrowser;
 import es.mhp.services.ICategoryService;
 import es.mhp.services.IProductService;
+import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.CategoryDTO;
 import es.mhp.services.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,11 @@ public class ProductView extends AbstractView<ProductDTO> {
     }
 
     @Override
+    void addComponentsToView() {
+
+    }
+
+    //    @Override
     protected void createMainLayout() {
         setTableSyle(productLayout);
         createFilter();
@@ -154,10 +160,10 @@ public class ProductView extends AbstractView<ProductDTO> {
     private void setNewForm(PropertysetItem item, FormLayout form, FieldGroup binder) {
         setItemPropertyEdit(item);
 
-        Set<CategoryDTO> categoryList = iCategoryService.findAllCategories();
+        Set<AbstractDTO> categoryList = iCategoryService.findAll();
         ComboBox selectCategory = new ComboBox("Category");
 
-        BeanItemContainer<CategoryDTO> categoryDTOBeanItemContainer = new BeanItemContainer<>(CategoryDTO.class);
+        BeanItemContainer<AbstractDTO> categoryDTOBeanItemContainer = new BeanItemContainer<>(AbstractDTO.class);
         categoryDTOBeanItemContainer.addAll(categoryList);
 
         selectCategory.setItemCaptionPropertyId("categoryId");
@@ -180,14 +186,14 @@ public class ProductView extends AbstractView<ProductDTO> {
     private void setEditForm(ProductDTO productDTO, PropertysetItem item, FormLayout form, FieldGroup binder) {
         setItemPropertyEdit(productDTO, item);
 
-        Set<CategoryDTO> categoryList = iCategoryService.findAllCategories();
+        Set<AbstractDTO> categoryList = iCategoryService.findAll();
         ComboBox selectCategory = new ComboBox("Categories");
 
-        BeanItemContainer<CategoryDTO> zipLocationContainer = new BeanItemContainer<>(CategoryDTO.class);
+        BeanItemContainer<CategoryDTO> zipLocationContainer = new BeanItemContainer<>(AbstractDTO.class);
 
-        for (CategoryDTO category : categoryList){
+        /*for (AbstractDTO category : categoryList){
             zipLocationContainer.addBean(category);
-        }
+        }*/
 
         selectCategory.setItemCaptionPropertyId("categoryId");
         selectCategory.setContainerDataSource(zipLocationContainer);
@@ -272,5 +278,15 @@ public class ProductView extends AbstractView<ProductDTO> {
     private void setFormStyle(FormLayout form) {
         form.setImmediate(true);
         form.addStyleName("product-view-form-container");
+    }
+
+    @Override
+    void configureComponents() {
+
+    }
+
+    @Override
+    IBrowser getBrowser() {
+        return null;
     }
 }

@@ -3,7 +3,6 @@ package es.mhp.browser;
 import es.mhp.services.dto.AbstractDTO;
 
 import java.util.Collection;
-import java.util.Set;
 
 /**
  * Created by Edu on 18/03/2016.
@@ -11,8 +10,9 @@ import java.util.Set;
 
 public interface IGridBrowser {
     void updateGrid(Collection<? extends AbstractDTO> newDataSource);
-    void addDoubleClickListenerToGrid(IBrowser browser);
+    void addDoubleClickListenerToGrid();
     Object getSelectedGridRow();
-    void deleteEntry(Object id);
+    void deleteEntry();
     void updateGrid();
+    void updateAndDisplayGrid(AbstractDTO id);
 }

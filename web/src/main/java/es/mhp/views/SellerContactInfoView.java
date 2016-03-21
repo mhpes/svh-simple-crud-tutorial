@@ -10,6 +10,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import es.mhp.browser.IBrowser;
 import es.mhp.services.ISellerContactInfoService;
 import es.mhp.services.dto.SellerContactInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,11 @@ public class SellerContactInfoView extends AbstractView<SellerContactInfoDTO> {
     }
 
     @Override
+    void addComponentsToView() {
+
+    }
+
+    //    @Override
     protected void createMainLayout() {
         setTableSyle(sellerLayout);
         createFilter();
@@ -235,5 +241,15 @@ public class SellerContactInfoView extends AbstractView<SellerContactInfoDTO> {
     private void setFormStyle(FormLayout form) {
         form.setImmediate(true);
         form.addStyleName("zip-view-form-container");
+    }
+
+    @Override
+    void configureComponents() {
+
+    }
+
+    @Override
+    IBrowser getBrowser() {
+        return null;
     }
 }

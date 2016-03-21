@@ -10,6 +10,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import es.mhp.browser.IBrowser;
 import es.mhp.services.IAddressService;
 import es.mhp.services.IItemService;
 import es.mhp.services.IProductService;
@@ -73,6 +74,11 @@ public class ItemView extends AbstractView<ItemDTO> {
     }
 
     @Override
+    void addComponentsToView() {
+
+    }
+
+    //    @Override
     protected void createMainLayout() {
         setTableSyle(itemLayout);
         createFilter();
@@ -312,5 +318,15 @@ public class ItemView extends AbstractView<ItemDTO> {
     private void setFormStyle(FormLayout form) {
         form.setImmediate(true);
         form.addStyleName("item-view-form-container");
+    }
+
+    @Override
+    void configureComponents() {
+
+    }
+
+    @Override
+    IBrowser getBrowser() {
+        return null;
     }
 }

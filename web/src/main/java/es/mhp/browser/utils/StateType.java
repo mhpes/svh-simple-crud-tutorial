@@ -7,5 +7,7 @@ public enum StateType {
     SELECTEDROW,
     INITIAL,
     EDIT,
-    NEW
+    SAVE,
+    NEW,
+    DELETE
 }

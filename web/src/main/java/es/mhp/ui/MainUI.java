@@ -8,6 +8,7 @@ import com.vaadin.spring.navigator.SpringViewProvider;
 import com.vaadin.ui.*;
 import es.mhp.views.*;
 import es.mhp.views.utils.AddressViewConstants;
+import es.mhp.views.utils.CategoryViewConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.ContextLoaderListener;
 
@@ -66,7 +67,7 @@ public class MainUI extends UI {
         verticalLayout.setWidth("250px");
 
         verticalLayout.addComponent(createCustomButton(AddressViewConstants.VIEW_NAME));
-        verticalLayout.addComponent(createCustomButton(CategoryView.VIEW_NAME));
+        verticalLayout.addComponent(createCustomButton(CategoryViewConstants.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(ProductView.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(ZipLocationView.VIEW_NAME));
         verticalLayout.addComponent(createCustomButton(ItemView.VIEW_NAME));

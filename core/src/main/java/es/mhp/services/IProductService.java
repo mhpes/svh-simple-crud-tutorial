@@ -7,10 +7,9 @@ import java.util.Set;
 /**
  * Created by Edu on 24/02/2016.
  */
-public interface IProductService {
+public interface IProductService extends AbstractService {
     Set<ProductDTO> findAllProducts();
     Set<ProductDTO> findAnyProducts(String text);
     ProductDTO save(ProductDTO productDTO);
-    void delete(ProductDTO productDTO);
     ProductDTO findById(String id);
 }

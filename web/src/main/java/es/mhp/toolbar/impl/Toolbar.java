@@ -4,14 +4,11 @@ import com.vaadin.ui.Button;
 import es.mhp.browser.IBrowser;
 import es.mhp.browser.utils.StateType;
 import es.mhp.browser.utils.ToolButtonType;
-import es.mhp.services.dto.AbstractDTO;
-import es.mhp.services.dto.AddressDTO;
 import es.mhp.toolbar.AbstractToolbar;
+import es.mhp.views.AbstractView;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-
-import static es.mhp.browser.utils.FormBrowserUtils.NEW_MODE;
 
 /**
  * Created by Edu on 17/03/2016.
@@ -29,41 +26,42 @@ public class Toolbar extends AbstractToolbar {
 
     public void buildToolbar(IBrowser browser){
         this.removeAllComponents();
-        this.buttonMap.put(ToolButtonType.NEW, createNewButton(browser));
+        this.buttonMap.put(ToolButtonType.NEW, createNewButton());
         this.buttonMap.put(ToolButtonType.SAVE, createSaveButton(browser));
-        this.buttonMap.put(ToolButtonType.DELETE, createDeleteButton(browser));
-        this.buttonMap.put(ToolButtonType.BACK, createBackButton(browser));
+        this.buttonMap.put(ToolButtonType.DELETE, createDeleteButton());
+        this.buttonMap.put(ToolButtonType.BACK, createBackButton());
 
         for (Button button : buttonMap.values()) {
             this.addComponent(button);
         }
+
+        updateToolbar(StateType.INITIAL);
     }
 
-    private Button createBackButton(IBrowser browser) {
+    private Button createBackButton() {
         Button.ClickListener listener = (Button.ClickListener) clickEvent -> {
-            browser.buildBrowser();
+            ((AbstractView)getParent()).updateView(StateType.INITIAL);
         };
         return new Button(ToolButtonType.BACK.toString(), listener);
     }
 
-    private Button createDeleteButton(IBrowser browser) {
+    private Button createDeleteButton() {
         Button.ClickListener listener = (Button.ClickListener) clickEvent -> {
-            AbstractDTO abstractDTO = (AbstractDTO) browser.getSelectedGridRow();
-            browser.deleteFormData(abstractDTO.getId());
+            ((AbstractView)getParent()).updateView(StateType.DELETE);
         };
         return new Button(ToolButtonType.DELETE.toString(), listener);
     }
 
     private Button createSaveButton(IBrowser browser) {
         Button.ClickListener listener = (Button.ClickListener) clickEvent -> {
-            browser.saveFormData((AbstractDTO) browser.getSelectedFormRow());
+            ((AbstractView)getParent()).updateView(StateType.SAVE);
         };
         return new Button(ToolButtonType.SAVE.toString(), listener);
     }
 
-    private Button createNewButton(IBrowser browser) {
+    private Button createNewButton() {
         Button.ClickListener listener = (Button.ClickListener) clickEvent -> {
-            browser.createForm(null, NEW_MODE);
+            ((AbstractView)getParent()).updateView(StateType.NEW);
         };
         return new Button(ToolButtonType.NEW.toString(), listener);
     }
@@ -80,7 +78,7 @@ public class Toolbar extends AbstractToolbar {
     }
 
 
-    public void setButtonVisibleByState(StateType state){
+    private void setButtonVisibleByState(StateType state){
         switch (state){
             case SELECTEDROW:
                 setButtonVisible(ToolButtonType.NEW);
@@ -90,14 +88,14 @@ public class Toolbar extends AbstractToolbar {
                 setButtonVisible(ToolButtonType.NEW);
                 break;
             case EDIT:
+                setButtonVisible(ToolButtonType.BACK);
                 setButtonVisible(ToolButtonType.NEW);
                 setButtonVisible(ToolButtonType.DELETE);
-                setButtonVisible(ToolButtonType.BACK);
+                setButtonVisible(ToolButtonType.SAVE);
                 break;
             case NEW:
-                setButtonVisible(ToolButtonType.NEW);
-                setButtonVisible(ToolButtonType.SAVE);
                 setButtonVisible(ToolButtonType.BACK);
+                setButtonVisible(ToolButtonType.SAVE);
                 break;
         }
     }

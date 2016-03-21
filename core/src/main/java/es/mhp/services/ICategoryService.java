@@ -1,5 +1,6 @@
 package es.mhp.services;
 
+import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.CategoryDTO;
 
 import java.util.Set;
@@ -9,9 +10,8 @@ import java.util.Set;
  */
 
 
-public interface ICategoryService {
-    Set<CategoryDTO> findAllCategories();
-    Set<CategoryDTO> findAnyCategories(String text);
+public interface ICategoryService extends AbstractService{
+    Set<AbstractDTO> findAllCategories();
+    Set<AbstractDTO> findAnyCategories(String text);
     CategoryDTO save(CategoryDTO categoryDTO);
-    void delete(CategoryDTO categoryDTO);
 }

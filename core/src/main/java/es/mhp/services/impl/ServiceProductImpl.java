@@ -5,6 +5,7 @@ import es.mhp.entities.Product;
 import es.mhp.repositories.CategoryRepository;
 import es.mhp.repositories.ProductRepository;
 import es.mhp.services.IProductService;
+import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -75,12 +76,18 @@ public class ServiceProductImpl implements IProductService {
     }
 
     @Override
-    public void delete(ProductDTO productDTO) {
-        productRepository.delete(productDTO.getProductId());
+    public ProductDTO findById(String id) {
+        return new ProductDTO(productRepository.findOne(id));
+    }
+
+    /*To Implement*/
+    @Override
+    public Set<AbstractDTO> findAll() {
+        return null;
     }
 
     @Override
-    public ProductDTO findById(String id) {
-        return new ProductDTO(productRepository.findOne(id));
+    public void delete(Object id) {
+        productRepository.delete(id.toString());
     }
 }

@@ -3,6 +3,7 @@ package es.mhp.services.impl;
 import es.mhp.entities.Item;
 import es.mhp.repositories.ItemRepository;
 import es.mhp.services.IItemService;
+import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.ItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -56,6 +57,14 @@ public class ServiceItemImpl implements IItemService {
             return new ItemDTO(itemRepository.save(itemDTO.toEntity()));
     }
 
+    /*To Implement*/
     @Override
-    public void delete(ItemDTO itemDTO) { itemRepository.delete(itemDTO.getItemId()); }
+    public Set<AbstractDTO> findAll() {
+        return null;
+    }
+
+    @Override
+    public void delete(Object id) {
+        itemRepository.delete((Integer) id);
+    }
 }
