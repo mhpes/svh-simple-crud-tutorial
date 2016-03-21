@@ -12,8 +12,18 @@ import javax.annotation.PostConstruct;
  */
 public abstract class AbstractFormBrowser extends VerticalLayout  implements IFormBrowser {
 
+    //Ask to Isa if this is correct
+    protected FormLayout form;
+
     public AbstractFormBrowser() {
+        form = new FormLayout();
+        this.addComponent(form);
+
         this.setSizeFull();
         this.setMargin(true);
+    }
+
+    public FormLayout getForm() {
+        return form;
     }
 }

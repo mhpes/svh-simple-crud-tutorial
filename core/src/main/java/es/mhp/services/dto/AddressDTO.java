@@ -38,6 +38,11 @@ public class AddressDTO extends AbstractDTO<Address>{
         return address;
     }
 
+    @Override
+    public Object getId() {
+        return addressId;
+    }
+
     public AddressDTO(Address address) {
         if (address != null) {
             this.addressId = address.getAddressId();

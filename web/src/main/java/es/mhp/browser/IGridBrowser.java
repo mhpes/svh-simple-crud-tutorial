@@ -12,4 +12,7 @@ import java.util.Set;
 public interface IGridBrowser {
     void updateGrid(Collection<? extends AbstractDTO> newDataSource);
     void addDoubleClickListenerToGrid(IBrowser browser);
+    Object getSelectedGridRow();
+    void deleteEntry(Object id);
+    void updateGrid();
 }

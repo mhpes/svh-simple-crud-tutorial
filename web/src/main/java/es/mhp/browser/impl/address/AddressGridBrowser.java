@@ -1,7 +1,9 @@
 package es.mhp.browser.impl.address;
 
+import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.filter.Compare;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.Grid;
 import es.mhp.browser.IBrowser;
@@ -30,8 +32,11 @@ public class AddressGridBrowser extends AbstractGridBrowser {
     private Grid grid;
 
     public AddressGridBrowser() {
+        super();
         grid = new Grid();
         this.addComponent(grid);
+        /*//Ask Isa if this way to create the grid is correct
+        setColumnProperties();*/
     }
 
     @Override
@@ -50,15 +55,45 @@ public class AddressGridBrowser extends AbstractGridBrowser {
 
     @Override
     public void updateGrid(Collection<? extends AbstractDTO> newDataSource) {
-        this.removeAllComponents();
+        grid.removeAllColumns();
 
         BeanItemContainer<AddressDTO> addressBeanItemContainer = new BeanItemContainer<>(AddressDTO.class, (Collection<? extends AddressDTO>) newDataSource);
-        addressBeanItemContainer.removeItem(ITEM_COUNT);
-
         grid.setContainerDataSource(addressBeanItemContainer);
+        setColumnProperties();
+
+        this.addComponent(grid);
+    }
+
+    @Override
+    protected void setColumnProperties() {
         grid.setColumnOrder(MAIN_STREET_FIELD, SECONDARY_STREET_FIELD, CITY_FIELD, STATE_FIELD, LATITUDE_FIELD, LONGITUDE_FIELD);
         grid.removeColumn(ADDRESSID_FIELD);
         grid.removeColumn(ZIPLOCATION_FIELD);
+        grid.removeColumn(ASSOCIATED_ITEMS_COUNT);
         grid.setWidth("60%");
+    }
+
+    @Override
+    public AddressDTO getSelectedGridRow(){
+        return (AddressDTO) grid.getSelectedRow();
+    }
+
+    @Override
+    public void deleteEntry(Object id) {
+        grid.getContainerDataSource().removeItem(grid.getSelectedRow());
+    }
+
+    @Override
+    public void updateGrid() {
+        this.removeAllComponents();
+        this.addComponent(grid);
+    }
+
+    public Grid getGrid() {
+        return grid;
+    }
+
+    public void setGrid(Grid grid) {
+        this.grid = grid;
     }
 }

@@ -31,8 +31,10 @@ public class AddressSearchForm extends AbstractSearchForm {
     public AddressSearchForm() {
         super();
         searchForm = new FormLayout();
+        this.addComponent(searchForm);
     }
 
+    @Override
     public void buildSearchForm(IBrowser browser) {
         searchForm.removeAllComponents();
 
@@ -51,6 +53,8 @@ public class AddressSearchForm extends AbstractSearchForm {
         browserWay.select(ALL);
 
         Button browserButton = new Button(ADDRESS_SEARCH);
+
+        browser.updateGrid(iAddressService.findAll());
 
         browserButton.addClickListener(e -> {
             AddressDTO addressDTO;

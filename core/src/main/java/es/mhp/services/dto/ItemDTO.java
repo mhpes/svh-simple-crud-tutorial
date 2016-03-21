@@ -42,6 +42,11 @@ public class ItemDTO extends AbstractDTO<Item>{
         return item;
     }
 
+    @Override
+    public Object getId() {
+        return null;
+    }
+
 
     public ItemDTO(Item item){
         if (item != null){

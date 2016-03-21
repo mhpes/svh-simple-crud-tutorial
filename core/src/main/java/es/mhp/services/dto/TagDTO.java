@@ -23,6 +23,11 @@ public class TagDTO extends AbstractDTO<Tag>{
     }
 
     @Override
+    public Object getId() {
+        return null;
+    }
+
+    @Override
     public Tag toEntity() {
         Tag tag = new Tag();
         BeanUtils.copyProperties(this, tag);

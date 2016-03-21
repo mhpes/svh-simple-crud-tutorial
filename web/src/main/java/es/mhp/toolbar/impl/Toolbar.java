@@ -1,11 +1,12 @@
 package es.mhp.toolbar.impl;
 
 import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
 import es.mhp.browser.IBrowser;
 import es.mhp.browser.utils.StateType;
 import es.mhp.browser.utils.ToolButtonType;
-import es.mhp.toolbar.IToolbar;
+import es.mhp.services.dto.AbstractDTO;
+import es.mhp.services.dto.AddressDTO;
+import es.mhp.toolbar.AbstractToolbar;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -17,23 +18,47 @@ import static es.mhp.browser.utils.FormBrowserUtils.NEW_MODE;
  */
 
 @org.springframework.stereotype.Component
-public class Toolbar extends HorizontalLayout implements IToolbar {
+public class Toolbar extends AbstractToolbar {
 
     private HashMap<ToolButtonType, Button> buttonMap;
 
     public Toolbar() {
+        super();
         this.buttonMap = new LinkedHashMap<>();
     }
 
     public void buildToolbar(IBrowser browser){
+        this.removeAllComponents();
         this.buttonMap.put(ToolButtonType.NEW, createNewButton(browser));
-        this.buttonMap.put(ToolButtonType.SAVE, new Button(ToolButtonType.SAVE.toString()));
-        this.buttonMap.put(ToolButtonType.DELETE, new Button(ToolButtonType.DELETE.toString()));
-        this.buttonMap.put(ToolButtonType.BACK, new Button(ToolButtonType.BACK.toString()));
+        this.buttonMap.put(ToolButtonType.SAVE, createSaveButton(browser));
+        this.buttonMap.put(ToolButtonType.DELETE, createDeleteButton(browser));
+        this.buttonMap.put(ToolButtonType.BACK, createBackButton(browser));
 
         for (Button button : buttonMap.values()) {
             this.addComponent(button);
         }
+    }
+
+    private Button createBackButton(IBrowser browser) {
+        Button.ClickListener listener = (Button.ClickListener) clickEvent -> {
+            browser.buildBrowser();
+        };
+        return new Button(ToolButtonType.BACK.toString(), listener);
+    }
+
+    private Button createDeleteButton(IBrowser browser) {
+        Button.ClickListener listener = (Button.ClickListener) clickEvent -> {
+            AbstractDTO abstractDTO = (AbstractDTO) browser.getSelectedGridRow();
+            browser.deleteFormData(abstractDTO.getId());
+        };
+        return new Button(ToolButtonType.DELETE.toString(), listener);
+    }
+
+    private Button createSaveButton(IBrowser browser) {
+        Button.ClickListener listener = (Button.ClickListener) clickEvent -> {
+            browser.saveFormData((AbstractDTO) browser.getSelectedFormRow());
+        };
+        return new Button(ToolButtonType.SAVE.toString(), listener);
     }
 
     private Button createNewButton(IBrowser browser) {
@@ -71,6 +96,7 @@ public class Toolbar extends HorizontalLayout implements IToolbar {
                 break;
             case NEW:
                 setButtonVisible(ToolButtonType.NEW);
+                setButtonVisible(ToolButtonType.SAVE);
                 setButtonVisible(ToolButtonType.BACK);
                 break;
         }
@@ -93,21 +119,6 @@ public class Toolbar extends HorizontalLayout implements IToolbar {
 
 
     /* PONER ESTOS BOTONES CON SUS LISTENERS!*/
-
-    /*private Button createNewAddressButton(boolean isVisible) {
-        Button newAddressButton = new Button("New");
-        newAddressButton.setVisible(isVisible);
-
-        newAddressButton.addClickListener((Button.ClickListener) event -> {
-            addressTableLayout.removeAllComponents();
-            addressTableLayout.addComponent(
-                    createForm(new AddressDTO(), NEW_MODE)
-            );
-        });
-
-        newAddressButton.setVisible(true);
-        return newAddressButton;
-    }*/
 
     /*private Button createCancelButton(FormLayout form, FieldGroup binder) {
         Button cancelButton = new Button(CANCEL, FontAwesome.TRASH_O);

@@ -10,4 +10,5 @@ import java.io.Serializable;
 public abstract class AbstractDTO<T> implements Serializable{
     public abstract T toEntity();
     public abstract T toEntity(T entity);
+    public abstract Object getId();
 }

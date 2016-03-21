@@ -1,7 +1,7 @@
 package es.mhp.browser;
 
 
-import com.vaadin.ui.FormLayout;
+import es.mhp.services.dto.AddressDTO;
 
 /**
  * Created by Edu on 18/03/2016.
@@ -9,4 +9,5 @@ import com.vaadin.ui.FormLayout;
 
 public interface IFormBrowser {
     void createFormBrowser(Object id, String mode);
+    AddressDTO getNewForm();
 }

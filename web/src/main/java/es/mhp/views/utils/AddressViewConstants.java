@@ -27,6 +27,7 @@ public final class AddressViewConstants {
 
     public static final String ZIPLOCATION_FIELD = "zipLocation";
     public static final String ITEM_COUNT = "itemCount";
+    public static final String ASSOCIATED_ITEMS_COUNT = "associatedItemsCount";
     public static final String MAIN_STREET_FIELD = "mainStreet";
     public static final String SECONDARY_STREET_FIELD = "secondaryStreet";
     public static final String CITY_FIELD = "city";

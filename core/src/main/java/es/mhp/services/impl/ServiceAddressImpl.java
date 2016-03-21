@@ -88,7 +88,7 @@ public class ServiceAddressImpl implements IAddressService {
     }
 
     @Override
-    public void delete(AddressDTO addressDto) {
-        addressRepository.delete(addressDto.getAddressId());
+    public void delete(Object id) {
+        addressRepository.delete((Integer) id);
     }
 }

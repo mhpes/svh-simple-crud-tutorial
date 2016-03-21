@@ -18,6 +18,8 @@ import org.springframework.stereotype.Component;
 import es.mhp.browser.utils.FormBrowserUtils;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import static es.mhp.views.utils.AddressViewConstants.*;
@@ -37,22 +39,22 @@ public class AddressFormBrowser extends AbstractFormBrowser {
     @Autowired
     private IZipLocationService iZipLocationService;
 
-    private FormLayout form;
-
     public AddressFormBrowser() {
         super();
-        form = new FormLayout();
-        setFormStyle(form);
     }
 
     @Override
     public void createFormBrowser(Object addresDto, String mode) {
+        if (addresDto == null){
+            addresDto = new AddressDTO();
+        }
+
         BeanItem item = new BeanItem(addresDto);
         bindForm(addresDto, form, item, mode);
     }
 
     private void bindForm(Object addressDTO, FormLayout form, BeanItem item, String mode) {
-        form.addComponent(new Label(mode));
+        form.removeAllComponents();
         FieldGroup binder = new FieldGroup(item);
 
         if (FormBrowserUtils.EDIT_MODE.equals(mode)){
@@ -153,11 +155,6 @@ public class AddressFormBrowser extends AbstractFormBrowser {
         item.addItemProperty(LONGITUDE, new ObjectProperty(addressDTO.getLongitude()));
     }
 
-    private void setFormStyle(FormLayout form) {
-        form.setImmediate(true);
-        form.addStyleName("address-view-form-container");
-    }
-
     public void trySaveAddress(FieldGroup addressFieldGroup) {
         int addressId = Integer.parseInt(addressFieldGroup.getField(ADDRESS_ID).getValue().toString());
         String mainStreet = addressFieldGroup.getField(MAIN_STREET).getValue().toString();
@@ -176,5 +173,21 @@ public class AddressFormBrowser extends AbstractFormBrowser {
         } catch (Exception err){ //I can't handle the correct Exception ConstraintViolationException
             Notification.show(ERROR_NEW_ADDRESS_NOTIFICATION + err.getMessage(), Notification.Type.WARNING_MESSAGE);
         }
+    }
+
+    @Override
+    public AddressDTO getNewForm() {
+        //int addressId = Integer.parseInt(getForm().fet.getField(ADDRESS_ID).getValue().toString());
+        List<Object> objectList = new ArrayList<>();
+
+        for (int i = 0; i < getForm().getComponentCount(); i++)
+        {
+            objectList.add(getForm().getComponent(i));
+        }
+
+        //Something similar like in trySaveAddress...
+        AddressDTO addressDTO = new AddressDTO();
+
+        return addressDTO;
     }
 }

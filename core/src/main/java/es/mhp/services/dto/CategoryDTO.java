@@ -85,4 +85,9 @@ public class CategoryDTO extends AbstractDTO<Category>{
     public void setAssociatedProductsCount(int associatedProductsCount) {
         this.associatedProductsCount = associatedProductsCount;
     }
+
+    @Override
+    public Object getId(){
+        return categoryId;
+    }
 }

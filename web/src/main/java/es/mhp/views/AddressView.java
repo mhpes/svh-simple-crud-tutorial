@@ -48,8 +48,8 @@ public class AddressView extends AbstractView<AddressDTO> {
         buildComponents();
         this.removeAllComponents();
         this.addComponent((AbstractSearchForm)searchForm);
-        this.addComponent((AbstractBrowser)browser);
         this.addComponent((Toolbar)toolbar);
+        this.addComponent((AbstractBrowser)browser);
     }
 
     private void buildComponents() {
