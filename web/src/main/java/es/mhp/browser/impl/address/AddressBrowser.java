@@ -2,6 +2,7 @@ package es.mhp.browser.impl.address;
 
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Notification;
 import es.mhp.browser.IFormBrowser;
 import es.mhp.browser.IGridBrowser;
 import es.mhp.browser.impl.AbstractBrowser;
@@ -57,15 +58,16 @@ public class AddressBrowser extends AbstractBrowser {
     }
 
     @Override
-    public void saveItemAndUpdateGrid() throws UIException {
+    public boolean saveItemAndUpdateGrid() throws UIException {
         try {
             if (formBrowser.isModified()) {
                 formBrowser.commit();
                 AddressDTO addresDto = (AddressDTO) formBrowser.extractBean();
                 addressService.save(addresDto);
                 gridBrowser.updateAndDisplayGrid(addresDto);
+                return true;
             } else {
-                displayGridAndHideForm();
+                return false;
             }
         } catch (FieldGroup.CommitException e) {
             throw new UIException("Error! Entity cannot been saved.", e);

@@ -63,8 +63,8 @@ public class CategoryBrowser extends AbstractBrowser {
     }
 
     @Override
-    public void saveItemAndUpdateGrid() {
-
+    public boolean saveItemAndUpdateGrid() {
+        return false;
     }
 
 
