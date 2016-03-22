@@ -4,11 +4,11 @@ import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import es.mhp.browser.IFormBrowser;
-import es.mhp.browser.utils.FormBrowserUtils;
-import es.mhp.browser.utils.StateType;
 import es.mhp.services.dto.AbstractDTO;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -30,24 +30,35 @@ public abstract class AbstractFormBrowser extends VerticalLayout  implements IFo
     }
 
     @Override
-    public void createFieldGroup(AbstractDTO dto){
-        fieldGroup = new BeanFieldGroup<>(dto.getClass());
-        BeanItem item = new BeanItem(dto);
-        fieldGroup.setItemDataSource(item);
-        fieldGroup.setBuffered(true);
+    public void createFieldGroup(BeanItem beanItem){
+        fieldGroup = new BeanFieldGroup(beanItem.getBean().getClass());
+        fieldGroup.setItemDataSource(beanItem);
     }
 
     @Override
-    public AbstractDTO extractBean() throws FieldGroup.CommitException {
+    public void commit() throws FieldGroup.CommitException {
         fieldGroup.commit();
+    }
+
+    @Override
+    public AbstractDTO extractBean() {
         return fieldGroup.getItemDataSource().getBean();
     }
 
-    protected StateType getStateType(String mode) {
-        return mode.equals(FormBrowserUtils.EDIT_MODE) ? StateType.EDIT : StateType.NEW;
+    @Override
+    public boolean isModified() {
+        return fieldGroup.isModified();
     }
 
-    protected abstract void setItemProperty(AbstractDTO dto);
-    protected abstract void bindForm(AbstractDTO dto, String mode);
+    protected abstract BeanItem createBeanItem(AbstractDTO dto);
 
+    protected abstract void bindForm(Object dto, String mode);
+
+    protected TextField buildAndBindTextField(String propertyId, Boolean isRequired) {
+        TextField tf = (TextField) fieldGroup.buildAndBind(propertyId);
+        tf.setNullRepresentation(StringUtils.EMPTY);
+        tf.setRequired(isRequired);
+        tf.setImmediate(true);
+        return tf;
+    }
 }

@@ -62,15 +62,20 @@ public class CategoryBrowser extends AbstractBrowser {
     }
 
     @Override
-    public void saveItemAndUpdateGrid() throws UIException {
-        CategoryDTO categoryDTO;
+    public boolean saveItemAndUpdateGrid() throws UIException {
         try {
-            categoryDTO = (CategoryDTO) formBrowser.extractBean();
+            if (formBrowser.isModified()) {
+                formBrowser.commit();
+                CategoryDTO categoryDTO = (CategoryDTO) formBrowser.extractBean();
+                categoryService.save(categoryDTO);
+                gridBrowser.updateAndDisplayGrid(categoryDTO);
+                return true;
+            } else {
+                return false;
+            }
         } catch (FieldGroup.CommitException e) {
-            throw new UIException("Entity has not been saved", e);
+            throw new UIException("Error! Entity cannot been saved.", e);
         }
-        categoryService.save(categoryDTO);
-        gridBrowser.updateAndDisplayGrid(categoryDTO);
     }
 
     @Override

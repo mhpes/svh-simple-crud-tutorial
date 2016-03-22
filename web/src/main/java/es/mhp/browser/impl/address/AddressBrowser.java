@@ -36,9 +36,6 @@ public class AddressBrowser extends AbstractBrowser {
     @Autowired
     private IAddressService addressService;
 
-    /*@Autowired
-    private IBrowserNotification browserNotification;*/
-
     public AddressBrowser() {
     }
 
@@ -60,15 +57,20 @@ public class AddressBrowser extends AbstractBrowser {
     }
 
     @Override
-    public void saveItemAndUpdateGrid() throws UIException {
-        AddressDTO addresDto;
+    public boolean saveItemAndUpdateGrid() throws UIException {
         try {
-            addresDto = (AddressDTO) formBrowser.extractBean();
+            if (formBrowser.isModified()) {
+                formBrowser.commit();
+                AddressDTO addresDto = (AddressDTO) formBrowser.extractBean();
+                addressService.save(addresDto);
+                gridBrowser.updateAndDisplayGrid(addresDto);
+                return true;
+            } else {
+                return false;
+            }
         } catch (FieldGroup.CommitException e) {
-            throw new UIException("Entity has not been saved", e);
+            throw new UIException("Error! Entity cannot been saved.", e);
         }
-        addressService.save(addresDto);
-        gridBrowser.updateAndDisplayGrid(addresDto);
     }
 
     @Override

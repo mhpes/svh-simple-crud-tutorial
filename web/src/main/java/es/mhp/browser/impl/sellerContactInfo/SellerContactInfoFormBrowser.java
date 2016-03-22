@@ -3,10 +3,10 @@ package es.mhp.browser.impl.sellerContactInfo;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
 import es.mhp.browser.impl.AbstractFormBrowser;
+import es.mhp.browser.utils.FormBrowserUtils;
 import es.mhp.services.ISellerContactInfoService;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.SellerContactInfoDTO;
-import es.mhp.views.AbstractView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,40 +28,45 @@ public class SellerContactInfoFormBrowser extends AbstractFormBrowser {
         super();
     }
 
+
+
     @Override
-    public void createFormBrowser(AbstractDTO dto, String mode) {
-        if (dto == null){
-            dto = new SellerContactInfoDTO();
+    public void createFormBrowser(Object dto, String mode) {
+        SellerContactInfoDTO sellerContactInfoDTO = new SellerContactInfoDTO();
+        BeanItem<SellerContactInfoDTO> beanItem = null;
+        if (dto != null && FormBrowserUtils.EDIT_MODE.equals(mode)) {
+            sellerContactInfoDTO = (SellerContactInfoDTO) dto;
+            beanItem = createBeanItem(sellerContactInfoDTO);
+        } else {
+            beanItem = new BeanItem<>(sellerContactInfoDTO);
         }
-
-        createFieldGroup(dto);
-        bindForm(dto, mode);
+        createFieldGroup(beanItem);
+        bindForm(sellerContactInfoDTO, mode);
+        fieldGroup.bindMemberFields(form);
     }
 
     @Override
-    protected void bindForm(AbstractDTO dto, String mode) {
-        form.removeAllComponents();
-
-        setItemProperty(dto);
-        bindFieldsAndAddComponents();
-
-        ((AbstractView)getParent().getParent()).updateToolbar(getStateType(mode));
-    }
-
-    private void bindFieldsAndAddComponents() {
-        //fieldGroup.bind(CONTACTINFO_FIELD);
-        form.addComponent(fieldGroup.buildAndBind(FIRST_NAME_FIELD));
-        form.addComponent(fieldGroup.buildAndBind(LAST_NAME_FIELD));
-        form.addComponent(fieldGroup.buildAndBind(EMAIL_FIELD));
-    }
-
-    @Override
-    protected void setItemProperty(AbstractDTO dto) {
+    protected BeanItem createBeanItem(AbstractDTO dto) {
         SellerContactInfoDTO sellerContactInfoDTO = (SellerContactInfoDTO) dto;
-        BeanItem<? extends AbstractDTO> beanItem = fieldGroup.getItemDataSource();
+        BeanItem<SellerContactInfoDTO> beanItem = new BeanItem<>(sellerContactInfoDTO);
         beanItem.addItemProperty(CONTACTINFO_FIELD, new ObjectProperty(sellerContactInfoDTO.getContactInfoId()));
         beanItem.addItemProperty(FIRST_NAME_FIELD, new ObjectProperty(sellerContactInfoDTO.getLastName()));
         beanItem.addItemProperty(LAST_NAME_FIELD, new ObjectProperty(sellerContactInfoDTO.getFirstName()));
         beanItem.addItemProperty(EMAIL_FIELD, new ObjectProperty(sellerContactInfoDTO.getEmail()));
+        return beanItem;
+    }
+
+    @Override
+    protected void bindForm(Object dto, String mode) {
+        form.removeAllComponents();
+
+        buildAndBindTextField(CONTACTINFO_FIELD, true);
+        form.addComponent(buildAndBindTextField(FIRST_NAME_FIELD, true));
+        form.addComponent(buildAndBindTextField(LAST_NAME_FIELD, true));
+        form.addComponent(buildAndBindTextField(EMAIL_FIELD, true));
+
+        // Set the form to act immediately on user input. This is necessary for the validation of the fields to occur immediately
+        // when the input focus changes and not just on commit.
+        form.setImmediate(true);
     }
 }

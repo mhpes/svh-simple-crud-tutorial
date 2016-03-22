@@ -5,15 +5,17 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.ui.ComboBox;
 import es.mhp.browser.impl.AbstractFormBrowser;
+import es.mhp.browser.utils.FormBrowserUtils;
 import es.mhp.services.IAddressService;
 import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.AddressDTO;
 import es.mhp.services.dto.ZipLocationDTO;
-import es.mhp.views.AbstractView;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.Set;
 
 import static es.mhp.views.utils.AddressViewConstants.*;
@@ -38,65 +40,74 @@ public class AddressFormBrowser extends AbstractFormBrowser {
     }
 
     @Override
-    public void createFormBrowser(AbstractDTO dto, String mode) {
-        if (dto == null){
-            dto = new AddressDTO();
+    public void createFormBrowser(Object dto, String mode) {
+        AddressDTO addressDto = new AddressDTO();
+        BeanItem<AddressDTO> beanItem = null;
+        if (dto != null && FormBrowserUtils.EDIT_MODE.equals(mode)) {
+            addressDto = (AddressDTO) dto;
+            beanItem = createBeanItem(addressDto);
+        } else {
+            beanItem = new BeanItem<>(addressDto);
         }
-
-        createFieldGroup(dto);
-        bindForm(dto, mode);
+        createFieldGroup(beanItem);
+        bindForm(addressDto, mode);
+        fieldGroup.bindMemberFields(form);
     }
 
     @Override
-    protected void bindForm(AbstractDTO dto, String mode) {
+    protected BeanItem createBeanItem(AbstractDTO dto) {
+        AddressDTO addressDto = (AddressDTO) dto;
+        BeanItem<AddressDTO> beanItem = new BeanItem<>(addressDto);
+        beanItem.addItemProperty(ADDRESSID_FIELD, new ObjectProperty(addressDto.getAddressId()));
+        beanItem.addItemProperty(MAIN_STREET_FIELD, new ObjectProperty(addressDto.getMainStreet()));
+        beanItem.addItemProperty(SECONDARY_STREET_FIELD, new ObjectProperty(addressDto.getSecondaryStreet() != null ? addressDto.getSecondaryStreet() : StringUtils.EMPTY));
+        beanItem.addItemProperty(ZIPLOCATION_FIELD, new ObjectProperty(addressDto.getZipLocation()));
+        beanItem.addItemProperty(CITY_FIELD, new ObjectProperty(addressDto.getCity()));
+        beanItem.addItemProperty(STATE_FIELD, new ObjectProperty(addressDto.getState()));
+        beanItem.addItemProperty(LATITUDE_FIELD, new ObjectProperty(addressDto.getLatitude()));
+        beanItem.addItemProperty(LONGITUDE_FIELD, new ObjectProperty(addressDto.getLongitude()));
+        return beanItem;
+    }
+
+    @Override
+    protected void bindForm(Object dto, String mode) {
         form.removeAllComponents();
-
-        setItemProperty(dto);
-        bindFieldsAndAddComponents((AddressDTO) dto);
-
-        ((AbstractView)getParent().getParent()).updateToolbar(getStateType(mode));
+        form.addComponent(buildAndBindZipComboBox((AddressDTO)dto));
+        form.addComponent(buildAndBindTextField(MAIN_STREET_FIELD, true));
+        form.addComponent(buildAndBindTextField(SECONDARY_STREET_FIELD, false));
+        form.addComponent(buildAndBindTextField(CITY_FIELD, true));
+        form.addComponent(buildAndBindTextField(STATE_FIELD, true));
+        form.addComponent(buildAndBindTextField(LATITUDE_FIELD, true));
+        form.addComponent(buildAndBindTextField(LONGITUDE_FIELD, true));
+        // Set the form to act immediately on user input. This is necessary for the validation of the fields to occur immediately
+        // when the input focus changes and not just on commit.
+        form.setImmediate(true);
     }
 
-    private void bindFieldsAndAddComponents(AddressDTO addressDTO) {
-        ComboBox selectZip = buildZipComboBox(addressDTO);
-        fieldGroup.bind(selectZip, ZIP);
-        form.addComponent(selectZip);
-        form.addComponent(fieldGroup.buildAndBind(MAIN_STREET));
-        form.addComponent(fieldGroup.buildAndBind(SECONDARY_STREET));
-        form.addComponent(fieldGroup.buildAndBind(CITY));
-        form.addComponent(fieldGroup.buildAndBind(STATE));
-        form.addComponent(fieldGroup.buildAndBind(LATITUDE));
-        form.addComponent(fieldGroup.buildAndBind(LONGITUDE));
-    }
+    private ComboBox buildAndBindZipComboBox(AddressDTO addressDTO) {
+        Set<AbstractDTO> zipSet = iZipLocationService.findAll();
+        BeanItemContainer<AbstractDTO> zipLocationContainer = new BeanItemContainer<>(AbstractDTO.class, zipSet);
+        ComboBox zipCombobox = new ComboBox(ZIP, zipSet);
+        zipCombobox.setContainerDataSource(zipLocationContainer);
+        zipCombobox.setItemCaptionPropertyId(ZIPCODEID);
+        zipCombobox.setNullSelectionAllowed(false);
+        zipCombobox.setRequired(true);
+        fieldGroup.bind(zipCombobox, ZIPLOCATION_FIELD);
 
-    @Override
-    protected void setItemProperty(AbstractDTO dto) {
-        AddressDTO addressDTO = (AddressDTO) dto;
-        BeanItem<? extends AbstractDTO> beanItem = fieldGroup.getItemDataSource();
-        beanItem.addItemProperty(ADDRESS_ID, new ObjectProperty(addressDTO.getAddressId()));
-        beanItem.addItemProperty(MAIN_STREET, new ObjectProperty(addressDTO.getMainStreet()));
-        beanItem.addItemProperty(SECONDARY_STREET, new ObjectProperty(addressDTO.getSecondaryStreet()));
-        beanItem.addItemProperty(ZIP, new ObjectProperty(addressDTO.getZipLocation()));
-        beanItem.addItemProperty(CITY, new ObjectProperty(addressDTO.getCity()));
-        beanItem.addItemProperty(STATE, new ObjectProperty(addressDTO.getState()));
-        beanItem.addItemProperty(LATITUDE, new ObjectProperty(addressDTO.getLatitude()));
-        beanItem.addItemProperty(LONGITUDE, new ObjectProperty(addressDTO.getLongitude()));
-    }
-
-    private ComboBox buildZipComboBox(AddressDTO addressDTO) {
-        ComboBox selectZip = new ComboBox(ZIPS);
-
-        BeanItemContainer<ZipLocationDTO> zipLocationContainer = new BeanItemContainer<>(ZipLocationDTO.class);
-        Set<AbstractDTO> zipList = iZipLocationService.findAll();
-
-        zipList.forEach((bean) -> zipLocationContainer.addBean((ZipLocationDTO) bean));
-
-        selectZip.setContainerDataSource(zipLocationContainer);
-        selectZip.setItemCaptionPropertyId(ZIPCODEID);
-        selectZip.select(addressDTO.getZipLocation());
-        selectZip.setNullSelectionAllowed(false);
-        selectZip.setRequired(true);
-
-        return selectZip;
+        if (addressDTO.getZipLocation() != null) {
+            //One way to select the zip on the combobox field
+            Optional<AbstractDTO> zipLocationDTOOptional = zipLocationContainer.getItemIds().stream()
+                    .filter(dto -> ((ZipLocationDTO)dto).getZipCodeId() == addressDTO.getZipLocation().getZipCodeId()).findFirst();
+            if (zipLocationDTOOptional.isPresent()) {
+                zipCombobox.setValue(zipLocationDTOOptional.get());
+            }
+            //Second way. This is a worst solution because it checks all the list items and that is not needed
+//            zipLocationContainer.getItemIds().stream().forEach(dto -> {
+//                    if (dto.getZipCodeId() == addressDTO.getZipLocation().getZipCodeId()) {
+//                        zipCombobox.setValue(dto);
+//                    }
+//                });
+        }
+        return zipCombobox;
     }
 }

@@ -7,9 +7,9 @@ public class CategoryViewConstants {
 
     public static final String VIEW_NAME = "Categories";
 
-    public static final String CATEGORY_ID = "categoryId";
-    public static final String NAME = "name";
-    public static final String DESCRIPTION = "description";
-    public static final String IMAGE_URL = "imageUrl";
+    public static final String CATEGORYID_FIELD = "categoryId";
+    public static final String NAME_FIELD = "name";
+    public static final String DESCRIPTION_FIELD = "description";
+    public static final String IMAGEURL_FIELD = "imageUrl";
 
 }

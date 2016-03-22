@@ -56,7 +56,7 @@ public class CategoryGridBrowser extends AbstractGridBrowser {
 
     @Override
     protected void setColumnProperties() {
-        grid.setColumnOrder(CATEGORY_ID, NAME, DESCRIPTION, IMAGE_URL);
+        grid.setColumnOrder(CATEGORYID_FIELD, NAME_FIELD, DESCRIPTION_FIELD, IMAGEURL_FIELD);
         grid.setWidth("60%");
     }
 

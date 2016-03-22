@@ -55,19 +55,24 @@ public class ZipLocationBrowser extends AbstractBrowser {
     @Override
     public void createAndDisplayForm(String mode) {
         displayFormAndHideGrid();
-        formBrowser.createFormBrowser((AbstractDTO) gridBrowser.getSelectedGridRow(), mode);
+        formBrowser.createFormBrowser(gridBrowser.getSelectedGridRow(), mode);
     }
 
     @Override
-    public void saveItemAndUpdateGrid() throws UIException {
-        ZipLocationDTO zipLocationDTO;
+    public boolean saveItemAndUpdateGrid() throws UIException {
         try {
-            zipLocationDTO = (ZipLocationDTO) formBrowser.extractBean();
+            if (formBrowser.isModified()) {
+                formBrowser.commit();
+                ZipLocationDTO zipLocationDTO = (ZipLocationDTO) formBrowser.extractBean();
+                zipLocationService.save(zipLocationDTO);
+                gridBrowser.updateAndDisplayGrid(zipLocationDTO);
+                return true;
+            } else {
+                return false;
+            }
         } catch (FieldGroup.CommitException e) {
-            throw new UIException("Entity has not been saved", e);
+            throw new UIException("Error! Entity cannot been saved.", e);
         }
-        zipLocationService.save(zipLocationDTO);
-        gridBrowser.updateAndDisplayGrid(zipLocationDTO);
     }
 
     @Override

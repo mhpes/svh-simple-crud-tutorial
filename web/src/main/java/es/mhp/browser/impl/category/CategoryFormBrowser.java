@@ -3,10 +3,10 @@ package es.mhp.browser.impl.category;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
 import es.mhp.browser.impl.AbstractFormBrowser;
+import es.mhp.browser.utils.FormBrowserUtils;
 import es.mhp.services.ICategoryService;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.CategoryDTO;
-import es.mhp.views.AbstractView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,39 +29,41 @@ public class CategoryFormBrowser extends AbstractFormBrowser {
     }
 
     @Override
-    public void createFormBrowser(AbstractDTO dto, String mode) {
-        if (dto == null){
-            dto = new CategoryDTO();
+    public void createFormBrowser(Object dto, String mode) {
+        CategoryDTO categoryDTO = new CategoryDTO();
+        BeanItem<CategoryDTO> beanItem = null;
+        if (dto != null && FormBrowserUtils.EDIT_MODE.equals(mode)) {
+            categoryDTO = (CategoryDTO) dto;
+            beanItem = createBeanItem(categoryDTO);
+        } else {
+            beanItem = new BeanItem<>(categoryDTO);
         }
-
-        createFieldGroup(dto);
-        bindForm(dto, mode);
+        createFieldGroup(beanItem);
+        bindForm(categoryDTO, mode);
+        fieldGroup.bindMemberFields(form);
     }
 
     @Override
-    protected void bindForm(AbstractDTO dto, String mode) {
-        form.removeAllComponents();
-
-        setItemProperty(dto);
-        bindFieldsAndAddComponents();
-
-        ((AbstractView)getParent().getParent()).updateToolbar(getStateType(mode));
-    }
-
-    private void bindFieldsAndAddComponents() {
-        form.addComponent(fieldGroup.buildAndBind(CATEGORY_ID));
-        form.addComponent(fieldGroup.buildAndBind(NAME));
-        form.addComponent(fieldGroup.buildAndBind(DESCRIPTION));
-        form.addComponent(fieldGroup.buildAndBind(IMAGE_URL));
-    }
-
-    @Override
-    protected void setItemProperty(AbstractDTO dto) {
+    protected BeanItem createBeanItem(AbstractDTO dto) {
         CategoryDTO categoryDTO = (CategoryDTO) dto;
-        BeanItem<? extends AbstractDTO> beanItem = fieldGroup.getItemDataSource();
-        beanItem.addItemProperty(CATEGORY_ID, new ObjectProperty<>(categoryDTO.getCategoryId()));
-        beanItem.addItemProperty(NAME, new ObjectProperty<>(categoryDTO.getName()));
-        beanItem.addItemProperty(DESCRIPTION, new ObjectProperty<>(categoryDTO.getDescription()));
-        beanItem.addItemProperty(IMAGE_URL, new ObjectProperty<>(categoryDTO.getImageUrl()));
+        BeanItem<CategoryDTO> beanItem = new BeanItem<>(categoryDTO);
+        beanItem.addItemProperty(CATEGORYID_FIELD, new ObjectProperty<>(categoryDTO.getCategoryId()));
+        beanItem.addItemProperty(NAME_FIELD, new ObjectProperty<>(categoryDTO.getName()));
+        beanItem.addItemProperty(DESCRIPTION_FIELD, new ObjectProperty<>(categoryDTO.getDescription()));
+        beanItem.addItemProperty(IMAGEURL_FIELD, new ObjectProperty<>(categoryDTO.getImageUrl()));
+        return beanItem;
+    }
+
+    @Override
+    protected void bindForm(Object dto, String mode) {
+        form.removeAllComponents();
+        form.addComponent(buildAndBindTextField(CATEGORYID_FIELD, true));
+        form.addComponent(buildAndBindTextField(NAME_FIELD, true));
+        form.addComponent(buildAndBindTextField(DESCRIPTION_FIELD, true));
+        form.addComponent(buildAndBindTextField(IMAGEURL_FIELD, true));
+
+        // Set the form to act immediately on user input. This is necessary for the validation of the fields to occur immediately
+        // when the input focus changes and not just on commit.
+        form.setImmediate(true);
     }
 }

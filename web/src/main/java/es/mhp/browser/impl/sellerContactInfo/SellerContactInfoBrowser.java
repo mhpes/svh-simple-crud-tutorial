@@ -59,15 +59,20 @@ public class SellerContactInfoBrowser extends AbstractBrowser {
     }
 
     @Override
-    public void saveItemAndUpdateGrid() throws UIException {
-        SellerContactInfoDTO sellerContactInfoDTO;
+    public boolean saveItemAndUpdateGrid() throws UIException {
         try {
-            sellerContactInfoDTO = (SellerContactInfoDTO) formBrowser.extractBean();
+            if (formBrowser.isModified()) {
+                formBrowser.commit();
+                SellerContactInfoDTO sellerContactInfoDTO = (SellerContactInfoDTO) formBrowser.extractBean();
+                sellerContactInfoService.save(sellerContactInfoDTO);
+                gridBrowser.updateAndDisplayGrid(sellerContactInfoDTO);
+                return true;
+            } else {
+                return false;
+            }
         } catch (FieldGroup.CommitException e) {
-            throw new UIException("Entity has not been saved", e);
+            throw new UIException("Error! Entity cannot been saved.", e);
         }
-        sellerContactInfoService.save(sellerContactInfoDTO);
-        gridBrowser.updateAndDisplayGrid(sellerContactInfoDTO);
     }
 
     @Override

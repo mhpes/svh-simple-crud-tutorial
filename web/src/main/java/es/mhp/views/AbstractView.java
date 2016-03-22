@@ -55,10 +55,13 @@ public abstract class AbstractView<T> extends VerticalLayout implements View {
                     toolbar.updateToolbar(StateType.EDIT);
                     break;
                 case SAVE:
-                    getBrowser().saveItemAndUpdateGrid();
-                    getBrowser().displayGridAndHideForm();
-                    toolbar.updateToolbar(StateType.SELECTEDROW);
-                    Notification.show("Item saved correctly!", Notification.Type.HUMANIZED_MESSAGE);
+                    Boolean isSaved = getBrowser().saveItemAndUpdateGrid();
+                    if (isSaved) {
+                        toolbar.updateToolbar(StateType.SELECTEDROW);
+                        Notification.show("Item saved correctly!", Notification.Type.HUMANIZED_MESSAGE);
+                    } else {
+                        Notification.show("Nothing to save", Notification.Type.HUMANIZED_MESSAGE);
+                    }
                     break;
                 case SELECTEDROW:
                     getBrowser().displayGridAndHideForm();

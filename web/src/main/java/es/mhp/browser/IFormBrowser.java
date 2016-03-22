@@ -2,6 +2,7 @@ package es.mhp.browser;
 
 
 import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.util.BeanItem;
 import es.mhp.services.dto.AbstractDTO;
 
 /**
@@ -9,7 +10,9 @@ import es.mhp.services.dto.AbstractDTO;
  */
 
 public interface IFormBrowser {
-    void createFieldGroup(AbstractDTO dto);
-    void createFormBrowser(AbstractDTO dto, String mode);
-    AbstractDTO extractBean() throws FieldGroup.CommitException;
+    void createFormBrowser(Object id, String mode);
+    void createFieldGroup(BeanItem beanItem);
+    void commit() throws FieldGroup.CommitException;
+    AbstractDTO extractBean();
+    boolean isModified();
 }
