@@ -87,11 +87,11 @@ public class AddressGridBrowser extends AbstractGridBrowser {
 
     @Override
     public void updateAndDisplayGrid(AbstractDTO dto) {
-        if (grid.getContainerDataSource().containsId(dto.getId())) {
-            grid.getContainerDataSource().removeItem(dto.getId());
+        if (grid.getContainerDataSource().containsId(dto)) {
+            grid.getContainerDataSource().removeItem(dto);
         }
         grid.getContainerDataSource().addItem(dto);
-        grid.select(dto.getId());
+        grid.select(dto);
     }
 
     public Grid getGrid() {
