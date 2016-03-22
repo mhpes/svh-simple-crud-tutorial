@@ -8,6 +8,7 @@ import es.mhp.browser.impl.AbstractFormBrowser;
 import es.mhp.browser.utils.FormBrowserUtils;
 import es.mhp.browser.utils.StateType;
 import es.mhp.services.ICategoryService;
+import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.CategoryDTO;
 import es.mhp.views.AbstractView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,16 @@ public class CategoryFormBrowser extends AbstractFormBrowser {
 
     public CategoryFormBrowser() {
         super();
+    }
+
+    @Override
+    protected BeanItem createBeanItem(AbstractDTO dto) {
+        return null;
+    }
+
+    @Override
+    protected void bindForm(Object dto, String mode) {
+
     }
 
     @Override
