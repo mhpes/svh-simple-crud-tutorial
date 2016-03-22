@@ -30,23 +30,23 @@ public class ServiceZipLocationImpl implements IZipLocationService {
     private ZipLocationRepository zipLocationRepository;
 
     @Override
-    public Set<ZipLocationDTO> findAllZipLocations() {
-        Iterable<ZipLocation> zipLocationSet = zipLocationRepository.findAll();
+    public Set<AbstractDTO> findAll() {
+        Iterable<ZipLocation> zipLocations = zipLocationRepository.findAll();
 
-        Set<ZipLocationDTO> zipLocationDTOs = new HashSet<>();
+        Set<AbstractDTO> zipLocationDtos = new HashSet<>();
 
-        for (ZipLocation zipLocation : zipLocationSet) {
-            zipLocationDTOs.add(new ZipLocationDTO(zipLocation));
+        for (ZipLocation address : zipLocations){
+            zipLocationDtos.add(new ZipLocationDTO(address));
         }
 
-        return zipLocationDTOs;
+        return zipLocationDtos;
     }
 
     @Override
-    public Set<ZipLocationDTO> findAnyZipLocations(String text) {
+    public Set<AbstractDTO> findAnyZipLocations(String text) {
         List<ZipLocation> zipLocationList = zipLocationRepository.findByValue(text);
 
-        Set<ZipLocationDTO> zipLocationDTOs = new HashSet<>();
+        Set<AbstractDTO> zipLocationDTOs = new HashSet<>();
 
         for (ZipLocation zipLocation : zipLocationList) {
             zipLocationDTOs.add(new ZipLocationDTO(zipLocation));
@@ -56,19 +56,8 @@ public class ServiceZipLocationImpl implements IZipLocationService {
     }
 
     @Override
-    public void save(ZipLocationDTO zipLocationDTO) {
-        zipLocationRepository.save(zipLocationDTO.toEntity());
-    }
-
-    @Override
-    public ZipLocationDTO findZipById(int id) {
-        return new ZipLocationDTO(zipLocationRepository.findOne(id));
-    }
-
-    /*To Implement*/
-    @Override
-    public Set<AbstractDTO> findAll() {
-        return null;
+    public ZipLocationDTO save(ZipLocationDTO zipLocationDTO) {
+        return new ZipLocationDTO(zipLocationRepository.save(zipLocationDTO.toEntity()));
     }
 
     @Override

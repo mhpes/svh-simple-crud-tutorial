@@ -1,5 +1,6 @@
 package es.mhp.services;
 
+import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.ZipLocationDTO;
 
 import java.util.Set;
@@ -9,8 +10,6 @@ import java.util.Set;
  */
 
 public interface IZipLocationService extends AbstractService {
-    Set<ZipLocationDTO> findAllZipLocations();
-    Set<ZipLocationDTO> findAnyZipLocations(String text);
-    void save(ZipLocationDTO zipLocationDTO);
-    ZipLocationDTO findZipById(int id);
+    ZipLocationDTO save(ZipLocationDTO zipLocationDTO);
+    Set<AbstractDTO> findAnyZipLocations(String text);
 }

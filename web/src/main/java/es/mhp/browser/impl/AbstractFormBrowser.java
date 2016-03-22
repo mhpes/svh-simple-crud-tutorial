@@ -6,6 +6,8 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.VerticalLayout;
 import es.mhp.browser.IFormBrowser;
+import es.mhp.browser.utils.FormBrowserUtils;
+import es.mhp.browser.utils.StateType;
 import es.mhp.services.dto.AbstractDTO;
 
 
@@ -28,11 +30,6 @@ public abstract class AbstractFormBrowser extends VerticalLayout  implements IFo
     }
 
     @Override
-    public FormLayout getForm() {
-        return form;
-    }
-
-    @Override
     public void createFieldGroup(AbstractDTO dto){
         fieldGroup = new BeanFieldGroup<>(dto.getClass());
         BeanItem item = new BeanItem(dto);
@@ -45,4 +42,12 @@ public abstract class AbstractFormBrowser extends VerticalLayout  implements IFo
         fieldGroup.commit();
         return fieldGroup.getItemDataSource().getBean();
     }
+
+    protected StateType getStateType(String mode) {
+        return mode.equals(FormBrowserUtils.EDIT_MODE) ? StateType.EDIT : StateType.NEW;
+    }
+
+    protected abstract void setItemProperty(AbstractDTO dto);
+    protected abstract void bindForm(AbstractDTO dto, String mode);
+
 }

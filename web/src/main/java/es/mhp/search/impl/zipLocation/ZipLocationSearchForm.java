@@ -1,11 +1,11 @@
-package es.mhp.search.impl.category;
+package es.mhp.search.impl.zipLocation;
 
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import es.mhp.browser.IBrowser;
 import es.mhp.browser.utils.StateType;
 import es.mhp.search.impl.AbstractSearchForm;
-import es.mhp.services.ICategoryService;
+import es.mhp.services.IZipLocationService;
 import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,17 +14,17 @@ import org.springframework.stereotype.Component;
  * Created by Edu on 18/03/2016.
  */
 
-@Component(CategorySearchForm.BEAN_NAME)
-public class CategorySearchForm extends AbstractSearchForm {
+@Component(ZipLocationSearchForm.BEAN_NAME)
+public class ZipLocationSearchForm extends AbstractSearchForm {
 
-    public static final String BEAN_NAME = "category_search_form";
+    public static final String BEAN_NAME = "zipLocation_search_form";
 
     @Autowired
-    private ICategoryService categoryService;
+    private IZipLocationService zipLocationService;
 
     private FormLayout searchForm;
 
-    public CategorySearchForm() {
+    public ZipLocationSearchForm() {
         super();
         searchForm = new FormLayout();
         this.addComponent(searchForm);
@@ -35,14 +35,14 @@ public class CategorySearchForm extends AbstractSearchForm {
         searchForm.removeAllComponents();
 
         TextField filter = new TextField();
-        filter.setInputPrompt("Filter categories...");
+        filter.setInputPrompt("Filter zips...");
 
-        browser.updateGrid(categoryService.findAll());
+        browser.updateGrid(zipLocationService.findAll());
         toolbar.updateToolbar(StateType.INITIAL);
 
         filter.addTextChangeListener(e -> {
             browser.buildBrowser();
-            browser.updateGrid(categoryService.findAnyCategories(e.getText()));
+            browser.updateGrid(zipLocationService.findAnyZipLocations(e.getText()));
         });
 
         searchForm.addComponents(filter);

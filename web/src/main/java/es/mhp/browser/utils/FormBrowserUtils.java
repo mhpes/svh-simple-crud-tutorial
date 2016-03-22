@@ -5,6 +5,6 @@ package es.mhp.browser.utils;
  */
 public final class FormBrowserUtils {
 
-    public static final String EDIT_MODE = "Edit ";
-    public static final String NEW_MODE = "New ";
+    public static final String EDIT_MODE = "Edit";
+    public static final String NEW_MODE = "New";
 }

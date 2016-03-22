@@ -56,12 +56,12 @@ public class AddressBrowser extends AbstractBrowser {
     @Override
     public void createAndDisplayForm(String mode) {
         displayFormAndHideGrid();
-        formBrowser.createFormBrowser(gridBrowser.getSelectedGridRow(), mode);
+        formBrowser.createFormBrowser((AbstractDTO) gridBrowser.getSelectedGridRow(), mode);
     }
 
     @Override
     public void saveItemAndUpdateGrid() throws UIException {
-        AddressDTO addresDto = null;
+        AddressDTO addresDto;
         try {
             addresDto = (AddressDTO) formBrowser.extractBean();
         } catch (FieldGroup.CommitException e) {
@@ -80,7 +80,7 @@ public class AddressBrowser extends AbstractBrowser {
     @Override
     public void deleteItemAndUpdateGrid() throws UIException {
         try{
-            addressService.delete(gridBrowser.getSelectedGridRow());
+            addressService.delete(((AddressDTO) gridBrowser.getSelectedGridRow()).getId());
             gridBrowser.deleteEntry();
             gridBrowser.updateGrid();
         } catch (Exception err){

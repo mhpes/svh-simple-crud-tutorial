@@ -25,7 +25,7 @@ public class SellerContactInfoDTO extends AbstractDTO<SellerContactInfo> {
 
     @Override
     public Object getId() {
-        return null;
+        return contactInfoId;
     }
 
     @Override

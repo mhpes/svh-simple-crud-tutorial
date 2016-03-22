@@ -9,5 +9,25 @@ public enum StateType {
     EDIT,
     SAVE,
     NEW,
-    DELETE
+    DELETE;
+
+    @Override
+    public String toString() {
+        switch (this) {
+            case SELECTEDROW:
+                return "Selected Row";
+            case INITIAL:
+                return "Initial";
+            case EDIT:
+                return "Edit";
+            case SAVE:
+                return "Save";
+            case NEW:
+                return "New";
+            case DELETE:
+                return "Delete";
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
 }

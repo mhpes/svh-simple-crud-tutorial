@@ -1,11 +1,9 @@
 package es.mhp.views;
 
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import es.mhp.browser.IBrowser;
 import es.mhp.browser.impl.AbstractBrowser;
 import es.mhp.browser.impl.category.CategoryBrowser;
-import es.mhp.browser.utils.StateType;
 import es.mhp.search.ISearchForm;
 import es.mhp.search.impl.AbstractSearchForm;
 import es.mhp.search.impl.category.CategorySearchForm;
@@ -32,45 +30,27 @@ public class CategoryView extends AbstractView<CategoryDTO> {
     private IBrowser browser;
 
     public CategoryView() {
-        this.setSizeFull();
         this.addStyleName("category-view");
     }
 
     @Override
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
-        createMainLayout();
-        //At first time, the toolbar is initialized to the INITIAL state
-        toolbar.updateToolbar(StateType.INITIAL);
-    }
-
-    @Override
-    void addComponentsToView() {
-
-    }
-
-
-    protected void createMainLayout() {
-        buildComponents();
+    protected void addComponentsToView() {
         this.removeAllComponents();
         this.addComponent((AbstractSearchForm)searchForm);
         this.addComponent((Toolbar)toolbar);
         this.addComponent((AbstractBrowser)browser);
     }
 
-    private void buildComponents() {
+    @Override
+    protected void configureComponents() {
         browser.buildBrowser();
         toolbar.buildToolbar(browser);
         searchForm.buildSearchForm(browser, toolbar);
     }
 
     @Override
-    void configureComponents() {
-
-    }
-
-    @Override
-    IBrowser getBrowser() {
-        return null;
+    protected IBrowser getBrowser() {
+        return browser;
     }
 }
 

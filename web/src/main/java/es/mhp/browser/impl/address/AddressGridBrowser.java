@@ -1,6 +1,5 @@
 package es.mhp.browser.impl.address;
 
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.Grid;
@@ -30,14 +29,11 @@ public class AddressGridBrowser extends AbstractGridBrowser {
         super();
         grid = new Grid();
         this.addComponent(grid);
-        /*//Ask Isa if this way to create the grid is correct
-        setColumnProperties();*/
     }
 
     @Override
     public void addDoubleClickListenerToGrid() {
         grid.addItemClickListener((ItemClickEvent.ItemClickListener) event -> {
-            BeanItem<AddressDTO> addressBeanItem = (BeanItem<AddressDTO>) event.getItem();
             if (event.isDoubleClick()){
                 grid.select(event.getItemId());
                 ((AbstractView)this.getParent().getParent()).updateView(StateType.EDIT);

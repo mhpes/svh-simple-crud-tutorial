@@ -2,7 +2,6 @@ package es.mhp.browser;
 
 
 import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.ui.FormLayout;
 import es.mhp.services.dto.AbstractDTO;
 
 /**
@@ -10,8 +9,7 @@ import es.mhp.services.dto.AbstractDTO;
  */
 
 public interface IFormBrowser {
-    void createFormBrowser(Object id, String mode);
-    FormLayout getForm();
     void createFieldGroup(AbstractDTO dto);
+    void createFormBrowser(AbstractDTO dto, String mode);
     AbstractDTO extractBean() throws FieldGroup.CommitException;
 }

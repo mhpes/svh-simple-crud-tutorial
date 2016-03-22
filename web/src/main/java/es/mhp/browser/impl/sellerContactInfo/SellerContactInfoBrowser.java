@@ -1,4 +1,4 @@
-package es.mhp.browser.impl.category;
+package es.mhp.browser.impl.sellerContactInfo;
 
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Component;
@@ -9,9 +9,9 @@ import es.mhp.browser.impl.AbstractFormBrowser;
 import es.mhp.browser.impl.AbstractGridBrowser;
 import es.mhp.browser.utils.StateType;
 import es.mhp.exceptions.UIException;
-import es.mhp.services.ICategoryService;
+import es.mhp.services.ISellerContactInfoService;
 import es.mhp.services.dto.AbstractDTO;
-import es.mhp.services.dto.CategoryDTO;
+import es.mhp.services.dto.SellerContactInfoDTO;
 import es.mhp.views.AbstractView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,31 +22,28 @@ import java.util.Set;
  * Created by Edu on 17/03/2016.
  */
 
-@org.springframework.stereotype.Component(CategoryBrowser.BEAN_NAME)
-public class CategoryBrowser extends AbstractBrowser {
+@org.springframework.stereotype.Component(SellerContactInfoBrowser.BEAN_NAME)
+public class SellerContactInfoBrowser extends AbstractBrowser {
 
-    public static final String BEAN_NAME = "category_browser";
+    public static final String BEAN_NAME = "sellerContactInfo_browser";
 
     @Autowired
-    @Qualifier(CategoryGridBrowser.BEAN_NAME)
+    @Qualifier(SellerContactInfoGridBrowser.BEAN_NAME)
     private IGridBrowser gridBrowser;
 
     @Autowired
-    @Qualifier(CategoryFormBrowser.BEAN_NAME)
+    @Qualifier(SellerContactInfoFormBrowser.BEAN_NAME)
     private IFormBrowser formBrowser;
 
     @Autowired
-    private ICategoryService categoryService;
+    private ISellerContactInfoService sellerContactInfoService;
 
-    /*@Autowired
-    private IBrowserNotification browserNotification;*/
-
-    public CategoryBrowser() {
+    public SellerContactInfoBrowser() {
     }
 
     @Override
     public void buildBrowser() {
-        gridBrowser.updateGrid(categoryService.findAll());
+        gridBrowser.updateGrid(sellerContactInfoService.findAll());
         gridBrowser.addDoubleClickListenerToGrid();
 
         this.addComponent((Component) formBrowser);
@@ -63,14 +60,14 @@ public class CategoryBrowser extends AbstractBrowser {
 
     @Override
     public void saveItemAndUpdateGrid() throws UIException {
-        CategoryDTO categoryDTO;
+        SellerContactInfoDTO sellerContactInfoDTO;
         try {
-            categoryDTO = (CategoryDTO) formBrowser.extractBean();
+            sellerContactInfoDTO = (SellerContactInfoDTO) formBrowser.extractBean();
         } catch (FieldGroup.CommitException e) {
             throw new UIException("Entity has not been saved", e);
         }
-        categoryService.save(categoryDTO);
-        gridBrowser.updateAndDisplayGrid(categoryDTO);
+        sellerContactInfoService.save(sellerContactInfoDTO);
+        gridBrowser.updateAndDisplayGrid(sellerContactInfoDTO);
     }
 
     @Override
@@ -82,7 +79,7 @@ public class CategoryBrowser extends AbstractBrowser {
     @Override
     public void deleteItemAndUpdateGrid() throws UIException {
         try{
-            categoryService.delete(((CategoryDTO) gridBrowser.getSelectedGridRow()).getId());
+            sellerContactInfoService.delete(((SellerContactInfoDTO) gridBrowser.getSelectedGridRow()).getId());
             gridBrowser.deleteEntry();
             gridBrowser.updateGrid();
         } catch (Exception err){
