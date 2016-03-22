@@ -78,16 +78,6 @@ public class AddressBrowser extends AbstractBrowser {
     }
 
     @Override
-    public AbstractDTO getSelectedFormRow() {
-        return formBrowser.getNewForm();
-    }
-
-    @Override
-    public Object getSelectedGridRow() {
-        return gridBrowser.getSelectedGridRow();
-    }
-
-    @Override
     public void deleteItemAndUpdateGrid() throws UIException {
         try{
             addressService.delete(gridBrowser.getSelectedGridRow());

@@ -90,20 +90,4 @@ public class CategoryFormBrowser extends AbstractFormBrowser {
         item.addItemProperty(DESCRIPTION, new ObjectProperty<>(categoryDTO.getDescription()));
         item.addItemProperty(IMAGE_URL, new ObjectProperty<>(categoryDTO.getImageUrl()));
     }
-
-    @Override
-    public CategoryDTO getNewForm() {
-        //int addressId = Integer.parseInt(getForm().fet.getField(ADDRESS_ID).getValue().toString());
-        List<Object> objectList = new ArrayList<>();
-
-        for (int i = 0; i < getForm().getComponentCount(); i++)
-        {
-            objectList.add(getForm().getComponent(i));
-        }
-
-        //Something similar like in trySaveAddress...
-        CategoryDTO categoryDTO = new CategoryDTO();
-
-        return categoryDTO;
-    }
 }

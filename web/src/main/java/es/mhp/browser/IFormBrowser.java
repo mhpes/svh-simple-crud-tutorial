@@ -11,7 +11,6 @@ import es.mhp.services.dto.AbstractDTO;
 
 public interface IFormBrowser {
     void createFormBrowser(Object id, String mode);
-    AbstractDTO getNewForm();
     FormLayout getForm();
     void createFieldGroup(AbstractDTO dto);
     AbstractDTO extractBean() throws FieldGroup.CommitException;

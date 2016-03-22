@@ -93,17 +93,6 @@ public class CategoryBrowser extends AbstractBrowser {
         ((AbstractView)this.getParent()).updateToolbar(StateType.INITIAL);
     }
 
-    @Override
-    public AbstractDTO getSelectedFormRow() {
-        return formBrowser.getNewForm();
-    }
-
-    @Override
-    public Object getSelectedGridRow() {
-        return gridBrowser.getSelectedGridRow();
-    }
-
-
     public void deleteFormData(Object id) {
         try{
             categoryService.delete(id);

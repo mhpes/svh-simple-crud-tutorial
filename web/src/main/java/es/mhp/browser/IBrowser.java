@@ -14,8 +14,6 @@ public interface IBrowser {
     void saveItemAndUpdateGrid() throws UIException;
     void deleteItemAndUpdateGrid() throws UIException;
     void updateGrid(Set<AbstractDTO> newDataSource);
-    AbstractDTO getSelectedFormRow();
-    Object getSelectedGridRow();
     void displayGridAndHideForm();
     void displayFormAndHideGrid();
 }
