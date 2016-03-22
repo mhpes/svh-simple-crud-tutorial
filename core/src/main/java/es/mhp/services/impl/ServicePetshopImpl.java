@@ -67,7 +67,7 @@ public class ServicePetshopImpl implements IServicePetshop {
         return iTagDao.findAll(tag);
     }
 
-    public Set<ItemDTO> findAllItems(Item item) {
+    public Set<ItemDTO> findAllItems(item item) {
         return iItemDao.findAll(item);
     }
 
@@ -95,7 +95,7 @@ public class ServicePetshopImpl implements IServicePetshop {
         return iTagDao.findAny(tag);
     }
 
-    public Set<ItemDTO> findAnyItem(Item item) {
+    public Set<ItemDTO> findAnyItem(item item) {
         return iItemDao.findAny(item);
     }
 
@@ -123,7 +123,7 @@ public class ServicePetshopImpl implements IServicePetshop {
         return iTagDao.update(tag);
     }
 
-    public ItemDTO update(Item item) {
+    public ItemDTO update(item item) {
         return iItemDao.update(item);
     }
 
@@ -151,7 +151,7 @@ public class ServicePetshopImpl implements IServicePetshop {
         iTagDao.delete(tag);
     }
 
-    public void delete(Item item) {
+    public void delete(item item) {
         iItemDao.delete(item);
     }
 

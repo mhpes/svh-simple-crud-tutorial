@@ -58,7 +58,7 @@ public abstract class AbstractView<T> extends VerticalLayout implements View {
                     Boolean isSaved = getBrowser().saveItemAndUpdateGrid();
                     if (isSaved) {
                         toolbar.updateToolbar(StateType.SELECTEDROW);
-                        Notification.show("Item saved correctly!", Notification.Type.HUMANIZED_MESSAGE);
+                        Notification.show("item saved correctly!", Notification.Type.HUMANIZED_MESSAGE);
                     } else {
                         Notification.show("Nothing to save", Notification.Type.HUMANIZED_MESSAGE);
                     }
@@ -71,7 +71,7 @@ public abstract class AbstractView<T> extends VerticalLayout implements View {
                     getBrowser().deleteItemAndUpdateGrid();
                     getBrowser().displayGridAndHideForm();
                     toolbar.updateToolbar(StateType.INITIAL);
-                    Notification.show("Item deleted correctly!", Notification.Type.HUMANIZED_MESSAGE);
+                    Notification.show("item deleted correctly!", Notification.Type.HUMANIZED_MESSAGE);
                     break;
             }
         } catch (UIException e) {

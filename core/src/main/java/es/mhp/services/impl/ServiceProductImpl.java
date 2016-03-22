@@ -34,10 +34,10 @@ public class ServiceProductImpl implements IProductService {
     private CategoryRepository categoryRepository;
 
     @Override
-    public Set<ProductDTO> findAllProducts() {
+    public Set<AbstractDTO> findAll() {
         Iterable<Product> addressSet = productRepository.findAll();
 
-        Set<ProductDTO> productDTOs = new HashSet<>();
+        Set<AbstractDTO> productDTOs = new HashSet<>();
 
         for (Product product : addressSet){
             productDTOs.add(new ProductDTO(product));
@@ -47,10 +47,10 @@ public class ServiceProductImpl implements IProductService {
     }
 
     @Override
-    public Set<ProductDTO> findAnyProducts(String text) {
+    public Set<AbstractDTO> findAnyProducts(String text) {
         Iterable<Product> productSet = productRepository.findByValue(text);
 
-        Set<ProductDTO> productDTOs = new HashSet<>();
+        Set<AbstractDTO> productDTOs = new HashSet<>();
 
         for (Product currentProduct : productSet) {
             productDTOs.add(new ProductDTO(currentProduct));
@@ -62,7 +62,7 @@ public class ServiceProductImpl implements IProductService {
     @Override
     public ProductDTO save(ProductDTO productDTO) {
         Product product = productRepository.findOne(productDTO.getProductId());
-        Category category = categoryRepository.findOne(productDTO.getCategory());
+        Category category = categoryRepository.findOne(productDTO.getCategoryDTO().getCategoryId());
 
         if (product != null){
             product.setCategory(category);
@@ -73,17 +73,6 @@ public class ServiceProductImpl implements IProductService {
             productRepository.save(productDTO.toEntity(product));
         }
         return new ProductDTO(product);
-    }
-
-    @Override
-    public ProductDTO findById(String id) {
-        return new ProductDTO(productRepository.findOne(id));
-    }
-
-    /*To Implement*/
-    @Override
-    public Set<AbstractDTO> findAll() {
-        return null;
     }
 
     @Override

@@ -21,9 +21,6 @@ public class ZipLocationFormBrowser extends AbstractFormBrowser {
 
     public static final String BEAN_NAME = "zipLocation_form_browser";
 
-    @Autowired
-    private IZipLocationService zipLocationService;
-
     public ZipLocationFormBrowser() {
         super();
     }

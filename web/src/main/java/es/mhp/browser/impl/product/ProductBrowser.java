@@ -1,4 +1,4 @@
-package es.mhp.browser.impl.category;
+package es.mhp.browser.impl.product;
 
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Component;
@@ -9,9 +9,9 @@ import es.mhp.browser.impl.AbstractFormBrowser;
 import es.mhp.browser.impl.AbstractGridBrowser;
 import es.mhp.browser.utils.StateType;
 import es.mhp.exceptions.UIException;
-import es.mhp.services.ICategoryService;
+import es.mhp.services.IProductService;
 import es.mhp.services.dto.AbstractDTO;
-import es.mhp.services.dto.CategoryDTO;
+import es.mhp.services.dto.ProductDTO;
 import es.mhp.views.AbstractView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,28 +22,28 @@ import java.util.Set;
  * Created by Edu on 17/03/2016.
  */
 
-@org.springframework.stereotype.Component(CategoryBrowser.BEAN_NAME)
-public class CategoryBrowser extends AbstractBrowser {
+@org.springframework.stereotype.Component(ProductBrowser.BEAN_NAME)
+public class ProductBrowser extends AbstractBrowser {
 
-    public static final String BEAN_NAME = "category_browser";
+    public static final String BEAN_NAME = "product_browser";
 
     @Autowired
-    @Qualifier(CategoryGridBrowser.BEAN_NAME)
+    @Qualifier(ProductGridBrowser.BEAN_NAME)
     private IGridBrowser gridBrowser;
 
     @Autowired
-    @Qualifier(CategoryFormBrowser.BEAN_NAME)
+    @Qualifier(ProductFormBrowser.BEAN_NAME)
     private IFormBrowser formBrowser;
 
     @Autowired
-    private ICategoryService categoryService;
+    private IProductService productService;
 
-    public CategoryBrowser() {
+    public ProductBrowser() {
     }
 
     @Override
     public void buildBrowser() {
-        gridBrowser.updateGrid(categoryService.findAll());
+        gridBrowser.updateGrid(productService.findAll());
         gridBrowser.addDoubleClickListenerToGrid();
 
         this.addComponent((Component) formBrowser);
@@ -55,7 +55,7 @@ public class CategoryBrowser extends AbstractBrowser {
     @Override
     public void createAndDisplayForm(String mode) {
         displayFormAndHideGrid();
-        formBrowser.createFormBrowser((AbstractDTO) gridBrowser.getSelectedGridRow(), mode);
+        formBrowser.createFormBrowser(gridBrowser.getSelectedGridRow(), mode);
     }
 
     @Override
@@ -63,9 +63,9 @@ public class CategoryBrowser extends AbstractBrowser {
         try {
             if (formBrowser.isModified()) {
                 formBrowser.commit();
-                CategoryDTO categoryDTO = (CategoryDTO) formBrowser.extractBean();
-                categoryService.save(categoryDTO);
-                gridBrowser.updateAndDisplayGrid(categoryDTO);
+                ProductDTO productDTO = (ProductDTO) formBrowser.extractBean();
+                productService.save(productDTO);
+                gridBrowser.updateAndDisplayGrid(productDTO);
                 return true;
             } else {
                 return false;
@@ -84,7 +84,7 @@ public class CategoryBrowser extends AbstractBrowser {
     @Override
     public void deleteItemAndUpdateGrid() throws UIException {
         try{
-            categoryService.delete(((CategoryDTO) gridBrowser.getSelectedGridRow()).getId());
+            productService.delete(((ProductDTO) gridBrowser.getSelectedGridRow()).getId());
             gridBrowser.deleteEntry();
             gridBrowser.updateGrid();
         } catch (Exception err){

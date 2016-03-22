@@ -11,7 +11,6 @@ import java.util.Set;
 
 
 public interface ICategoryService extends AbstractService{
-    Set<AbstractDTO> findAllCategories();
     Set<AbstractDTO> findAnyCategories(String text);
     CategoryDTO save(CategoryDTO categoryDTO);
 }

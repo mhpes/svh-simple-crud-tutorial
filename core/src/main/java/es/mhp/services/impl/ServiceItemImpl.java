@@ -27,23 +27,10 @@ public class ServiceItemImpl implements IItemService {
     private ItemRepository itemRepository;
 
     @Override
-    public Set<ItemDTO> findAllItems() {
-        Iterable<Item> itemSet = itemRepository.findAll();
-
-        Set<ItemDTO> categoryDTOs = new HashSet<>();
-
-        for (Item item : itemSet){
-            categoryDTOs.add(new ItemDTO(item));
-        }
-
-        return categoryDTOs;
-    }
-
-    @Override
-    public Set<ItemDTO> findAnyItems(String text) {
+    public Set<AbstractDTO> findAnyItems(String text) {
         Iterable<Item> itemSet = itemRepository.findByValue(text);
 
-        Set<ItemDTO> itemDTOs = new HashSet<>();
+        Set<AbstractDTO> itemDTOs = new HashSet<>();
 
         for (Item currentItem : itemSet) {
             itemDTOs.add(new ItemDTO(currentItem));
@@ -57,10 +44,17 @@ public class ServiceItemImpl implements IItemService {
             return new ItemDTO(itemRepository.save(itemDTO.toEntity()));
     }
 
-    /*To Implement*/
     @Override
     public Set<AbstractDTO> findAll() {
-        return null;
+        Iterable<Item> items = itemRepository.findAll();
+
+        Set<AbstractDTO> addressDTOs = new HashSet<>();
+
+        for (Item item : items){
+            addressDTOs.add(new ItemDTO(item));
+        }
+
+        return addressDTOs;
     }
 
     @Override

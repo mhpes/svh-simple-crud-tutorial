@@ -1,4 +1,4 @@
-package es.mhp.browser.impl.category;
+package es.mhp.browser.impl.tag;
 
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Component;
@@ -22,23 +22,26 @@ import java.util.Set;
  * Created by Edu on 17/03/2016.
  */
 
-@org.springframework.stereotype.Component(CategoryBrowser.BEAN_NAME)
-public class CategoryBrowser extends AbstractBrowser {
+@org.springframework.stereotype.Component(TagBrowser.BEAN_NAME)
+public class TagBrowser extends AbstractBrowser {
 
-    public static final String BEAN_NAME = "category_browser";
+    public static final String BEAN_NAME = "tag_browser";
 
     @Autowired
-    @Qualifier(CategoryGridBrowser.BEAN_NAME)
+    @Qualifier(TagGridBrowser.BEAN_NAME)
     private IGridBrowser gridBrowser;
 
     @Autowired
-    @Qualifier(CategoryFormBrowser.BEAN_NAME)
+    @Qualifier(TagFormBrowser.BEAN_NAME)
     private IFormBrowser formBrowser;
 
     @Autowired
     private ICategoryService categoryService;
 
-    public CategoryBrowser() {
+    /*@Autowired
+    private IBrowserNotification browserNotification;*/
+
+    public TagBrowser() {
     }
 
     @Override

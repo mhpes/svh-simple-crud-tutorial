@@ -27,19 +27,6 @@ public class ServiceCategoryImpl implements ICategoryService {
     private CategoryRepository categoryRepository;
 
     @Override
-    public Set<AbstractDTO> findAllCategories() {
-        Iterable<Category> categorySet = categoryRepository.findAll();
-
-        Set<AbstractDTO> categoryDTOs = new HashSet<>();
-
-        for (Category category : categorySet){
-            categoryDTOs.add(new CategoryDTO(category));
-        }
-
-        return categoryDTOs;
-    }
-
-    @Override
     public Set<AbstractDTO> findAnyCategories(String text) {
         Iterable<Category> categorySet = categoryRepository.findByValue(text);
 

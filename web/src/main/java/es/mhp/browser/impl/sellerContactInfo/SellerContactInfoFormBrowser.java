@@ -21,9 +21,6 @@ public class SellerContactInfoFormBrowser extends AbstractFormBrowser {
 
     public static final String BEAN_NAME = "sellerContactInfo_form_browser";
 
-    @Autowired
-    private ISellerContactInfoService sellerContactInfoService;
-
     public SellerContactInfoFormBrowser() {
         super();
     }

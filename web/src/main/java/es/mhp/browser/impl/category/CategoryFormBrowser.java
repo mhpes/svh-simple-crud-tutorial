@@ -21,9 +21,6 @@ public class CategoryFormBrowser extends AbstractFormBrowser {
 
     public static final String BEAN_NAME = "category_form_browser";
 
-    @Autowired
-    private ICategoryService categoryService;
-
     public CategoryFormBrowser() {
         super();
     }

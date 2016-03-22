@@ -1,4 +1,4 @@
-package es.mhp.browser.impl.sellerContactInfo;
+package es.mhp.browser.impl.tag;
 
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ItemClickEvent;
@@ -6,26 +6,26 @@ import com.vaadin.ui.Grid;
 import es.mhp.browser.impl.AbstractGridBrowser;
 import es.mhp.browser.utils.StateType;
 import es.mhp.services.dto.AbstractDTO;
-import es.mhp.services.dto.SellerContactInfoDTO;
+import es.mhp.services.dto.TagDTO;
 import es.mhp.views.AbstractView;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
-import static es.mhp.views.utils.SellerContactInfoViewConstants.*;
+import static es.mhp.views.utils.TagViewConstants.*;
 
 /**
  * Created by Edu on 18/03/2016.
  */
 
-@Component(SellerContactInfoGridBrowser.BEAN_NAME)
-public class SellerContactInfoGridBrowser extends AbstractGridBrowser {
+@Component(TagGridBrowser.BEAN_NAME)
+public class TagGridBrowser extends AbstractGridBrowser {
 
-    public static final String BEAN_NAME = "sellerContactInfo_grid_browser";
+    public static final String BEAN_NAME = "tag_grid_browser";
 
     private Grid grid;
 
-    public SellerContactInfoGridBrowser() {
+    public TagGridBrowser() {
         super();
         grid = new Grid();
         this.addComponent(grid);
@@ -47,8 +47,8 @@ public class SellerContactInfoGridBrowser extends AbstractGridBrowser {
     public void updateGrid(Collection<? extends AbstractDTO> newDataSource) {
         grid.removeAllColumns();
 
-        BeanItemContainer<SellerContactInfoDTO> sellerContactInfoBeanItemContainer = new BeanItemContainer<>(SellerContactInfoDTO.class, (Collection<? extends SellerContactInfoDTO>) newDataSource);
-        grid.setContainerDataSource(sellerContactInfoBeanItemContainer);
+        BeanItemContainer<TagDTO> tagBeanItemContainer = new BeanItemContainer<>(TagDTO.class, (Collection<? extends TagDTO>) newDataSource);
+        grid.setContainerDataSource(tagBeanItemContainer);
         setColumnProperties();
 
         this.addComponent(grid);
@@ -56,14 +56,14 @@ public class SellerContactInfoGridBrowser extends AbstractGridBrowser {
 
     @Override
     protected void setColumnProperties() {
-        grid.removeColumn(CONTACTINFO_FIELD);
-        grid.setColumnOrder(FIRST_NAME_FIELD, LAST_NAME_FIELD, EMAIL_FIELD);
+        grid.removeColumn(TAGID_FIELD);
+        grid.setColumnOrder(TAG_FIELD, REFCOUNT_FIELD);
         grid.setWidth("60%");
     }
 
     @Override
-    public SellerContactInfoDTO getSelectedGridRow(){
-        return (SellerContactInfoDTO) grid.getSelectedRow();
+    public TagDTO getSelectedGridRow(){
+        return (TagDTO) grid.getSelectedRow();
     }
 
     @Override

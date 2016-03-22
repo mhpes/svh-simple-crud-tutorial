@@ -29,23 +29,10 @@ public class ServiceTagImpl implements ITagService {
     private TagRepository tagRepository;
 
     @Override
-    public Set<TagDTO> findAllTags() {
-        Iterable<Tag> tagSet = tagRepository.findAll();
-
-        Set<TagDTO> tagDTOs = new HashSet<>();
-
-        for (Tag tag : tagSet){
-            tagDTOs.add(new TagDTO(tag));
-        }
-
-        return tagDTOs;
-    }
-
-    @Override
-    public Set<TagDTO> findAnyTags(String text) {
+    public Set<AbstractDTO> findAnyTags(String text) {
         Iterable<Tag> tagSet = tagRepository.findByValue(text);
 
-        Set<TagDTO> zipLocationDTOs = new HashSet<>();
+        Set<AbstractDTO> zipLocationDTOs = new HashSet<>();
 
         for (Tag currentTag : tagSet) {
             zipLocationDTOs.add(new TagDTO(currentTag));
@@ -60,15 +47,16 @@ public class ServiceTagImpl implements ITagService {
     }
 
     @Override
-    public TagDTO findTagById(int id) {
-        return new TagDTO(tagRepository.findOne(id));
-    }
-
-
-    /*To Implement*/
-    @Override
     public Set<AbstractDTO> findAll() {
-        return null;
+        Iterable<Tag> tagSet = tagRepository.findAll();
+
+        Set<AbstractDTO> zipLocationDTOs = new HashSet<>();
+
+        for (Tag currentTag : tagSet) {
+            zipLocationDTOs.add(new TagDTO(currentTag));
+        }
+
+        return zipLocationDTOs;
     }
 
     @Override
