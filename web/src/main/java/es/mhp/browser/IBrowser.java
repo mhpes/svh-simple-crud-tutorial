@@ -13,7 +13,7 @@ public interface IBrowser {
     void createAndDisplayForm(String mode);
     boolean saveItemAndUpdateGrid() throws UIException;
     void deleteItemAndUpdateGrid() throws UIException;
-    void updateGrid(Set<AbstractDTO> newDataSource);
+    void updateAndDisplayGrid(Set<AbstractDTO> newDataSource);
     void displayGridAndHideForm();
     void displayFormAndHideGrid();
 }

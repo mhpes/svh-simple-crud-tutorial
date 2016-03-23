@@ -9,7 +9,7 @@ import java.util.Collection;
  */
 
 public interface IGridBrowser {
-    void addDoubleClickListenerToGrid();
+    void configure();
     Object getSelectedGridRow();
     void deleteEntry();
     void updateGrid();

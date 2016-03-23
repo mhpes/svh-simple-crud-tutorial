@@ -39,12 +39,13 @@ public class ProductBrowser extends AbstractBrowser {
     private IProductService productService;
 
     public ProductBrowser() {
+        super();
     }
 
     @Override
     public void buildBrowser() {
         gridBrowser.updateGrid(productService.findAll());
-        gridBrowser.addDoubleClickListenerToGrid();
+        gridBrowser.configure();
 
         this.addComponent((Component) formBrowser);
         this.addComponent((AbstractGridBrowser)gridBrowser);
@@ -77,7 +78,7 @@ public class ProductBrowser extends AbstractBrowser {
     }
 
     @Override
-    public void updateGrid(Set<AbstractDTO> newDataSource) {
+    public void updateAndDisplayGrid(Set<AbstractDTO> newDataSource) {
         gridBrowser.updateGrid(newDataSource);
         ((AbstractView)this.getParent()).updateToolbar(StateType.INITIAL);
     }

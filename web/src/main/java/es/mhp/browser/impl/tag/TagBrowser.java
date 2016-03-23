@@ -38,16 +38,14 @@ public class TagBrowser extends AbstractBrowser {
     @Autowired
     private ITagService tagService;
 
-    /*@Autowired
-    private IBrowserNotification browserNotification;*/
-
     public TagBrowser() {
+        super();
     }
 
     @Override
     public void buildBrowser() {
         gridBrowser.updateGrid(tagService.findAll());
-        gridBrowser.addDoubleClickListenerToGrid();
+        gridBrowser.configure();
 
         this.addComponent((Component) formBrowser);
         this.addComponent((AbstractGridBrowser)gridBrowser);
@@ -80,7 +78,7 @@ public class TagBrowser extends AbstractBrowser {
     }
 
     @Override
-    public void updateGrid(Set<AbstractDTO> newDataSource) {
+    public void updateAndDisplayGrid(Set<AbstractDTO> newDataSource) {
         gridBrowser.updateGrid(newDataSource);
         ((AbstractView)this.getParent()).updateToolbar(StateType.INITIAL);
     }

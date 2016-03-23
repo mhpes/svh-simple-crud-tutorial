@@ -37,12 +37,12 @@ public class TagSearchForm extends AbstractSearchForm {
         TextField filter = new TextField();
         filter.setInputPrompt("Filter tags...");
 
-        browser.updateGrid(tagService.findAll());
+        browser.updateAndDisplayGrid(tagService.findAll());
         toolbar.updateToolbar(StateType.INITIAL);
 
         filter.addTextChangeListener(e -> {
             browser.buildBrowser();
-            browser.updateGrid(tagService.findAnyTags(e.getText()));
+            browser.updateAndDisplayGrid(tagService.findAnyTags(e.getText()));
         });
 
         searchForm.addComponents(filter);

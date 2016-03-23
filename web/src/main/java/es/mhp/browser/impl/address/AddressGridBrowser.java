@@ -1,13 +1,11 @@
 package es.mhp.browser.impl.address;
 
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.Grid;
 import es.mhp.browser.impl.AbstractGridBrowser;
-import es.mhp.browser.utils.StateType;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.AddressDTO;
-import es.mhp.views.AbstractView;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -19,6 +17,7 @@ import static es.mhp.views.utils.AddressViewConstants.*;
  */
 
 @Component(AddressGridBrowser.BEAN_NAME)
+@Scope("prototype")
 public class AddressGridBrowser extends AbstractGridBrowser {
 
     public static final String BEAN_NAME = "address_grid_browser";
@@ -29,18 +28,6 @@ public class AddressGridBrowser extends AbstractGridBrowser {
         super();
         grid = new Grid();
         this.addComponent(grid);
-    }
-
-    @Override
-    public void addDoubleClickListenerToGrid() {
-        grid.addItemClickListener((ItemClickEvent.ItemClickListener) event -> {
-            if (event.isDoubleClick()){
-                grid.select(event.getItemId());
-                ((AbstractView)this.getParent().getParent()).updateView(StateType.EDIT);
-            } else {
-                ((AbstractView)this.getParent().getParent()).updateView(StateType.SELECTEDROW);
-            }
-        });
     }
 
     @Override
@@ -90,11 +77,8 @@ public class AddressGridBrowser extends AbstractGridBrowser {
         grid.select(dto);
     }
 
-    public Grid getGrid() {
+    @Override
+    protected Grid getGrid() {
         return grid;
-    }
-
-    public void setGrid(Grid grid) {
-        this.grid = grid;
     }
 }

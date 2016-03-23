@@ -37,12 +37,12 @@ public class ZipLocationSearchForm extends AbstractSearchForm {
         TextField filter = new TextField();
         filter.setInputPrompt("Filter zips...");
 
-        browser.updateGrid(zipLocationService.findAll());
+        browser.updateAndDisplayGrid(zipLocationService.findAll());
         toolbar.updateToolbar(StateType.INITIAL);
 
         filter.addTextChangeListener(e -> {
             browser.buildBrowser();
-            browser.updateGrid(zipLocationService.findAnyZipLocations(e.getText()));
+            browser.updateAndDisplayGrid(zipLocationService.findAnyZipLocations(e.getText()));
         });
 
         searchForm.addComponents(filter);

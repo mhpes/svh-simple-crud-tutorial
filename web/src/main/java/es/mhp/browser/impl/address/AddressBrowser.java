@@ -37,17 +37,17 @@ public class AddressBrowser extends AbstractBrowser {
     private IAddressService addressService;
 
     public AddressBrowser() {
+        super();
     }
 
     @Override
     public void buildBrowser() {
-        gridBrowser.updateGrid(addressService.findAll());
-        gridBrowser.addDoubleClickListenerToGrid();
+        gridBrowser.configure();
 
         this.addComponent((Component) formBrowser);
         this.addComponent((AbstractGridBrowser)gridBrowser);
 
-        displayGridAndHideForm();
+        updateAndDisplayGrid(addressService.findAll());
     }
 
     @Override
@@ -75,7 +75,7 @@ public class AddressBrowser extends AbstractBrowser {
     }
 
     @Override
-    public void updateGrid(Set<AbstractDTO> newDataSource) {
+    public void updateAndDisplayGrid(Set<AbstractDTO> newDataSource) {
         gridBrowser.updateGrid(newDataSource);
         displayGridAndHideForm();
     }

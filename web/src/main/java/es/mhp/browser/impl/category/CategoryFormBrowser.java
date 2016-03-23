@@ -4,10 +4,8 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
 import es.mhp.browser.impl.AbstractFormBrowser;
 import es.mhp.browser.utils.FormBrowserUtils;
-import es.mhp.services.ICategoryService;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.CategoryDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static es.mhp.views.utils.CategoryViewConstants.*;
@@ -54,7 +52,6 @@ public class CategoryFormBrowser extends AbstractFormBrowser {
     @Override
     protected void bindForm(Object dto, String mode) {
         form.removeAllComponents();
-        form.addComponent(buildAndBindTextField(CATEGORYID_FIELD, true));
         form.addComponent(buildAndBindTextField(NAME_FIELD, true));
         form.addComponent(buildAndBindTextField(DESCRIPTION_FIELD, true));
         form.addComponent(buildAndBindTextField(IMAGEURL_FIELD, true));

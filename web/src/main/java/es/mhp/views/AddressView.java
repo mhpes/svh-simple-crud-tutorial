@@ -4,6 +4,7 @@ import com.vaadin.spring.annotation.SpringView;
 import es.mhp.browser.IBrowser;
 import es.mhp.browser.impl.AbstractBrowser;
 import es.mhp.browser.impl.address.AddressBrowser;
+import es.mhp.browser.utils.StateType;
 import es.mhp.search.ISearchForm;
 import es.mhp.search.impl.AbstractSearchForm;
 import es.mhp.search.impl.address.AddressSearchForm;
@@ -45,6 +46,7 @@ public class AddressView extends AbstractView<AddressDTO> {
     protected void configureComponents() {
         browser.buildBrowser();
         toolbar.buildToolbar(browser);
+        updateToolbar(StateType.INITIAL);
         searchForm.buildSearchForm(browser, toolbar);
     }
 

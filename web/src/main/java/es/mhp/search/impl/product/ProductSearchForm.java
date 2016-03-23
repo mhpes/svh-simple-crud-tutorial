@@ -37,12 +37,12 @@ public class ProductSearchForm extends AbstractSearchForm {
         TextField filter = new TextField();
         filter.setInputPrompt("Filter products...");
 
-        browser.updateGrid(productService.findAll());
+        browser.updateAndDisplayGrid(productService.findAll());
         toolbar.updateToolbar(StateType.INITIAL);
 
         filter.addTextChangeListener(e -> {
             browser.buildBrowser();
-            browser.updateGrid(productService.findAnyProducts(e.getText()));
+            browser.updateAndDisplayGrid(productService.findAnyProducts(e.getText()));
         });
 
         searchForm.addComponents(filter);

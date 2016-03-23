@@ -37,12 +37,12 @@ public class SellerContactInfoSearchForm extends AbstractSearchForm {
         TextField filter = new TextField();
         filter.setInputPrompt("Filter sellers...");
 
-        browser.updateGrid(sellerContactInfoService.findAll());
+        browser.updateAndDisplayGrid(sellerContactInfoService.findAll());
         toolbar.updateToolbar(StateType.INITIAL);
 
         filter.addTextChangeListener(e -> {
             browser.buildBrowser();
-            browser.updateGrid(sellerContactInfoService.findAnySellers(e.getText()));
+            browser.updateAndDisplayGrid(sellerContactInfoService.findAnySellers(e.getText()));
         });
 
         searchForm.addComponents(filter);
