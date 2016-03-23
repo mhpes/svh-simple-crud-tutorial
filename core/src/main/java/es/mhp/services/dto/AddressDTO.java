@@ -40,7 +40,7 @@ public class AddressDTO extends AbstractDTO<Address>{
 
     @Override
     public Object getId() {
-        return addressId;
+        return getAddressId();
     }
 
     public AddressDTO(Address address) {

@@ -53,7 +53,6 @@ public class TagFormBrowser extends AbstractFormBrowser {
     @Override
     protected void bindForm(Object dto, String mode) {
         form.removeAllComponents();
-        buildAndBindTextField(TAGID_FIELD, true);
         form.addComponent(buildAndBindTextField(TAG_FIELD, true));
         form.addComponent(buildAndBindTextField(REFCOUNT_FIELD, true));
 

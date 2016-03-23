@@ -172,6 +172,7 @@ public class Item extends AbstractEntity {
     }
 
     public int getTagsCount() {
+        if (getTags() == null) return 0;
         return this.tags.size();
     }
 }

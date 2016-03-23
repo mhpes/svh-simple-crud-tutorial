@@ -44,7 +44,7 @@ public class ItemDTO extends AbstractDTO<Item>{
 
     @Override
     public Object getId() {
-        return null;
+        return getItemId();
     }
 
 

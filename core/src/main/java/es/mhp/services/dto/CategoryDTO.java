@@ -88,6 +88,6 @@ public class CategoryDTO extends AbstractDTO<Category>{
 
     @Override
     public Object getId(){
-        return categoryId;
+        return getCategoryId();
     }
 }

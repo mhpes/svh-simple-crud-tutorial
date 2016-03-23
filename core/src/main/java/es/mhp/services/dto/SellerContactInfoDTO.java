@@ -13,9 +13,7 @@ public class SellerContactInfoDTO extends AbstractDTO<SellerContactInfo> {
     private String firstName;
     private String email;
 
-    public SellerContactInfoDTO() {
-
-    }
+    public SellerContactInfoDTO() { }
 
     @Override
     public SellerContactInfo toEntity(SellerContactInfo sellerContactInfo) {
@@ -25,7 +23,7 @@ public class SellerContactInfoDTO extends AbstractDTO<SellerContactInfo> {
 
     @Override
     public Object getId() {
-        return contactInfoId;
+        return getContactInfoId();
     }
 
     @Override

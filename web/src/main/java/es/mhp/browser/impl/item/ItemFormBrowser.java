@@ -78,7 +78,6 @@ public class ItemFormBrowser extends AbstractFormBrowser {
     @Override
     protected void bindForm(Object dto, String mode) {
         form.removeAllComponents();
-        buildAndBindTextField(ITEMID_FIELD, true);
         form.addComponent(buildAndBindProductComboBox((ItemDTO) dto));
         form.addComponent(buildAndBindAddressComboBox((ItemDTO)dto));
         form.addComponent(buildAndBindSellerComboBox((ItemDTO)dto));
@@ -87,7 +86,6 @@ public class ItemFormBrowser extends AbstractFormBrowser {
         form.addComponent(buildAndBindTextField(IMAGEURL_FIELD, true));
         form.addComponent(buildAndBindTextField(IMAGETHUMBURL_FIELD, true));
         form.addComponent(buildAndBindTextField(PRICE_FIELD, true));
-        form.addComponent(buildAndBindTextField(ADDRESS_ID, true));
         form.addComponent(buildAndBindTextField(TOTALSCORE_FIELD, true));
         form.addComponent(buildAndBindTextField(NUMBEROFVOTES_FIELD, true));
         form.addComponent(buildAndBindTextField(DISABLED_FIELD, true));
@@ -98,8 +96,8 @@ public class ItemFormBrowser extends AbstractFormBrowser {
     }
 
     private ComboBox buildAndBindProductComboBox(ItemDTO itemDTO) {
-        Set<AbstractDTO> productSet = productService.findAll();
-        BeanItemContainer<AbstractDTO> productLocationContainer = new BeanItemContainer<>(AbstractDTO.class, productSet);
+        Set<ProductDTO> productSet = (Set<ProductDTO>)(Set<?>) productService.findAll();
+        BeanItemContainer<ProductDTO> productLocationContainer = new BeanItemContainer<>(ProductDTO.class, productSet);
         ComboBox productCombobox = new ComboBox(PRODUCT, productSet);
         productCombobox.setContainerDataSource(productLocationContainer);
         productCombobox.setItemCaptionPropertyId(PRODUCTID_FIELD);
@@ -108,8 +106,8 @@ public class ItemFormBrowser extends AbstractFormBrowser {
         fieldGroup.bind(productCombobox, PRODUCT_FIELD);
 
         if (itemDTO.getProductDTO() != null) {
-            Optional<AbstractDTO> productLocationDTOOptional = productLocationContainer.getItemIds().stream()
-                    .filter(dto -> ((ProductDTO)dto).getProductId() == itemDTO.getProductDTO().getProductId()).findFirst();
+            Optional<ProductDTO> productLocationDTOOptional = productLocationContainer.getItemIds().stream()
+                    .filter(dto -> dto.getProductId() == itemDTO.getProductDTO().getProductId()).findFirst();
             if (productLocationDTOOptional.isPresent()) {
                 productCombobox.setValue(productLocationDTOOptional.get());
             }
@@ -118,8 +116,9 @@ public class ItemFormBrowser extends AbstractFormBrowser {
     }
 
     private ComboBox buildAndBindAddressComboBox(ItemDTO itemDTO) {
-        Set<AbstractDTO> addressSet = addressService.findAll();
-        BeanItemContainer<AbstractDTO> productLocationContainer = new BeanItemContainer<>(AbstractDTO.class, addressSet);
+        Set<AddressDTO> addressSet = (Set<AddressDTO>)(Set<?>) addressService.findAll();
+
+        BeanItemContainer<AddressDTO> productLocationContainer = new BeanItemContainer<>(AddressDTO.class, addressSet);
         ComboBox addressCombobox = new ComboBox(ADDRESS, addressSet);
         addressCombobox.setContainerDataSource(productLocationContainer);
         addressCombobox.setItemCaptionPropertyId(ADDRESSID_FIELD);
@@ -128,8 +127,8 @@ public class ItemFormBrowser extends AbstractFormBrowser {
         fieldGroup.bind(addressCombobox, ADDRESS_FIELD);
 
         if (itemDTO.getAddressDTO() != null) {
-            Optional<AbstractDTO> addressLocationDTOOptional = productLocationContainer.getItemIds().stream()
-                    .filter(dto -> ((AddressDTO)dto).getAddressId() == itemDTO.getAddressDTO().getAddressId()).findFirst();
+            Optional<AddressDTO> addressLocationDTOOptional = productLocationContainer.getItemIds().stream()
+                    .filter(dto -> dto.getAddressId() == itemDTO.getAddressDTO().getAddressId()).findFirst();
             if (addressLocationDTOOptional.isPresent()) {
                 addressCombobox.setValue(addressLocationDTOOptional.get());
             }
@@ -138,8 +137,9 @@ public class ItemFormBrowser extends AbstractFormBrowser {
     }
 
     private ComboBox buildAndBindSellerComboBox(ItemDTO itemDTO) {
-        Set<AbstractDTO> zipSet = sellerContactInfoService.findAll();
-        BeanItemContainer<AbstractDTO> selllerLocationContainer = new BeanItemContainer<>(AbstractDTO.class, zipSet);
+        Set<SellerContactInfoDTO> zipSet = (Set<SellerContactInfoDTO>)(Set<?>) sellerContactInfoService.findAll();
+
+        BeanItemContainer<SellerContactInfoDTO> selllerLocationContainer = new BeanItemContainer<>(SellerContactInfoDTO.class, zipSet);
         ComboBox sellerCombobox = new ComboBox(SELLERCONTACTINFO, zipSet);
         sellerCombobox.setContainerDataSource(selllerLocationContainer);
         sellerCombobox.setItemCaptionPropertyId(SELLERCONTACTINFOID_FIELD);
@@ -148,8 +148,8 @@ public class ItemFormBrowser extends AbstractFormBrowser {
         fieldGroup.bind(sellerCombobox, SELLERCONTACTINFO_FIELD);
 
         if (itemDTO.getSellerContactInfoDTO() != null) {
-            Optional<AbstractDTO> sellerLocationDTOOptional = selllerLocationContainer.getItemIds().stream()
-                    .filter(dto -> ((SellerContactInfoDTO)dto).getContactInfoId() == itemDTO.getSellerContactInfoDTO().getContactInfoId()).findFirst();
+            Optional<SellerContactInfoDTO> sellerLocationDTOOptional = selllerLocationContainer.getItemIds().stream()
+                    .filter(dto -> dto.getContactInfoId() == itemDTO.getSellerContactInfoDTO().getContactInfoId()).findFirst();
             if (sellerLocationDTOOptional.isPresent()) {
                 sellerCombobox.setValue(sellerLocationDTOOptional.get());
             }

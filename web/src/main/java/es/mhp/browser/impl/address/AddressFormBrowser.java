@@ -14,6 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 
@@ -29,7 +30,7 @@ public class AddressFormBrowser extends AbstractFormBrowser {
     public static final String BEAN_NAME = "address_form_browser";
 
     @Autowired
-    private IZipLocationService iZipLocationService;
+    private IZipLocationService zipLocationService;
 
     public AddressFormBrowser() {
         super();
@@ -81,8 +82,8 @@ public class AddressFormBrowser extends AbstractFormBrowser {
     }
 
     private ComboBox buildAndBindZipComboBox(AddressDTO addressDTO) {
-        Set<AbstractDTO> zipSet = iZipLocationService.findAll();
-        BeanItemContainer<AbstractDTO> zipLocationContainer = new BeanItemContainer<>(AbstractDTO.class, zipSet);
+        Set<ZipLocationDTO> zipSet = (Set<ZipLocationDTO>)(Set<?>) zipLocationService.findAll();
+        BeanItemContainer<ZipLocationDTO> zipLocationContainer = new BeanItemContainer<>(ZipLocationDTO.class, zipSet);
         ComboBox zipCombobox = new ComboBox(ZIP, zipSet);
         zipCombobox.setContainerDataSource(zipLocationContainer);
         zipCombobox.setItemCaptionPropertyId(ZIPCODEID);
@@ -92,8 +93,8 @@ public class AddressFormBrowser extends AbstractFormBrowser {
 
         if (addressDTO.getZipLocationDTO() != null) {
             //One way to select the zip on the combobox field
-            Optional<AbstractDTO> zipLocationDTOOptional = zipLocationContainer.getItemIds().stream()
-                    .filter(dto -> ((ZipLocationDTO)dto).getZipCodeId() == addressDTO.getZipLocationDTO().getZipCodeId()).findFirst();
+            Optional<ZipLocationDTO> zipLocationDTOOptional = zipLocationContainer.getItemIds().stream()
+                    .filter(dto -> dto.getZipCodeId() == addressDTO.getZipLocationDTO().getZipCodeId()).findFirst();
             if (zipLocationDTOOptional.isPresent()) {
                 zipCombobox.setValue(zipLocationDTOOptional.get());
             }

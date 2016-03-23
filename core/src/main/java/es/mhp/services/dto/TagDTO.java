@@ -24,7 +24,7 @@ public class TagDTO extends AbstractDTO<Tag>{
 
     @Override
     public Object getId() {
-        return null;
+        return getTagId();
     }
 
     @Override

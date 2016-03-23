@@ -54,7 +54,7 @@ public class ZipLocationFormBrowser extends AbstractFormBrowser {
     @Override
     protected void bindForm(Object dto, String mode) {
         form.removeAllComponents();
-        buildAndBindTextField(ZIPCODE_FIELD, true);
+        form.addComponent(buildAndBindTextField(ZIPCODE_FIELD, true));
         form.addComponent(buildAndBindTextField(CITY_FIELD, true));
         form.addComponent(buildAndBindTextField(STATE_FIELD, true));
 

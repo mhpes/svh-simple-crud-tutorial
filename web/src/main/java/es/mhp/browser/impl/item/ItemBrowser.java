@@ -9,9 +9,9 @@ import es.mhp.browser.impl.AbstractFormBrowser;
 import es.mhp.browser.impl.AbstractGridBrowser;
 import es.mhp.browser.utils.StateType;
 import es.mhp.exceptions.UIException;
-import es.mhp.services.ICategoryService;
+import es.mhp.services.IItemService;
 import es.mhp.services.dto.AbstractDTO;
-import es.mhp.services.dto.CategoryDTO;
+import es.mhp.services.dto.ItemDTO;
 import es.mhp.views.AbstractView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,14 +36,14 @@ public class ItemBrowser extends AbstractBrowser {
     private IFormBrowser formBrowser;
 
     @Autowired
-    private ICategoryService categoryService;
+    private IItemService itemService;
 
     public ItemBrowser() {
     }
 
     @Override
     public void buildBrowser() {
-        gridBrowser.updateGrid(categoryService.findAll());
+        gridBrowser.updateGrid(itemService.findAll());
         gridBrowser.addDoubleClickListenerToGrid();
 
         this.addComponent((Component) formBrowser);
@@ -55,7 +55,7 @@ public class ItemBrowser extends AbstractBrowser {
     @Override
     public void createAndDisplayForm(String mode) {
         displayFormAndHideGrid();
-        formBrowser.createFormBrowser((AbstractDTO) gridBrowser.getSelectedGridRow(), mode);
+        formBrowser.createFormBrowser(gridBrowser.getSelectedGridRow(), mode);
     }
 
     @Override
@@ -63,9 +63,9 @@ public class ItemBrowser extends AbstractBrowser {
         try {
             if (formBrowser.isModified()) {
                 formBrowser.commit();
-                CategoryDTO categoryDTO = (CategoryDTO) formBrowser.extractBean();
-                categoryService.save(categoryDTO);
-                gridBrowser.updateAndDisplayGrid(categoryDTO);
+                ItemDTO itemDTO = (ItemDTO) formBrowser.extractBean();
+                itemService.save(itemDTO);
+                gridBrowser.updateAndDisplayGrid(itemDTO);
                 return true;
             } else {
                 return false;
@@ -84,7 +84,7 @@ public class ItemBrowser extends AbstractBrowser {
     @Override
     public void deleteItemAndUpdateGrid() throws UIException {
         try{
-            categoryService.delete(((CategoryDTO) gridBrowser.getSelectedGridRow()).getId());
+            itemService.delete(((ItemDTO) gridBrowser.getSelectedGridRow()).getId());
             gridBrowser.deleteEntry();
             gridBrowser.updateGrid();
         } catch (Exception err){

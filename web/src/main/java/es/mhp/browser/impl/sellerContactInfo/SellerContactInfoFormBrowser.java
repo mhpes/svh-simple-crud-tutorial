@@ -56,8 +56,6 @@ public class SellerContactInfoFormBrowser extends AbstractFormBrowser {
     @Override
     protected void bindForm(Object dto, String mode) {
         form.removeAllComponents();
-
-        buildAndBindTextField(CONTACTINFO_FIELD, true);
         form.addComponent(buildAndBindTextField(FIRST_NAME_FIELD, true));
         form.addComponent(buildAndBindTextField(LAST_NAME_FIELD, true));
         form.addComponent(buildAndBindTextField(EMAIL_FIELD, true));

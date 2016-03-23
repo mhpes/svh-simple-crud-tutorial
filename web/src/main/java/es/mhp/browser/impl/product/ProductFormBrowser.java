@@ -10,6 +10,7 @@ import es.mhp.services.ICategoryService;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.CategoryDTO;
 import es.mhp.services.dto.ProductDTO;
+import es.mhp.services.dto.SellerContactInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -76,8 +77,8 @@ public class ProductFormBrowser extends AbstractFormBrowser {
     }
 
     private ComboBox buildAndBindCategoryComboBox(ProductDTO productDTO) {
-        Set<AbstractDTO> categorySet = categoryService.findAll();
-        BeanItemContainer<AbstractDTO> zipLocationContainer = new BeanItemContainer<>(AbstractDTO.class, categorySet);
+        Set<CategoryDTO> categorySet = (Set<CategoryDTO>)(Set<?>) categoryService.findAll();
+        BeanItemContainer<CategoryDTO> zipLocationContainer = new BeanItemContainer<>(CategoryDTO.class, categorySet);
         ComboBox categoryCombobox = new ComboBox(CATEGORY, categorySet);
         categoryCombobox.setContainerDataSource(zipLocationContainer);
         categoryCombobox.setItemCaptionPropertyId(CATEGORYID_FIELD);
@@ -86,8 +87,8 @@ public class ProductFormBrowser extends AbstractFormBrowser {
         fieldGroup.bind(categoryCombobox, CATEGORY_FIELD);
 
         if (productDTO.getCategoryDTO() != null) {
-            Optional<AbstractDTO> categoryDTOOptional = zipLocationContainer.getItemIds().stream()
-                    .filter(dto -> ((CategoryDTO)dto).getCategoryId() == productDTO.getCategoryDTO().getCategoryId()).findFirst();
+            Optional<CategoryDTO> categoryDTOOptional = zipLocationContainer.getItemIds().stream()
+                    .filter(dto -> dto.getCategoryId() == productDTO.getCategoryDTO().getCategoryId()).findFirst();
             if (categoryDTOOptional.isPresent()) {
                 categoryCombobox.setValue(categoryDTOOptional.get());
             }
