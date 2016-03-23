@@ -18,7 +18,7 @@ public class SellerContactInfo extends AbstractEntity{
     @Column(name = "CONTACTINFOID")
     private Integer sellerId;
 
-    @OneToMany(orphanRemoval = true, mappedBy = "seller")
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
     private Set<Item> item;
 
     @Column(name = "LASTNAME")

@@ -9,10 +9,10 @@ import java.util.Collection;
  */
 
 public interface IGridBrowser {
-    void updateGrid(Collection<? extends AbstractDTO> newDataSource);
     void addDoubleClickListenerToGrid();
     Object getSelectedGridRow();
     void deleteEntry();
     void updateGrid();
-    void updateAndDisplayGrid(AbstractDTO id);
+    void updateGrid(AbstractDTO id);
+    void updateGrid(Collection<? extends AbstractDTO> newDataSource);
 }

@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 import java.util.Set;
 
-import static es.mhp.views.utils.AddressViewConstants.ADDRESS_ID;
 import static es.mhp.views.utils.ItemViewConstants.*;
 
 /**
@@ -149,7 +148,7 @@ public class ItemFormBrowser extends AbstractFormBrowser {
 
         if (itemDTO.getSellerContactInfoDTO() != null) {
             Optional<SellerContactInfoDTO> sellerLocationDTOOptional = selllerLocationContainer.getItemIds().stream()
-                    .filter(dto -> dto.getContactInfoId() == itemDTO.getSellerContactInfoDTO().getContactInfoId()).findFirst();
+                    .filter(dto -> dto.getSellerId() == itemDTO.getSellerContactInfoDTO().getSellerId()).findFirst();
             if (sellerLocationDTOOptional.isPresent()) {
                 sellerCombobox.setValue(sellerLocationDTOOptional.get());
             }

@@ -4,10 +4,8 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
 import es.mhp.browser.impl.AbstractFormBrowser;
 import es.mhp.browser.utils.FormBrowserUtils;
-import es.mhp.services.ISellerContactInfoService;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.SellerContactInfoDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static es.mhp.views.utils.SellerContactInfoViewConstants.*;
@@ -24,8 +22,6 @@ public class SellerContactInfoFormBrowser extends AbstractFormBrowser {
     public SellerContactInfoFormBrowser() {
         super();
     }
-
-
 
     @Override
     public void createFormBrowser(Object dto, String mode) {
@@ -46,7 +42,7 @@ public class SellerContactInfoFormBrowser extends AbstractFormBrowser {
     protected BeanItem createBeanItem(AbstractDTO dto) {
         SellerContactInfoDTO sellerContactInfoDTO = (SellerContactInfoDTO) dto;
         BeanItem<SellerContactInfoDTO> beanItem = new BeanItem<>(sellerContactInfoDTO);
-        beanItem.addItemProperty(CONTACTINFO_FIELD, new ObjectProperty(sellerContactInfoDTO.getContactInfoId()));
+        beanItem.addItemProperty(CONTACTINFO_FIELD, new ObjectProperty(sellerContactInfoDTO.getSellerId()));
         beanItem.addItemProperty(FIRST_NAME_FIELD, new ObjectProperty(sellerContactInfoDTO.getLastName()));
         beanItem.addItemProperty(LAST_NAME_FIELD, new ObjectProperty(sellerContactInfoDTO.getFirstName()));
         beanItem.addItemProperty(EMAIL_FIELD, new ObjectProperty(sellerContactInfoDTO.getEmail()));

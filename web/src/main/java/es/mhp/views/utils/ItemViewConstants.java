@@ -29,7 +29,7 @@ public class ItemViewConstants {
 
     public static final String ADDRESSID_FIELD = "addressId";
     public static final String PRODUCTID_FIELD = "productId";
-    public static final String SELLERCONTACTINFOID_FIELD = "contactInfoId";
+    public static final String SELLERCONTACTINFOID_FIELD = "sellerId";
 
 
 }

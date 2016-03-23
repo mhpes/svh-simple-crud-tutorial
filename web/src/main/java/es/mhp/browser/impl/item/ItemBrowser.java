@@ -64,8 +64,9 @@ public class ItemBrowser extends AbstractBrowser {
             if (formBrowser.isModified()) {
                 formBrowser.commit();
                 ItemDTO itemDTO = (ItemDTO) formBrowser.extractBean();
-                itemService.save(itemDTO);
-                gridBrowser.updateAndDisplayGrid(itemDTO);
+                ItemDTO itemDTOUpdated = itemService.save(itemDTO);
+                gridBrowser.updateGrid(itemDTOUpdated);
+                displayGridAndHideForm();
                 return true;
             } else {
                 return false;

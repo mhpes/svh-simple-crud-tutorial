@@ -80,7 +80,7 @@ public class CategoryGridBrowser extends AbstractGridBrowser {
     }
 
     @Override
-    public void updateAndDisplayGrid(AbstractDTO dto) {
+    public void updateGrid(AbstractDTO dto) {
         if (grid.getContainerDataSource().containsId(dto)) {
             grid.getContainerDataSource().removeItem(dto);
         }

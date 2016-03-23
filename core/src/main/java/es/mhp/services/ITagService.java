@@ -10,5 +10,5 @@ import java.util.Set;
  */
 public interface ITagService extends AbstractService {
     Set<AbstractDTO> findAnyTags(String text);
-    void save(TagDTO tagDTO);
+    TagDTO save(TagDTO tagDTO);
 }

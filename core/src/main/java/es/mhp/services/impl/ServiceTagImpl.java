@@ -42,8 +42,8 @@ public class ServiceTagImpl implements ITagService {
     }
 
     @Override
-    public void save(TagDTO tagDTO) {
-        tagRepository.save(tagDTO.toEntity());
+    public TagDTO save(TagDTO tagDTO) {
+        return new TagDTO(tagRepository.save(tagDTO.toEntity()));
     }
 
     @Override

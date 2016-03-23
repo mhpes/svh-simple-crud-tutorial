@@ -64,8 +64,10 @@ public class SellerContactInfoBrowser extends AbstractBrowser {
             if (formBrowser.isModified()) {
                 formBrowser.commit();
                 SellerContactInfoDTO sellerContactInfoDTO = (SellerContactInfoDTO) formBrowser.extractBean();
-                sellerContactInfoService.save(sellerContactInfoDTO);
-                gridBrowser.updateAndDisplayGrid(sellerContactInfoDTO);
+                // Service returns the dto updated (with the id included if it is a new item)
+                SellerContactInfoDTO sellerContactInfoDTOUpdated = sellerContactInfoService.save(sellerContactInfoDTO);
+                gridBrowser.updateGrid(sellerContactInfoDTOUpdated);
+                displayGridAndHideForm();
                 return true;
             } else {
                 return false;

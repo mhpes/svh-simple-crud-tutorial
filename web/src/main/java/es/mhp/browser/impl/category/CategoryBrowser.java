@@ -55,7 +55,7 @@ public class CategoryBrowser extends AbstractBrowser {
     @Override
     public void createAndDisplayForm(String mode) {
         displayFormAndHideGrid();
-        formBrowser.createFormBrowser((AbstractDTO) gridBrowser.getSelectedGridRow(), mode);
+        formBrowser.createFormBrowser(gridBrowser.getSelectedGridRow(), mode);
     }
 
     @Override
@@ -64,8 +64,9 @@ public class CategoryBrowser extends AbstractBrowser {
             if (formBrowser.isModified()) {
                 formBrowser.commit();
                 CategoryDTO categoryDTO = (CategoryDTO) formBrowser.extractBean();
-                categoryService.save(categoryDTO);
-                gridBrowser.updateAndDisplayGrid(categoryDTO);
+                CategoryDTO categoryDTOUpdated = categoryService.save(categoryDTO);
+                gridBrowser.updateGrid(categoryDTOUpdated);
+                displayGridAndHideForm();
                 return true;
             } else {
                 return false;

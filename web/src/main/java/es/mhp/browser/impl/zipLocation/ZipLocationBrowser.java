@@ -64,8 +64,9 @@ public class ZipLocationBrowser extends AbstractBrowser {
             if (formBrowser.isModified()) {
                 formBrowser.commit();
                 ZipLocationDTO zipLocationDTO = (ZipLocationDTO) formBrowser.extractBean();
-                zipLocationService.save(zipLocationDTO);
-                gridBrowser.updateAndDisplayGrid(zipLocationDTO);
+                ZipLocationDTO zipLocationDTOUpdated = zipLocationService.save(zipLocationDTO);
+                gridBrowser.updateGrid(zipLocationDTOUpdated);
+                displayGridAndHideForm();
                 return true;
             } else {
                 return false;

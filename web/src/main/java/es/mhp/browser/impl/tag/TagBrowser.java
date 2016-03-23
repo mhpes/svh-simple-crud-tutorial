@@ -67,8 +67,9 @@ public class TagBrowser extends AbstractBrowser {
             if (formBrowser.isModified()) {
                 formBrowser.commit();
                 TagDTO tagDTO = (TagDTO) formBrowser.extractBean();
-                tagService.save(tagDTO);
-                gridBrowser.updateAndDisplayGrid(tagDTO);
+                TagDTO tagDTOUpdated = tagService.save(tagDTO);
+                gridBrowser.updateGrid(tagDTOUpdated);
+                displayGridAndHideForm();
                 return true;
             } else {
                 return false;

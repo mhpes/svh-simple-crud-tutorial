@@ -53,7 +53,7 @@ public class AddressBrowser extends AbstractBrowser {
     @Override
     public void createAndDisplayForm(String mode) {
         displayFormAndHideGrid();
-        formBrowser.createFormBrowser((AbstractDTO) gridBrowser.getSelectedGridRow(), mode);
+        formBrowser.createFormBrowser(gridBrowser.getSelectedGridRow(), mode);
     }
 
     @Override
@@ -62,8 +62,9 @@ public class AddressBrowser extends AbstractBrowser {
             if (formBrowser.isModified()) {
                 formBrowser.commit();
                 AddressDTO addresDto = (AddressDTO) formBrowser.extractBean();
-                addressService.save(addresDto);
-                gridBrowser.updateAndDisplayGrid(addresDto);
+                AddressDTO addressDTOUpdated = addressService.save(addresDto);
+                gridBrowser.updateGrid(addressDTOUpdated);
+                displayGridAndHideForm();
                 return true;
             } else {
                 return false;

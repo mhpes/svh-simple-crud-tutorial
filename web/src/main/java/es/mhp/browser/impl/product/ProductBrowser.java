@@ -64,8 +64,9 @@ public class ProductBrowser extends AbstractBrowser {
             if (formBrowser.isModified()) {
                 formBrowser.commit();
                 ProductDTO productDTO = (ProductDTO) formBrowser.extractBean();
-                productService.save(productDTO);
-                gridBrowser.updateAndDisplayGrid(productDTO);
+                ProductDTO productDTOUpdated = productService.save(productDTO);
+                gridBrowser.updateGrid(productDTOUpdated);
+                displayGridAndHideForm();
                 return true;
             } else {
                 return false;

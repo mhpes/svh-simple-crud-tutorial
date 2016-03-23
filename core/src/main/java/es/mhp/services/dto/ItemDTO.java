@@ -29,9 +29,23 @@ public class ItemDTO extends AbstractDTO<Item>{
     private String imageThumbUrl;
     private Integer numberOfVotes;
 
+
     @Override
     public Item toEntity() {
         Item item = new Item();
+
+        if (this.getProductDTO() != null){
+            item.setProduct(this.getProductDTO().toEntity());
+        }
+
+        if (this.getAddressDTO() != null){
+            item.setAddress(this.getAddressDTO().toEntity());
+        }
+
+        if (this.getSellerContactInfoDTO() != null){
+            item.setSeller(this.getSellerContactInfoDTO().toEntity());
+        }
+
         BeanUtils.copyProperties(this, item);
         return item;
     }

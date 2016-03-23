@@ -8,7 +8,7 @@ import org.springframework.beans.BeanUtils;
  */
 public class SellerContactInfoDTO extends AbstractDTO<SellerContactInfo> {
 
-    private int contactInfoId;
+    private int sellerId;
     private String lastName;
     private String firstName;
     private String email;
@@ -23,7 +23,7 @@ public class SellerContactInfoDTO extends AbstractDTO<SellerContactInfo> {
 
     @Override
     public Object getId() {
-        return getContactInfoId();
+        return getSellerId();
     }
 
     @Override
@@ -33,8 +33,8 @@ public class SellerContactInfoDTO extends AbstractDTO<SellerContactInfo> {
         return sellerContactInfo;
     }
 
-    public SellerContactInfoDTO(int contactInfoId, String lastName, String firstName, String email) {
-        this.contactInfoId = contactInfoId;
+    public SellerContactInfoDTO(int sellerId, String lastName, String firstName, String email) {
+        this.sellerId = sellerId;
         this.lastName = lastName;
         this.firstName = firstName;
         this.email = email;
@@ -42,19 +42,19 @@ public class SellerContactInfoDTO extends AbstractDTO<SellerContactInfo> {
 
     public SellerContactInfoDTO(SellerContactInfo sellerContactInfo) {
         if (sellerContactInfo != null) {
-            this.contactInfoId = sellerContactInfo.getSellerId();
+            this.sellerId = sellerContactInfo.getSellerId();
             this.lastName = sellerContactInfo.getLastName();
             this.firstName = sellerContactInfo.getFirstName();
             this.email = sellerContactInfo.getEmail();
         }
     }
 
-    public int getContactInfoId() {
-        return contactInfoId;
+    public int getSellerId() {
+        return sellerId;
     }
 
-    public void setContactInfoId(int contactInfoId) {
-        this.contactInfoId = contactInfoId;
+    public void setSellerId(int sellerId) {
+        this.sellerId = sellerId;
     }
 
     public String getLastName() {
