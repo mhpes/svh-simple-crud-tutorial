@@ -14,6 +14,9 @@ import org.springframework.stereotype.Component;
 @Scope("session")
 public class GridBrowserPresenter {
 
+    public GridBrowserPresenter() {
+    }
+
     public void addDoubleClickListenerToGrid(Grid grid, AbstractView view) {
         grid.addItemClickListener((ItemClickEvent.ItemClickListener) event -> {
             if (event.isDoubleClick()){

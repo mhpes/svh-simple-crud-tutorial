@@ -13,6 +13,7 @@ import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.AddressDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 
 import java.util.Set;
 
@@ -21,6 +22,7 @@ import java.util.Set;
  */
 
 @org.springframework.stereotype.Component(AddressBrowser.BEAN_NAME)
+@Scope("prototype")
 public class AddressBrowser extends AbstractBrowser {
 
     public static final String BEAN_NAME = "address_browser";
@@ -42,12 +44,11 @@ public class AddressBrowser extends AbstractBrowser {
 
     @Override
     public void buildBrowser() {
-        gridBrowser.configure();
-
         this.addComponent((Component) formBrowser);
         this.addComponent((AbstractGridBrowser)gridBrowser);
 
         updateAndDisplayGrid(addressService.findAll());
+        gridBrowser.configure();
     }
 
     @Override

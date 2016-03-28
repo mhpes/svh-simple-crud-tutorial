@@ -19,8 +19,6 @@ public class AddressSearchForm extends AbstractSearchForm {
 
     public static final String BEAN_NAME = "address_search_form";
 
-    private FormLayout searchForm;
-
     @Autowired
     private AddressSearchFormPresenter presenter;
 

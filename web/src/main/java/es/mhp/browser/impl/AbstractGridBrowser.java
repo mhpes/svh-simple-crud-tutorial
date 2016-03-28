@@ -24,7 +24,8 @@ public abstract class AbstractGridBrowser extends VerticalLayout implements IGri
 
     @Override
     public void configure() {
-        presenter.addDoubleClickListenerToGrid(getGrid(), (AbstractView)getParent().getParent());
+        //Ask to Isa: (AbstractView)getGrid().getParent().getParent() is it correct?
+        presenter.addDoubleClickListenerToGrid(getGrid(), (AbstractView)this.getGrid().getParent().getParent().getParent());
     }
 
     protected abstract Grid getGrid();

@@ -15,6 +15,7 @@ import es.mhp.services.dto.SellerContactInfoDTO;
 import es.mhp.views.AbstractView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 
 import java.util.Set;
 
@@ -23,6 +24,7 @@ import java.util.Set;
  */
 
 @org.springframework.stereotype.Component(SellerContactInfoBrowser.BEAN_NAME)
+@Scope("prototype")
 public class SellerContactInfoBrowser extends AbstractBrowser {
 
     public static final String BEAN_NAME = "sellerContactInfo_browser";
