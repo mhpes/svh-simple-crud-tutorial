@@ -13,5 +13,5 @@ public interface IAddressService extends AbstractService{
     Set<AbstractDTO> findAllAddresses(AddressDTO addressDTO);
     Set<AbstractDTO> findAnyAddresses(AddressDTO addressDTO);
     AddressDTO save(AddressDTO addressDTO);
-    Set<String> stateList();
+    Set<String> getStateList();
 }

@@ -16,7 +16,7 @@ import static es.mhp.browser.utils.FormBrowserUtils.NEW_MODE;
 /**
  * Created by Edu on 23/02/2016.
  */
-public abstract class AbstractView<T> extends VerticalLayout implements View {
+public abstract class AbstractView extends VerticalLayout implements View {
 
     @Autowired
     protected IToolbar toolbar;
@@ -43,7 +43,7 @@ public abstract class AbstractView<T> extends VerticalLayout implements View {
         try {
             switch (state) {
                 case INITIAL:
-                    getBrowser().displayGridAndHideForm();
+                    //getBrowser().displayGridAndHideForm();
                     toolbar.updateToolbar(StateType.INITIAL);
                     break;
                 case NEW:
@@ -55,7 +55,7 @@ public abstract class AbstractView<T> extends VerticalLayout implements View {
                     toolbar.updateToolbar(StateType.EDIT);
                     break;
                 case SAVE:
-                    Boolean isSaved = getBrowser().saveItemAndUpdateGrid();
+                    Boolean isSaved = true;/*getBrowser().saveItemAndUpdateGrid();*/
                     if (isSaved) {
                         toolbar.updateToolbar(StateType.SELECTEDROW);
                         Notification.show("item saved correctly!", Notification.Type.HUMANIZED_MESSAGE);
@@ -64,18 +64,20 @@ public abstract class AbstractView<T> extends VerticalLayout implements View {
                     }
                     break;
                 case SELECTEDROW:
-                    getBrowser().displayGridAndHideForm();
+                    //getBrowser().displayGridAndHideForm();
                     toolbar.updateToolbar(StateType.SELECTEDROW);
                     break;
                 case DELETE:
-                    getBrowser().deleteItemAndUpdateGrid();
-                    getBrowser().displayGridAndHideForm();
+                    /*getBrowser().deleteItemAndUpdateGrid();
+                    getBrowser().displayGridAndHideForm();*/
                     toolbar.updateToolbar(StateType.INITIAL);
                     Notification.show("item deleted correctly!", Notification.Type.HUMANIZED_MESSAGE);
                     break;
+                default:
+                    break;
             }
-        } catch (UIException e) {
-            Notification.show(e.getMessage(), Notification.Type.ERROR_MESSAGE);
+        } catch (Exception e/*UIException e*/) {
+            Notification.show(/*e.getMessage()*/"", Notification.Type.ERROR_MESSAGE);
         }
     }
 

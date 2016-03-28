@@ -1,4 +1,4 @@
-package es.mhp.browser.impl.zipLocation;
+package es.mhp.browser.impl.ziplocation;
 
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Grid;

@@ -1,7 +1,6 @@
 package es.mhp.toolbar.impl;
 
 import com.vaadin.ui.Button;
-import es.mhp.browser.IBrowser;
 import es.mhp.browser.utils.StateType;
 import es.mhp.browser.utils.ToolButtonType;
 import es.mhp.toolbar.AbstractToolbar;
@@ -31,7 +30,8 @@ public class Toolbar extends AbstractToolbar {
         this.buttonMap = new LinkedHashMap<>();
     }
 
-    public void buildToolbar(IBrowser browser){
+    @Override
+    public void buildToolbar(){
         this.removeAllComponents();
         this.buttonMap.putAll(presenter.createButtons((AbstractView)getParent()));
 
@@ -50,7 +50,12 @@ public class Toolbar extends AbstractToolbar {
         return buttonMap;
     }
 
-    private void setButtonMap(Map<ToolButtonType, Button> buttonMap) {
-        this.buttonMap = buttonMap;
+    public ToolbarPresenter getPresenter() {
+        return presenter;
+    }
+
+    @Override
+    public void setPresenter(ToolbarPresenter presenter) {
+        this.presenter = presenter;
     }
 }

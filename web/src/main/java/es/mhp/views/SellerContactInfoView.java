@@ -3,11 +3,10 @@ package es.mhp.views;
 import com.vaadin.spring.annotation.SpringView;
 import es.mhp.browser.IBrowser;
 import es.mhp.browser.impl.AbstractBrowser;
-import es.mhp.browser.impl.sellerContactInfo.SellerContactInfoBrowser;
+import es.mhp.browser.impl.sellercontactinfo.SellerContactInfoBrowser;
 import es.mhp.search.ISearchForm;
 import es.mhp.search.impl.AbstractSearchForm;
-import es.mhp.search.impl.sellerContactInfo.SellerContactInfoSearchForm;
-import es.mhp.services.dto.SellerContactInfoDTO;
+import es.mhp.search.impl.sellercontactinfo.SellerContactInfoSearchForm;
 import es.mhp.toolbar.impl.Toolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,7 +18,7 @@ import static es.mhp.views.utils.SellerContactInfoViewConstants.VIEW_NAME;
  */
 
 @SpringView(name = VIEW_NAME)
-public class SellerContactInfoView extends AbstractView<SellerContactInfoDTO> {
+public class SellerContactInfoView extends AbstractView {
 
     @Autowired
     @Qualifier(SellerContactInfoSearchForm.BEAN_NAME)
@@ -30,7 +29,7 @@ public class SellerContactInfoView extends AbstractView<SellerContactInfoDTO> {
     private IBrowser browser;
 
     public SellerContactInfoView() {
-        this.addStyleName("sellerContactInfo-view");
+        this.addStyleName("sellercontactinfo-view");
     }
 
     @Override
@@ -44,7 +43,7 @@ public class SellerContactInfoView extends AbstractView<SellerContactInfoDTO> {
     @Override
     protected void configureComponents() {
         browser.buildBrowser();
-        toolbar.buildToolbar(browser);
+        toolbar.buildToolbar();
         searchForm.buildSearchForm(browser, toolbar);
     }
 

@@ -7,7 +7,6 @@ import es.mhp.browser.impl.tag.TagBrowser;
 import es.mhp.search.ISearchForm;
 import es.mhp.search.impl.AbstractSearchForm;
 import es.mhp.search.impl.tag.TagSearchForm;
-import es.mhp.services.dto.TagDTO;
 import es.mhp.toolbar.impl.Toolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,7 +18,7 @@ import static es.mhp.views.utils.TagViewConstants.VIEW_NAME;
  */
 
 @SpringView(name = VIEW_NAME)
-public class TagView extends AbstractView<TagDTO> {
+public class TagView extends AbstractView {
 
     @Autowired
     @Qualifier(TagSearchForm.BEAN_NAME)
@@ -44,7 +43,7 @@ public class TagView extends AbstractView<TagDTO> {
     @Override
     protected void configureComponents() {
         browser.buildBrowser();
-        toolbar.buildToolbar(browser);
+        toolbar.buildToolbar();
         searchForm.buildSearchForm(browser, toolbar);
     }
 

@@ -11,11 +11,12 @@ public abstract class AbstractSearchForm extends VerticalLayout implements ISear
 
     protected FormLayout searchForm;
 
-    public abstract void buildSearchForm(IBrowser browser, IToolbar toolbar);
-
     public AbstractSearchForm() {
         searchForm = new FormLayout();
         this.setSizeFull();
         this.setMargin(true);
     }
+
+    @Override
+    public abstract void buildSearchForm(IBrowser browser, IToolbar toolbar);
 }

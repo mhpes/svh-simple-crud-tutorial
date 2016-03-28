@@ -3,11 +3,10 @@ package es.mhp.views;
 import com.vaadin.spring.annotation.SpringView;
 import es.mhp.browser.IBrowser;
 import es.mhp.browser.impl.AbstractBrowser;
-import es.mhp.browser.impl.zipLocation.ZipLocationBrowser;
+import es.mhp.browser.impl.ziplocation.ZipLocationBrowser;
 import es.mhp.search.ISearchForm;
 import es.mhp.search.impl.AbstractSearchForm;
-import es.mhp.search.impl.zipLocation.ZipLocationSearchForm;
-import es.mhp.services.dto.ZipLocationDTO;
+import es.mhp.search.impl.ziplocation.ZipLocationSearchForm;
 import es.mhp.toolbar.impl.Toolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,7 +18,7 @@ import static es.mhp.views.utils.ZipLocationViewConstants.VIEW_NAME;
  */
 
 @SpringView(name = VIEW_NAME)
-public class ZipLocationView extends AbstractView<ZipLocationDTO> {
+public class ZipLocationView extends AbstractView {
 
     @Autowired
     @Qualifier(ZipLocationSearchForm.BEAN_NAME)
@@ -30,7 +29,7 @@ public class ZipLocationView extends AbstractView<ZipLocationDTO> {
     private IBrowser browser;
 
     public ZipLocationView() {
-        this.addStyleName("zipLocation-view");
+        this.addStyleName("ziplocation-view");
     }
 
     @Override
@@ -44,7 +43,7 @@ public class ZipLocationView extends AbstractView<ZipLocationDTO> {
     @Override
     protected void configureComponents() {
         browser.buildBrowser();
-        toolbar.buildToolbar(browser);
+        toolbar.buildToolbar();
         searchForm.buildSearchForm(browser, toolbar);
     }
 

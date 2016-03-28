@@ -13,8 +13,6 @@ import es.mhp.services.dto.ZipLocationDTO;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 
@@ -39,13 +37,15 @@ public class AddressFormBrowser extends AbstractFormBrowser {
     @Override
     public void createFormBrowser(Object dto, String mode) {
         AddressDTO addressDto = new AddressDTO();
-        BeanItem<AddressDTO> beanItem = null;
+        BeanItem<AddressDTO> beanItem;
+
         if (dto != null && FormBrowserUtils.EDIT_MODE.equals(mode)) {
             addressDto = (AddressDTO) dto;
             beanItem = createBeanItem(addressDto);
         } else {
             beanItem = new BeanItem<>(addressDto);
         }
+
         createFieldGroup(beanItem);
         bindForm(addressDto, mode);
         fieldGroup.bindMemberFields(form);

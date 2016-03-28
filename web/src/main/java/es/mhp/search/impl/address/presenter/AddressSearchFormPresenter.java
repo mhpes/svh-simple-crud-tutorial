@@ -1,10 +1,10 @@
 package es.mhp.search.impl.address.presenter;
 
-import com.vaadin.ui.*;
+import com.vaadin.ui.ComboBox;
 import es.mhp.browser.IBrowser;
 import es.mhp.browser.utils.StateType;
+import es.mhp.search.impl.address.AddressSearchForm;
 import es.mhp.services.IAddressService;
-import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.AddressDTO;
 import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,51 +21,44 @@ import static es.mhp.views.utils.AddressViewConstants.*;
 public class AddressSearchFormPresenter {
 
     @Autowired
-    private IAddressService iAddressService;
+    private IAddressService addressService;
 
-    @Autowired
-    private IZipLocationService iZipLocationService;
+    public void buildSearchForm(IBrowser browser, IToolbar toolbar, AddressSearchForm addressSearchForm) {
+        //browser.updateAndDisplayGrid(addressService.findAll());
 
-    public void buildSearchForm(IBrowser browser, IToolbar toolbar, FormLayout searchForm) {
-        searchForm = new FormLayout();
-
-        TextField mainStreet = new TextField(MAIN_STREET);
-        TextField secondaryStreet = new TextField(SECONDARY_STREET);
-        ComboBox city = new ComboBox(CITY);
-        city.addItems(cityList);
-        city.select("Stanford");
-        city.setNullSelectionAllowed(false);
-
-        ComboBox state = new ComboBox(STATE);
-        state.addItems(iAddressService.stateList());
-
-        OptionGroup browserWay = new OptionGroup();
-        browserWay.addItems(ALL, ANY);
-        browserWay.select(ALL);
-
-        Button browserButton = new Button(ADDRESS_SEARCH);
-
-        browser.updateAndDisplayGrid(iAddressService.findAll());
-
-        browserButton.addClickListener(e -> {
+        addressSearchForm.getBrowserButton().addClickListener(e -> {
             browser.buildBrowser();
             toolbar.updateToolbar(StateType.INITIAL);
             AddressDTO addressDTO;
-            if (state.getValue() == null)
-                addressDTO = new AddressDTO(mainStreet.getValue().toString(), secondaryStreet.getValue().toString(), city.getValue().toString());
-            else
-                addressDTO = new AddressDTO(mainStreet.getValue().toString(), secondaryStreet.getValue().toString(), city.getValue().toString(), state.getValue().toString());
 
-            String way = browserWay.getValue().toString();
+            String mainStreet = addressSearchForm.getMainStreetTextField().getValue();
+            String secondaryString = addressSearchForm.getSecondaryStreetTextField().getValue();
+            String city = addressSearchForm.getCityComboBox().getValue().toString();
+            String state = addressSearchForm.getStateComboBox().getValue().toString();
+            String browserWay = addressSearchForm.getBrowserWayOptionGroup().getValue().toString();
 
-            if (ALL.equals(way)){
-                browser.updateAndDisplayGrid(iAddressService.findAllAddresses(addressDTO));
+            if (addressSearchForm.getStateComboBox().getValue() == null)
+                addressDTO = new AddressDTO(mainStreet, secondaryString, city);
+            else {
+                addressDTO = new AddressDTO(mainStreet, secondaryString, city, state);
             }
-            else if (ANY.equals(way)){
-                browser.updateAndDisplayGrid(iAddressService.findAnyAddresses(addressDTO));
+
+            /*if (ALL.equals(browserWay)){
+                browser.updateAndDisplayGrid(addressService.findAllAddresses(addressDTO));
             }
+            else if (ANY.equals(browserWay)){
+                browser.updateAndDisplayGrid(addressService.findAnyAddresses(addressDTO));
+            }*/
         });
+    }
 
-        searchForm.addComponents(mainStreet, secondaryStreet, city, state, browserWay, browserButton);
+    public void fillCitiesComboBox(ComboBox cityComboBox) {
+        cityComboBox.addItems(cityList);
+        cityComboBox.select("Stanford");
+        cityComboBox.setNullSelectionAllowed(false);
+    }
+
+    public void fillStatesComboBox(ComboBox stateComboBox) {
+        stateComboBox.addItems(addressService.getStateList());
     }
 }

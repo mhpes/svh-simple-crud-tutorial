@@ -1,13 +1,11 @@
-package es.mhp.browser.impl.zipLocation;
+package es.mhp.browser.impl.ziplocation;
 
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
 import es.mhp.browser.impl.AbstractFormBrowser;
 import es.mhp.browser.utils.FormBrowserUtils;
-import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.ZipLocationDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static es.mhp.views.utils.ZipLocationViewConstants.*;
@@ -28,13 +26,15 @@ public class ZipLocationFormBrowser extends AbstractFormBrowser {
     @Override
     public void createFormBrowser(Object dto, String mode) {
         ZipLocationDTO zipLocationDTO = new ZipLocationDTO();
-        BeanItem<ZipLocationDTO> beanItem = null;
+        BeanItem<ZipLocationDTO> beanItem;
+
         if (dto != null && FormBrowserUtils.EDIT_MODE.equals(mode)) {
             zipLocationDTO = (ZipLocationDTO) dto;
             beanItem = createBeanItem(zipLocationDTO);
         } else {
             beanItem = new BeanItem<>(zipLocationDTO);
         }
+
         createFieldGroup(beanItem);
         bindForm(zipLocationDTO, mode);
         fieldGroup.bindMemberFields(form);

@@ -8,7 +8,6 @@ import es.mhp.browser.utils.StateType;
 import es.mhp.search.ISearchForm;
 import es.mhp.search.impl.AbstractSearchForm;
 import es.mhp.search.impl.address.AddressSearchForm;
-import es.mhp.services.dto.AddressDTO;
 import es.mhp.toolbar.impl.Toolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,7 +19,7 @@ import static es.mhp.views.utils.AddressViewConstants.VIEW_NAME;
  */
 
 @SpringView(name = VIEW_NAME)
-public class AddressView extends AbstractView<AddressDTO> {
+public class AddressView extends AbstractView {
 
     @Autowired
     @Qualifier(AddressSearchForm.BEAN_NAME)
@@ -45,7 +44,7 @@ public class AddressView extends AbstractView<AddressDTO> {
     @Override
     protected void configureComponents() {
         browser.buildBrowser();
-        toolbar.buildToolbar(browser);
+        toolbar.buildToolbar();
         updateToolbar(StateType.INITIAL);
         searchForm.buildSearchForm(browser, toolbar);
     }

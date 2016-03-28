@@ -1,4 +1,4 @@
-package es.mhp.browser.impl.sellerContactInfo;
+package es.mhp.browser.impl.sellercontactinfo;
 
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
@@ -26,13 +26,15 @@ public class SellerContactInfoFormBrowser extends AbstractFormBrowser {
     @Override
     public void createFormBrowser(Object dto, String mode) {
         SellerContactInfoDTO sellerContactInfoDTO = new SellerContactInfoDTO();
-        BeanItem<SellerContactInfoDTO> beanItem = null;
+        BeanItem<SellerContactInfoDTO> beanItem;
+
         if (dto != null && FormBrowserUtils.EDIT_MODE.equals(mode)) {
             sellerContactInfoDTO = (SellerContactInfoDTO) dto;
             beanItem = createBeanItem(sellerContactInfoDTO);
         } else {
             beanItem = new BeanItem<>(sellerContactInfoDTO);
         }
+
         createFieldGroup(beanItem);
         bindForm(sellerContactInfoDTO, mode);
         fieldGroup.bindMemberFields(form);

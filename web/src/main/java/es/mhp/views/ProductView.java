@@ -7,7 +7,6 @@ import es.mhp.browser.impl.product.ProductBrowser;
 import es.mhp.search.ISearchForm;
 import es.mhp.search.impl.AbstractSearchForm;
 import es.mhp.search.impl.product.ProductSearchForm;
-import es.mhp.services.dto.ProductDTO;
 import es.mhp.toolbar.impl.Toolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,7 +18,7 @@ import static es.mhp.views.utils.ProductViewConstants.VIEW_NAME;
  */
 
 @SpringView(name = VIEW_NAME)
-public class ProductView extends AbstractView<ProductDTO> {
+public class ProductView extends AbstractView {
 
     @Autowired
     @Qualifier(ProductSearchForm.BEAN_NAME)
@@ -44,7 +43,7 @@ public class ProductView extends AbstractView<ProductDTO> {
     @Override
     protected void configureComponents() {
         browser.buildBrowser();
-        toolbar.buildToolbar(browser);
+        toolbar.buildToolbar();
         searchForm.buildSearchForm(browser, toolbar);
     }
 

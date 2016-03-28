@@ -61,7 +61,7 @@ public class CategoryBrowser extends AbstractBrowser {
         formBrowser.createFormBrowser(gridBrowser.getSelectedGridRow(), mode);
     }
 
-    @Override
+    //@Override
     public boolean saveItemAndUpdateGrid() throws UIException {
         try {
             if (formBrowser.isModified()) {
@@ -79,13 +79,13 @@ public class CategoryBrowser extends AbstractBrowser {
         }
     }
 
-    @Override
+    //@Override
     public void updateAndDisplayGrid(Set<AbstractDTO> newDataSource) {
         gridBrowser.updateGrid(newDataSource);
         ((AbstractView)this.getParent()).updateToolbar(StateType.INITIAL);
     }
 
-    @Override
+    //@Override
     public void deleteItemAndUpdateGrid() throws UIException {
         try{
             categoryService.delete(((CategoryDTO) gridBrowser.getSelectedGridRow()).getId());
@@ -96,13 +96,13 @@ public class CategoryBrowser extends AbstractBrowser {
         }
     }
 
-    @Override
+    //@Override
     public void displayGridAndHideForm() {
         ((AbstractFormBrowser)formBrowser).setVisible(false);
         ((AbstractGridBrowser)gridBrowser).setVisible(true);
     }
 
-    @Override
+    //@Override
     public void displayFormAndHideGrid() {
         ((AbstractGridBrowser)gridBrowser).setVisible(false);
         ((AbstractFormBrowser)formBrowser).setVisible(true);

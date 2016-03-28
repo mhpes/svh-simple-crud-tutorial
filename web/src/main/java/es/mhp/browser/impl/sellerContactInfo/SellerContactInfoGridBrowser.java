@@ -1,4 +1,4 @@
-package es.mhp.browser.impl.sellerContactInfo;
+package es.mhp.browser.impl.sellercontactinfo;
 
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Grid;

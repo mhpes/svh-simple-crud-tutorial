@@ -37,13 +37,13 @@ public class CategorySearchForm extends AbstractSearchForm {
         TextField filter = new TextField();
         filter.setInputPrompt("Filter categories...");
 
-        browser.updateAndDisplayGrid(categoryService.findAll());
+        /*browser.updateAndDisplayGrid(categoryService.findAll());
         toolbar.updateToolbar(StateType.INITIAL);
 
         filter.addTextChangeListener(e -> {
             browser.buildBrowser();
             browser.updateAndDisplayGrid(categoryService.findAnyCategories(e.getText()));
-        });
+        });*/
 
         searchForm.addComponents(filter);
     }

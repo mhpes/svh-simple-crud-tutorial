@@ -18,7 +18,7 @@ import java.util.Map;
 @Scope("session")
 public class ToolbarPresenter {
 
-    public Map<? extends ToolButtonType,? extends Button> createButtons(AbstractView view) {
+    public Map<ToolButtonType,Button> createButtons(AbstractView view) {
         Map<ToolButtonType, Button> buttonMap = new LinkedHashMap<>();
         buttonMap.put(ToolButtonType.NEW, createNewButton(view));
         buttonMap.put(ToolButtonType.SAVE, createSaveButton(view));
@@ -28,30 +28,26 @@ public class ToolbarPresenter {
     }
 
     private Button createBackButton(AbstractView view) {
-        Button.ClickListener listener = (Button.ClickListener) clickEvent -> {
-            view.updateView(StateType.INITIAL);
-        };
+        Button.ClickListener listener = (Button.ClickListener) clickEvent ->
+                view.updateView(StateType.INITIAL);
         return new Button(ToolButtonType.BACK.toString(), listener);
     }
 
     private Button createDeleteButton(AbstractView view) {
-        Button.ClickListener listener = (Button.ClickListener) clickEvent -> {
-            view.updateView(StateType.DELETE);
-        };
+        Button.ClickListener listener = (Button.ClickListener) clickEvent ->
+                view.updateView(StateType.DELETE);
         return new Button(ToolButtonType.DELETE.toString(), listener);
     }
 
     private Button createSaveButton(AbstractView view) {
-        Button.ClickListener listener = (Button.ClickListener) clickEvent -> {
-            view.updateView(StateType.SAVE);
-        };
+        Button.ClickListener listener = (Button.ClickListener) clickEvent ->
+                view.updateView(StateType.SAVE);
         return new Button(ToolButtonType.SAVE.toString(), listener);
     }
 
     private Button createNewButton(AbstractView view) {
-        Button.ClickListener listener = (Button.ClickListener) clickEvent -> {
-            view.updateView(StateType.NEW);
-        };
+        Button.ClickListener listener = (Button.ClickListener) clickEvent ->
+                view.updateView(StateType.NEW);
         return new Button(ToolButtonType.NEW.toString(), listener);
     }
 
@@ -84,6 +80,8 @@ public class ToolbarPresenter {
             case NEW:
                 setButtonVisible(ToolButtonType.BACK, toolbar);
                 setButtonVisible(ToolButtonType.SAVE, toolbar);
+                break;
+            default:
                 break;
         }
     }
