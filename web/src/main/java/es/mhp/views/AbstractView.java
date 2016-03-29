@@ -6,7 +6,6 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import es.mhp.browser.IBrowser;
 import es.mhp.browser.utils.StateType;
-import es.mhp.exceptions.UIException;
 import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 

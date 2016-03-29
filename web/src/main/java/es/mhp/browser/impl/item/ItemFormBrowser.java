@@ -43,7 +43,7 @@ public class ItemFormBrowser extends AbstractFormBrowser {
     @Override
     public void createFormBrowser(Object dto, String mode) {
         ItemDTO itemDTO = new ItemDTO();
-        BeanItem<ItemDTO> beanItem = null;
+        BeanItem<ItemDTO> beanItem;
         if (dto != null && FormBrowserUtils.EDIT_MODE.equals(mode)) {
             itemDTO = (ItemDTO) dto;
             beanItem = createBeanItem(itemDTO);

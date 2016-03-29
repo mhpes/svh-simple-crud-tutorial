@@ -33,7 +33,7 @@ public class ZipLocationView extends AbstractView {
     }
 
     @Override
-    protected void addComponentsToView() {
+    public void addComponentsToView() {
         this.removeAllComponents();
         this.addComponent((AbstractSearchForm)searchForm);
         this.addComponent((Toolbar)toolbar);

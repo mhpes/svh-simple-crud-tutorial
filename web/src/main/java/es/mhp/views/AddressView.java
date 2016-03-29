@@ -39,6 +39,8 @@ public class AddressView extends AbstractView {
         this.addComponent((AbstractSearchForm)searchForm);
         this.addComponent((Toolbar)toolbar);
         this.addComponent((AbstractBrowser)browser);
+
+        configureComponents();
     }
 
     @Override

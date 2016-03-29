@@ -6,15 +6,13 @@ import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.ui.ComboBox;
 import es.mhp.browser.impl.AbstractFormBrowser;
 import es.mhp.browser.utils.FormBrowserUtils;
-import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.AddressDTO;
 import es.mhp.services.dto.ZipLocationDTO;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.util.Optional;
-import java.util.Set;
 
 import static es.mhp.views.utils.AddressViewConstants.*;
 
@@ -27,8 +25,8 @@ public class AddressFormBrowser extends AbstractFormBrowser {
 
     public static final String BEAN_NAME = "address_form_browser";
 
-    @Autowired
-    private IZipLocationService zipLocationService;
+    /*@Autowired
+    private IZipLocationService zipLocationService;*/
 
     public AddressFormBrowser() {
         super();
@@ -82,9 +80,9 @@ public class AddressFormBrowser extends AbstractFormBrowser {
     }
 
     private ComboBox buildAndBindZipComboBox(AddressDTO addressDTO) {
-        Set<ZipLocationDTO> zipSet = (Set<ZipLocationDTO>)(Set<?>) zipLocationService.findAll();
-        BeanItemContainer<ZipLocationDTO> zipLocationContainer = new BeanItemContainer<>(ZipLocationDTO.class, zipSet);
-        ComboBox zipCombobox = new ComboBox(ZIP, zipSet);
+        //Set<ZipLocationDTO> zipSet = (Set<ZipLocationDTO>)(Set<?>) zipLocationService.findAll();
+        BeanItemContainer<ZipLocationDTO> zipLocationContainer = new BeanItemContainer<>(ZipLocationDTO.class/*, zipSet*/);
+        ComboBox zipCombobox = new ComboBox(ZIP/*, zipSet*/);
         zipCombobox.setContainerDataSource(zipLocationContainer);
         zipCombobox.setItemCaptionPropertyId(ZIPCODEID);
         zipCombobox.setNullSelectionAllowed(false);

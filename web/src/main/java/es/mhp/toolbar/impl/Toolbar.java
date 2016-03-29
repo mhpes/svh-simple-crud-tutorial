@@ -4,9 +4,7 @@ import com.vaadin.ui.Button;
 import es.mhp.browser.utils.StateType;
 import es.mhp.browser.utils.ToolButtonType;
 import es.mhp.toolbar.AbstractToolbar;
-import es.mhp.toolbar.presenter.ToolbarPresenter;
 import es.mhp.views.AbstractView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import java.util.LinkedHashMap;
@@ -22,9 +20,6 @@ public class Toolbar extends AbstractToolbar {
 
     private Map<ToolButtonType, Button> buttonMap;
 
-    @Autowired
-    private ToolbarPresenter presenter;
-
     public Toolbar() {
         super();
         this.buttonMap = new LinkedHashMap<>();
@@ -33,29 +28,87 @@ public class Toolbar extends AbstractToolbar {
     @Override
     public void buildToolbar(){
         this.removeAllComponents();
-        this.buttonMap.putAll(presenter.createButtons((AbstractView)getParent()));
+        this.buttonMap.putAll(createButtons((AbstractView)getParent()));
 
         for (Button button : buttonMap.values()) {
             this.addComponent(button);
         }
     }
 
-    @Override
+    public Map<ToolButtonType,Button> createButtons(AbstractView view) {
+        Map<ToolButtonType, Button> buttonMap = new LinkedHashMap<>();
+        buttonMap.put(ToolButtonType.NEW, createNewButton(view));
+        buttonMap.put(ToolButtonType.SAVE, createSaveButton(view));
+        buttonMap.put(ToolButtonType.DELETE, createDeleteButton(view));
+        buttonMap.put(ToolButtonType.BACK, createBackButton(view));
+        return buttonMap;
+    }
+
+    private Button createBackButton(AbstractView view) {
+        Button.ClickListener listener = (Button.ClickListener) clickEvent ->
+                view.updateView(StateType.INITIAL);
+        return new Button(ToolButtonType.BACK.toString(), listener);
+    }
+
+    private Button createDeleteButton(AbstractView view) {
+        Button.ClickListener listener = (Button.ClickListener) clickEvent ->
+                view.updateView(StateType.DELETE);
+        return new Button(ToolButtonType.DELETE.toString(), listener);
+    }
+
+    private Button createSaveButton(AbstractView view) {
+        Button.ClickListener listener = (Button.ClickListener) clickEvent ->
+                view.updateView(StateType.SAVE);
+        return new Button(ToolButtonType.SAVE.toString(), listener);
+    }
+
+    private Button createNewButton(AbstractView view) {
+        Button.ClickListener listener = (Button.ClickListener) clickEvent ->
+                view.updateView(StateType.NEW);
+        return new Button(ToolButtonType.NEW.toString(), listener);
+    }
+
     public void updateToolbar(StateType stateType) {
-        presenter.updateToolbar(this, stateType);
+        this.setAllButtonsNotVisible();
+        this.setButtonVisibleByState(stateType);
+    }
+
+    private void setAllButtonsNotVisible(){
+        getButtonMap().forEach(
+                (buttonType, button) -> button.setVisible(false));
+    }
+
+
+    private void setButtonVisibleByState(StateType state){
+        switch (state){
+            case SELECTEDROW:
+                setButtonVisible(ToolButtonType.NEW);
+                setButtonVisible(ToolButtonType.DELETE);
+                break;
+            case INITIAL:
+                setButtonVisible(ToolButtonType.NEW);
+                break;
+            case EDIT:
+                setButtonVisible(ToolButtonType.BACK);
+                setButtonVisible(ToolButtonType.NEW);
+                setButtonVisible(ToolButtonType.DELETE);
+                setButtonVisible(ToolButtonType.SAVE);
+                break;
+            case NEW:
+                setButtonVisible(ToolButtonType.BACK);
+                setButtonVisible(ToolButtonType.SAVE);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void setButtonVisible(ToolButtonType buttonType){
+        getButtonMap().get(buttonType).setVisible(true);
     }
 
     @Override
     public Map<ToolButtonType, Button> getButtonMap() {
         return buttonMap;
-    }
-
-    public ToolbarPresenter getPresenter() {
-        return presenter;
-    }
-
-    @Override
-    public void setPresenter(ToolbarPresenter presenter) {
-        this.presenter = presenter;
     }
 }

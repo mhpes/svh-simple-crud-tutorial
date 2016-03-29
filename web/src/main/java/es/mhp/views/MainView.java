@@ -18,7 +18,7 @@ public class MainView extends AbstractView {
     }
 
     @Override
-    void addComponentsToView() {
+    public void addComponentsToView() {
 
     }
 

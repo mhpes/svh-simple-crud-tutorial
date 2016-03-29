@@ -1,9 +1,8 @@
-package es.mhp.search.impl.zipLocation;
+package es.mhp.search.impl.ziplocation;
 
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import es.mhp.browser.IBrowser;
-import es.mhp.browser.utils.StateType;
 import es.mhp.search.impl.AbstractSearchForm;
 import es.mhp.services.IZipLocationService;
 import es.mhp.toolbar.IToolbar;
@@ -37,13 +36,13 @@ public class ZipLocationSearchForm extends AbstractSearchForm {
         TextField filter = new TextField();
         filter.setInputPrompt("Filter zips...");
 
-        browser.updateAndDisplayGrid(zipLocationService.findAll());
+        /*browser.updateAndDisplayGrid(zipLocationService.findAll());
         toolbar.updateToolbar(StateType.INITIAL);
 
         filter.addTextChangeListener(e -> {
             browser.buildBrowser();
             browser.updateAndDisplayGrid(zipLocationService.findAnyZipLocations(e.getText()));
-        });
+        });*/
 
         searchForm.addComponents(filter);
     }

@@ -2,8 +2,8 @@ package es.mhp.repositories.custom.impl;
 
 import es.mhp.entities.Address;
 import es.mhp.repositories.IAddressRepositoryCustom;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

@@ -5,7 +5,7 @@
  http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
 
     <persistence-unit name="PetshopUnit">
-        <description>PetShop Unit example</description>
+        <description>PetShop Unit es.mhp.ToolbarPresenterTest</description>
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <jar-file>persistence.jar</jar-file>
         <class>es.mhp.entities.Address</class>

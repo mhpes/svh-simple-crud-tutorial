@@ -3,7 +3,6 @@ package es.mhp.toolbar;
 import com.vaadin.ui.Button;
 import es.mhp.browser.utils.StateType;
 import es.mhp.browser.utils.ToolButtonType;
-import es.mhp.toolbar.presenter.ToolbarPresenter;
 
 import java.util.Map;
 
@@ -12,7 +11,6 @@ import java.util.Map;
  */
 public interface IToolbar {
     void buildToolbar();
-    void setPresenter(ToolbarPresenter presenter);
     void updateToolbar(StateType stateType);
     Map<ToolButtonType, Button> getButtonMap();
 }

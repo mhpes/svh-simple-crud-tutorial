@@ -1,9 +1,8 @@
-package es.mhp.search.impl.sellerContactInfo;
+package es.mhp.search.impl.sellercontactinfo;
 
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import es.mhp.browser.IBrowser;
-import es.mhp.browser.utils.StateType;
 import es.mhp.search.impl.AbstractSearchForm;
 import es.mhp.services.ISellerContactInfoService;
 import es.mhp.toolbar.IToolbar;
@@ -37,13 +36,13 @@ public class SellerContactInfoSearchForm extends AbstractSearchForm {
         TextField filter = new TextField();
         filter.setInputPrompt("Filter sellers...");
 
-        browser.updateAndDisplayGrid(sellerContactInfoService.findAll());
+        /*browser.updateAndDisplayGrid(sellerContactInfoService.findAll());
         toolbar.updateToolbar(StateType.INITIAL);
 
         filter.addTextChangeListener(e -> {
             browser.buildBrowser();
             browser.updateAndDisplayGrid(sellerContactInfoService.findAnySellers(e.getText()));
-        });
+        });*/
 
         searchForm.addComponents(filter);
     }
