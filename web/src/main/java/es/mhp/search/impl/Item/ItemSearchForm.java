@@ -7,6 +7,7 @@ import es.mhp.search.impl.AbstractSearchForm;
 import es.mhp.services.IItemService;
 import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component(ItemSearchForm.BEAN_NAME)
+@Scope("prototype")
 public class ItemSearchForm extends AbstractSearchForm {
 
     public static final String BEAN_NAME = "item_search_form";

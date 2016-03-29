@@ -3,11 +3,11 @@ package es.mhp.search.impl.tag;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import es.mhp.browser.IBrowser;
-import es.mhp.browser.utils.StateType;
 import es.mhp.search.impl.AbstractSearchForm;
 import es.mhp.services.ITagService;
 import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component(TagSearchForm.BEAN_NAME)
+@Scope("prototype")
 public class TagSearchForm extends AbstractSearchForm {
 
     public static final String BEAN_NAME = "tag_search_form";

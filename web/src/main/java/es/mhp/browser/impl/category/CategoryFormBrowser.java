@@ -6,6 +6,7 @@ import es.mhp.browser.impl.AbstractFormBrowser;
 import es.mhp.browser.utils.FormBrowserUtils;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.CategoryDTO;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import static es.mhp.views.utils.CategoryViewConstants.*;
@@ -15,6 +16,7 @@ import static es.mhp.views.utils.CategoryViewConstants.*;
  */
 
 @Component(CategoryFormBrowser.BEAN_NAME)
+@Scope("prototype")
 public class CategoryFormBrowser extends AbstractFormBrowser {
 
     public static final String BEAN_NAME = "category_form_browser";

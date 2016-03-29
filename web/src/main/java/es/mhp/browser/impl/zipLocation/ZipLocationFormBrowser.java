@@ -6,6 +6,7 @@ import es.mhp.browser.impl.AbstractFormBrowser;
 import es.mhp.browser.utils.FormBrowserUtils;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.ZipLocationDTO;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import static es.mhp.views.utils.ZipLocationViewConstants.*;
@@ -15,6 +16,7 @@ import static es.mhp.views.utils.ZipLocationViewConstants.*;
  */
 
 @Component(ZipLocationFormBrowser.BEAN_NAME)
+@Scope("prototype")
 public class ZipLocationFormBrowser extends AbstractFormBrowser {
 
     public static final String BEAN_NAME = "zipLocation_form_browser";

@@ -10,8 +10,8 @@ import es.mhp.services.ICategoryService;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.CategoryDTO;
 import es.mhp.services.dto.ProductDTO;
-import es.mhp.services.dto.SellerContactInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -24,6 +24,7 @@ import static es.mhp.views.utils.ProductViewConstants.*;
  */
 
 @Component(ProductFormBrowser.BEAN_NAME)
+@Scope("prototype")
 public class ProductFormBrowser extends AbstractFormBrowser {
 
     public static final String BEAN_NAME = "product_form_browser";

@@ -9,7 +9,7 @@ import java.util.Set;
  * Created by Edu on 24/02/2016.
  */
 
-public interface IAddressService extends AbstractService{
+public interface IAddressService extends AbstractService {
     Set<AbstractDTO> findAllAddresses(AddressDTO addressDTO);
     Set<AbstractDTO> findAnyAddresses(AddressDTO addressDTO);
     AddressDTO save(AddressDTO addressDTO);

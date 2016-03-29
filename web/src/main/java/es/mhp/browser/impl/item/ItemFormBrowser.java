@@ -11,6 +11,7 @@ import es.mhp.services.IProductService;
 import es.mhp.services.ISellerContactInfoService;
 import es.mhp.services.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -23,6 +24,7 @@ import static es.mhp.views.utils.ItemViewConstants.*;
  */
 
 @Component(ItemFormBrowser.BEAN_NAME)
+@Scope("prototype")
 public class ItemFormBrowser extends AbstractFormBrowser {
 
     public static final String BEAN_NAME = "item_form_browser";

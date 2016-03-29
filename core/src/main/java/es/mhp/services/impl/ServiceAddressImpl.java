@@ -30,7 +30,7 @@ public class ServiceAddressImpl implements IAddressService {
     private AddressRepository addressRepository;
 
     @Autowired
-    private ZipLocationRepository iZipLocationRepository;
+    private ZipLocationRepository zipLocationRepository;
 
     @Override
     public Set<AbstractDTO> findAll() {

@@ -4,10 +4,9 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.ObjectProperty;
 import es.mhp.browser.impl.AbstractFormBrowser;
 import es.mhp.browser.utils.FormBrowserUtils;
-import es.mhp.services.ITagService;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.TagDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import static es.mhp.views.utils.TagViewConstants.*;
@@ -17,6 +16,7 @@ import static es.mhp.views.utils.TagViewConstants.*;
  */
 
 @Component(TagFormBrowser.BEAN_NAME)
+@Scope("prototype")
 public class TagFormBrowser extends AbstractFormBrowser {
 
     public static final String BEAN_NAME = "tag_form_browser";

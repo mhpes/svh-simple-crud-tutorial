@@ -3,11 +3,11 @@ package es.mhp.search.impl.product;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import es.mhp.browser.IBrowser;
-import es.mhp.browser.utils.StateType;
 import es.mhp.search.impl.AbstractSearchForm;
 import es.mhp.services.IProductService;
 import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component(ProductSearchForm.BEAN_NAME)
+@Scope("prototype")
 public class ProductSearchForm extends AbstractSearchForm {
 
     public static final String BEAN_NAME = "product_search_form";
