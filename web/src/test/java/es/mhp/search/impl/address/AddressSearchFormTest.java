@@ -3,24 +3,23 @@ package es.mhp.search.impl.address;
 import es.mhp.browser.IBrowser;
 import es.mhp.browser.impl.address.AddressBrowser;
 import es.mhp.search.impl.address.presenter.AddressSearchFormPresenter;
-import es.mhp.services.dto.AbstractDTO;
+import es.mhp.services.IAddressService;
 import es.mhp.services.dto.AddressDTO;
-import es.mhp.services.impl.ServiceAddressImpl;
 import es.mhp.toolbar.IToolbar;
+import es.mhp.views.utils.AddressViewConstants;
+import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by Edu on 29/03/2016.
@@ -30,11 +29,7 @@ import static org.mockito.Mockito.when;
 @ContextConfiguration(locations = "classpath:applicationContext-test.xml")
 public class AddressSearchFormTest extends AbstractTestNGSpringContextTests {
 
-    public Set<AddressDTO> addressDTOList;
     public Set<String> addressStateList;
-
-    @Autowired
-    private AddressSearchFormPresenter addressSearchFormPresenter;
 
     @Autowired
     @Qualifier(AddressBrowser.BEAN_NAME)
@@ -43,13 +38,19 @@ public class AddressSearchFormTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private IToolbar toolbar;
 
-    @PostConstruct
-    private void initialize() {
-        addressDTOList = new HashSet<>(Arrays.asList(
-                new AddressDTO("Main Street_1", "SecondaryStreet_1", "Tenerife_1"),
-                new AddressDTO("Main Street_2", "SecondaryStreet_2", "Tenerife_2"),
-                new AddressDTO("Main Street_3", "SecondaryStreet_3", "Tenerife_3")
-        ));
+    @InjectMocks
+    private AddressSearchForm addressSearchForm;
+
+    @Spy
+    @InjectMocks
+    private AddressSearchFormPresenter addressSearchFormPresenter;
+
+    @Mock
+    private IAddressService addressService;
+
+    @BeforeMethod
+    private void initMocks() {
+        MockitoAnnotations.initMocks(this);
 
         addressStateList = new HashSet<>(Arrays.asList(
                 "La Laguna",
@@ -59,12 +60,25 @@ public class AddressSearchFormTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void checkMockitoWorks() {
-        ServiceAddressImpl serviceAddressMocked = mock(ServiceAddressImpl.class);
-        when(serviceAddressMocked.getStateList()).thenReturn(addressStateList);
+    public void stateComboboxTest() {
+        initializeMocksAndBuildSearchForm();
 
-        Set<String> stateList = serviceAddressMocked.getStateList();
+        Assert.assertEquals(addressSearchForm.getStateComboBox().isEmpty(), false);
+        Assert.assertEquals(addressSearchForm.getStateComboBox().isVisible(), true);
+        Assert.assertEquals(addressSearchForm.getStateComboBox().getItemIds(), addressStateList);
+    }
 
-        addressSearchFormPresenter
+    @Test
+    public void browserWayOptionGroupTest() {
+        initializeMocksAndBuildSearchForm();
+
+        Assert.assertEquals(addressSearchForm.getBrowserWayOptionGroup().isEmpty(), false);
+        Assert.assertEquals(addressSearchForm.getBrowserWayOptionGroup().isVisible(), true);
+        Assert.assertEquals(addressSearchForm.getBrowserWayOptionGroup().getValue(), AddressViewConstants.ALL);
+    }
+
+    private void initializeMocksAndBuildSearchForm() {
+        Mockito.when(addressService.getStateList()).thenReturn(addressStateList);
+        addressSearchForm.buildSearchForm(browser, toolbar);
     }
 }

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 import static es.mhp.views.utils.AddressViewConstants.*;
 
 /**
@@ -24,28 +26,23 @@ public class AddressSearchForm extends AbstractSearchForm {
     @Autowired
     private AddressSearchFormPresenter presenter;
 
-    TextField mainStreetTextField;
-    TextField secondaryStreetTextField;
-    ComboBox cityComboBox;
-    ComboBox stateComboBox;
-    OptionGroup browserWayOptionGroup;
-    Button browserButton;
+    private TextField mainStreetTextField;
+    private TextField secondaryStreetTextField;
+    private ComboBox cityComboBox;
+    private ComboBox stateComboBox;
+    private OptionGroup browserWayOptionGroup;
+    private Button browserButton;
 
     public AddressSearchForm() {
         super();
-        mainStreetTextField = new TextField(MAIN_STREET);
-        secondaryStreetTextField = new TextField(SECONDARY_STREET);
-        cityComboBox = new ComboBox(CITY);
-        stateComboBox = new ComboBox(STATE);
-        browserWayOptionGroup = new OptionGroup();
-        browserButton = new Button(ADDRESS_SEARCH);
+        initializeComponents();
     }
 
     @Override
     public void buildSearchForm(IBrowser browser, IToolbar toolbar) {
         searchForm.removeAllComponents();
         presenter.fillCitiesComboBox(cityComboBox);
-        presenter.fillStatesComboBox(stateComboBox);
+        presenter.fillStatesComboBoxOrderer(stateComboBox);
         buildBrowserWayOptionGroup(browserWayOptionGroup);
         presenter.buildSearchForm(browser, toolbar, this);
 
@@ -53,6 +50,15 @@ public class AddressSearchForm extends AbstractSearchForm {
                                  stateComboBox, browserWayOptionGroup, browserButton);
 
         addComponent(searchForm);
+    }
+
+    private void initializeComponents() {
+        mainStreetTextField = new TextField(MAIN_STREET);
+        secondaryStreetTextField = new TextField(SECONDARY_STREET);
+        cityComboBox = new ComboBox(CITY);
+        stateComboBox = new ComboBox(STATE);
+        browserWayOptionGroup = new OptionGroup();
+        browserButton = new Button(ADDRESS_SEARCH);
     }
 
     public void setSearchForm(FormLayout searchForm) {
@@ -114,5 +120,13 @@ public class AddressSearchForm extends AbstractSearchForm {
 
     public FormLayout getSearchForm() {
         return searchForm;
+    }
+
+    public AddressSearchFormPresenter getPresenter() {
+        return presenter;
+    }
+
+    public void setPresenter(AddressSearchFormPresenter presenter) {
+        this.presenter = presenter;
     }
 }

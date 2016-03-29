@@ -1,5 +1,6 @@
 package es.mhp.search.impl.address.presenter;
 
+import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.ComboBox;
 import es.mhp.browser.IBrowser;
 import es.mhp.browser.utils.StateType;
@@ -10,6 +11,11 @@ import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 import static es.mhp.views.utils.AddressViewConstants.*;
 
@@ -58,7 +64,23 @@ public class AddressSearchFormPresenter {
         cityComboBox.setNullSelectionAllowed(false);
     }
 
-    public void fillStatesComboBox(ComboBox stateComboBox) {
-        stateComboBox.addItems(addressService.getStateList());
+    public void fillStatesComboBoxOrderer(ComboBox stateComboBox) {
+        IndexedContainer stateContainer = new IndexedContainer();
+        stateContainer.addContainerProperty("name", String.class, null);
+        List stateList = new ArrayList<>(addressService.getStateList());
+
+        for (int i = 0; i < stateList.size(); i++){
+            stateContainer.addItem(i).getItemProperty("name").setValue(stateList.get(i));
+        }
+        stateContainer.sort(new Object[]{"name"}, new boolean[]{false});
+        stateComboBox.addItems(stateContainer);
+    }
+
+    public IAddressService getAddressService() {
+        return addressService;
+    }
+
+    public void setAddressService(IAddressService addressService) {
+        this.addressService = addressService;
     }
 }
