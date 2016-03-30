@@ -18,16 +18,12 @@ import static es.mhp.views.utils.TagViewConstants.*;
 
 @Component(TagGridBrowser.BEAN_NAME)
 @Scope("prototype")
-public class TagGridBrowser extends AbstractGridBrowser {
+public class TagGridBrowser extends AbstractGridBrowser<TagDTO> {
 
     public static final String BEAN_NAME = "tag_grid_browser";
 
-    private Grid grid;
-
     public TagGridBrowser() {
         super();
-        grid = new Grid();
-        this.addComponent(grid);
     }
 
     @Override
@@ -46,37 +42,5 @@ public class TagGridBrowser extends AbstractGridBrowser {
         grid.removeColumn(TAGID_FIELD);
         grid.setColumnOrder(TAG_FIELD, REFCOUNT_FIELD);
         grid.setWidth("60%");
-    }
-
-    @Override
-    public TagDTO getSelectedGridRow(){
-        return (TagDTO) grid.getSelectedRow();
-    }
-
-    @Override
-    public void deleteEntry() {
-        if (grid.getSelectedRow() != null) {
-            grid.getContainerDataSource().removeItem(grid.getSelectedRow());
-        }
-    }
-
-    @Override
-    public void updateGrid() {
-        this.removeAllComponents();
-        this.addComponent(grid);
-    }
-
-    @Override
-    public void updateGrid(AbstractDTO dto) {
-        if (grid.getContainerDataSource().containsId(dto)) {
-            grid.getContainerDataSource().removeItem(dto);
-        }
-        grid.getContainerDataSource().addItem(dto);
-        grid.select(dto);
-    }
-
-    @Override
-    protected Grid getGrid() {
-        return grid;
     }
 }

@@ -3,7 +3,9 @@ package es.mhp.search.impl.product;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import es.mhp.browser.IBrowser;
+import es.mhp.browser.utils.StateType;
 import es.mhp.search.impl.AbstractSearchForm;
+import es.mhp.search.impl.product.presenter.ProductSearchFormPresenter;
 import es.mhp.services.IProductService;
 import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,32 +22,32 @@ public class ProductSearchForm extends AbstractSearchForm {
 
     public static final String BEAN_NAME = "product_search_form";
 
-    @Autowired
-    private IProductService productService;
+    private TextField filter;
 
-    private FormLayout searchForm;
+    @Autowired
+    private ProductSearchFormPresenter productSearchFormPresenter;
 
     public ProductSearchForm() {
         super();
-        searchForm = new FormLayout();
-        this.addComponent(searchForm);
+        initializeComponents();
     }
 
     @Override
     public void buildSearchForm(IBrowser browser, IToolbar toolbar) {
         searchForm.removeAllComponents();
 
-        TextField filter = new TextField();
         filter.setInputPrompt("Filter products...");
 
-        /*browser.updateAndDisplayGrid(productService.findAll());
+        productSearchFormPresenter.updateAndDisplayGrid(browser);
         toolbar.updateToolbar(StateType.INITIAL);
 
-        filter.addTextChangeListener(e -> {
-            browser.buildBrowser();
-            browser.updateAndDisplayGrid(productService.findAnyProducts(e.getText()));
-        });*/
+        filter.addTextChangeListener(productSearchFormPresenter.createSearchFormListener(browser));
 
         searchForm.addComponents(filter);
+    }
+
+    @Override
+    protected void initializeComponents() {
+        filter = new TextField();
     }
 }

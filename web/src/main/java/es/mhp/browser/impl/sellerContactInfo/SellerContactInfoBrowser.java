@@ -7,6 +7,8 @@ import es.mhp.browser.IGridBrowser;
 import es.mhp.browser.impl.AbstractBrowser;
 import es.mhp.browser.impl.AbstractFormBrowser;
 import es.mhp.browser.impl.AbstractGridBrowser;
+import es.mhp.browser.impl.item.presenter.ItemBrowserPresenter;
+import es.mhp.browser.impl.sellercontactinfo.presenter.SellerContactInfoBrowserPresenter;
 import es.mhp.browser.utils.StateType;
 import es.mhp.exceptions.UIException;
 import es.mhp.services.ISellerContactInfoService;
@@ -38,7 +40,7 @@ public class SellerContactInfoBrowser extends AbstractBrowser {
     private IFormBrowser formBrowser;
 
     @Autowired
-    private ISellerContactInfoService sellerContactInfoService;
+    private SellerContactInfoBrowserPresenter sellerContactInfoBrowserPresenter;
 
     public SellerContactInfoBrowser() {
         super();
@@ -46,66 +48,41 @@ public class SellerContactInfoBrowser extends AbstractBrowser {
 
     @Override
     public void buildBrowser() {
-        gridBrowser.updateGrid(sellerContactInfoService.findAll());
-        gridBrowser.configure();
-
         this.addComponent((Component) formBrowser);
         this.addComponent((AbstractGridBrowser)gridBrowser);
 
-        displayGridAndHideForm();
+        sellerContactInfoBrowserPresenter.updateAndDisplayGrid(formBrowser, gridBrowser);
+        gridBrowser.configure();
     }
 
     @Override
     public void createAndDisplayForm(String mode) {
-        displayFormAndHideGrid();
-        formBrowser.createFormBrowser((AbstractDTO) gridBrowser.getSelectedGridRow(), mode);
+        sellerContactInfoBrowserPresenter.displayFormAndHideGrid(formBrowser, gridBrowser);
+        formBrowser.createFormBrowser(gridBrowser.getSelectedGridRow(), mode);
     }
 
-    //@Override
+    @Override
     public boolean saveItemAndUpdateGrid() throws UIException {
-        try {
-            if (formBrowser.isModified()) {
-                formBrowser.commit();
-                SellerContactInfoDTO sellerContactInfoDTO = (SellerContactInfoDTO) formBrowser.extractBean();
-                // Service returns the dto updated (with the id included if it is a new item)
-                SellerContactInfoDTO sellerContactInfoDTOUpdated = sellerContactInfoService.save(sellerContactInfoDTO);
-                gridBrowser.updateGrid(sellerContactInfoDTOUpdated);
-                displayGridAndHideForm();
-                return true;
-            } else {
-                return false;
-            }
-        } catch (FieldGroup.CommitException e) {
-            throw new UIException("Error! Entity cannot been saved.", e);
-        }
+        return sellerContactInfoBrowserPresenter.saveItemAndUpdateGrid(formBrowser, gridBrowser);
     }
 
-    //@Override
-    public void updateAndDisplayGrid(Set<AbstractDTO> newDataSource) {
-        gridBrowser.updateGrid(newDataSource);
-        ((AbstractView)this.getParent()).updateToolbar(StateType.INITIAL);
-    }
-
-    //@Override
+    @Override
     public void deleteItemAndUpdateGrid() throws UIException {
-        try{
-            sellerContactInfoService.delete(((SellerContactInfoDTO) gridBrowser.getSelectedGridRow()).getId());
-            gridBrowser.deleteEntry();
-            gridBrowser.updateGrid();
-        } catch (Exception err){
-            throw new UIException("Error deleting entry", err);
-        }
+        sellerContactInfoBrowserPresenter.deleteItemAndUpdateGrid(gridBrowser);
     }
 
-    //@Override
+    @Override
+    public void updateAndDisplayGrid(Set<AbstractDTO> dataSource) {
+        sellerContactInfoBrowserPresenter.updateAndDisplayGrid(formBrowser, gridBrowser, dataSource);
+    }
+
+    @Override
     public void displayGridAndHideForm() {
-        ((AbstractFormBrowser)formBrowser).setVisible(false);
-        ((AbstractGridBrowser)gridBrowser).setVisible(true);
+        sellerContactInfoBrowserPresenter.displayGridAndHideForm(formBrowser, gridBrowser);
     }
 
-    //@Override
+    @Override
     public void displayFormAndHideGrid() {
-        ((AbstractGridBrowser)gridBrowser).setVisible(false);
-        ((AbstractFormBrowser)formBrowser).setVisible(true);
+        sellerContactInfoBrowserPresenter.displayFormAndHideGrid(formBrowser, gridBrowser);
     }
 }

@@ -22,12 +22,8 @@ public class ItemGridBrowser extends AbstractGridBrowser {
 
     public static final String BEAN_NAME = "item_grid_browser";
 
-    private Grid grid;
-
     public ItemGridBrowser() {
         super();
-        grid = new Grid();
-        this.addComponent(grid);
     }
 
     @Override
@@ -52,37 +48,5 @@ public class ItemGridBrowser extends AbstractGridBrowser {
         grid.removeColumn(DISABLED_FIELD);
         grid.setColumnOrder(NAME_FIELD, DESCRIPTION_FIELD, PRICE_FIELD, IMAGEURL_FIELD, PRODUCTSUMMARY_FIELD, ADDRESSSUMMARY_FIELD, SELLERCONTACTSUMMARY_FIELD);
         grid.setWidth("60%");
-    }
-
-    @Override
-    public ItemDTO getSelectedGridRow(){
-        return (ItemDTO) grid.getSelectedRow();
-    }
-
-    @Override
-    public void deleteEntry() {
-        if (grid.getSelectedRow() != null) {
-            grid.getContainerDataSource().removeItem(grid.getSelectedRow());
-        }
-    }
-
-    @Override
-    public void updateGrid() {
-        this.removeAllComponents();
-        this.addComponent(grid);
-    }
-
-    @Override
-    public void updateGrid(AbstractDTO dto) {
-        if (grid.getContainerDataSource().containsId(dto)) {
-            grid.getContainerDataSource().removeItem(dto);
-        }
-        grid.getContainerDataSource().addItem(dto);
-        grid.select(dto);
-    }
-
-    @Override
-    protected Grid getGrid() {
-        return grid;
     }
 }

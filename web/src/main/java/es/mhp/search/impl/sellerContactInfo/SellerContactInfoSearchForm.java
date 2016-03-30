@@ -3,7 +3,9 @@ package es.mhp.search.impl.sellercontactinfo;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import es.mhp.browser.IBrowser;
+import es.mhp.browser.utils.StateType;
 import es.mhp.search.impl.AbstractSearchForm;
+import es.mhp.search.impl.sellercontactinfo.presenter.SellerContactInfoSearchFormPresenter;
 import es.mhp.services.ISellerContactInfoService;
 import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,32 +22,32 @@ public class SellerContactInfoSearchForm extends AbstractSearchForm {
 
     public static final String BEAN_NAME = "sellerContactInfo_search_form";
 
-    @Autowired
-    private ISellerContactInfoService sellerContactInfoService;
+    private TextField filter;
 
-    private FormLayout searchForm;
+    @Autowired
+    private SellerContactInfoSearchFormPresenter sellerContactInfoSearchFormPresenter;
 
     public SellerContactInfoSearchForm() {
         super();
-        searchForm = new FormLayout();
-        this.addComponent(searchForm);
+        initializeComponents();
     }
 
     @Override
     public void buildSearchForm(IBrowser browser, IToolbar toolbar) {
         searchForm.removeAllComponents();
 
-        TextField filter = new TextField();
         filter.setInputPrompt("Filter sellers...");
 
-        /*browser.updateAndDisplayGrid(sellerContactInfoService.findAll());
+        sellerContactInfoSearchFormPresenter.updateAndDisplayGrid(browser);
         toolbar.updateToolbar(StateType.INITIAL);
 
-        filter.addTextChangeListener(e -> {
-            browser.buildBrowser();
-            browser.updateAndDisplayGrid(sellerContactInfoService.findAnySellers(e.getText()));
-        });*/
+        filter.addTextChangeListener(sellerContactInfoSearchFormPresenter.createSearchFormListener(browser));
 
         searchForm.addComponents(filter);
+    }
+
+    @Override
+    protected void initializeComponents() {
+        filter = new TextField();
     }
 }

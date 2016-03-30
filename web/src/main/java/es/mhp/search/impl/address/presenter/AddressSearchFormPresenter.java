@@ -4,7 +4,7 @@ import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import es.mhp.browser.IBrowser;
-import es.mhp.browser.presenter.AbstractSearchFormPresenter;
+import es.mhp.search.impl.presenter.AbstractSearchFormPresenter;
 import es.mhp.search.impl.address.AddressSearchForm;
 import es.mhp.services.IAddressService;
 import es.mhp.services.dto.AddressDTO;
@@ -27,11 +27,6 @@ public class AddressSearchFormPresenter extends AbstractSearchFormPresenter {
     @Autowired
     private IAddressService addressService;
 
-    @Override
-    public void buildSearchForm(IBrowser browser) {
-        browser.updateAndDisplayGrid(addressService.findAll());
-    }
-
     public Button.ClickListener createBrowserButtonListener(IBrowser browser, AddressSearchForm addressSearchForm) {
         return (Button.ClickListener) event -> {
             browser.buildBrowser();
@@ -40,13 +35,13 @@ public class AddressSearchFormPresenter extends AbstractSearchFormPresenter {
             String mainStreet = addressSearchForm.getMainStreetTextField().getValue();
             String secondaryString = addressSearchForm.getSecondaryStreetTextField().getValue();
             String city = addressSearchForm.getCityComboBox().getValue().toString();
-            String state = addressSearchForm.getStateComboBox().getValue().toString();
             String browserWay = addressSearchForm.getBrowserWayOptionGroup().getValue().toString();
+            Object state = addressSearchForm.getStateComboBox().getValue();
 
-            if (addressSearchForm.getStateComboBox().getValue() == null)
+            if (state == null)
                 addressDTO = new AddressDTO(mainStreet, secondaryString, city);
             else {
-                addressDTO = new AddressDTO(mainStreet, secondaryString, city, state);
+                addressDTO = new AddressDTO(mainStreet, secondaryString, city, state.toString());
             }
 
             if (ALL.equals(browserWay)){
@@ -78,13 +73,5 @@ public class AddressSearchFormPresenter extends AbstractSearchFormPresenter {
         }
         stateContainer.sort(new Object[]{"name"}, new boolean[]{false});
         stateComboBox.addItems(addressService.findStates());
-    }
-
-    public IAddressService getAddressService() {
-        return addressService;
-    }
-
-    public void setAddressService(IAddressService addressService) {
-        this.addressService = addressService;
     }
 }

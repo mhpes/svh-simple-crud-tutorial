@@ -5,8 +5,9 @@ import es.mhp.browser.IFormBrowser;
 import es.mhp.browser.IGridBrowser;
 import es.mhp.browser.presenter.AbstractBrowserPresenter;
 import es.mhp.exceptions.UIException;
-import es.mhp.services.ICategoryService;
+import es.mhp.services.ISellerContactInfoService;
 import es.mhp.services.dto.CategoryDTO;
+import es.mhp.services.dto.SellerContactInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -20,12 +21,12 @@ import org.springframework.stereotype.Component;
 public class SellerContactInfoBrowserPresenter extends AbstractBrowserPresenter {
 
     @Autowired
-    private ICategoryService categoryService;
+    private ISellerContactInfoService sellerContactInfoService;
 
     @Override
     public void deleteItemAndUpdateGrid(IGridBrowser gridBrowser) throws UIException {
         try{
-            categoryService.delete(((CategoryDTO) gridBrowser.getSelectedGridRow()).getId());
+            sellerContactInfoService.delete(((CategoryDTO) gridBrowser.getSelectedGridRow()).getId());
             gridBrowser.deleteEntry();
             gridBrowser.updateGrid();
         } catch (Exception err){
@@ -38,9 +39,9 @@ public class SellerContactInfoBrowserPresenter extends AbstractBrowserPresenter 
         try {
             if (formBrowser.isModified()) {
                 formBrowser.commit();
-                CategoryDTO categoryDTO = (CategoryDTO) formBrowser.extractBean();
-                CategoryDTO addressDTOUpdated = categoryService.save(categoryDTO);
-                gridBrowser.updateGrid(addressDTOUpdated);
+                SellerContactInfoDTO sellerContactInfoDTO = (SellerContactInfoDTO) formBrowser.extractBean();
+                SellerContactInfoDTO sellerContactInfoDTOUpdated = sellerContactInfoService.save(sellerContactInfoDTO);
+                gridBrowser.updateGrid(sellerContactInfoDTOUpdated);
                 displayGridAndHideForm(formBrowser, gridBrowser);
                 return true;
             } else {
@@ -53,6 +54,6 @@ public class SellerContactInfoBrowserPresenter extends AbstractBrowserPresenter 
 
     @Override
     public void updateAndDisplayGrid(IFormBrowser formBrowser, IGridBrowser gridBrowser) {
-        updateAndDisplayGrid(formBrowser, gridBrowser, categoryService.findAll());
+        updateAndDisplayGrid(formBrowser, gridBrowser, sellerContactInfoService.findAll());
     }
 }

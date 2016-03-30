@@ -1,23 +1,32 @@
 package es.mhp.browser.impl;
 
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.VerticalLayout;
 import es.mhp.browser.IGridBrowser;
 import es.mhp.browser.presenter.GridBrowserPresenter;
+import es.mhp.services.dto.AbstractDTO;
+import es.mhp.services.dto.SellerContactInfoDTO;
 import es.mhp.views.AbstractView;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Collection;
 
 /**
  * Created by Edu on 18/03/2016.
  */
-public abstract class AbstractGridBrowser extends VerticalLayout implements IGridBrowser {
+public abstract class AbstractGridBrowser<T extends AbstractDTO> extends VerticalLayout implements IGridBrowser {
 
     @Autowired
     protected GridBrowserPresenter gridBrowserPresenter;
 
+    protected Grid grid;
+
     public AbstractGridBrowser() {
         this.setSizeFull();
         this.setMargin(true);
+        grid = new Grid();
+        this.addComponent(grid);
     }
 
     @Override
@@ -26,7 +35,40 @@ public abstract class AbstractGridBrowser extends VerticalLayout implements IGri
         gridBrowserPresenter.addDoubleClickListenerToGrid(getGrid(), (AbstractView)this.getGrid().getParent().getParent().getParent());
     }
 
-    protected abstract Grid getGrid();
+    @Override
+    public void deleteEntry() {
+        if (grid.getSelectedRow() != null) {
+            grid.getContainerDataSource().removeItem(grid.getSelectedRow());
+        }
+    }
+
+    @Override
+    public void updateGrid() {
+        this.removeAllComponents();
+        this.addComponent(grid);
+    }
+
+    @Override
+    public void updateGrid(AbstractDTO dto) {
+        if (grid.getContainerDataSource().containsId(dto)) {
+            grid.getContainerDataSource().removeItem(dto);
+        }
+        grid.getContainerDataSource().addItem(dto);
+        grid.select(dto);
+    }
+
+    @Override
+    public T getSelectedGridRow(){
+        return (T) grid.getSelectedRow();
+    }
+
+    public Grid getGrid() {
+        return grid;
+    }
+
+    public void setGrid(Grid grid) {
+        this.grid = grid;
+    }
 
     protected abstract void setColumnProperties();
 }

@@ -45,9 +45,8 @@ public class AddressSearchForm extends AbstractSearchForm {
         buildBrowserWayOptionGroup(browserWayOptionGroup);
 
         addressSearchFormPresenter.updateAndDisplayGrid(browser);
-
-        addressSearchFormPresenter.buildSearchForm(browser);
         toolbar.updateToolbar(StateType.INITIAL);
+
         browserButton.addClickListener(addressSearchFormPresenter.createBrowserButtonListener(browser, this));
 
         searchForm.addComponents(mainStreetTextField, secondaryStreetTextField, cityComboBox,
@@ -56,7 +55,8 @@ public class AddressSearchForm extends AbstractSearchForm {
         addComponent(searchForm);
     }
 
-    private void initializeComponents() {
+    @Override
+    protected void initializeComponents() {
         mainStreetTextField = new TextField(MAIN_STREET);
         secondaryStreetTextField = new TextField(SECONDARY_STREET);
         cityComboBox = new ComboBox(CITY);

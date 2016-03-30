@@ -1,4 +1,4 @@
-package es.mhp.browser.presenter;
+package es.mhp.search.impl.presenter;
 
 import es.mhp.browser.IBrowser;
 
@@ -6,5 +6,5 @@ import es.mhp.browser.IBrowser;
  * Created by Edu on 30/03/2016.
  */
 public abstract class AbstractSearchFormPresenter {
-    public abstract void buildSearchForm(IBrowser browser);
+    public abstract void updateAndDisplayGrid(IBrowser browser);
 }

@@ -38,7 +38,8 @@ public class CategorySearchForm extends AbstractSearchForm {
         this.addComponent(searchForm);
     }
 
-    private void initializeComponents() {
+    @Override
+    public void initializeComponents() {
         searchForm = new FormLayout();
 
         filter = new TextField();
@@ -48,8 +49,10 @@ public class CategorySearchForm extends AbstractSearchForm {
     @Override
     public void buildSearchForm(IBrowser browser, IToolbar toolbar) {
         searchForm.removeAllComponents();
+
         toolbar.updateToolbar(StateType.INITIAL);
-        categorySearchFormPresenter.buildSearchForm(browser);
+        categorySearchFormPresenter.updateAndDisplayGrid(browser);
+
         filter.addTextChangeListener(categorySearchFormPresenter.createSearchFormListener(browser));
         searchForm.addComponents(filter);
     }

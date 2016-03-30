@@ -18,16 +18,12 @@ import static es.mhp.views.utils.ProductViewConstants.*;
 
 @Component(ProductGridBrowser.BEAN_NAME)
 @Scope("prototype")
-public class ProductGridBrowser extends AbstractGridBrowser {
+public class ProductGridBrowser extends AbstractGridBrowser<ProductDTO> {
 
     public static final String BEAN_NAME = "product_grid_browser";
 
-    private Grid grid;
-
     public ProductGridBrowser() {
         super();
-        grid = new Grid();
-        this.addComponent(grid);
     }
 
     @Override
@@ -47,37 +43,5 @@ public class ProductGridBrowser extends AbstractGridBrowser {
         grid.removeColumn(CATEGORY_FIELD);
         grid.setColumnOrder(NAME_FIELD, DESCRIPTION_FIELD, IMAGEURL_FIELD);
         grid.setWidth("60%");
-    }
-
-    @Override
-    public ProductDTO getSelectedGridRow(){
-        return (ProductDTO) grid.getSelectedRow();
-    }
-
-    @Override
-    public void deleteEntry() {
-        if (grid.getSelectedRow() != null) {
-            grid.getContainerDataSource().removeItem(grid.getSelectedRow());
-        }
-    }
-
-    @Override
-    public void updateGrid() {
-        this.removeAllComponents();
-        this.addComponent(grid);
-    }
-
-    @Override
-    public void updateGrid(AbstractDTO dto) {
-        if (grid.getContainerDataSource().containsId(dto)) {
-            grid.getContainerDataSource().removeItem(dto);
-        }
-        grid.getContainerDataSource().addItem(dto);
-        grid.select(dto);
-    }
-
-    @Override
-    protected Grid getGrid() {
-        return grid;
     }
 }

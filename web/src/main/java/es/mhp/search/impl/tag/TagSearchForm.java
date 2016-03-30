@@ -3,7 +3,9 @@ package es.mhp.search.impl.tag;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import es.mhp.browser.IBrowser;
+import es.mhp.browser.utils.StateType;
 import es.mhp.search.impl.AbstractSearchForm;
+import es.mhp.search.impl.tag.presenter.TagSearchFormPresenter;
 import es.mhp.services.ITagService;
 import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,32 +22,32 @@ public class TagSearchForm extends AbstractSearchForm {
 
     public static final String BEAN_NAME = "tag_search_form";
 
-    @Autowired
-    private ITagService tagService;
+    private TextField filter;
 
-    private FormLayout searchForm;
+    @Autowired
+    private TagSearchFormPresenter tagSearchFormPresenter;
 
     public TagSearchForm() {
         super();
-        searchForm = new FormLayout();
-        this.addComponent(searchForm);
+        initializeComponents();
     }
 
     @Override
     public void buildSearchForm(IBrowser browser, IToolbar toolbar) {
         searchForm.removeAllComponents();
 
-        TextField filter = new TextField();
         filter.setInputPrompt("Filter tags...");
 
-        /*browser.updateAndDisplayGrid(tagService.findAll());
+        tagSearchFormPresenter.updateAndDisplayGrid(browser);
         toolbar.updateToolbar(StateType.INITIAL);
 
-        filter.addTextChangeListener(e -> {
-            browser.buildBrowser();
-            browser.updateAndDisplayGrid(tagService.findAnyTags(e.getText()));
-        });*/
+        filter.addTextChangeListener(tagSearchFormPresenter.createSearchFormListener(browser));
 
         searchForm.addComponents(filter);
+    }
+
+    @Override
+    protected void initializeComponents() {
+        filter = new TextField();
     }
 }

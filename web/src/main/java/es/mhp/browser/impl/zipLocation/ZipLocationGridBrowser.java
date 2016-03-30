@@ -19,16 +19,12 @@ import static es.mhp.views.utils.ZipLocationViewConstants.STATE_FIELD;
 
 @Component(ZipLocationGridBrowser.BEAN_NAME)
 @Scope("prototype")
-public class ZipLocationGridBrowser extends AbstractGridBrowser {
+public class ZipLocationGridBrowser extends AbstractGridBrowser<ZipLocationDTO> {
 
     public static final String BEAN_NAME = "zipLocation_grid_browser";
 
-    private Grid grid;
-
     public ZipLocationGridBrowser() {
         super();
-        grid = new Grid();
-        this.addComponent(grid);
     }
 
     @Override
@@ -46,37 +42,5 @@ public class ZipLocationGridBrowser extends AbstractGridBrowser {
     protected void setColumnProperties() {
         grid.setColumnOrder(CITY_FIELD, STATE_FIELD);
         grid.setWidth("60%");
-    }
-
-    @Override
-    public ZipLocationDTO getSelectedGridRow(){
-        return (ZipLocationDTO) grid.getSelectedRow();
-    }
-
-    @Override
-    public void deleteEntry() {
-        if (grid.getSelectedRow() != null) {
-            grid.getContainerDataSource().removeItem(grid.getSelectedRow());
-        }
-    }
-
-    @Override
-    public void updateGrid() {
-        this.removeAllComponents();
-        this.addComponent(grid);
-    }
-
-    @Override
-    public void updateGrid(AbstractDTO dto) {
-        if (grid.getContainerDataSource().containsId(dto)) {
-            grid.getContainerDataSource().removeItem(dto);
-        }
-        grid.getContainerDataSource().addItem(dto);
-        grid.select(dto);
-    }
-
-    @Override
-    protected Grid getGrid() {
-        return grid;
     }
 }

@@ -3,7 +3,9 @@ package es.mhp.search.impl.ziplocation;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import es.mhp.browser.IBrowser;
+import es.mhp.browser.utils.StateType;
 import es.mhp.search.impl.AbstractSearchForm;
+import es.mhp.search.impl.ziplocation.presenter.ZipLocationSearchFormPresenter;
 import es.mhp.services.IZipLocationService;
 import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,32 +22,32 @@ public class ZipLocationSearchForm extends AbstractSearchForm {
 
     public static final String BEAN_NAME = "zipLocation_search_form";
 
-    @Autowired
-    private IZipLocationService zipLocationService;
+    private TextField filter;
 
-    private FormLayout searchForm;
+    @Autowired
+    private ZipLocationSearchFormPresenter zipLocationSearchFormPresenter;
 
     public ZipLocationSearchForm() {
         super();
-        searchForm = new FormLayout();
-        this.addComponent(searchForm);
+        initializeComponents();
     }
 
     @Override
     public void buildSearchForm(IBrowser browser, IToolbar toolbar) {
         searchForm.removeAllComponents();
 
-        TextField filter = new TextField();
         filter.setInputPrompt("Filter zips...");
 
-        /*browser.updateAndDisplayGrid(zipLocationService.findAll());
+        zipLocationSearchFormPresenter.updateAndDisplayGrid(browser);
         toolbar.updateToolbar(StateType.INITIAL);
 
-        filter.addTextChangeListener(e -> {
-            browser.buildBrowser();
-            browser.updateAndDisplayGrid(zipLocationService.findAnyZipLocations(e.getText()));
-        });*/
+        filter.addTextChangeListener(zipLocationSearchFormPresenter.createSearchFormListener(browser));
 
         searchForm.addComponents(filter);
+    }
+
+    @Override
+    protected void initializeComponents() {
+        filter = new TextField();
     }
 }

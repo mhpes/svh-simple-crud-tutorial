@@ -18,16 +18,12 @@ import static es.mhp.views.utils.SellerContactInfoViewConstants.*;
 
 @Component(SellerContactInfoGridBrowser.BEAN_NAME)
 @Scope("prototype")
-public class SellerContactInfoGridBrowser extends AbstractGridBrowser {
+public class SellerContactInfoGridBrowser extends AbstractGridBrowser<SellerContactInfoDTO> {
 
     public static final String BEAN_NAME = "sellerContactInfo_grid_browser";
 
-    private Grid grid;
-
     public SellerContactInfoGridBrowser() {
         super();
-        grid = new Grid();
-        this.addComponent(grid);
     }
 
     @Override
@@ -46,37 +42,5 @@ public class SellerContactInfoGridBrowser extends AbstractGridBrowser {
         grid.removeColumn(CONTACTINFO_FIELD);
         grid.setColumnOrder(FIRST_NAME_FIELD, LAST_NAME_FIELD, EMAIL_FIELD);
         grid.setWidth("60%");
-    }
-
-    @Override
-    public SellerContactInfoDTO getSelectedGridRow(){
-        return (SellerContactInfoDTO) grid.getSelectedRow();
-    }
-
-    @Override
-    public void deleteEntry() {
-        if (grid.getSelectedRow() != null) {
-            grid.getContainerDataSource().removeItem(grid.getSelectedRow());
-        }
-    }
-
-    @Override
-    public void updateGrid() {
-        this.removeAllComponents();
-        this.addComponent(grid);
-    }
-
-    @Override
-    public void updateGrid(AbstractDTO dto) {
-        if (grid.getContainerDataSource().containsId(dto)) {
-            grid.getContainerDataSource().removeItem(dto);
-        }
-        grid.getContainerDataSource().addItem(dto);
-        grid.select(dto);
-    }
-
-    @Override
-    protected Grid getGrid() {
-        return grid;
     }
 }

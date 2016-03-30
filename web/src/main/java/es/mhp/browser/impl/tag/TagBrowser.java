@@ -7,6 +7,7 @@ import es.mhp.browser.IGridBrowser;
 import es.mhp.browser.impl.AbstractBrowser;
 import es.mhp.browser.impl.AbstractFormBrowser;
 import es.mhp.browser.impl.AbstractGridBrowser;
+import es.mhp.browser.impl.tag.presenter.TagBrowserPresenter;
 import es.mhp.browser.utils.StateType;
 import es.mhp.exceptions.UIException;
 import es.mhp.services.ITagService;
@@ -37,74 +38,50 @@ public class TagBrowser extends AbstractBrowser {
     @Qualifier(TagFormBrowser.BEAN_NAME)
     private IFormBrowser formBrowser;
 
-    @Autowired
-    private ITagService tagService;
-
     public TagBrowser() {
         super();
     }
 
+    @Autowired
+    private TagBrowserPresenter tagBrowserPresenter;
+
     @Override
     public void buildBrowser() {
-        gridBrowser.updateGrid(tagService.findAll());
-        gridBrowser.configure();
-
         this.addComponent((Component) formBrowser);
         this.addComponent((AbstractGridBrowser)gridBrowser);
 
-        displayGridAndHideForm();
+        tagBrowserPresenter.updateAndDisplayGrid(formBrowser, gridBrowser);
+        gridBrowser.configure();
     }
 
     @Override
     public void createAndDisplayForm(String mode) {
-        displayFormAndHideGrid();
+        tagBrowserPresenter.displayFormAndHideGrid(formBrowser, gridBrowser);
         formBrowser.createFormBrowser(gridBrowser.getSelectedGridRow(), mode);
     }
 
-    //@Override
+    @Override
     public boolean saveItemAndUpdateGrid() throws UIException {
-        try {
-            if (formBrowser.isModified()) {
-                formBrowser.commit();
-                TagDTO tagDTO = (TagDTO) formBrowser.extractBean();
-                TagDTO tagDTOUpdated = tagService.save(tagDTO);
-                gridBrowser.updateGrid(tagDTOUpdated);
-                displayGridAndHideForm();
-                return true;
-            } else {
-                return false;
-            }
-        } catch (FieldGroup.CommitException e) {
-            throw new UIException("Error! Entity cannot been saved.", e);
-        }
+        return tagBrowserPresenter.saveItemAndUpdateGrid(formBrowser, gridBrowser);
     }
 
-    //@Override
-    public void updateAndDisplayGrid(Set<AbstractDTO> newDataSource) {
-        gridBrowser.updateGrid(newDataSource);
-        ((AbstractView)this.getParent()).updateToolbar(StateType.INITIAL);
-    }
-
-    //@Override
+    @Override
     public void deleteItemAndUpdateGrid() throws UIException {
-        try{
-            tagService.delete(((TagDTO) gridBrowser.getSelectedGridRow()).getId());
-            gridBrowser.deleteEntry();
-            gridBrowser.updateGrid();
-        } catch (Exception err){
-            throw new UIException("Error deleting entry", err);
-        }
+        tagBrowserPresenter.deleteItemAndUpdateGrid(gridBrowser);
     }
 
-    //@Override
+    @Override
+    public void updateAndDisplayGrid(Set<AbstractDTO> dataSource) {
+        tagBrowserPresenter.updateAndDisplayGrid(formBrowser, gridBrowser, dataSource);
+    }
+
+    @Override
     public void displayGridAndHideForm() {
-        ((AbstractFormBrowser)formBrowser).setVisible(false);
-        ((AbstractGridBrowser)gridBrowser).setVisible(true);
+        tagBrowserPresenter.displayGridAndHideForm(formBrowser, gridBrowser);
     }
 
-    //@Override
+    @Override
     public void displayFormAndHideGrid() {
-        ((AbstractGridBrowser)gridBrowser).setVisible(false);
-        ((AbstractFormBrowser)formBrowser).setVisible(true);
+        tagBrowserPresenter.displayFormAndHideGrid(formBrowser, gridBrowser);
     }
 }
