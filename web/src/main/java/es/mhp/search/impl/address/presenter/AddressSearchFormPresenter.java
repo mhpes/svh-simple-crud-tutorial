@@ -1,21 +1,19 @@
 package es.mhp.search.impl.address.presenter;
 
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import es.mhp.browser.IBrowser;
-import es.mhp.browser.utils.StateType;
+import es.mhp.browser.presenter.AbstractSearchFormPresenter;
 import es.mhp.search.impl.address.AddressSearchForm;
 import es.mhp.services.IAddressService;
 import es.mhp.services.dto.AddressDTO;
-import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import static es.mhp.views.utils.AddressViewConstants.*;
 
@@ -24,17 +22,19 @@ import static es.mhp.views.utils.AddressViewConstants.*;
  */
 @Component
 @Scope("session")
-public class AddressSearchFormPresenter {
+public class AddressSearchFormPresenter extends AbstractSearchFormPresenter {
 
     @Autowired
     private IAddressService addressService;
 
-    public void buildSearchForm(IBrowser browser, IToolbar toolbar, AddressSearchForm addressSearchForm) {
-        //browser.updateAndDisplayGrid(addressService.findAll());
+    @Override
+    public void buildSearchForm(IBrowser browser) {
+        browser.updateAndDisplayGrid(addressService.findAll());
+    }
 
-        addressSearchForm.getBrowserButton().addClickListener(e -> {
+    public Button.ClickListener createBrowserButtonListener(IBrowser browser, AddressSearchForm addressSearchForm) {
+        return (Button.ClickListener) event -> {
             browser.buildBrowser();
-            toolbar.updateToolbar(StateType.INITIAL);
             AddressDTO addressDTO;
 
             String mainStreet = addressSearchForm.getMainStreetTextField().getValue();
@@ -49,13 +49,17 @@ public class AddressSearchFormPresenter {
                 addressDTO = new AddressDTO(mainStreet, secondaryString, city, state);
             }
 
-            /*if (ALL.equals(browserWay)){
+            if (ALL.equals(browserWay)){
                 browser.updateAndDisplayGrid(addressService.findAllAddresses(addressDTO));
             }
             else if (ANY.equals(browserWay)){
                 browser.updateAndDisplayGrid(addressService.findAnyAddresses(addressDTO));
-            }*/
-        });
+            }
+        };
+    }
+
+    public void updateAndDisplayGrid(IBrowser browser){
+        browser.updateAndDisplayGrid(addressService.findAll());
     }
 
     public void fillCitiesComboBox(ComboBox cityComboBox) {
@@ -67,13 +71,13 @@ public class AddressSearchFormPresenter {
     public void fillStatesComboBoxOrderer(ComboBox stateComboBox) {
         IndexedContainer stateContainer = new IndexedContainer();
         stateContainer.addContainerProperty("name", String.class, null);
-        List stateList = new ArrayList<>(addressService.getStateList());
+        List stateList = new ArrayList<>(addressService.findStates());
 
         for (int i = 0; i < stateList.size(); i++){
             stateContainer.addItem(i).getItemProperty("name").setValue(stateList.get(i));
         }
         stateContainer.sort(new Object[]{"name"}, new boolean[]{false});
-        stateComboBox.addItems(stateContainer);
+        stateComboBox.addItems(addressService.findStates());
     }
 
     public IAddressService getAddressService() {

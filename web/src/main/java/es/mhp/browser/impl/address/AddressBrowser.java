@@ -6,9 +6,13 @@ import es.mhp.browser.IGridBrowser;
 import es.mhp.browser.impl.AbstractBrowser;
 import es.mhp.browser.impl.AbstractGridBrowser;
 import es.mhp.browser.impl.address.presenter.AddressBrowserPresenter;
+import es.mhp.exceptions.UIException;
+import es.mhp.services.dto.AbstractDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
+
+import java.util.Set;
 
 /**
  * Created by Edu on 17/03/2016.
@@ -48,5 +52,30 @@ public class AddressBrowser extends AbstractBrowser {
     public void createAndDisplayForm(String mode) {
         addressBrowserPresenter.displayFormAndHideGrid(formBrowser, gridBrowser);
         formBrowser.createFormBrowser(gridBrowser.getSelectedGridRow(), mode);
+    }
+
+    @Override
+    public boolean saveItemAndUpdateGrid() throws UIException {
+        return addressBrowserPresenter.saveItemAndUpdateGrid(formBrowser, gridBrowser);
+    }
+
+    @Override
+    public void deleteItemAndUpdateGrid() throws UIException {
+        addressBrowserPresenter.deleteItemAndUpdateGrid(gridBrowser);
+    }
+
+    @Override
+    public void updateAndDisplayGrid(Set<AbstractDTO> dataSource) {
+        addressBrowserPresenter.updateAndDisplayGrid(formBrowser, gridBrowser, dataSource);
+    }
+
+    @Override
+    public void displayGridAndHideForm() {
+        addressBrowserPresenter.displayGridAndHideForm(formBrowser, gridBrowser);
+    }
+
+    @Override
+    public void displayFormAndHideGrid() {
+        addressBrowserPresenter.displayFormAndHideGrid(formBrowser, gridBrowser);
     }
 }

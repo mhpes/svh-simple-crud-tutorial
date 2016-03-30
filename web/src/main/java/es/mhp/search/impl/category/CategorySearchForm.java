@@ -3,7 +3,9 @@ package es.mhp.search.impl.category;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import es.mhp.browser.IBrowser;
+import es.mhp.browser.utils.StateType;
 import es.mhp.search.impl.AbstractSearchForm;
+import es.mhp.search.impl.category.presenter.CategorySearchFormPresenter;
 import es.mhp.services.ICategoryService;
 import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,11 @@ public class CategorySearchForm extends AbstractSearchForm {
 
     public static final String BEAN_NAME = "category_search_form";
 
+    private TextField filter;
+
+    @Autowired
+    private CategorySearchFormPresenter categorySearchFormPresenter;
+
     @Autowired
     private ICategoryService categoryService;
 
@@ -27,25 +34,23 @@ public class CategorySearchForm extends AbstractSearchForm {
 
     public CategorySearchForm() {
         super();
-        searchForm = new FormLayout();
+        initializeComponents();
         this.addComponent(searchForm);
+    }
+
+    private void initializeComponents() {
+        searchForm = new FormLayout();
+
+        filter = new TextField();
+        filter.setInputPrompt("Filter categories...");
     }
 
     @Override
     public void buildSearchForm(IBrowser browser, IToolbar toolbar) {
         searchForm.removeAllComponents();
-
-        TextField filter = new TextField();
-        filter.setInputPrompt("Filter categories...");
-
-        /*browser.updateAndDisplayGrid(categoryService.findAll());
         toolbar.updateToolbar(StateType.INITIAL);
-
-        filter.addTextChangeListener(e -> {
-            browser.buildBrowser();
-            browser.updateAndDisplayGrid(categoryService.findAnyCategories(e.getText()));
-        });*/
-
+        categorySearchFormPresenter.buildSearchForm(browser);
+        filter.addTextChangeListener(categorySearchFormPresenter.createSearchFormListener(browser));
         searchForm.addComponents(filter);
     }
 }

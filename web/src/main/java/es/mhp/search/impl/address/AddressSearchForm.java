@@ -2,14 +2,13 @@ package es.mhp.search.impl.address;
 
 import com.vaadin.ui.*;
 import es.mhp.browser.IBrowser;
+import es.mhp.browser.utils.StateType;
 import es.mhp.search.impl.AbstractSearchForm;
 import es.mhp.search.impl.address.presenter.AddressSearchFormPresenter;
 import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 import static es.mhp.views.utils.AddressViewConstants.*;
 
@@ -24,7 +23,7 @@ public class AddressSearchForm extends AbstractSearchForm {
     public static final String BEAN_NAME = "address_search_form";
 
     @Autowired
-    private AddressSearchFormPresenter presenter;
+    private AddressSearchFormPresenter addressSearchFormPresenter;
 
     private TextField mainStreetTextField;
     private TextField secondaryStreetTextField;
@@ -41,10 +40,15 @@ public class AddressSearchForm extends AbstractSearchForm {
     @Override
     public void buildSearchForm(IBrowser browser, IToolbar toolbar) {
         searchForm.removeAllComponents();
-        presenter.fillCitiesComboBox(cityComboBox);
-        presenter.fillStatesComboBoxOrderer(stateComboBox);
+        addressSearchFormPresenter.fillCitiesComboBox(cityComboBox);
+        addressSearchFormPresenter.fillStatesComboBoxOrderer(stateComboBox);
         buildBrowserWayOptionGroup(browserWayOptionGroup);
-        presenter.buildSearchForm(browser, toolbar, this);
+
+        addressSearchFormPresenter.updateAndDisplayGrid(browser);
+
+        addressSearchFormPresenter.buildSearchForm(browser);
+        toolbar.updateToolbar(StateType.INITIAL);
+        browserButton.addClickListener(addressSearchFormPresenter.createBrowserButtonListener(browser, this));
 
         searchForm.addComponents(mainStreetTextField, secondaryStreetTextField, cityComboBox,
                                  stateComboBox, browserWayOptionGroup, browserButton);
@@ -122,11 +126,11 @@ public class AddressSearchForm extends AbstractSearchForm {
         return searchForm;
     }
 
-    public AddressSearchFormPresenter getPresenter() {
-        return presenter;
+    public AddressSearchFormPresenter getAddressSearchFormPresenter() {
+        return addressSearchFormPresenter;
     }
 
-    public void setPresenter(AddressSearchFormPresenter presenter) {
-        this.presenter = presenter;
+    public void setAddressSearchFormPresenter(AddressSearchFormPresenter addressSearchFormPresenter) {
+        this.addressSearchFormPresenter = addressSearchFormPresenter;
     }
 }

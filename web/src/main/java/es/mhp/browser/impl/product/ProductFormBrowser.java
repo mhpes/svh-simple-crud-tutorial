@@ -5,8 +5,8 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.ui.ComboBox;
 import es.mhp.browser.impl.AbstractFormBrowser;
+import es.mhp.browser.impl.product.presenter.ProductFormBrowserPresenter;
 import es.mhp.browser.utils.FormBrowserUtils;
-import es.mhp.services.ICategoryService;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.CategoryDTO;
 import es.mhp.services.dto.ProductDTO;
@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-import java.util.Set;
 
 import static es.mhp.views.utils.ProductViewConstants.*;
 
@@ -30,7 +29,7 @@ public class ProductFormBrowser extends AbstractFormBrowser {
     public static final String BEAN_NAME = "product_form_browser";
 
     @Autowired
-    private ICategoryService categoryService;
+    private ProductFormBrowserPresenter productFormBrowserPresenter;
 
     public ProductFormBrowser() {
         super();
@@ -78,15 +77,20 @@ public class ProductFormBrowser extends AbstractFormBrowser {
     }
 
     private ComboBox buildAndBindCategoryComboBox(ProductDTO productDTO) {
-        Set<CategoryDTO> categorySet = (Set<CategoryDTO>)(Set<?>) categoryService.findAll();
-        BeanItemContainer<CategoryDTO> zipLocationContainer = new BeanItemContainer<>(CategoryDTO.class, categorySet);
-        ComboBox categoryCombobox = new ComboBox(CATEGORY, categorySet);
-        categoryCombobox.setContainerDataSource(zipLocationContainer);
+        BeanItemContainer<CategoryDTO> categoryContainer = productFormBrowserPresenter.findAllCategories();
+
+        ComboBox categoryCombobox = new ComboBox(CATEGORY);
+        categoryCombobox.setContainerDataSource(categoryContainer);
         categoryCombobox.setItemCaptionPropertyId(CATEGORYID_FIELD);
         categoryCombobox.setNullSelectionAllowed(false);
         categoryCombobox.setRequired(true);
         fieldGroup.bind(categoryCombobox, CATEGORY_FIELD);
 
+        selectCurrentCategory(productDTO, categoryContainer, categoryCombobox);
+        return categoryCombobox;
+    }
+
+    private void selectCurrentCategory(ProductDTO productDTO, BeanItemContainer<CategoryDTO> zipLocationContainer, ComboBox categoryCombobox) {
         if (productDTO.getCategoryDTO() != null) {
             Optional<CategoryDTO> categoryDTOOptional = zipLocationContainer.getItemIds().stream()
                     .filter(dto -> dto.getCategoryId() == productDTO.getCategoryDTO().getCategoryId()).findFirst();
@@ -94,6 +98,5 @@ public class ProductFormBrowser extends AbstractFormBrowser {
                 categoryCombobox.setValue(categoryDTOOptional.get());
             }
         }
-        return categoryCombobox;
     }
 }

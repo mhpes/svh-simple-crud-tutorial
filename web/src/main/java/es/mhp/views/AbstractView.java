@@ -6,6 +6,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import es.mhp.browser.IBrowser;
 import es.mhp.browser.utils.StateType;
+import es.mhp.exceptions.UIException;
 import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -42,7 +43,7 @@ public abstract class AbstractView extends VerticalLayout implements View {
         try {
             switch (state) {
                 case INITIAL:
-                    //getBrowser().displayGridAndHideForm();
+                    getBrowser().displayGridAndHideForm();
                     toolbar.updateToolbar(StateType.INITIAL);
                     break;
                 case NEW:
@@ -54,7 +55,7 @@ public abstract class AbstractView extends VerticalLayout implements View {
                     toolbar.updateToolbar(StateType.EDIT);
                     break;
                 case SAVE:
-                    Boolean isSaved = true;/*getBrowser().saveItemAndUpdateGrid();*/
+                    Boolean isSaved = getBrowser().saveItemAndUpdateGrid();
                     if (isSaved) {
                         toolbar.updateToolbar(StateType.SELECTEDROW);
                         Notification.show("item saved correctly!", Notification.Type.HUMANIZED_MESSAGE);
@@ -63,20 +64,20 @@ public abstract class AbstractView extends VerticalLayout implements View {
                     }
                     break;
                 case SELECTEDROW:
-                    //getBrowser().displayGridAndHideForm();
+                    getBrowser().displayGridAndHideForm();
                     toolbar.updateToolbar(StateType.SELECTEDROW);
                     break;
                 case DELETE:
-                    /*getBrowser().deleteItemAndUpdateGrid();
-                    getBrowser().displayGridAndHideForm();*/
+                    getBrowser().deleteItemAndUpdateGrid();
+                    getBrowser().displayGridAndHideForm();
                     toolbar.updateToolbar(StateType.INITIAL);
                     Notification.show("item deleted correctly!", Notification.Type.HUMANIZED_MESSAGE);
                     break;
                 default:
                     break;
             }
-        } catch (Exception e/*UIException e*/) {
-            Notification.show(/*e.getMessage()*/"", Notification.Type.ERROR_MESSAGE);
+        } catch (UIException e) {
+            Notification.show(e.getMessage(), Notification.Type.ERROR_MESSAGE);
         }
     }
 

@@ -11,9 +11,9 @@ import java.util.Set;
 public interface IBrowser {
     void buildBrowser();
     void createAndDisplayForm(String mode);
-    /*boolean saveItemAndUpdateGrid() throws UIException;
+    boolean saveItemAndUpdateGrid() throws UIException;
     void deleteItemAndUpdateGrid() throws UIException;
-    void updateAndDisplayGrid(Set<AbstractDTO> newDataSource);
+    void updateAndDisplayGrid(Set<AbstractDTO> dataSource);
     void displayGridAndHideForm();
-    void displayFormAndHideGrid();*/
+    void displayFormAndHideGrid();
 }

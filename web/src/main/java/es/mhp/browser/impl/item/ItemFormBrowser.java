@@ -5,17 +5,15 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.ui.ComboBox;
 import es.mhp.browser.impl.AbstractFormBrowser;
+import es.mhp.browser.impl.item.presenter.ItemFormBrowserPresenter;
 import es.mhp.browser.utils.FormBrowserUtils;
-import es.mhp.services.IAddressService;
-import es.mhp.services.IProductService;
-import es.mhp.services.ISellerContactInfoService;
 import es.mhp.services.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 import static es.mhp.views.utils.ItemViewConstants.*;
 
@@ -30,13 +28,7 @@ public class ItemFormBrowser extends AbstractFormBrowser {
     public static final String BEAN_NAME = "item_form_browser";
 
     @Autowired
-    private IProductService productService;
-
-    @Autowired
-    private IAddressService addressService;
-
-    @Autowired
-    private ISellerContactInfoService sellerContactInfoService;
+    private ItemFormBrowserPresenter itemFormBrowserPresenter;
 
     public ItemFormBrowser() {
         super();
@@ -61,18 +53,18 @@ public class ItemFormBrowser extends AbstractFormBrowser {
     protected BeanItem createBeanItem(AbstractDTO dto) {
         ItemDTO itemDTO = (ItemDTO) dto;
         BeanItem<ItemDTO> beanItem = new BeanItem<>(itemDTO);
-        beanItem.addItemProperty(ITEMID_FIELD, new ObjectProperty(itemDTO.getItemId()));
-        beanItem.addItemProperty(PRODUCT_FIELD, new ObjectProperty(itemDTO.getProductDTO()));
-        beanItem.addItemProperty(NAME_FIELD, new ObjectProperty(itemDTO.getName()));
-        beanItem.addItemProperty(DESCRIPTION_FIELD, new ObjectProperty(itemDTO.getDescription()));
-        beanItem.addItemProperty(IMAGEURL_FIELD, new ObjectProperty(itemDTO.getImageUrl()));
-        beanItem.addItemProperty(IMAGETHUMBURL_FIELD, new ObjectProperty(itemDTO.getImageThumbUrl()));
-        beanItem.addItemProperty(PRICE_FIELD, new ObjectProperty(itemDTO.getPrice()));
-        beanItem.addItemProperty(ADDRESS_FIELD, new ObjectProperty(itemDTO.getAddressDTO()));
-        beanItem.addItemProperty(SELLERCONTACTINFO_FIELD, new ObjectProperty(itemDTO.getSellerContactInfoDTO()));
-        beanItem.addItemProperty(TOTALSCORE_FIELD, new ObjectProperty(itemDTO.getTotalScore()));
-        beanItem.addItemProperty(NUMBEROFVOTES_FIELD, new ObjectProperty(itemDTO.getNumberOfVotes()));
-        beanItem.addItemProperty(DISABLED_FIELD, new ObjectProperty(itemDTO.getDisabled()));
+        beanItem.addItemProperty(ITEMID_FIELD, new ObjectProperty<>(itemDTO.getItemId()));
+        beanItem.addItemProperty(PRODUCT_FIELD, new ObjectProperty<>(itemDTO.getProductDTO()));
+        beanItem.addItemProperty(NAME_FIELD, new ObjectProperty<>(itemDTO.getName()));
+        beanItem.addItemProperty(DESCRIPTION_FIELD, new ObjectProperty<>(itemDTO.getDescription()));
+        beanItem.addItemProperty(IMAGEURL_FIELD, new ObjectProperty<>(itemDTO.getImageUrl()));
+        beanItem.addItemProperty(IMAGETHUMBURL_FIELD, new ObjectProperty<>(itemDTO.getImageThumbUrl()));
+        beanItem.addItemProperty(PRICE_FIELD, new ObjectProperty<>(itemDTO.getPrice()));
+        beanItem.addItemProperty(ADDRESS_FIELD, new ObjectProperty<>(itemDTO.getAddressDTO()));
+        beanItem.addItemProperty(SELLERCONTACTINFO_FIELD, new ObjectProperty<>(itemDTO.getSellerContactInfoDTO()));
+        beanItem.addItemProperty(TOTALSCORE_FIELD, new ObjectProperty<>(itemDTO.getTotalScore()));
+        beanItem.addItemProperty(NUMBEROFVOTES_FIELD, new ObjectProperty<>(itemDTO.getNumberOfVotes()));
+        beanItem.addItemProperty(DISABLED_FIELD, new ObjectProperty<>(itemDTO.getDisabled()));
         return beanItem;
     }
 
@@ -97,36 +89,68 @@ public class ItemFormBrowser extends AbstractFormBrowser {
     }
 
     private ComboBox buildAndBindProductComboBox(ItemDTO itemDTO) {
-        Set<ProductDTO> productSet = (Set<ProductDTO>)(Set<?>) productService.findAll();
-        BeanItemContainer<ProductDTO> productLocationContainer = new BeanItemContainer<>(ProductDTO.class, productSet);
-        ComboBox productCombobox = new ComboBox(PRODUCT, productSet);
+        BeanItemContainer<ProductDTO> productLocationContainer = itemFormBrowserPresenter.findAllProducts();
+
+        ComboBox productCombobox = new ComboBox(PRODUCT);
         productCombobox.setContainerDataSource(productLocationContainer);
         productCombobox.setItemCaptionPropertyId(PRODUCTID_FIELD);
         productCombobox.setNullSelectionAllowed(false);
         productCombobox.setRequired(true);
         fieldGroup.bind(productCombobox, PRODUCT_FIELD);
 
-        if (itemDTO.getProductDTO() != null) {
-            Optional<ProductDTO> productLocationDTOOptional = productLocationContainer.getItemIds().stream()
-                    .filter(dto -> dto.getProductId() == itemDTO.getProductDTO().getProductId()).findFirst();
-            if (productLocationDTOOptional.isPresent()) {
-                productCombobox.setValue(productLocationDTOOptional.get());
-            }
-        }
+        selectCurrentProduct(itemDTO, productLocationContainer, productCombobox);
         return productCombobox;
     }
 
     private ComboBox buildAndBindAddressComboBox(ItemDTO itemDTO) {
-        Set<AddressDTO> addressSet = (Set<AddressDTO>)(Set<?>) addressService.findAll();
+        BeanItemContainer<AddressDTO> productLocationContainer = itemFormBrowserPresenter.findAllAddresses();
 
-        BeanItemContainer<AddressDTO> productLocationContainer = new BeanItemContainer<>(AddressDTO.class, addressSet);
-        ComboBox addressCombobox = new ComboBox(ADDRESS, addressSet);
+        ComboBox addressCombobox = new ComboBox(ADDRESS);
         addressCombobox.setContainerDataSource(productLocationContainer);
         addressCombobox.setItemCaptionPropertyId(ADDRESSID_FIELD);
         addressCombobox.setNullSelectionAllowed(false);
         addressCombobox.setRequired(true);
         fieldGroup.bind(addressCombobox, ADDRESS_FIELD);
 
+        selectCurrentAddress(itemDTO, productLocationContainer, addressCombobox);
+        return addressCombobox;
+    }
+
+    private ComboBox buildAndBindSellerComboBox(ItemDTO itemDTO) {
+        BeanItemContainer<SellerContactInfoDTO> sellerContactInfoContainer = itemFormBrowserPresenter.findAllSellerContactInfo();
+
+        ComboBox sellerCombobox = new ComboBox(SELLERCONTACTINFO);
+        sellerCombobox.setContainerDataSource(sellerContactInfoContainer);
+        sellerCombobox.setItemCaptionPropertyId(SELLERCONTACTINFOID_FIELD);
+        sellerCombobox.setNullSelectionAllowed(false);
+        sellerCombobox.setRequired(true);
+        fieldGroup.bind(sellerCombobox, SELLERCONTACTINFO_FIELD);
+
+        selectCurrentSellerContactInfo(itemDTO, sellerContactInfoContainer, sellerCombobox);
+        return sellerCombobox;
+    }
+
+    private void selectCurrentProduct(ItemDTO itemDTO, BeanItemContainer<ProductDTO> productLocationContainer, ComboBox productCombobox) {
+        if (itemDTO.getProductDTO() != null) {
+            Optional<ProductDTO> productLocationDTOOptional = productLocationContainer.getItemIds().stream()
+                    .filter(dto -> Objects.equals(dto.getProductId(), itemDTO.getProductDTO().getProductId())).findFirst();
+            if (productLocationDTOOptional.isPresent()) {
+                productCombobox.setValue(productLocationDTOOptional.get());
+            }
+        }
+    }
+
+    private void selectCurrentSellerContactInfo(ItemDTO itemDTO, BeanItemContainer<SellerContactInfoDTO> sellerContactInfoContainer, ComboBox sellerCombobox) {
+        if (itemDTO.getSellerContactInfoDTO() != null) {
+            Optional<SellerContactInfoDTO> sellerLocationDTOOptional = sellerContactInfoContainer.getItemIds().stream()
+                    .filter(dto -> dto.getSellerId() == itemDTO.getSellerContactInfoDTO().getSellerId()).findFirst();
+            if (sellerLocationDTOOptional.isPresent()) {
+                sellerCombobox.setValue(sellerLocationDTOOptional.get());
+            }
+        }
+    }
+
+    private void selectCurrentAddress(ItemDTO itemDTO, BeanItemContainer<AddressDTO> productLocationContainer, ComboBox addressCombobox) {
         if (itemDTO.getAddressDTO() != null) {
             Optional<AddressDTO> addressLocationDTOOptional = productLocationContainer.getItemIds().stream()
                     .filter(dto -> dto.getAddressId() == itemDTO.getAddressDTO().getAddressId()).findFirst();
@@ -134,27 +158,5 @@ public class ItemFormBrowser extends AbstractFormBrowser {
                 addressCombobox.setValue(addressLocationDTOOptional.get());
             }
         }
-        return addressCombobox;
-    }
-
-    private ComboBox buildAndBindSellerComboBox(ItemDTO itemDTO) {
-        Set<SellerContactInfoDTO> zipSet = (Set<SellerContactInfoDTO>)(Set<?>) sellerContactInfoService.findAll();
-
-        BeanItemContainer<SellerContactInfoDTO> selllerLocationContainer = new BeanItemContainer<>(SellerContactInfoDTO.class, zipSet);
-        ComboBox sellerCombobox = new ComboBox(SELLERCONTACTINFO, zipSet);
-        sellerCombobox.setContainerDataSource(selllerLocationContainer);
-        sellerCombobox.setItemCaptionPropertyId(SELLERCONTACTINFOID_FIELD);
-        sellerCombobox.setNullSelectionAllowed(false);
-        sellerCombobox.setRequired(true);
-        fieldGroup.bind(sellerCombobox, SELLERCONTACTINFO_FIELD);
-
-        if (itemDTO.getSellerContactInfoDTO() != null) {
-            Optional<SellerContactInfoDTO> sellerLocationDTOOptional = selllerLocationContainer.getItemIds().stream()
-                    .filter(dto -> dto.getSellerId() == itemDTO.getSellerContactInfoDTO().getSellerId()).findFirst();
-            if (sellerLocationDTOOptional.isPresent()) {
-                sellerCombobox.setValue(sellerLocationDTOOptional.get());
-            }
-        }
-        return sellerCombobox;
     }
 }

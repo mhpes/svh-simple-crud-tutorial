@@ -7,6 +7,7 @@ import es.mhp.toolbar.AbstractToolbar;
 import es.mhp.views.AbstractView;
 import org.springframework.context.annotation.Scope;
 
+import javax.annotation.PostConstruct;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -25,6 +26,8 @@ public class Toolbar extends AbstractToolbar {
         this.buttonMap = new LinkedHashMap<>();
     }
 
+    //Has to be PostConstruct because we have to create the buttons before to use this class
+    @PostConstruct
     @Override
     public void buildToolbar(){
         this.removeAllComponents();

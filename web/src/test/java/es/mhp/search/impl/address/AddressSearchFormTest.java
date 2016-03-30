@@ -4,7 +4,6 @@ import es.mhp.browser.IBrowser;
 import es.mhp.browser.impl.address.AddressBrowser;
 import es.mhp.search.impl.address.presenter.AddressSearchFormPresenter;
 import es.mhp.services.IAddressService;
-import es.mhp.services.dto.AddressDTO;
 import es.mhp.toolbar.IToolbar;
 import es.mhp.views.utils.AddressViewConstants;
 import org.mockito.*;
@@ -63,8 +62,8 @@ public class AddressSearchFormTest extends AbstractTestNGSpringContextTests {
     public void stateComboboxTest() {
         initializeMocksAndBuildSearchForm();
 
-        Assert.assertEquals(addressSearchForm.getStateComboBox().isEmpty(), false);
         Assert.assertEquals(addressSearchForm.getStateComboBox().isVisible(), true);
+        Assert.assertEquals(addressSearchForm.getStateComboBox().getItemIds().isEmpty(), false);
         Assert.assertEquals(addressSearchForm.getStateComboBox().getItemIds(), addressStateList);
     }
 
@@ -78,7 +77,9 @@ public class AddressSearchFormTest extends AbstractTestNGSpringContextTests {
     }
 
     private void initializeMocksAndBuildSearchForm() {
-        Mockito.when(addressService.getStateList()).thenReturn(addressStateList);
+        //Mockito adds addressService.findStates (@Mock) to addressSearchFormPresenter (@InjectMocks) and addressSearchFormPresenter
+        //and addressSearchFormPresenter is added (@Spy) into addressSearchForm (@InjectMocks)
+        Mockito.when(addressService.findStates()).thenReturn(addressStateList);
         addressSearchForm.buildSearchForm(browser, toolbar);
     }
 }

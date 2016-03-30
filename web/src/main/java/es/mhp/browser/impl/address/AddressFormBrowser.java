@@ -5,8 +5,8 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.ui.ComboBox;
 import es.mhp.browser.impl.AbstractFormBrowser;
+import es.mhp.browser.impl.address.presenter.AddressFormBrowserPresenter;
 import es.mhp.browser.utils.FormBrowserUtils;
-import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.AddressDTO;
 import es.mhp.services.dto.ZipLocationDTO;
@@ -29,8 +29,8 @@ public class AddressFormBrowser extends AbstractFormBrowser {
 
     public static final String BEAN_NAME = "address_form_browser";
 
-   @Autowired
-    private IZipLocationService zipLocationService;
+    @Autowired
+    private AddressFormBrowserPresenter addressFormBrowserPresenter;
 
     public AddressFormBrowser() {
         super();
@@ -84,29 +84,27 @@ public class AddressFormBrowser extends AbstractFormBrowser {
     }
 
     private ComboBox buildAndBindZipComboBox(AddressDTO addressDTO) {
-        //Set<ZipLocationDTO> zipSet = (Set<ZipLocationDTO>)(Set<?>) zipLocationService.findAll();
-        BeanItemContainer<ZipLocationDTO> zipLocationContainer = new BeanItemContainer<>(ZipLocationDTO.class/*, zipSet*/);
-        ComboBox zipCombobox = new ComboBox(ZIP/*, zipSet*/);
+        BeanItemContainer<ZipLocationDTO> zipLocationContainer = addressFormBrowserPresenter.findAllZipLocation();
+
+        ComboBox zipCombobox = new ComboBox(ZIP);
         zipCombobox.setContainerDataSource(zipLocationContainer);
         zipCombobox.setItemCaptionPropertyId(ZIPCODEID);
         zipCombobox.setNullSelectionAllowed(false);
         zipCombobox.setRequired(true);
         fieldGroup.bind(zipCombobox, ZIPLOCATION_FIELD);
 
+        selectCurrentAddress(addressDTO, zipLocationContainer, zipCombobox);
+        return zipCombobox;
+    }
+
+    private void selectCurrentAddress(AddressDTO addressDTO, BeanItemContainer<ZipLocationDTO> zipLocationContainer, ComboBox zipCombobox) {
         if (addressDTO.getZipLocationDTO() != null) {
-            //One way to select the zip on the combobox field
             Optional<ZipLocationDTO> zipLocationDTOOptional = zipLocationContainer.getItemIds().stream()
                     .filter(dto -> dto.getZipCodeId() == addressDTO.getZipLocationDTO().getZipCodeId()).findFirst();
             if (zipLocationDTOOptional.isPresent()) {
                 zipCombobox.setValue(zipLocationDTOOptional.get());
             }
-            //Second way. This is a worst solution because it checks all the list items and that is not needed
-//            zipLocationContainer.getItemIds().stream().forEach(dto -> {
-//                    if (dto.getZipCodeId() == addressDTO.getZipLocationDTO().getZipCodeId()) {
-//                        zipCombobox.setValue(dto);
-//                    }
-//                });
         }
-        return zipCombobox;
     }
+
 }

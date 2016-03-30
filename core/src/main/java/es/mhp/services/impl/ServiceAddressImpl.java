@@ -78,7 +78,7 @@ public class ServiceAddressImpl implements IAddressService {
     }
 
     @Override
-    public Set<String> getStateList() {
+    public Set<String> findStates() {
         return addressRepository.findAllStates();
     }
 
