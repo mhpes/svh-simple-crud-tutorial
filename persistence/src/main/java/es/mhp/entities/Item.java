@@ -21,10 +21,10 @@ public class Item extends AbstractEntity {
     @Column(name = "ITEMID")
     private Integer itemId;
 
-    @ManyToMany(cascade = CascadeType.ALL ,mappedBy="items")
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy="items")
     private Set<Tag> tags;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Product.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Product.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "productId")
     private Product product;
 
@@ -32,7 +32,7 @@ public class Item extends AbstractEntity {
     @JoinColumn(name = "ADDRESS_ADDRESSID")
     private Address address;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = SellerContactInfo.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "CONTACTINFO_CONTACTINFOID")
     private SellerContactInfo seller;
 
@@ -172,6 +172,7 @@ public class Item extends AbstractEntity {
     }
 
     public int getTagsCount() {
+        if (getTags() == null) return 0;
         return this.tags.size();
     }
 }

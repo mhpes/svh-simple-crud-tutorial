@@ -3,6 +3,7 @@ package es.mhp.services.impl;
 import es.mhp.entities.Tag;
 import es.mhp.repositories.TagRepository;
 import es.mhp.services.ITagService;
+import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.TagDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -28,23 +29,10 @@ public class ServiceTagImpl implements ITagService {
     private TagRepository tagRepository;
 
     @Override
-    public Set<TagDTO> findAllTags() {
-        Iterable<Tag> tagSet = tagRepository.findAll();
-
-        Set<TagDTO> tagDTOs = new HashSet<>();
-
-        for (Tag tag : tagSet){
-            tagDTOs.add(new TagDTO(tag));
-        }
-
-        return tagDTOs;
-    }
-
-    @Override
-    public Set<TagDTO> findAnyTags(String text) {
+    public Set<AbstractDTO> findAnyTags(String text) {
         Iterable<Tag> tagSet = tagRepository.findByValue(text);
 
-        Set<TagDTO> zipLocationDTOs = new HashSet<>();
+        Set<AbstractDTO> zipLocationDTOs = new HashSet<>();
 
         for (Tag currentTag : tagSet) {
             zipLocationDTOs.add(new TagDTO(currentTag));
@@ -54,17 +42,25 @@ public class ServiceTagImpl implements ITagService {
     }
 
     @Override
-    public void save(TagDTO tagDTO) {
-        tagRepository.save(tagDTO.toEntity());
+    public TagDTO save(TagDTO tagDTO) {
+        return new TagDTO(tagRepository.save(tagDTO.toEntity()));
     }
 
     @Override
-    public void delete(TagDTO tagDTO) {
-        tagRepository.delete(tagDTO.getTagId());
+    public Set<AbstractDTO> findAll() {
+        Iterable<Tag> tagSet = tagRepository.findAll();
+
+        Set<AbstractDTO> zipLocationDTOs = new HashSet<>();
+
+        for (Tag currentTag : tagSet) {
+            zipLocationDTOs.add(new TagDTO(currentTag));
+        }
+
+        return zipLocationDTOs;
     }
 
     @Override
-    public TagDTO findTagById(int id) {
-        return new TagDTO(tagRepository.findOne(id));
+    public void delete(Object id) {
+        tagRepository.delete((Integer) id);
     }
 }

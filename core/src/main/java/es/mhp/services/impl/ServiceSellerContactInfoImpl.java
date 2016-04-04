@@ -3,6 +3,7 @@ package es.mhp.services.impl;
 import es.mhp.entities.SellerContactInfo;
 import es.mhp.repositories.SellerRepository;
 import es.mhp.services.ISellerContactInfoService;
+import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.SellerContactInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -28,10 +29,10 @@ public class ServiceSellerContactInfoImpl implements ISellerContactInfoService {
     private SellerRepository sellerRepository;
 
     @Override
-    public Set<SellerContactInfoDTO> findAllSellers() {
+    public Set<AbstractDTO> findAllSellers() {
         Iterable<SellerContactInfo> tagSet = sellerRepository.findAll();
 
-        Set<SellerContactInfoDTO> tagDTOs = new HashSet<>();
+        Set<AbstractDTO> tagDTOs = new HashSet<>();
 
         for (SellerContactInfo sellerContactInfo : tagSet){
             tagDTOs.add(new SellerContactInfoDTO(sellerContactInfo));
@@ -41,10 +42,10 @@ public class ServiceSellerContactInfoImpl implements ISellerContactInfoService {
     }
 
     @Override
-    public Set<SellerContactInfoDTO> findAnySellers(String text) {
+    public Set<AbstractDTO> findAnySellers(String text) {
         Iterable<SellerContactInfo> sellerSet = sellerRepository.findByValue(text);
 
-        Set<SellerContactInfoDTO> sellerDTOs = new HashSet<>();
+        Set<AbstractDTO> sellerDTOs = new HashSet<>();
 
         for (SellerContactInfo currentCategory : sellerSet) {
             sellerDTOs.add(new SellerContactInfoDTO(currentCategory));
@@ -59,12 +60,20 @@ public class ServiceSellerContactInfoImpl implements ISellerContactInfoService {
     }
 
     @Override
-    public void delete(SellerContactInfoDTO sellerContactInfoDTO) {
-        sellerRepository.delete(sellerContactInfoDTO.getContactInfoId());
+    public Set<AbstractDTO> findAll() {
+        Iterable<SellerContactInfo> sellerSet = sellerRepository.findAll();
+
+        Set<AbstractDTO> sellerDTOs = new HashSet<>();
+
+        for (SellerContactInfo currentCategory : sellerSet) {
+            sellerDTOs.add(new SellerContactInfoDTO(currentCategory));
+        }
+
+        return sellerDTOs;
     }
 
     @Override
-    public SellerContactInfoDTO findSellerById(int id) {
-        return new SellerContactInfoDTO(sellerRepository.findOne(id));
+    public void delete(Object id) {
+        sellerRepository.delete((Integer) id);
     }
 }

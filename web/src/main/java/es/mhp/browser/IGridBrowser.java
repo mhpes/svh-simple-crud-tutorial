@@ -1,14 +1,18 @@
 package es.mhp.browser;
 
-import es.mhp.browser.impl.AddressGridBrowser;
-import es.mhp.services.dto.AddressDTO;
+import es.mhp.services.dto.AbstractDTO;
 
-import java.util.Set;
+import java.util.Collection;
 
 /**
  * Created by Edu on 18/03/2016.
  */
 
 public interface IGridBrowser {
-    void fillGrid(Set<T> newDataSource);
+    void configure();
+    Object getSelectedGridRow();
+    void deleteEntry();
+    void updateGrid();
+    void updateGrid(AbstractDTO id);
+    void updateGrid(Collection<? extends AbstractDTO> newDataSource);
 }

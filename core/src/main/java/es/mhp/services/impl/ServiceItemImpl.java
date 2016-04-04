@@ -3,6 +3,7 @@ package es.mhp.services.impl;
 import es.mhp.entities.Item;
 import es.mhp.repositories.ItemRepository;
 import es.mhp.services.IItemService;
+import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.ItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -26,23 +27,10 @@ public class ServiceItemImpl implements IItemService {
     private ItemRepository itemRepository;
 
     @Override
-    public Set<ItemDTO> findAllItems() {
-        Iterable<Item> itemSet = itemRepository.findAll();
-
-        Set<ItemDTO> categoryDTOs = new HashSet<>();
-
-        for (Item item : itemSet){
-            categoryDTOs.add(new ItemDTO(item));
-        }
-
-        return categoryDTOs;
-    }
-
-    @Override
-    public Set<ItemDTO> findAnyItems(String text) {
+    public Set<AbstractDTO> findAnyItems(String text) {
         Iterable<Item> itemSet = itemRepository.findByValue(text);
 
-        Set<ItemDTO> itemDTOs = new HashSet<>();
+        Set<AbstractDTO> itemDTOs = new HashSet<>();
 
         for (Item currentItem : itemSet) {
             itemDTOs.add(new ItemDTO(currentItem));
@@ -57,5 +45,20 @@ public class ServiceItemImpl implements IItemService {
     }
 
     @Override
-    public void delete(ItemDTO itemDTO) { itemRepository.delete(itemDTO.getItemId()); }
+    public Set<AbstractDTO> findAll() {
+        Iterable<Item> items = itemRepository.findAll();
+
+        Set<AbstractDTO> addressDTOs = new HashSet<>();
+
+        for (Item item : items){
+            addressDTOs.add(new ItemDTO(item));
+        }
+
+        return addressDTOs;
+    }
+
+    @Override
+    public void delete(Object id) {
+        itemRepository.delete((Integer) id);
+    }
 }

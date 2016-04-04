@@ -29,6 +29,11 @@ public class ZipLocationDTO extends AbstractDTO<ZipLocation>{
         return zipLocation;
     }
 
+    @Override
+    public Object getId() {
+        return getZipCodeId();
+    }
+
     public ZipLocationDTO(Integer zipCode, String city, String state) {
         this.zipCodeId = zipCode;
         this.city = city;

@@ -5,6 +5,7 @@ import es.mhp.entities.Product;
 import es.mhp.repositories.CategoryRepository;
 import es.mhp.repositories.ProductRepository;
 import es.mhp.services.IProductService;
+import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -33,10 +34,10 @@ public class ServiceProductImpl implements IProductService {
     private CategoryRepository categoryRepository;
 
     @Override
-    public Set<ProductDTO> findAllProducts() {
+    public Set<AbstractDTO> findAll() {
         Iterable<Product> addressSet = productRepository.findAll();
 
-        Set<ProductDTO> productDTOs = new HashSet<>();
+        Set<AbstractDTO> productDTOs = new HashSet<>();
 
         for (Product product : addressSet){
             productDTOs.add(new ProductDTO(product));
@@ -46,10 +47,10 @@ public class ServiceProductImpl implements IProductService {
     }
 
     @Override
-    public Set<ProductDTO> findAnyProducts(String text) {
+    public Set<AbstractDTO> findAnyProducts(String text) {
         Iterable<Product> productSet = productRepository.findByValue(text);
 
-        Set<ProductDTO> productDTOs = new HashSet<>();
+        Set<AbstractDTO> productDTOs = new HashSet<>();
 
         for (Product currentProduct : productSet) {
             productDTOs.add(new ProductDTO(currentProduct));
@@ -61,7 +62,7 @@ public class ServiceProductImpl implements IProductService {
     @Override
     public ProductDTO save(ProductDTO productDTO) {
         Product product = productRepository.findOne(productDTO.getProductId());
-        Category category = categoryRepository.findOne(productDTO.getCategory());
+        Category category = categoryRepository.findOne(productDTO.getCategoryDTO().getCategoryId());
 
         if (product != null){
             product.setCategory(category);
@@ -75,12 +76,7 @@ public class ServiceProductImpl implements IProductService {
     }
 
     @Override
-    public void delete(ProductDTO productDTO) {
-        productRepository.delete(productDTO.getProductId());
-    }
-
-    @Override
-    public ProductDTO findById(String id) {
-        return new ProductDTO(productRepository.findOne(id));
+    public void delete(Object id) {
+        productRepository.delete(id.toString());
     }
 }

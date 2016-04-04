@@ -14,7 +14,7 @@ public class AddressDTO extends AbstractDTO<Address>{
     private int associatedItemsCount;
     private String mainStreet;
     private String secondaryStreet;
-    private ZipLocationDTO zipLocation;
+    private ZipLocationDTO zipLocationDTO;
     private String city;
     private String state;
     private BigDecimal latitude;
@@ -24,8 +24,8 @@ public class AddressDTO extends AbstractDTO<Address>{
     public Address toEntity() {
         Address address = new Address();
 
-        if (this.getZipLocation() != null){
-            address.setZipLocation(this.getZipLocation().toEntity());
+        if (this.getZipLocationDTO() != null){
+            address.setZipLocation(this.getZipLocationDTO().toEntity());
         }
 
         BeanUtils.copyProperties(this, address);
@@ -38,6 +38,11 @@ public class AddressDTO extends AbstractDTO<Address>{
         return address;
     }
 
+    @Override
+    public Object getId() {
+        return getAddressId();
+    }
+
     public AddressDTO(Address address) {
         if (address != null) {
             this.addressId = address.getAddressId();
@@ -45,7 +50,7 @@ public class AddressDTO extends AbstractDTO<Address>{
             this.secondaryStreet = address.getSecondaryStreet();
 
             if (address.getZipLocation() != null){
-                this.zipLocation = new ZipLocationDTO(address.getZipLocation());
+                this.zipLocationDTO = new ZipLocationDTO(address.getZipLocation());
             }
 
             this.city = address.getCity();
@@ -56,11 +61,11 @@ public class AddressDTO extends AbstractDTO<Address>{
         }
     }
 
-    public AddressDTO(int addressId, String mainStreet, String secondaryStreet, ZipLocationDTO zipLocation, String city, String state, BigDecimal latitude, BigDecimal longitude){
+    public AddressDTO(int addressId, String mainStreet, String secondaryStreet, ZipLocationDTO zipLocationDTO, String city, String state, BigDecimal latitude, BigDecimal longitude){
         this.addressId = addressId;
         this.mainStreet = mainStreet;
         this.secondaryStreet = secondaryStreet;
-        this.zipLocation = zipLocation;
+        this.zipLocationDTO = zipLocationDTO;
         this.city = city;
         this.state = state;
         this.latitude = latitude;
@@ -152,11 +157,11 @@ public class AddressDTO extends AbstractDTO<Address>{
         this.addressId = addressId;
     }
 
-    public ZipLocationDTO getZipLocation() {
-        return zipLocation;
+    public ZipLocationDTO getZipLocationDTO() {
+        return zipLocationDTO;
     }
 
-    public void setZipLocation(ZipLocationDTO zipLocation) {
-        this.zipLocation = zipLocation;
+    public void setZipLocationDTO(ZipLocationDTO zipLocationDTO) {
+        this.zipLocationDTO = zipLocationDTO;
     }
 }

@@ -1,18 +1,19 @@
 package es.mhp.browser;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.VerticalLayout;
-import es.mhp.browser.impl.AbstractBrowser;
+import es.mhp.exceptions.UIException;
+import es.mhp.services.dto.AbstractDTO;
+
+import java.util.Set;
 
 /**
  * Created by Edu on 17/03/2016.
  */
 public interface IBrowser {
-    AbstractBrowser getBrowserLayout();
-    VerticalLayout getIGridBrowser();
-    VerticalLayout getIFormBrowser();
-    void setVisibility(Component component, boolean visibility);
     void buildBrowser();
-
-    void createForm(Object id, String mode);
+    void createAndDisplayForm(String mode);
+    boolean saveItemAndUpdateGrid() throws UIException;
+    void deleteItemAndUpdateGrid() throws UIException;
+    void updateAndDisplayGrid(Set<AbstractDTO> dataSource);
+    void displayGridAndHideForm();
+    void displayFormAndHideGrid();
 }

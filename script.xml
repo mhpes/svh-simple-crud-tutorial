@@ -6,8 +6,8 @@
     <property name="destination" location="${tomcat_install}\webapps" />
     <property name="dir_work" location="${tomcat_install}\work\Catalina\localhost" />
     <property name="temp_work" location="${tomcat_install}\temp" />
-    <property name="app_prefix" value="web" />
-    <property name="app_webapp_name" value="1.0" />
+    <property name="app_prefix" value="" />
+    <property name="app_webapp_name" value="svh-simple-crud-tutorial" />
 
     <!-- Copy all artifacts with the specified preffix -->
     <target name="copyAll">
@@ -39,9 +39,9 @@
 
 	<!-- Copy the web application artifact exploded -->
     <target name="copyWebAppEXPLODED">
-        <echo message="Copying to ${destination}\${app_prefix}-${app_webapp_name}"/>
-        <copy todir="${destination}\${app_prefix}-${app_webapp_name}" overwrite="true">
-            <fileset dir="./web/target/${app_prefix}-${app_webapp_name}" />
+        <echo message="Copying to ${destination}\${app_prefix}${app_webapp_name}"/>
+        <copy todir="${destination}\${app_prefix}${app_webapp_name}" overwrite="true">
+            <fileset dir="./web/target/${app_prefix}${app_webapp_name}" />
         </copy>
     </target>
 </project>

@@ -11,9 +11,9 @@ import java.math.BigDecimal;
 public class ItemDTO extends AbstractDTO<Item>{
 
     private int itemId;
-    private int addressId;
-    private String productId;
-    private int contactInfoId;
+    private AddressDTO addressDTO;
+    private ProductDTO productDTO;
+    private SellerContactInfoDTO sellerContactInfoDTO;
 
     private String productSummary;
     private String addressSummary;
@@ -29,9 +29,23 @@ public class ItemDTO extends AbstractDTO<Item>{
     private String imageThumbUrl;
     private Integer numberOfVotes;
 
+
     @Override
     public Item toEntity() {
         Item item = new Item();
+
+        if (this.getProductDTO() != null){
+            item.setProduct(this.getProductDTO().toEntity());
+        }
+
+        if (this.getAddressDTO() != null){
+            item.setAddress(this.getAddressDTO().toEntity());
+        }
+
+        if (this.getSellerContactInfoDTO() != null){
+            item.setSeller(this.getSellerContactInfoDTO().toEntity());
+        }
+
         BeanUtils.copyProperties(this, item);
         return item;
     }
@@ -42,6 +56,11 @@ public class ItemDTO extends AbstractDTO<Item>{
         return item;
     }
 
+    @Override
+    public Object getId() {
+        return getItemId();
+    }
+
 
     public ItemDTO(Item item){
         if (item != null){
@@ -50,15 +69,15 @@ public class ItemDTO extends AbstractDTO<Item>{
             this.productSummary = calculateProductSummary(item);
 
             if (item.getProduct() != null){
-                this.productId = item.getProduct().getProductId();
+                this.productDTO = new ProductDTO(item.getProduct());
             }
 
             if (item.getSeller() != null){
-                this.contactInfoId = item.getSeller().getSellerId();
+                this.sellerContactInfoDTO = new SellerContactInfoDTO(item.getSeller());
             }
 
             if (item.getAddress() != null){
-                this.addressId = item.getAddress().getAddressId();
+                this.addressDTO = new AddressDTO(item.getAddress());
             }
 
             this.imageThumbUrl = item.getImageThumbUrl();
@@ -77,17 +96,17 @@ public class ItemDTO extends AbstractDTO<Item>{
 
     }
 
-    public ItemDTO(int addressId, int itemId, String productId, String name, String description, String imageUrl,
-                   String imageThumbUrl, BigDecimal price, int contactInfoId, int totalScore, int numberOfVotes, int disabled) {
-        this.addressId = addressId;
+    public ItemDTO(AddressDTO addressDTO, int itemId, ProductDTO productDTO, String name, String description, String imageUrl,
+                   String imageThumbUrl, BigDecimal price, SellerContactInfoDTO sellerContactInfoDTO, int totalScore, int numberOfVotes, int disabled) {
+        this.addressDTO = addressDTO;
         this.itemId = itemId;
-        this.productId = productId;
+        this.productDTO = productDTO;
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
         this.imageThumbUrl = imageThumbUrl;
         this.price = price;
-        this.contactInfoId = contactInfoId;
+        this.sellerContactInfoDTO = sellerContactInfoDTO;
         this.totalScore = totalScore;
         this.numberOfVotes = numberOfVotes;
         this.disabled = disabled;
@@ -201,35 +220,35 @@ public class ItemDTO extends AbstractDTO<Item>{
         this.imageUrl = imageUrl;
     }
 
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
-
-    public int getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(int addressId) {
-        this.addressId = addressId;
-    }
-
-    public int getContactInfoId() {
-        return contactInfoId;
-    }
-
-    public void setContactInfoId(int contactInfoId) {
-        this.contactInfoId = contactInfoId;
-    }
-
     public int getDisabled() {
         return disabled;
     }
 
     public void setDisabled(int disabled) {
         this.disabled = disabled;
+    }
+
+    public AddressDTO getAddressDTO() {
+        return addressDTO;
+    }
+
+    public void setAddressDTO(AddressDTO addressDTO) {
+        this.addressDTO = addressDTO;
+    }
+
+    public ProductDTO getProductDTO() {
+        return productDTO;
+    }
+
+    public void setProductDTO(ProductDTO productDTO) {
+        this.productDTO = productDTO;
+    }
+
+    public SellerContactInfoDTO getSellerContactInfoDTO() {
+        return sellerContactInfoDTO;
+    }
+
+    public void setSellerContactInfoDTO(SellerContactInfoDTO sellerContactInfoDTO) {
+        this.sellerContactInfoDTO = sellerContactInfoDTO;
     }
 }

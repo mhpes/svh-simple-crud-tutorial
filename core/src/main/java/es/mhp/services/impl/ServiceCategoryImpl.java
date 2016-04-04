@@ -3,6 +3,7 @@ package es.mhp.services.impl;
 import es.mhp.entities.Category;
 import es.mhp.repositories.CategoryRepository;
 import es.mhp.services.ICategoryService;
+import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.CategoryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -26,23 +27,10 @@ public class ServiceCategoryImpl implements ICategoryService {
     private CategoryRepository categoryRepository;
 
     @Override
-    public Set<CategoryDTO> findAllCategories() {
-        Iterable<Category> categorySet = categoryRepository.findAll();
-
-        Set<CategoryDTO> categoryDTOs = new HashSet<>();
-
-        for (Category category : categorySet){
-            categoryDTOs.add(new CategoryDTO(category));
-        }
-
-        return categoryDTOs;
-    }
-
-    @Override
-    public Set<CategoryDTO> findAnyCategories(String text) {
+    public Set<AbstractDTO> findAnyCategories(String text) {
         Iterable<Category> categorySet = categoryRepository.findByValue(text);
 
-        Set<CategoryDTO> categoryDTOs = new HashSet<>();
+        Set<AbstractDTO> categoryDTOs = new HashSet<>();
 
         for (Category currentCategory : categorySet) {
             categoryDTOs.add(new CategoryDTO(currentCategory));
@@ -57,7 +45,20 @@ public class ServiceCategoryImpl implements ICategoryService {
     }
 
     @Override
-    public void delete(CategoryDTO categoryDTO) {
-        categoryRepository.delete(categoryDTO.getCategoryId());
+    public Set<AbstractDTO> findAll() {
+        Iterable<Category> categories = categoryRepository.findAll();
+
+        Set<AbstractDTO> categoryDTOs = new HashSet<>();
+
+        for (Category category : categories){
+            categoryDTOs.add(new CategoryDTO(category));
+        }
+
+        return categoryDTOs;
+    }
+
+    @Override
+    public void delete(Object id) {
+        categoryRepository.delete(id.toString());
     }
 }

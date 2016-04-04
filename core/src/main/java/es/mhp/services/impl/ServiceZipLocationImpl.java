@@ -3,6 +3,7 @@ package es.mhp.services.impl;
 import es.mhp.repositories.ZipLocationRepository;
 import es.mhp.entities.ZipLocation;
 import es.mhp.services.IZipLocationService;
+import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.ZipLocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -26,26 +27,26 @@ import java.util.Set;
 public class ServiceZipLocationImpl implements IZipLocationService {
 
     @Autowired
-    private ZipLocationRepository ZipLocationRepository;
+    private ZipLocationRepository zipLocationRepository;
 
     @Override
-    public Set<ZipLocationDTO> findAllZipLocations() {
-        Iterable<ZipLocation> zipLocationSet = ZipLocationRepository.findAll();
+    public Set<AbstractDTO> findAll() {
+        Iterable<ZipLocation> zipLocations = zipLocationRepository.findAll();
 
-        Set<ZipLocationDTO> zipLocationDTOs = new HashSet<>();
+        Set<AbstractDTO> zipLocationDtos = new HashSet<>();
 
-        for (ZipLocation zipLocation : zipLocationSet) {
-            zipLocationDTOs.add(new ZipLocationDTO(zipLocation));
+        for (ZipLocation address : zipLocations){
+            zipLocationDtos.add(new ZipLocationDTO(address));
         }
 
-        return zipLocationDTOs;
+        return zipLocationDtos;
     }
 
     @Override
-    public Set<ZipLocationDTO> findAnyZipLocations(String text) {
-        List<ZipLocation> zipLocationList = ZipLocationRepository.findByValue(text);
+    public Set<AbstractDTO> findAnyZipLocations(String text) {
+        List<ZipLocation> zipLocationList = zipLocationRepository.findByValue(text);
 
-        Set<ZipLocationDTO> zipLocationDTOs = new HashSet<>();
+        Set<AbstractDTO> zipLocationDTOs = new HashSet<>();
 
         for (ZipLocation zipLocation : zipLocationList) {
             zipLocationDTOs.add(new ZipLocationDTO(zipLocation));
@@ -55,17 +56,12 @@ public class ServiceZipLocationImpl implements IZipLocationService {
     }
 
     @Override
-    public void save(ZipLocationDTO zipLocationDTO) {
-        ZipLocationRepository.save(zipLocationDTO.toEntity());
+    public ZipLocationDTO save(ZipLocationDTO zipLocationDTO) {
+        return new ZipLocationDTO(zipLocationRepository.save(zipLocationDTO.toEntity()));
     }
 
     @Override
-    public void delete(ZipLocationDTO zipLocationDTO) {
-        ZipLocationRepository.delete(zipLocationDTO.getZipCodeId());
-    }
-
-    @Override
-    public ZipLocationDTO findZipById(int id) {
-        return new ZipLocationDTO(ZipLocationRepository.findOne(id));
+    public void delete(Object id) {
+        zipLocationRepository.delete((Integer) id);
     }
 }

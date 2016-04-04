@@ -7,7 +7,7 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.navigator.SpringViewProvider;
 import com.vaadin.ui.*;
 import es.mhp.views.*;
-import es.mhp.views.utils.AddressViewUtils;
+import es.mhp.views.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.ContextLoaderListener;
 
@@ -65,13 +65,13 @@ public class MainUI extends UI {
         verticalLayout.setMargin(true);
         verticalLayout.setWidth("250px");
 
-        verticalLayout.addComponent(createCustomButton(AddressViewUtils.VIEW_NAME));
-        verticalLayout.addComponent(createCustomButton(CategoryView.VIEW_NAME));
-        verticalLayout.addComponent(createCustomButton(ProductView.VIEW_NAME));
-        verticalLayout.addComponent(createCustomButton(ZipLocationView.VIEW_NAME));
-        verticalLayout.addComponent(createCustomButton(ItemView.VIEW_NAME));
-        verticalLayout.addComponent(createCustomButton(SellerContactInfoView.VIEW_NAME));
-        verticalLayout.addComponent(createCustomButton(TagView.VIEW_NAME));
+        verticalLayout.addComponent(createCustomButton(AddressViewConstants.VIEW_NAME));
+        verticalLayout.addComponent(createCustomButton(ProductViewConstants.VIEW_NAME));
+        verticalLayout.addComponent(createCustomButton(CategoryViewConstants.VIEW_NAME));
+        verticalLayout.addComponent(createCustomButton(ItemViewConstants.VIEW_NAME));
+        verticalLayout.addComponent(createCustomButton(ZipLocationViewConstants.VIEW_NAME));
+        verticalLayout.addComponent(createCustomButton(SellerContactInfoViewConstants.VIEW_NAME));
+        verticalLayout.addComponent(createCustomButton(TagViewConstants.VIEW_NAME));
 
         return verticalLayout;
     }

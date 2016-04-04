@@ -9,7 +9,7 @@ import org.springframework.beans.BeanUtils;
 public class ProductDTO extends AbstractDTO<Product> {
 
     private String productId;
-    private String category;
+    private CategoryDTO categoryDTO;
     private String name;
     private String description;
     private String imageUrl;
@@ -21,8 +21,18 @@ public class ProductDTO extends AbstractDTO<Product> {
     }
 
     @Override
+    public Object getId() {
+        return getProductId();
+    }
+
+    @Override
     public Product toEntity() {
         Product product = new Product();
+
+        if (this.getCategoryDTO() != null){
+            product.setCategory(this.getCategoryDTO().toEntity());
+        }
+
         BeanUtils.copyProperties(this, product);
         return product;
     }
@@ -32,7 +42,7 @@ public class ProductDTO extends AbstractDTO<Product> {
             this.productId = product.getProductId();
 
             if (product.getCategory() != null){
-                this.category = product.getCategory().getCategoryId();
+                this.categoryDTO = new CategoryDTO(product.getCategory());
             }
 
             this.name = product.getName();
@@ -43,12 +53,12 @@ public class ProductDTO extends AbstractDTO<Product> {
 
     public ProductDTO(){}
 
-    public ProductDTO(String productId, String name, String description, String imageUrl, String category) {
+    public ProductDTO(String productId, String name, String description, String imageUrl, CategoryDTO categoryDTO) {
         this.productId = productId;
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
-        this.category = category;
+        this.categoryDTO = categoryDTO;
     }
 
     public String getProductId() {
@@ -57,14 +67,6 @@ public class ProductDTO extends AbstractDTO<Product> {
 
     public void setProductId(String productId) {
         this.productId = productId;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public String getName() {
@@ -89,5 +91,13 @@ public class ProductDTO extends AbstractDTO<Product> {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public CategoryDTO getCategoryDTO() {
+        return categoryDTO;
+    }
+
+    public void setCategoryDTO(CategoryDTO categoryDTO) {
+        this.categoryDTO = categoryDTO;
     }
 }
