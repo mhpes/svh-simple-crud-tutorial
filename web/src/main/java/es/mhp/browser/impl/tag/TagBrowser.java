@@ -24,8 +24,9 @@ import java.util.Set;
  * Created by Edu on 17/03/2016.
  */
 
-@org.springframework.stereotype.Component(TagBrowser.BEAN_NAME)
+
 @Scope("prototype")
+@org.springframework.stereotype.Component(TagBrowser.BEAN_NAME)
 public class TagBrowser extends AbstractBrowser {
 
     public static final String BEAN_NAME = "tag_browser";
