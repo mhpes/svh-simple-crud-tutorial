@@ -1,0 +1,85 @@
+<!--MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ehcache-node-@-->
+<ehcache>
+  <!--
+    Sets the path to the directory where cache files are created.
+
+    If the path is a Java System Property it is replaced by its value in the
+    running VM.
+
+    The following properties are translated:
+    * user.home - User's home directory
+    * user.dir - User's current working directory
+    * java.io.tmpdir - Default temp file path
+
+    Subdirectories can be specified below the property e.g. java.io.tmpdir/one
+    -->
+
+    <diskStore path="java.io.tmpdir"/>
+
+ <!--
+    Mandatory Default Cache configuration. These settings will be applied to caches
+    created programmtically using CacheManager.add(String cacheName)
+    -->
+    <defaultCache
+            maxElementsInMemory="1000"
+            eternal="false"
+            timeToIdleSeconds="300"
+            timeToLiveSeconds="300"
+            overflowToDisk="false"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="300"
+            memoryStoreEvictionPolicy="LRU"
+            />
+<!-- The unnamed query cache -->
+   <cache
+    name="org.hibernate.cache.StandardQueryCache"
+    maxElementsInMemory="1000"
+    eternal="false"
+    timeToLiveSeconds="300"
+    overflowToDisk="false"
+   />
+<!--MP-MANAGED-UPDATABLE-ENDING-->
+
+<!--MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @cache-entity-CATEGORY-petshop@-->
+   <cache
+    name="net.sf.mp.demo.petshop.domain.pet.Category"
+        maxElementsInMemory="5000"
+        eternal="false"
+        timeToIdleSeconds="300"
+        timeToLiveSeconds="600"
+        overflowToDisk="false"
+   />
+<!--MP-MANAGED-UPDATABLE-ENDING-->
+
+
+
+</ehcache>
+<!--
+	 Copyright (c) minuteproject, minuteproject@gmail.com
+	 All rights reserved.
+	 
+	 Licensed under the Apache License, Version 2.0 (the "License")
+	 you may not use this file except in compliance with the License.
+	 You may obtain a copy of the License at
+	 
+	 http://www.apache.org/licenses/LICENSE-2.0
+	 
+	 Unless required by applicable law or agreed to in writing, software
+	 distributed under the License is distributed on an "AS IS" BASIS,
+	 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 See the License for the specific language governing permissions and
+	 limitations under the License.
+	 
+	 More information on minuteproject:
+	 twitter @minuteproject
+	 wiki http://minuteproject.wikispaces.com 
+	 blog http://minuteproject.blogspot.net
+	 
+-->
+<!--
+	 template reference : 
+	 - Minuteproject version : 0.9.7
+	 - name      : EhCacheXml
+	 - file name : EhCache.Xml.vm
+	 - time      : 2015/10/08 ap. J.-C. at 07:34:22 CEST
+-->
