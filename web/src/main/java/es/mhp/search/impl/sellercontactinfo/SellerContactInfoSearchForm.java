@@ -1,10 +1,10 @@
-package es.mhp.search.impl.product;
+package es.mhp.search.impl.sellercontactinfo;
 
 import com.vaadin.ui.TextField;
 import es.mhp.browser.IBrowser;
 import es.mhp.browser.utils.StateType;
 import es.mhp.search.impl.AbstractSearchForm;
-import es.mhp.search.impl.product.presenter.ProductSearchFormPresenter;
+import es.mhp.search.impl.sellercontactinfo.presenter.SellerContactInfoSearchFormPresenter;
 import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -14,18 +14,18 @@ import org.springframework.stereotype.Component;
  * Created by Edu on 18/03/2016.
  */
 
-@Component(ProductSearchForm.BEAN_NAME)
+@Component(SellerContactInfoSearchForm.BEAN_NAME)
 @Scope("prototype")
-public class ProductSearchForm extends AbstractSearchForm {
+public class SellerContactInfoSearchForm extends AbstractSearchForm {
 
-    public static final String BEAN_NAME = "product_search_form";
+    public static final String BEAN_NAME = "sellerContactInfo_search_form";
 
     private TextField filter;
 
     @Autowired
-    private ProductSearchFormPresenter productSearchFormPresenter;
+    private SellerContactInfoSearchFormPresenter sellerContactInfoSearchFormPresenter;
 
-    public ProductSearchForm() {
+    public SellerContactInfoSearchForm() {
         super();
         initializeComponents();
     }
@@ -34,12 +34,12 @@ public class ProductSearchForm extends AbstractSearchForm {
     public void buildSearchForm(IBrowser browser, IToolbar toolbar) {
         searchForm.removeAllComponents();
 
-        filter.setPlaceholder("Filter products...");
+        filter.setPlaceholder("Filter sellers...");
 
-        productSearchFormPresenter.updateAndDisplayGrid(browser);
+        sellerContactInfoSearchFormPresenter.updateAndDisplayGrid(browser);
         toolbar.updateToolbar(StateType.INITIAL);
 
-        filter.addValueChangeListener(productSearchFormPresenter.createSearchFormListener(browser));
+        filter.addValueChangeListener(sellerContactInfoSearchFormPresenter.createSearchFormListener(browser));
 
         searchForm.addComponents(filter);
     }

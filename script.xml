@@ -7,7 +7,7 @@
     <property name="dir_work" location="${tomcat_install}\work\Catalina\localhost" />
     <property name="temp_work" location="${tomcat_install}\temp" />
     <property name="app_prefix" value="" />
-    <property name="app_webapp_name" value="svh-simple-crud-tutorial" />
+    <property name="app_webapp_name" value="svh-simple-crud-tutorial_Vaadin8" />
 
     <!-- Copy all artifacts with the specified preffix -->
     <target name="copyAll">

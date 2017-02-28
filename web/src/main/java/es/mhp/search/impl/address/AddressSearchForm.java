@@ -1,6 +1,9 @@
 package es.mhp.search.impl.address;
 
-import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.TextField;
 import es.mhp.browser.IBrowser;
 import es.mhp.browser.utils.StateType;
 import es.mhp.search.impl.AbstractSearchForm;
@@ -29,7 +32,7 @@ public class AddressSearchForm extends AbstractSearchForm {
     private TextField secondaryStreetTextField;
     private ComboBox cityComboBox;
     private ComboBox stateComboBox;
-    private OptionGroup browserWayOptionGroup;
+    /*private OptionGroup browserWayOptionGroup;*/
     private Button browserButton;
 
     public AddressSearchForm() {
@@ -41,16 +44,15 @@ public class AddressSearchForm extends AbstractSearchForm {
     public void buildSearchForm(IBrowser browser, IToolbar toolbar) {
         searchForm.removeAllComponents();
         addressSearchFormPresenter.fillCitiesComboBox(cityComboBox);
-        addressSearchFormPresenter.fillStatesComboBoxOrderer(stateComboBox);
-        buildBrowserWayOptionGroup(browserWayOptionGroup);
+        /*addressSearchFormPresenter.fillStatesComboBoxOrderer(stateComboBox);
+        buildBrowserWayOptionGroup(browserWayOptionGroup);*/
 
-        addressSearchFormPresenter.updateAndDisplayGrid(browser);
+        /*addressSearchFormPresenter.updateAndDisplayGrid(browser);*/
         toolbar.updateToolbar(StateType.INITIAL);
 
         browserButton.addClickListener(addressSearchFormPresenter.createBrowserButtonListener(browser, this));
-
         searchForm.addComponents(mainStreetTextField, secondaryStreetTextField, cityComboBox,
-                                 stateComboBox, browserWayOptionGroup, browserButton);
+                                 stateComboBox, /*browserWayOptionGroup, */browserButton);
 
         addComponent(searchForm);
     }
@@ -61,7 +63,7 @@ public class AddressSearchForm extends AbstractSearchForm {
         secondaryStreetTextField = new TextField(SECONDARY_STREET);
         cityComboBox = new ComboBox(CITY);
         stateComboBox = new ComboBox(STATE);
-        browserWayOptionGroup = new OptionGroup();
+        /*browserWayOptionGroup = new OptionGroup();*/
         browserButton = new Button(ADDRESS_SEARCH);
     }
 
@@ -69,10 +71,10 @@ public class AddressSearchForm extends AbstractSearchForm {
         this.searchForm = searchForm;
     }
 
-    private void buildBrowserWayOptionGroup(OptionGroup browserWayOptionGroup) {
+    /*private void buildBrowserWayOptionGroup(OptionGroup browserWayOptionGroup) {
         browserWayOptionGroup.addItems(ALL, ANY);
         browserWayOptionGroup.select(ALL);
-    }
+    }*/
 
     public TextField getMainStreetTextField() {
         return mainStreetTextField;
@@ -106,13 +108,13 @@ public class AddressSearchForm extends AbstractSearchForm {
         this.stateComboBox = stateComboBox;
     }
 
-    public OptionGroup getBrowserWayOptionGroup() {
+    /*public OptionGroup getBrowserWayOptionGroup() {
         return browserWayOptionGroup;
     }
 
     public void setBrowserWayOptionGroup(OptionGroup browserWayOptionGroup) {
         this.browserWayOptionGroup = browserWayOptionGroup;
-    }
+    }*/
 
     public Button getBrowserButton() {
         return browserButton;

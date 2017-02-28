@@ -1,6 +1,5 @@
 package es.mhp.browser.impl.address.presenter;
 
-import com.vaadin.data.fieldgroup.FieldGroup;
 import es.mhp.browser.IFormBrowser;
 import es.mhp.browser.IGridBrowser;
 import es.mhp.browser.presenter.AbstractBrowserPresenter;
@@ -24,29 +23,25 @@ public class AddressBrowserPresenter extends AbstractBrowserPresenter {
 
     @Override
     public boolean saveItemAndUpdateGrid(IFormBrowser formBrowser, IGridBrowser gridBrowser) throws UIException {
-        try {
-            if (formBrowser.isModified()) {
-                formBrowser.commit();
-                AddressDTO addresDto = (AddressDTO) formBrowser.extractBean();
-                AddressDTO addressDTOUpdated = addressService.save(addresDto);
-                gridBrowser.updateGrid(addressDTOUpdated);
-                displayGridAndHideForm(formBrowser, gridBrowser);
-                return true;
-            } else {
-                return false;
-            }
-        } catch (FieldGroup.CommitException e) {
-            throw new UIException("Error! Entity cannot been saved.", e);
+        if (formBrowser.isModified()) {
+            formBrowser.commit();
+            AddressDTO addresDto = (AddressDTO) formBrowser.extractBean();
+            AddressDTO addressDTOUpdated = addressService.save(addresDto);
+            gridBrowser.updateGrid(addressDTOUpdated);
+            displayGridAndHideForm(formBrowser, gridBrowser);
+            return true;
+        } else {
+            return false;
         }
     }
 
     @Override
     public void deleteItemAndUpdateGrid(IGridBrowser gridBrowser) throws UIException {
-        try{
+        try {
             addressService.delete(((AddressDTO) gridBrowser.getSelectedGridRow()).getId());
             gridBrowser.deleteEntry();
             gridBrowser.updateGrid();
-        } catch (Exception err){
+        } catch (Exception err) {
             throw new UIException("Error deleting entry", err);
         }
     }

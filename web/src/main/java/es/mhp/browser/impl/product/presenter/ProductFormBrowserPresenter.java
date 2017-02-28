@@ -1,6 +1,5 @@
 package es.mhp.browser.impl.product.presenter;
 
-import com.vaadin.data.util.BeanItemContainer;
 import es.mhp.services.ICategoryService;
 import es.mhp.services.dto.CategoryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,8 @@ public class ProductFormBrowserPresenter {
     @Autowired
     private ICategoryService categoryService;
 
-    public BeanItemContainer<CategoryDTO> findAllCategories() {
+    public Set<CategoryDTO> findAllCategories() {
         Set<CategoryDTO> sellerSet = (Set<CategoryDTO>)(Set<?>) categoryService.findAll();
-        return new BeanItemContainer<>(CategoryDTO.class, sellerSet);
+        return sellerSet;
     }
 }

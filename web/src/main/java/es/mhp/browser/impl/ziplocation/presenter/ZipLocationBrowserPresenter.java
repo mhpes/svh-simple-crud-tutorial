@@ -1,11 +1,12 @@
-package es.mhp.browser.impl.category.presenter;
+package es.mhp.browser.impl.ziplocation.presenter;
 
 import es.mhp.browser.IFormBrowser;
 import es.mhp.browser.IGridBrowser;
 import es.mhp.browser.presenter.AbstractBrowserPresenter;
 import es.mhp.exceptions.UIException;
-import es.mhp.services.ICategoryService;
+import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.CategoryDTO;
+import es.mhp.services.dto.ZipLocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -16,15 +17,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Scope("session")
-public class CategoryBrowserPresenter extends AbstractBrowserPresenter {
+public class ZipLocationBrowserPresenter extends AbstractBrowserPresenter {
 
     @Autowired
-    private ICategoryService categoryService;
+    private IZipLocationService zipLocationService;
 
     @Override
     public void deleteItemAndUpdateGrid(IGridBrowser gridBrowser) throws UIException {
         try {
-            categoryService.delete(((CategoryDTO) gridBrowser.getSelectedGridRow()).getId());
+            zipLocationService.delete(((CategoryDTO) gridBrowser.getSelectedGridRow()).getId());
             gridBrowser.deleteEntry();
             gridBrowser.updateGrid();
         } catch (Exception err) {
@@ -36,9 +37,9 @@ public class CategoryBrowserPresenter extends AbstractBrowserPresenter {
     public boolean saveItemAndUpdateGrid(IFormBrowser formBrowser, IGridBrowser gridBrowser) throws UIException {
         if (formBrowser.isModified()) {
             formBrowser.commit();
-            CategoryDTO categoryDTO = (CategoryDTO) formBrowser.extractBean();
-            CategoryDTO addressDTOUpdated = categoryService.save(categoryDTO);
-            gridBrowser.updateGrid(addressDTOUpdated);
+            ZipLocationDTO zipLocationDTO = (ZipLocationDTO) formBrowser.extractBean();
+            ZipLocationDTO zipLocationDTOUpdated = zipLocationService.save(zipLocationDTO);
+            gridBrowser.updateGrid(zipLocationDTOUpdated);
             displayGridAndHideForm(formBrowser, gridBrowser);
             return true;
         } else {
@@ -48,6 +49,6 @@ public class CategoryBrowserPresenter extends AbstractBrowserPresenter {
 
     @Override
     public void updateAndDisplayGrid(IFormBrowser formBrowser, IGridBrowser gridBrowser) {
-        updateAndDisplayGrid(formBrowser, gridBrowser, categoryService.findAll());
+        updateAndDisplayGrid(formBrowser, gridBrowser, zipLocationService.findAll());
     }
 }

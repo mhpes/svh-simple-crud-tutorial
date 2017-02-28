@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.List;
 
 import static es.mhp.views.utils.CategoryViewConstants.*;
 
@@ -28,10 +27,8 @@ public class CategoryGridBrowser extends AbstractGridBrowser<CategoryDTO> {
 
     @Override
     public void updateGrid(Collection<? extends AbstractDTO> newDataSource) {
-        List<Grid.Column> columnList = grid.getColumns();
-        columnList.stream().peek(d -> d.remove());
-
-        grid = new Grid(CategoryDTO.class);
+        this.removeComponent(grid);
+        grid = new Grid<>(CategoryDTO.class);
         grid.setItems(newDataSource);
         setColumnProperties();
 

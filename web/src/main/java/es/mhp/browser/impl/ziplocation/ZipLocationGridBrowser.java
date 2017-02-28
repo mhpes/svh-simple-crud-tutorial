@@ -1,34 +1,35 @@
-package es.mhp.browser.impl.product;
+package es.mhp.browser.impl.ziplocation;
 
 import com.vaadin.ui.Grid;
 import es.mhp.browser.impl.AbstractGridBrowser;
 import es.mhp.services.dto.AbstractDTO;
-import es.mhp.services.dto.ProductDTO;
+import es.mhp.services.dto.ZipLocationDTO;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
-import static es.mhp.views.utils.ProductViewConstants.*;
+import static es.mhp.views.utils.ZipLocationViewConstants.CITY_FIELD;
+import static es.mhp.views.utils.ZipLocationViewConstants.STATE_FIELD;
 
 /**
  * Created by Edu on 18/03/2016.
  */
 
-@Component(ProductGridBrowser.BEAN_NAME)
+@Component(ZipLocationGridBrowser.BEAN_NAME)
 @Scope("prototype")
-public class ProductGridBrowser extends AbstractGridBrowser<ProductDTO> {
+public class ZipLocationGridBrowser extends AbstractGridBrowser<ZipLocationDTO> {
 
-    public static final String BEAN_NAME = "product_grid_browser";
+    public static final String BEAN_NAME = "zipLocation_grid_browser";
 
-    public ProductGridBrowser() {
+    public ZipLocationGridBrowser() {
         super();
     }
 
     @Override
     public void updateGrid(Collection<? extends AbstractDTO> newDataSource) {
         this.removeComponent(grid);
-        grid = new Grid<>(ProductDTO.class);
+        grid = new Grid<>(ZipLocationDTO.class);
         grid.setItems(newDataSource);
         setColumnProperties();
 
@@ -37,9 +38,7 @@ public class ProductGridBrowser extends AbstractGridBrowser<ProductDTO> {
 
     @Override
     protected void setColumnProperties() {
-        grid.removeColumn(PRODUCTID_FIELD);
-        grid.removeColumn(CATEGORY_FIELD);
-        grid.setColumnOrder(NAME_FIELD, DESCRIPTION_FIELD, IMAGEURL_FIELD);
+        grid.setColumnOrder(CITY_FIELD, STATE_FIELD);
         grid.setWidth("60%");
     }
 }

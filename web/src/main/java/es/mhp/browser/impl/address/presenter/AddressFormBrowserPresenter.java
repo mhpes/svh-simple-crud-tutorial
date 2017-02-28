@@ -1,6 +1,5 @@
 package es.mhp.browser.impl.address.presenter;
 
-import com.vaadin.data.util.BeanItemContainer;
 import es.mhp.services.IZipLocationService;
 import es.mhp.services.dto.ZipLocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,8 @@ public class AddressFormBrowserPresenter{
     @Autowired
     private IZipLocationService zipLocationService;
 
-    public BeanItemContainer<ZipLocationDTO> findAllZipLocation() {
+    public Set<ZipLocationDTO> findAllZipLocation() {
         Set<ZipLocationDTO> zipSet = (Set<ZipLocationDTO>)(Set<?>) zipLocationService.findAll();
-        return new BeanItemContainer<>(ZipLocationDTO.class, zipSet);
+        return zipSet;
     }
 }

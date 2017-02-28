@@ -1,7 +1,7 @@
 package es.mhp.browser.presenter;
 
-import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.components.grid.ItemClickListener;
 import es.mhp.browser.utils.StateType;
 import es.mhp.views.AbstractView;
 import org.springframework.context.annotation.Scope;
@@ -18,9 +18,9 @@ public class GridBrowserPresenter {
     }
 
     public void addDoubleClickListenerToGrid(Grid grid, AbstractView view) {
-        grid.addItemClickListener((ItemClickEvent.ItemClickListener) event -> {
-            if (event.isDoubleClick()){
-                grid.select(event.getItemId());
+        grid.addItemClickListener((ItemClickListener) event -> {
+            if (event.getMouseEventDetails().isDoubleClick()) {
+                grid.select(event.getItem());
                 view.updateView(StateType.EDIT);
             } else {
                 view.updateView(StateType.SELECTEDROW);

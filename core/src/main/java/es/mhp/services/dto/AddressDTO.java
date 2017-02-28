@@ -1,7 +1,9 @@
 package es.mhp.services.dto;
 
+import com.vaadin.shared.ui.colorpicker.Color;
 import es.mhp.entities.Address;
 import org.springframework.beans.BeanUtils;
+
 import java.math.BigDecimal;
 
 /**
@@ -19,6 +21,8 @@ public class AddressDTO extends AbstractDTO<Address>{
     private String state;
     private BigDecimal latitude;
     private BigDecimal longitude;
+    private String comboExample;
+    private Color color;
 
     @Override
     public Address toEntity() {
@@ -163,5 +167,21 @@ public class AddressDTO extends AbstractDTO<Address>{
 
     public void setZipLocationDTO(ZipLocationDTO zipLocationDTO) {
         this.zipLocationDTO = zipLocationDTO;
+    }
+
+    public String getComboExample() {
+        return comboExample;
+    }
+
+    public void setComboExample(String comboExample) {
+        this.comboExample = comboExample;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

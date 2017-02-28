@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.List;
 
 import static es.mhp.views.utils.AddressViewConstants.*;
 
@@ -21,6 +20,7 @@ import static es.mhp.views.utils.AddressViewConstants.*;
 public class AddressGridBrowser extends AbstractGridBrowser<AddressDTO> {
 
     public static final String BEAN_NAME = "address_grid_browser";
+    public boolean isAdded = Boolean.FALSE;
 
     public AddressGridBrowser() {
         super();
@@ -28,14 +28,14 @@ public class AddressGridBrowser extends AbstractGridBrowser<AddressDTO> {
 
     @Override
     public void updateGrid(Collection<? extends AbstractDTO> newDataSource) {
-        List<Grid.Column> columnList = grid.getColumns();
-        columnList.stream().peek(d -> d.remove());
-
-        grid = new Grid(AddressDTO.class);
+        grid = new Grid<>(AddressDTO.class);
         grid.setItems(newDataSource);
         setColumnProperties();
 
-        this.addComponent(grid);
+        if (!isAdded){
+            this.addComponent(grid);
+            isAdded = Boolean.TRUE;
+        }
     }
 
     @Override

@@ -6,6 +6,7 @@ import es.mhp.browser.IGridBrowser;
 import es.mhp.browser.presenter.GridBrowserPresenter;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.views.AbstractView;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -55,7 +56,10 @@ public abstract class AbstractGridBrowser<T extends AbstractDTO> extends Vertica
 
     @Override
     public T getSelectedGridRow(){
-        return (T) grid.getSelectedItems();
+        if (!CollectionUtils.isEmpty(grid.getSelectedItems())){
+            return (T) grid.getSelectedItems().stream().findFirst().get();
+        }
+        return null;
     }
 
     public Grid getGrid() {

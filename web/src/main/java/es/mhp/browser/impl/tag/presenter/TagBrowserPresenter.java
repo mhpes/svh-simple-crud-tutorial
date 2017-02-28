@@ -1,6 +1,5 @@
 package es.mhp.browser.impl.tag.presenter;
 
-import com.vaadin.data.fieldgroup.FieldGroup;
 import es.mhp.browser.IFormBrowser;
 import es.mhp.browser.IGridBrowser;
 import es.mhp.browser.presenter.AbstractBrowserPresenter;
@@ -25,30 +24,26 @@ public class TagBrowserPresenter extends AbstractBrowserPresenter {
 
     @Override
     public void deleteItemAndUpdateGrid(IGridBrowser gridBrowser) throws UIException {
-        try{
+        try {
             tagService.delete(((CategoryDTO) gridBrowser.getSelectedGridRow()).getId());
             gridBrowser.deleteEntry();
             gridBrowser.updateGrid();
-        } catch (Exception err){
+        } catch (Exception err) {
             throw new UIException("Error deleting tag entry", err);
         }
     }
 
     @Override
     public boolean saveItemAndUpdateGrid(IFormBrowser formBrowser, IGridBrowser gridBrowser) throws UIException {
-        try {
-            if (formBrowser.isModified()) {
-                formBrowser.commit();
-                TagDTO tagDTO = (TagDTO) formBrowser.extractBean();
-                TagDTO tagDTOUpdated = tagService.save(tagDTO);
-                gridBrowser.updateGrid(tagDTOUpdated);
-                displayGridAndHideForm(formBrowser, gridBrowser);
-                return true;
-            } else {
-                return false;
-            }
-        } catch (FieldGroup.CommitException e) {
-            throw new UIException("Error! Tag entity cannot been saved.", e);
+        if (formBrowser.isModified()) {
+            formBrowser.commit();
+            TagDTO tagDTO = (TagDTO) formBrowser.extractBean();
+            TagDTO tagDTOUpdated = tagService.save(tagDTO);
+            gridBrowser.updateGrid(tagDTOUpdated);
+            displayGridAndHideForm(formBrowser, gridBrowser);
+            return true;
+        } else {
+            return false;
         }
     }
 

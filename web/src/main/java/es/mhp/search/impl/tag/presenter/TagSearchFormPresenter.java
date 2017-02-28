@@ -1,6 +1,6 @@
 package es.mhp.search.impl.tag.presenter;
 
-import com.vaadin.event.FieldEvents.TextChangeListener;
+import com.vaadin.data.HasValue;
 import es.mhp.browser.IBrowser;
 import es.mhp.search.impl.presenter.AbstractSearchFormPresenter;
 import es.mhp.services.ITagService;
@@ -18,10 +18,10 @@ public class TagSearchFormPresenter extends AbstractSearchFormPresenter {
     @Autowired
     private ITagService tagService;
 
-    public TextChangeListener createSearchFormListener(IBrowser browser) {
-        return (TextChangeListener) event -> {
+    public HasValue.ValueChangeListener createSearchFormListener(IBrowser browser) {
+        return (HasValue.ValueChangeListener) event -> {
             browser.buildBrowser();
-            browser.updateAndDisplayGrid(tagService.findAnyTags(event.getText()));
+            browser.updateAndDisplayGrid(tagService.findAnyTags((String) event.getValue()));
         };
     }
 

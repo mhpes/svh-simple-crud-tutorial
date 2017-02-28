@@ -32,6 +32,8 @@ public final class AddressViewConstants {
     public static final String SECONDARY_STREET_FIELD = "secondaryStreet";
     public static final String CITY_FIELD = "city";
     public static final String STATE_FIELD = "state";
+    public static final String COLOR_FIELD = "color";
+    public static final String COMBO_EXAMPLE_FIELD = "comboExample";
     public static final String LATITUDE_FIELD = "latitude";
     public static final String LONGITUDE_FIELD = "longitude";
 

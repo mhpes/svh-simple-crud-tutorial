@@ -43,7 +43,7 @@ public class CategorySearchForm extends AbstractSearchForm {
         searchForm = new FormLayout();
 
         filter = new TextField();
-        filter.setInputPrompt("Filter categories...");
+        filter.setPlaceholder("Filter categories...");
     }
 
     @Override
@@ -53,7 +53,7 @@ public class CategorySearchForm extends AbstractSearchForm {
         toolbar.updateToolbar(StateType.INITIAL);
         categorySearchFormPresenter.updateAndDisplayGrid(browser);
 
-        filter.addTextChangeListener(categorySearchFormPresenter.createSearchFormListener(browser));
+        filter.addValueChangeListener(categorySearchFormPresenter.createSearchFormListener(browser));
         searchForm.addComponents(filter);
     }
 }

@@ -1,6 +1,5 @@
 package es.mhp.browser.impl.item.presenter;
 
-import com.vaadin.data.util.BeanItemContainer;
 import es.mhp.services.IAddressService;
 import es.mhp.services.IProductService;
 import es.mhp.services.ISellerContactInfoService;
@@ -30,18 +29,18 @@ public class ItemFormBrowserPresenter {
     @Autowired
     private IAddressService addressService;
 
-    public BeanItemContainer<SellerContactInfoDTO> findAllSellerContactInfo() {
+    public Set<SellerContactInfoDTO> findAllSellerContactInfo() {
         Set<SellerContactInfoDTO> sellerSet = (Set<SellerContactInfoDTO>)(Set<?>) sellerContactInfoService.findAll();
-        return new BeanItemContainer<>(SellerContactInfoDTO.class, sellerSet);
+        return sellerSet;
     }
 
-    public BeanItemContainer<ProductDTO> findAllProducts() {
+    public Set<ProductDTO>  findAllProducts() {
         Set<ProductDTO> productSet = (Set<ProductDTO>)(Set<?>) productService.findAll();
-        return new BeanItemContainer<>(ProductDTO.class, productSet);
+        return productSet;
     }
 
-    public BeanItemContainer<AddressDTO> findAllAddresses() {
+    public Set<AddressDTO> findAllAddresses() {
         Set<AddressDTO> addressSet = (Set<AddressDTO>)(Set<?>) addressService.findAll();
-        return new BeanItemContainer<>(AddressDTO.class, addressSet);
+        return addressSet;
     }
 }

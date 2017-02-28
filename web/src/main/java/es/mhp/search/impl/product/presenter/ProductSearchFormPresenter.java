@@ -1,6 +1,6 @@
 package es.mhp.search.impl.product.presenter;
 
-import com.vaadin.event.FieldEvents.TextChangeListener;
+import com.vaadin.data.HasValue;
 import es.mhp.browser.IBrowser;
 import es.mhp.search.impl.presenter.AbstractSearchFormPresenter;
 import es.mhp.services.IProductService;
@@ -18,10 +18,10 @@ public class ProductSearchFormPresenter extends AbstractSearchFormPresenter {
     @Autowired
     private IProductService productService;
 
-    public TextChangeListener createSearchFormListener(IBrowser browser) {
-        return (TextChangeListener) event -> {
+    public HasValue.ValueChangeListener createSearchFormListener(IBrowser browser) {
+        return (HasValue.ValueChangeListener) event -> {
             browser.buildBrowser();
-            browser.updateAndDisplayGrid(productService.findAnyProducts(event.getText()));
+            browser.updateAndDisplayGrid(productService.findAnyProducts((String) event.getValue()));
         };
     }
 
