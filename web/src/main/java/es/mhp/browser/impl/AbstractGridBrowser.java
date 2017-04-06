@@ -1,16 +1,12 @@
 package es.mhp.browser.impl;
 
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.VerticalLayout;
 import es.mhp.browser.IGridBrowser;
 import es.mhp.browser.presenter.GridBrowserPresenter;
 import es.mhp.services.dto.AbstractDTO;
-import es.mhp.services.dto.SellerContactInfoDTO;
 import es.mhp.views.AbstractView;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Collection;
 
 /**
  * Created by Edu on 18/03/2016.

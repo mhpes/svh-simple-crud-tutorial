@@ -1,7 +1,6 @@
 package es.mhp.browser.impl;
 
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.VerticalLayout;
 import es.mhp.browser.IBrowserNotification;
 
 /**

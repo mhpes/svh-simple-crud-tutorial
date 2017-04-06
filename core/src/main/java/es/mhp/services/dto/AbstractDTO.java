@@ -1,7 +1,5 @@
 package es.mhp.services.dto;
 
-import org.springframework.beans.BeanUtils;
-
 import java.io.Serializable;
 
 /**

@@ -1,20 +1,13 @@
 package es.mhp.browser.impl.sellercontactinfo;
 
-import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Component;
 import es.mhp.browser.IFormBrowser;
 import es.mhp.browser.IGridBrowser;
 import es.mhp.browser.impl.AbstractBrowser;
-import es.mhp.browser.impl.AbstractFormBrowser;
 import es.mhp.browser.impl.AbstractGridBrowser;
-import es.mhp.browser.impl.item.presenter.ItemBrowserPresenter;
 import es.mhp.browser.impl.sellercontactinfo.presenter.SellerContactInfoBrowserPresenter;
-import es.mhp.browser.utils.StateType;
 import es.mhp.exceptions.UIException;
-import es.mhp.services.ISellerContactInfoService;
 import es.mhp.services.dto.AbstractDTO;
-import es.mhp.services.dto.SellerContactInfoDTO;
-import es.mhp.views.AbstractView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;

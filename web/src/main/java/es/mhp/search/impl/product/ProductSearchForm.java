@@ -1,12 +1,10 @@
 package es.mhp.search.impl.product;
 
-import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import es.mhp.browser.IBrowser;
 import es.mhp.browser.utils.StateType;
 import es.mhp.search.impl.AbstractSearchForm;
 import es.mhp.search.impl.product.presenter.ProductSearchFormPresenter;
-import es.mhp.services.IProductService;
 import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;

@@ -1,7 +1,6 @@
 package es.mhp.browser.impl.tag;
 
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.Grid;
 import es.mhp.browser.impl.AbstractGridBrowser;
 import es.mhp.services.dto.AbstractDTO;
 import es.mhp.services.dto.TagDTO;

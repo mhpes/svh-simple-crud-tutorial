@@ -1,12 +1,10 @@
 package es.mhp.search.impl.sellercontactinfo;
 
-import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import es.mhp.browser.IBrowser;
 import es.mhp.browser.utils.StateType;
 import es.mhp.search.impl.AbstractSearchForm;
 import es.mhp.search.impl.sellercontactinfo.presenter.SellerContactInfoSearchFormPresenter;
-import es.mhp.services.ISellerContactInfoService;
 import es.mhp.toolbar.IToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
